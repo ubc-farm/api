@@ -1,75 +1,4 @@
-/** @namespace google.maps */
-
-/**
- * @typedef {Object} google.maps.LatLngLiteral
- * @property {number} lat - latitude in degrees
- * @property {number} lng - longitude in degrees
- * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#LatLngLiteral
- */
-
-/**
- * Represents a field
- * @class
- * @param {google.maps.Polygon|google.maps.LatLngLiteral[]} polygon or path
- * @param {string} name of the field
- * @param {Object} [grid]
- * @param {number} [grid.base=0] - ID of the edge the grid aligns to
- * @param {number[]} [grid.widths=[]] - widths for each column
- * @param {number[]} [grid.heights=[]] - heights for each row
- */
-function Field(polygon, name, grid) {
-	if (Array.isArray(polygon)) {
-		this.path = polygon;
-	} else {
-		this.polygon = polygon;
-		polygon.fieldObj = this;
-	}
-	
-	this.name = name || "";
-	this.grid_base = grid.base || 0;
-	this.grid_widths = grid.widths || [];
-	this.grid_heights = grid.heights || [];
-}
-
-/** 
- * @type google.maps.PolygonOptions 
- * @static
- */
-Field.polygonOptions = {
-	editable: true,
-	fillOpacity: 0.7,
-	fillColor: 'rgb(59, 166, 72)',
-	strokeOpacity: 1,
-	strokeColor: 'rgb(59, 166, 72)'
-}
-
-/**
- * Converts the field's polygon into a path
- * @returns {google.maps.LatLngLiteral[]} 
- */
-Field.prototype.toPath = function() {
-	var array = [];
-	var path = this.polygon.getPath();
-	path.forEach(function(latLng) {
-		array.push(latLng.toJSON());
-	})
-	this.path = array;
-	return array;
-}
-
-/**
- * Converts the field's path into a polygon
- * @param {google.maps.Map} map to attach polygon to
- * @returns {google.maps.Polygon} 
- */
-Field.prototype.toPolygon = function(map) {
-	var opts = Field.polygonOptions;
-	opts.paths = this.path;
-	if (map) opts.map = map;
-	var polygon = new google.maps.Polygon(opts);
-	this.polygon = polygon;
-	return polygon;
-}
+function Field() {}
 
 /**
  * Opens the edit panel for this field
@@ -101,15 +30,6 @@ Field.prototype.editGridBase = function(base) {
  */
 Field.prototype.editGridLength = function(lengths) {
 	
-}
-
-/**
- * Checks if a point is within the polygon
- * @param {LatLngLiteral} point
- * @returns {boolean}
- */
-Field.prototype.within = function(point) {
-	return google.maps.geometry.containsLocation(point, this.polygon);
 }
 
 /**
