@@ -1,3 +1,5 @@
+import Field from 'map/field.js';
+
 function Field() {}
 
 /**
