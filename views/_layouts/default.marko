@@ -4,12 +4,12 @@
 	<include("../_partials/head.marko") />
 	<title><layout-placeholder name="title"/></title>
 	<layout-placeholder name="head"/>
-</head>
-<body>
 	<link href="/css/layout/header.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/modules/banner.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/modules/icon-tab.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/modules/icon-text.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
 	<if(data.this)>
 		<include("../_partials/banner.marko") active=data.this sticky=data.stick />
 	</if><else>
