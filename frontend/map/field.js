@@ -1,15 +1,16 @@
 /**
- * A JSON object representing a point
- * @typedef {Object} LatLngLiteral
- * @see google.maps.LatLngLiteral
- * @property {number} lat - latitude
- * @property {number} lng - longitude
- */
-
-/**
  * Represents a field
+ * @module map/field.js
  */
 export default class Field {
+	/**
+	 * A JSON object representing a point
+	 * @typedef {Object} LatLngLiteral
+	 * @see google.maps.LatLngLiteral
+	 * @property {number} lat - latitude
+	 * @property {number} lng - longitude
+	 */
+	
 	/**
 	 * @param {LatLngLiteral[]} path
 	 * @param {string} name of the field
@@ -66,14 +67,9 @@ export default class Field {
 	 */
 	get polygon() {
 		if (!this.polygon) {
-			this.polygon = new google.maps.Polygon({
-				editable: true,
-				fillOpacity: 0.7,
-				fillColor: 'rgb(59, 166, 72)',
-				strokeOpacity: 1,
-				strokeColor: 'rgb(59, 166, 72)',
-				path: this.path
-			})
+			let opts = Field.polygonOptions();
+			opts.path = this.path;
+			this.polygon = new google.maps.Polygon(opts);
 		}
 		return this.polygon;
 	}
@@ -93,12 +89,39 @@ export default class Field {
 	}
 	
 	/**
+	 * Changes the widths specified. A row is ignored if it is undefined or null.
+	 */
+	set grid_widths(widths) {
+		for (let i = 0; i < widths.length; i++) {
+			if (widths[i]) {this.grid_widths[i] = widths[i]}
+		}
+	}
+	/**
+	 * Changes the heights specified. A row is ignored if it is undefined or null.
+	 */
+	set grid_heights(heights) {
+		for (let i = 0; i < heights.length; i++) {
+			if (heights[i]) {this.grid_heights[i] = heights[i]}
+		}
+	}
+	
+	/**
 	 * Checks if a point is within the Field's polygon.
-	 * @requires google.maps
+	 * @requires google.maps.geometry
 	 * @param {LatLngLiteral} point
 	 * @returns {boolean} 
 	 */
 	within(point) {
 		return google.maps.geometry.containsLocation(point, this.polygon);
+	}
+	
+	static polygonOptions() {
+		return {
+			editable: true,
+			fillOpacity: 0.7,
+			fillColor: 'rgb(59, 166, 72)',
+			strokeOpacity: 1,
+			strokeColor: 'rgb(59, 166, 72)',
+		}
 	}
 }

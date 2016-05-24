@@ -1,4 +1,9 @@
 /**
+ * Utility functions
+ * @module utils.js
+ */
+
+/**
  * Resolves when the DOM is ready to interact with
  * @type {Promise<void>}
  * @author Jake Archibald
