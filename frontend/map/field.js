@@ -19,7 +19,7 @@ export default class Field {
 	 * @param {number[]} [grid.widths=[]] - widths for each column
 	 * @param {number[]} [grid.heights=[]] - heights for each row
 	 */
-	constructor(path, name, {base = 0, widths = [], heights = []}) {
+	constructor(path, name = '', {base = 0, widths = [], heights = []}) {
 		this.path = path;
 		this.name = name;
 		this.grid_base = base;
@@ -124,4 +124,16 @@ export default class Field {
 			strokeColor: 'rgb(59, 166, 72)',
 		}
 	}
+	
+	/**
+	 * Set's the polygon's visibility
+	 * @requires google.maps
+	 */
+	set visible(value) {this.polygon.setVisible(value)}
+	
+	/** 
+	 * Set's the polygon's map 
+	 * @requires google.maps
+	 */
+	set map(value) {this.polygon.setMap(value)}
 }
