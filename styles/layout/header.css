@@ -13,3 +13,8 @@
 .banner .i-tab {
 	padding: 0 1.5em;
 }
+
+.user-button {
+	float: right;
+	margin-right: 3em;
+}
