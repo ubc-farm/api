@@ -6,7 +6,7 @@
  */
 
 import Field from 'map/field.js';
-import {docReady, Deferred} from 'utils.js';
+import {docReady} from 'utils.js';
 
 export default class extends Field {
 	constructor(DrawingManager) {

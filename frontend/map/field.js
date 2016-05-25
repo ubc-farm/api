@@ -118,6 +118,7 @@ export default class Field {
 	static polygonOptions() {
 		return {
 			editable: true,
+			geodesic: true,
 			fillOpacity: 0.7,
 			fillColor: 'rgb(59, 166, 72)',
 			strokeOpacity: 1,
