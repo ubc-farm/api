@@ -1,20 +1,8 @@
-<script marko-init>
-	const mapScript = require('../_helpers/google_maps.js')
-</script>
-
-<layout-use("../_layouts/default.marko") name='Fields' customsystem>
+<layout-use("../_layouts/default.marko") name='Fields'>
 	<layout-put into="head">
+		<link href="/css/layout/map.css" rel="stylesheet" type="text/css"/>
+		
 		<script>
-			System.config({
-				baseURL: '/js',
-				map: {traceur: '/js/vendor/traceur.js'},
-				meta: {
-					'map/index.js': {
-						deps: [${mapScript("geometry")}]
-					}
-				}
-			})
-			
 			System.import('map/index.js');
 		</script>
 	</layout-put>

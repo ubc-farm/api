@@ -1,11 +1,11 @@
 /**
  * Script for the fields summary page
- * @requires google.maps
  */
 
-import {docReady} from 'utils.js';
+import {domReady} from 'utils.js';
+import google from 'google';
 
-const panelNode, labelNode, imageNode, desciptionNode, timelineNode; 
+var panelNode, labelNode, imageNode, desciptionNode, timelineNode; 
 
 /**
  * Initializes a map at the specified node
@@ -16,7 +16,7 @@ function initMap(node) {
 	if (typeof node == "string") node = document.getElementById(node);
 	return new google.maps.Map(node, {
 		center: {lat: 49.249568, lng: -123.237155},
-		zoom: 12,
+		zoom: 17,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	})
 }
@@ -26,4 +26,4 @@ function openPanelOnClick() {
 	fetch(`/v1/crops/${''}`);
 }
 
-docReady.then(() => {initMap(document.getElementById('google-map'))})
+domReady.then(() => {initMap(document.getElementById('google-map'))})
