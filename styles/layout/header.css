@@ -6,6 +6,7 @@
 	position: fixed;
 	top: 0;
 	left: 10em;
+	width: calc(100% - 10em);
 }
 
 .user-button {
@@ -28,13 +29,14 @@
 	background: var(--white-primary);
 	position: relative;
 	z-index: 1;
+	visibility: hidden;
 }
 
 .nav-list-secondary {
 	position: absolute;
 	top: 3.15em;
 	width: calc(100% - 1em);
-	padding: 0.5em 0 0 1em;
+	margin: 0.5em 0 0 1em;
 }
 
 .nav-list-extra {
@@ -47,4 +49,9 @@
 	position: absolute;
 	left: 0;
 	top: 0;
+}
+
+.nav-return:hover + .nav-list-primary,
+.nav-list-primary:hover {
+	visibility: visible;
 }
