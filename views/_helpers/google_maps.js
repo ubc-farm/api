@@ -12,5 +12,5 @@ module.exports = function(libraries) {
 		library = `&libraries=${libraries.join(',')}`;
 	}
 	
-	return `${src}?key=${key}${library}`;
+	return `"${src}?key=${key}${library}"`;
 }
