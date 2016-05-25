@@ -17,7 +17,15 @@ function initMap(node) {
 	return new google.maps.Map(node, {
 		center: {lat: 49.249568, lng: -123.237155},
 		zoom: 17,
-		mapTypeId: google.maps.MapTypeId.SATELLITE
+		mapTypeId: google.maps.MapTypeId.SATELLITE,
+		fullscreenControl: true,
+    scaleControl: true,
+		mapTypeControlOptions: {
+			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+			mapTypeIds: [
+				google.maps.MapTypeId.SATELLITE
+			]
+		}
 	})
 }
 
