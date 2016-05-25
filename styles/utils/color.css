@@ -5,7 +5,8 @@
 	--primary-color: rgb(59, 166, 72);
 	--accent-color: rgb(214, 83, 76);
 	--dark-gray: rgb(63, 67, 63); /* For dark backgrounds */
-	--light-gray: rgb(248, 250, 249); /* For light backgrounds */
+	--light-gray: rgb(236, 238, 236); /* For light backgrounds */
+	--very-light: rgb(248, 250, 249); /* For inbetween white and gray */
 	
 	--dark-primary: rgba(63, 67, 63, 0.87);
 	--dark-secondary: rgba(63, 67, 63, 0.54);

@@ -1,0 +1,52 @@
+.nav-link {
+	display: block;
+	position: relative;
+}
+
+.nav-link::after {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 0;
+	/* width: 100%; */
+	height: 100%;
+	background: var(--dark-divider);
+	transition: opacity 0.1s ease;
+	opacity: 0;
+}
+.nav-link:hover::after,
+.nav-active::after {
+	opacity: 1;
+}
+
+.nav-link,
+.nav-link::after {
+	padding: 0 1em;
+	width: calc(100% - 2em);
+}
+
+.nav-color::after {
+	background: var(--primary-color);
+	color: var(--white-primary);
+	content: attr(data-name);
+}
+
+.nav-return {
+	position: absolute;
+	width: 1em;
+	top: 3.15em;
+	height: 12.5em; /*hardcoded height will be finneeeee*/
+	background: var(--white-primary);
+}
+.nav-return::before {
+	position: absolute;
+	content: '\2039';
+	font-size: 2em;
+	text-align: center;
+	width: 100%;
+	margin: auto 0;
+	top: 0;
+	bottom: 0;
+	height: 1.15em;
+}
