@@ -2,13 +2,16 @@
 <html>
 <head>
 	<include("../_partials/head.marko") />
-	<title><layout-placeholder name="title"/></title>
+	<title>
+		<if(data.name)>${data.name}</if>
+		<layout-placeholder name="title" else/>
+	</title>
 	<layout-placeholder name="head"/>
 	<link href="/css/layout/header.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/modules/sidebar.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<include("../_partials/sidebar.marko") active=data.this>
+	<include("../_partials/sidebar.marko") active=(data.name || data.this)>
 		<layout-placeholder name="sidebar"/>
 	</include>
 	<header class="banner">

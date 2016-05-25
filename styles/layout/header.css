@@ -1,5 +1,9 @@
 @import '../utils/color.css';
 
+main {
+	margin: 3.15em 0 0 10em;
+}
+
 .banner {
 	line-height: 3.15em;
 	background: var(--white-primary);
