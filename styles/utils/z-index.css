@@ -8,3 +8,8 @@
  * Assignments example:
  * --screenForeground: 1;
  */
+ 
+:root {
+	--z-nav-primary: 1;
+	--z-nav-heading: 2;
+}
