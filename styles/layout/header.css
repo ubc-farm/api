@@ -1,20 +1,43 @@
+@import '../utils/color.css';
+
 .banner {
-	line-height: 4em;
-}
-
-.banner .inline {vertical-align: top}
-
-.banner-title {
-	font-size: 1.25em;
-	margin: 0 .5em;
-	padding: 0 2em;
-}
-
-.banner .i-tab {
-	padding: 0 1.5em;
+	line-height: 2.5em;
+	background: var(--white-primary);
+	position: fixed;
+	top: 0;
+	left: 10em;
 }
 
 .user-button {
-	float: right;
-	margin-right: 3em;
+	margin: 0 2em;
+}
+
+.nav-list {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 10em;
+	line-height: 2em;
+}
+
+.nav-list-primary {
+	font-size: 1.25em;
+	padding-top: 2.5em;
+	line-height: 2.5em;
+}
+
+.nav-list-secondary {
+	position: absolute;
+	top: 0;
+}
+
+.nav-list-extra {
+	padding-top: 0.5em;
+	background: var(--light-gray)
+}
+
+.nav-link.nav-active {
+	position: absolute;
+	left: 0;
+	top: 0;
 }

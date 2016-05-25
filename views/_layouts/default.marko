@@ -5,16 +5,16 @@
 	<title><layout-placeholder name="title"/></title>
 	<layout-placeholder name="head"/>
 	<link href="/css/layout/header.css" rel="stylesheet" type="text/css"/>
-	<link href="/css/modules/banner.css" rel="stylesheet" type="text/css"/>
-	<link href="/css/modules/icon-tab.css" rel="stylesheet" type="text/css"/>
-	<link href="/css/modules/icon-text.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/modules/sidebar.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<if(data.this)>
-		<include("../_partials/banner.marko") active=data.this sticky=data.stick />
-	</if><else>
-		<include("../_partials/banner.marko") active=''/>
-	</else>
+	<include("../_partials/sidebar.marko") active=data.this>
+		<layout-placeholder name="sidebar"/>
+	</include>
+	<header class="banner">
+		<layout-placeholder name="banner"/>
+		<span class="user-button">${data.user || 'John Doe'}</span>
+	</header>
 	<main class="main">
 		<layout-placeholder name="content"/>
 	</main>

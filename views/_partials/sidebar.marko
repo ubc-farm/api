@@ -1,15 +1,17 @@
 <nav class="nav-list">
 	<section class="nav-list-primary">
-		<nav-link name="Fields" active=data.active class="large"/>
-		<nav-link name="Planning" active=data.active class="large"/>
-		<nav-link name="Finances" active=data.active class="large"/>
-		<nav-link name="Events" active=data.active class="large"/>
-		<nav-link name="Logging" active=data.active class="large"/>
+		<nav-link name="Fields" active=data.active color/>
+		<nav-link name="Planning" active=data.active color/>
+		<nav-link name="Finances" active=data.active color/>
+		<nav-link name="Events" active=data.active color/>
+		<nav-link name="Logging" active=data.active color/>
 	</section>
 	<section class="nav-list-secondary">
+		<div class="nav-return"></div>
 		<invoke data.renderBody(out)/>
 	</section>
 	<section class="nav-list-extra">
-		
+		<nav-link name="Account" prefix="/user/"/>
+		<nav-link name="Settings" prefix="/user/"/>
 	</section>
 </nav>
