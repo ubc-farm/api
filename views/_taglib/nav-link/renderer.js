@@ -5,24 +5,32 @@
  * @param {string|boolean} [input.active] - if true, or if the text is equal to the name (case insensitive), add the class active to this link
  * @param {string} [input.prefix=/] prefix for link generation
  * @param {boolean} [input.color] sets up link for colorized hover
+ * @param {string|boolean} [input.hideIf] hides if true or matches name
  */
 exports.render = (input, out) => {
-	let {name, href, active=false, prefix='/', color} = input;
+	let {name, href, active=false, prefix='/', color, hideIf=false} = input;
 	
 	if (!href) {href = prefix + name.toLowerCase()}
 	if (typeof active === 'string') {
-		active = (active.toLowerCase() === name.toLowerCase())
+		active = active.toLowerCase() === name.toLowerCase()
+	}
+	if (typeof hideIf === 'string') {
+		hideIf = hideIf.toLowerCase() === name.toLowerCase()
 	}
 	
-	out.write('<a class="nav-link ')
-	if (active) {out.write('nav-active ')}
-	if (color) {
-		out.write('nav-color" data-name="')
-		out.write(name)
+	if (!hideIf) {
+		out.write('<a class="nav-link ')
+		if (active) {out.write('nav-active ')}
+		if (color) {
+			out.write('nav-color" data-name="')
+			out.write(name)
+		}
+		out.write('" href="')
+		out.write(href) 
+		out.write('">')
+		out.write(name) 
+		out.write('</a>')
+	} else {
+		out.write('');	
 	}
-	out.write('" href="')
-	out.write(href) 
-	out.write('">')
-	out.write(name) 
-	out.write('</a>')
 }

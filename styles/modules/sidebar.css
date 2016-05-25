@@ -1,6 +1,9 @@
 .nav-link {
 	display: block;
 	position: relative;
+	/* transition: transform 0.3s ease; */
+	/* transform: translate(16em); */
+	/* transform: translate(0); */
 }
 
 .nav-link::after {

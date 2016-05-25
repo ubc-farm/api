@@ -26,36 +26,43 @@ main {
 	background: var(--very-light);
 }
 
-.nav-list-primary {
+.nav-list-primary,
+.nav-active {
 	font-size: 1.25em;
 	padding-top: 2.5em;
 	line-height: 2.5em;
+	position: absolute;
+	z-index: 1; /*!!!*/
+}
+
+.nav-list-primary {
 	background: var(--white-primary);
-	position: relative;
-	z-index: 1;
-	visibility: hidden;
+	transition: transform 0.3s ease;
+	width: 100%;
+	transform: translate3d(0, -10em, 0);
+	box-shadow: 0 0.1em 0.2em var(--dark-secondary);
 }
 
 .nav-list-secondary {
-	position: absolute;
-	top: 3.15em;
-	width: calc(100% - 1em);
-	margin: 0.5em 0 0 1em;
+	width: 100%;
+	margin: 3.65em 0 0.5em;
 }
 
-.nav-list-extra {
+.nav-list-extra { 
 	padding-top: 0.5em;
 	background: var(--light-gray)
 }
 
 .nav-link.nav-active {
-	visibility: visible;
+	/* visibility: visible; */
 	position: absolute;
-	left: 0;
-	top: 0;
+	/* left: 0; */
+	/* top: 0; */
+	/* transition: transform 0.3s ease; */
+	z-index: 2;
 }
 
-.nav-return:hover + .nav-list-primary,
-.nav-list-primary:hover {
-	visibility: visible;
+.nav-list-primary:hover,
+.nav-active:hover + .nav-list-primary {
+	transform: translate3d(0,0,0);
 }
