@@ -23,7 +23,8 @@ function initMap(node) {
 		mapTypeControlOptions: {
 			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 			mapTypeIds: [
-				google.maps.MapTypeId.SATELLITE
+				google.maps.MapTypeId.SATELLITE,
+				google.maps.MapTypeId.HYBRID
 			]
 		}
 	})
