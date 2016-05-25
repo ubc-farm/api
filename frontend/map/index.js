@@ -3,7 +3,7 @@
  */
 
 import {domReady} from 'utils.js';
-import google from 'google';
+import google from 'google-maps';
 
 var panelNode, labelNode, imageNode, desciptionNode, timelineNode; 
 
