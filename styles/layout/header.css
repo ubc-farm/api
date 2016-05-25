@@ -6,7 +6,7 @@ main {
 }
 
 .banner {
-	line-height: 3.15em;
+	line-height: 3.15rem; /* Height of banner */
 	background: var(--white-primary);
 	position: fixed;
 	top: 0;
@@ -22,7 +22,7 @@ main {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 10em;
+	width: 10rem; /* Height of sidebar */
 	line-height: 2em;
 	background: var(--very-light);
 }
