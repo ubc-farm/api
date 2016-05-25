@@ -1,3 +1,7 @@
+<script marko-init>
+	const mapScript = require('../_helpers/google_maps.js')
+</script>
+
 <layout-use("../_layouts/default.marko") name='Fields' customsystem>
 	<layout-put into="head">
 		<script>
@@ -6,7 +10,7 @@
 				map: {traceur: '/js/vendor/traceur.js'},
 				meta: {
 					'map/index.js': {
-						deps: ['https://maps.googleapis.com/maps/api/js']
+						deps: [${mapScript("geometry")}]
 					}
 				}
 			})

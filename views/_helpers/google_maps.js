@@ -1,26 +1,16 @@
-const apis = {
-	maps: 'https://maps.googleapis.com/maps/api/js'
-}
+const src = 'https://maps.googleapis.com/maps/api/js';
+const {GOOGLE_TOKEN: key=''} = process.env;
 
 /**
- * @param {Object} input
- * @param {string} input.api - string corresponding to apis' properties
+ * Creates a google maps API link
  * @param {string|string[]} [input.libraries] - list of libraries to use
- * @param {string} [cb=calling.map] - specify the callback's name
  */
-exports.render = (input, out) => {
-	let {api, libraries, cb} = input;
-	
-	if (!Array.isArray(libraries)) libraries = [libraries];
-	
-	out.write('<script async src="');
-	out.write(apis[api]);
-	out.write('?key=');
-	out.write(process.env.GOOGLE_TOKEN);
+module.exports = function(libraries) {
+	let library = '';
 	if (libraries) {
-		out.write('&libraries=');
-		out.write(libraries.join(','));
+		if (!Array.isArray(libraries)) libraries = [libraries];
+		library = `&libraries=${libraries.join(',')}`;
 	}
-	out.write('&callback=');
-	out.write(cb || 'calling.map');
+	
+	return `${src}?key=${key}${library}`;
 }
