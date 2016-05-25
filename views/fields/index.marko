@@ -1,4 +1,18 @@
-<layout-use("../_layouts/default.marko") name='Fields'>
+<layout-use("../_layouts/default.marko") name='Fields' customsystem>
+	<layout-put into="head">
+		<script>
+			System.config({
+				baseURL: '/js',
+				map: {traceur: '/js/vendor/traceur.js'},
+				meta: {
+					'map/index.js': {
+						deps: ['https://maps.googleapis.com/maps/api/js']
+					}
+				}
+			})
+		</script>
+	</layout-put>
+
 	<layout-put into="sidebar">
 		<nav-link name="Summary" href="/fields"/>
 		<nav-link name="Task planner" href="/fields/new-task"/>
