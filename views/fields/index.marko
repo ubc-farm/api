@@ -1,17 +1,22 @@
-<layout-use("../_layouts/default.marko") this='fields'>
-	<layout-put into="title">Fields</layout-put>
-<layout-put into="content">
-<section class="window">
-	<google-map/>
-	<include("./corner_weather.marko")/>
-	<google-map ui/>
-</section>
-<nav class="info list">
-	<h1 id="list-heading"></h1>
-</nav>
-<layout-use("./data.marko")>
+<layout-use("../_layouts/default.marko") name='Fields'>
+	<layout-put into="sidebar">
+		<nav-link name="Summary" href="/fields"/>
+		<nav-link name="Task planner" href="/fields/new-task"/>
+		<nav-link name="Edit fields layout" href="/fields/edit"/>
+		<hr>
+		<nav-link name="Log harvest" href="/fields/log/harvest"/>
+		<nav-link name="Log soils" href="/fields/log/soil"/>
+		<nav-link name="Log scouting" href="/fields/log/scouting"/>
+	</layout-put>
 	
-</layout-use>
-</layout-put>
-
+	<layout-put into="banner">
+		<!--Filter element-->
+	</layout-put>
+	
+	<layout-put into="content">
+		<google-map/>
+		<aside>
+			
+		</aside>
+	</layout-put>
 </layout-use>
