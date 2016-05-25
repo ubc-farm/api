@@ -10,6 +10,7 @@ const apis = {
  */
 exports.render = (input, out) => {
 	let {api, libraries, cb} = input;
+	
 	if (!Array.isArray(libraries)) libraries = [libraries];
 	
 	out.write('<script async src="');

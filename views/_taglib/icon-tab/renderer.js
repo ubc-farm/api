@@ -13,6 +13,7 @@ const template = require('./template.marko');
  */
 exports.renderer = (input, out) => {
 	let {text, icon, href, active, local, radio, name} = input;
+	
 	icon = icon? icon : text.toLowerCase();
 	let pre = local? '#' : '/';
 	if (!href) {

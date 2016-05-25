@@ -16,8 +16,7 @@ const template = require('./template.marko');
 exports.renderer = (input, out) => {
 	let {data, color} = input;
 	
-	let maxList = [];
-	let minList = [];
+	let maxList = [], minList = [];
 	for (row in data) {
 		let {revenue, expenses} = row;
 		let profit = row.profit = revenue - expenses;
