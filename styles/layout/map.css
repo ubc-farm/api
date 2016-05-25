@@ -1,0 +1,14 @@
+.google-map {
+	vertical-align: top;
+	display: inline-block;
+	margin: 2em 2em 3em;
+	height: calc(100vh - 8.15rem);
+	width: calc(100% - 23rem);
+	background: gray;
+} 
+
+.crop-info { 
+	margin: 1em 0;
+	width: 18.5em;
+	background: var(--white-secondary);
+}
