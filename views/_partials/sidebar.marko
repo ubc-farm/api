@@ -1,8 +1,15 @@
 <nav class="nav-list">
-	<nav-link name="Fields" active=data.active/>
-	<nav-link name="Planning" active=data.active/>
-	<nav-link name="Finances" active=data.active/>
-	<nav-link name="Events" active=data.active/>
-	<nav-link name="Logging" active=data.active/>
-	<invoke data.renderBody(out)/>
+	<section class="nav-list-primary">
+		<nav-link name="Fields" active=data.active class="large"/>
+		<nav-link name="Planning" active=data.active class="large"/>
+		<nav-link name="Finances" active=data.active class="large"/>
+		<nav-link name="Events" active=data.active class="large"/>
+		<nav-link name="Logging" active=data.active class="large"/>
+	</section>
+	<section class="nav-list-secondary">
+		<invoke data.renderBody(out)/>
+	</section>
+	<section class="nav-list-extra">
+		
+	</section>
 </nav>
