@@ -107,7 +107,11 @@ export default class extends Field {
 	
 	static drawManagerOptions() {
 		return {
-			drawingControl: false,
+			drawingMode: null,
+			drawingControl: true,
+			drawingControlOptions: {
+				drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+			},
 			polygonOptions: Field.polygonOptions()
 		}
 	}
