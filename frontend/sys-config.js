@@ -3,7 +3,7 @@ let googleMeta = {
 	format: 'global',
 	exports: 'google'
 };
-System.config({
+var c = {
 	baseURL: '/js',
 	map: {
 		traceur: '/js/vendor/traceur.js',
@@ -18,4 +18,4 @@ System.config({
 		'google-maps': googleMeta,
 		'google-maps-drawing': googleMeta,
 	}
-})
+}
