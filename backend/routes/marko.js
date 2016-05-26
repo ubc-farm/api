@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const path = require('path');
+const glob = Promise.promisify(require('glob'));
 
-const folder = require('../render/folder.js');
 let render = require('../render');
 
 /**
@@ -16,15 +16,20 @@ let render = require('../render');
 
 /**
  * Gets list of marko folders as routes then creates Layer routes
- * that correspond to each folder, as well as root. The route middleware
+ * that correspond to each folder. The route middleware
  * is in the render folder.
  * @type {Promise<Layer[]>}
  */
-module.exports = folder.list(path.join(__dirname, '../../views')).map(name => {
+module.exports = glob('**/index.marko', {
+	ignore: '**/_*/*',
+	cwd: path.join(__dirname, '../../views')
+})
+.map(file => path.posix.join('/', path.parse(file).dir))
+.map(folder => {
 	return {
 		method: "GET",
-		path: path.posix.join('/', name),
+		path: folder,
 		middleware: render,
-		opts: {name: name}
+		opts: {name: folder}
 	}
-});
+})
