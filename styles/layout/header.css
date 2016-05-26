@@ -16,6 +16,7 @@ main {
 
 .user-button {
 	margin: 0 2em;
+	float: right;
 }
 
 .nav-list {
@@ -38,7 +39,7 @@ z-index: var(--z-nav-primary);
 
 .nav-list-primary {
 	background: var(--white-primary);
-	transition: transform 0.3s ease;
+	transition: transform 0.2s ease;
 	width: 100%;
 	transform: translate3d(0, -10em, 0);
 	box-shadow: 0 0.1em 0.2em var(--dark-secondary);
