@@ -35,3 +35,14 @@
 	color: var(--white-primary);
 	content: attr(data-name);
 }
+
+.nav-active::after {
+	content: '\02c6';
+	position: absolute;
+	font-size: 2em;
+	height: .7em;
+	right: .5em;
+	top: .25em;
+	transform: rotate3d(0,0,-1,180deg);
+	color: var(--white-hint);
+}
