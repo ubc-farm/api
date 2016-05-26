@@ -1,0 +1,17 @@
+.hover-light {position: relative}
+.hover-light::before {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: var(--dark-divider);
+	transition: opacity 0.1s ease;
+	opacity: 0;
+}
+.hover-light:hover::before,
+.hover-toggle::before {
+	opacity: 1
+}

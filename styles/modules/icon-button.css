@@ -1,7 +1,12 @@
 .i-button {
 	padding: 0.5em 1em;
+	width: 50%;
 }
 
-.i-button-img {
+.i-button-text {
+	vertical-align: middle;
+}
+
+.i-button-icon {
 	margin-right: 0.5em;
 }

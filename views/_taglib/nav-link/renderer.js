@@ -19,7 +19,7 @@ exports.render = (input, out) => {
 	}
 	
 	if (!hideIf) {
-		out.write('<a class="nav-link ')
+		out.write('<a class="nav-link hover-light ')
 		if (active) {out.write('nav-active ')}
 		if (color) {
 			out.write('nav-color" data-name="')

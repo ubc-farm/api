@@ -1,23 +1,8 @@
 .nav-link {
 	display: block;
-	position: relative;
 }
 
-.nav-link::before {
-	display: block;
-	position: absolute;
-	content: '';
-	top: 0;
-	left: 0;
-	height: 100%;
-	background: var(--dark-divider);
-	transition: opacity 0.1s ease;
-	opacity: 0;
-}
-.nav-link:hover::before,
-.nav-active::before {
-	opacity: 1;
-}
+.nav-active::before {opacity: 1}
 
 .nav-active::before {
 	height: calc(100% - 0.125rem);
