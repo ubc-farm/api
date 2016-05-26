@@ -1,0 +1,32 @@
+<layout-use("../_layouts/default.marko") name='Fields'>
+	<layout-put into="head">
+		<link href="/css/layout/map.css" rel="stylesheet" type="text/css"/>
+		
+		<script>
+			System.import('map/editor.js');
+		</script>
+	</layout-put>
+
+	<layout-put into="sidebar">
+		<nav-link name="Summary" href="/fields"/>
+		<nav-link name="Task planner" href="/fields/new-task"/>
+		<nav-link name="Edit fields layout" href="/fields/edit"/>
+		<hr>
+		<nav-link name="Log harvest" href="/fields/log/harvest"/>
+		<nav-link name="Log soils" href="/fields/log/soil"/>
+		<nav-link name="Log scouting" href="/fields/log/scouting"/>
+	</layout-put>
+	
+	<layout-put into="banner">
+		
+	</layout-put>
+	
+	<layout-put into="content">
+		<aside class="map-aside">
+			<section class="tab-view" id="edit-field">
+				
+			</section>
+		</aside>
+		<google-map/>
+	</layout-put>
+</layout-use>
