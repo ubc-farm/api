@@ -10,5 +10,6 @@
 <link href="/css/base.css" rel="stylesheet" type="text/css"/>
 <script src="/js/vendor/system.js"></script>
 <unless(data.customsystem)>
-<script>var g={scriptLoad:!0,format:'global',exports:'google'};System.config({baseURL:'/js',map:{traceur:'/js/vendor/traceur.js','google-maps':"${gmap('geometry')}",'google-maps-drawing':"${gmap('geometry', 'drawing')}"},meta:{'google-maps':g,'google-maps-drawing':g}});</script>
+<script src='/js/sys-config.js'></script>
+<script>c.map['google-maps']="${gmap('geometry')}";c.map['google-maps-drawing']="${gmap('geometry', 'drawing')}";System.config(c)</script>
 </unless>
