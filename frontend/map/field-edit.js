@@ -134,6 +134,8 @@ export default class FieldEditor {
 				map: map
 			});
 			
+			line.polyIndex = i; //reference to the edge this is above
+			
 			google.maps.event.addListener(line, 'mouseover', event => {
 				this.setVisible(true);
 				event.stop();
@@ -142,6 +144,8 @@ export default class FieldEditor {
 				this.setVisible(false);
 				event.stop();
 			})
+			
+			//google.maps.event.addListener(line, 'click', SetThisEdgeAsTheBase)
 			
 			lines.push(line);
 		}
