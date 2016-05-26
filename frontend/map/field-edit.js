@@ -6,9 +6,8 @@
  */
 
 import Field from 'map/field.js';
-import {docReady} from 'utils.js';
 
-export default class extends Field {
+export default class EditField extends Field {
 	constructor(DrawingManager) {
 		this.drawManager = DrawingManager;
 	}
