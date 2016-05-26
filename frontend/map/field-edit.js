@@ -114,16 +114,38 @@ export default class FieldEditor {
 	}
 	
 	/**
-	 * Sets the new base with the edge that was clicked on.
-	 * Intended to only listen when the user specifies they want
-	 * to edit the base.
-	 * @listens click
-	 * @this google.maps.Polygon
-	 * @param {google.maps.PolyMouseEvent} e
-	 * @param {number} e.edge - id of the clicked edge
+	 * Create clickable, hoverable edges on the polygon
+	 * @param {google.maps.Polygon} polygon to draw over
+	 * @returns {google.maps.Polyline[]} lines drawn over the polygon
 	 */
-	static edgeClick() {
+	static edgeOverlay(polygon) {
+		let path = polygon.getPath();
+		let map = polygon.getMap();
+		let lines = [];
 		
+		for (let i = 0; i < path.getLength() - 2; i++) {
+			let line = new google.maps.Polyline({
+				path: [path.getAt(i), path.getAt(i + 1)],
+				geodesic: true,
+				strokeColor: 'rgb(214, 83, 76)',
+				strokeOpacity: 1.0,
+				strokeWeight: 2,
+				visible: false,
+				map: map
+			});
+			
+			google.maps.event.addListener(line, 'mouseover', event => {
+				this.setVisible(true);
+				event.stop();
+			})
+			google.maps.event.addListener(line, 'mouseout', event => {
+				this.setVisible(false);
+				event.stop();
+			})
+			
+			lines.push(line);
+		}
+		return lines;
 	}
 	
 	/**
