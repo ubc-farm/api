@@ -5,7 +5,6 @@
  */
 export function initMap(node = 'google-map') {
 	if (typeof node == "string") node = document.getElementById(node);
-	console.log(node);
 	return new google.maps.Map(node, {
 		center: {lat: 49.249568, lng: -123.237155},
 		zoom: 17,
