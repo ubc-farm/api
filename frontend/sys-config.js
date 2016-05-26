@@ -1,9 +1,9 @@
-var googleMeta = {
+let googleMeta = {
 	scriptLoad: true,
 	format: 'global',
 	exports: 'google'
 };
-var c = {
+System.config({
 	baseURL: '/js',
 	map: {
 		traceur: '/js/vendor/traceur.js',
@@ -18,4 +18,4 @@ var c = {
 		'google-maps': googleMeta,
 		'google-maps-drawing': googleMeta,
 	}
-}
+})
