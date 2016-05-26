@@ -67,7 +67,7 @@ export default class Field {
 	 */
 	get polygon() {
 		if (!this.polygon) {
-			let opts = Field.polygonOptions();
+			let opts = polygonOptions;
 			opts.path = this.path;
 			this.polygon = new google.maps.Polygon(opts);
 		}
@@ -115,17 +115,6 @@ export default class Field {
 		return google.maps.geometry.containsLocation(point, this.polygon);
 	}
 	
-	static polygonOptions() {
-		return {
-			editable: true,
-			geodesic: true,
-			fillOpacity: 0.7,
-			fillColor: 'rgb(59, 166, 72)',
-			strokeOpacity: 1,
-			strokeColor: 'rgb(59, 166, 72)',
-		}
-	}
-	
 	/**
 	 * Set's the polygon's visibility
 	 * @requires google.maps
@@ -137,4 +126,13 @@ export default class Field {
 	 * @requires google.maps
 	 */
 	set map(value) {this.polygon.setMap(value)}
+}
+
+export const polygonOptions = {
+	editable: false,
+	geodesic: true,
+	fillOpacity: 0.7,
+	fillColor: 'rgb(59, 166, 72)',
+	strokeOpacity: 1,
+	strokeColor: 'rgb(59, 166, 72)'
 }

@@ -1,69 +1,107 @@
 /**
  * Editing functionality using Field
  * @requires google.maps.drawing
- * @see module:map/field.js
  * @module map/field-edit.js
  */
 
-import Field from 'map/field.js';
+import google from 'google-maps-drawing';
+import {polygonOptions} from 'map/field.js';
 
-export default class EditField extends Field {
-	constructor(DrawingManager) {
-		this.drawManager = DrawingManager;
+const drawManagerOptions = {
+	drawingControl: false,
+	polygonOptions: polygonOptions
+}
+
+var manager, add, select;
+var polygons = [];
+
+/**
+ * Class that wraps around a DrawingManger with helper
+ * functions for the fields/edit page
+ */
+export default class FieldEditor {
+	constructor() {
+		manager = new google.maps.drawing.DrawingManager(drawManagerOptions);
+		console.log(manager);
+		google.maps.event.addListener(manager, 
+			'polygoncomplete', FieldEditor.polygonComplete);
+	}
+	
+	/** Get the DrawingManger tied to this editor */
+	get DrawingManger() {return manager}
+	
+	/** Set the DrawingManager's assigned map */
+	set map(map) { manager.setMap(map) }
+	
+	
+	/**
+	 * Set the "Add field" button
+	 * @param {Element} button
+	 */
+	set addButton(button) {
+		add = button;
+		add.addEventListener('click', FieldEditor.addMode);
 	}
 	
 	/**
-	 * Called to switch to edit mode on the map
+	 * Set the "Select" button
+	 * @param {Element} button
 	 */
-	add() {
-		this.drawManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+	set selectButton(button) {
+		select = button;
 	}
 	
 	/**
-	 * Called to open the edit panel for this field
-	 * @callback this.edit
-	 * @memberof this
-	 * @param {string} editAction (new/click/edge)
+	 * Set the Editng div
+	 * @param {Element} pane
 	 */
-	edit(editAction) {
-		//Overwrite me!
-		console.warn('No edit callback specified', this, editAction);
+	set editPane(pane) {
+		
 	}
 	
 	/**
-	 * Called to update the grid on the map
-	 * @param {string} editAction (base/width/height)
+	 * Called to switch to add mode on the map
+	 * @listens click
 	 */
-	updateGrid(editAction) {
-		//TODO: Redraw grid
+	static addMode() {
+		select.classList.remove('hover-toggle');
+		add.classList.add('hover-toggle');
+		manager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
 	}
 	
-	/** Change the base ID of the grid, then update the map */
-	set grid_base(base) {
-		this.grid_base = base;
-		updateGrid('base');
+	/**
+	 * Called to switch to select mode
+	 * @listens click
+	 */
+	static selectMode() {
+		add.classList.remove('hover-toggle');
+		select.classList.add('hover-toggle');
+		manager.setDrawingMode(null);
 	}
 	
-	set grid_widths(widths) {
-		super.grid_widths = widths;
-		updateGrid('width');
+	/**
+	 * Sets up polygons for resizing
+	 */
+	static resizeMode() {
+		polygons.map(poly => {poly.setEditable(true)})
 	}
-	set grid_heights(heights) {
-		super.grid_heights = heights;
-		updateGrid('height');
+	
+	/**
+	 * Delete polygons from the map and polygons array
+	 */
+	deletePolygon(polygon) {
+		
 	}
 	
 	/**
 	 * Responds to a new polygon drawing creating a field
 	 * from the polygon and editing it
-	 * @listens polygonComplete
+	 * @listens polygoncomplete
 	 * @this google.maps.DrawingManager
 	 */
 	static polygonComplete(polygon) {
-		let f = new Field();
-		f.polygon = polygon;
-		this.drawManager.setDrawingMode(null);
-		f.edit();
+		polygons.push(polygon);
+		FieldEditor.selectMode();
 	}
 	
 	/**
@@ -72,7 +110,7 @@ export default class EditField extends Field {
 	 * @this google.maps.Polygon
 	 */
 	static polygonClick() {
-		this.Field.edit();
+		FieldEditor.selectMode();
 	}
 	
 	/**
@@ -85,10 +123,7 @@ export default class EditField extends Field {
 	 * @param {number} e.edge - id of the clicked edge
 	 */
 	static edgeClick() {
-		if (e.edge) {
-			this.drawManager.setDrawingMode(null);
-			this.Field.grid_base = e.edge;
-		}
+		
 	}
 	
 	/**
@@ -104,14 +139,26 @@ export default class EditField extends Field {
 		
 	}
 	
-	static drawManagerOptions() {
-		return {
-			drawingMode: null,
-			drawingControl: true,
-			drawingControlOptions: {
-				drawingModes: [google.maps.drawing.OverlayType.POLYGON]
-			},
-			polygonOptions: Field.polygonOptions()
-		}
+	/**
+	 * Called to update the grid on the map
+	 * @param {string} editAction (base/width/height)
+	 */
+	updateGrid(editAction) {
+		//TODO: Redraw grid
+	}
+	
+	/** Change the base ID of the grid, then update the map */
+	set grid_base(base) {
+		//this.grid_base = base;
+		updateGrid('base');
+	}
+	
+	set grid_widths(widths) {
+		//super.grid_widths = widths;
+		updateGrid('width');
+	}
+	set grid_heights(heights) {
+		//super.grid_heights = heights;
+		updateGrid('height');
 	}
 }
