@@ -12,5 +12,5 @@
 <unless(data.customsystem)>
 <script src='/js/sys-config.js'></script>
 <!--<script>System.paths['google-maps']="$!{gmap('geometry')}";System.paths['google-maps-drawing']="$!{gmap('geometry', 'drawing')}"</script>-->
-<script>c.map['google-maps']="${gmap('geometry')}";c.map['google-maps-drawing']="${gmap('geometry', 'drawing')}";System.config(c)</script>
+<script>c.map['google-maps']="$!{gmap('geometry')}";c.map['google-maps-drawing']="$!{gmap('geometry', 'drawing')}";System.config(c)</script>
 </unless>
