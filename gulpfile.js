@@ -4,8 +4,9 @@ const gulp = require('gulp'),
 	cssimport = require('postcss-import'),
 	cssvars = require('postcss-css-variables'),
 	imagemin = require('gulp-imagemin'),
-	concat = require('gulp-concat'),
+	babel = require('gulp-babel'),
 	uglify = require('gulp-uglify'),
+	sourcemaps = require('gulp-sourcemaps'),
 	shell = require('gulp-shell');
 	
 const path = require('path');
@@ -28,16 +29,32 @@ gulp.task('styles', () => {
 })
 
 /**
- * Minify JavaScript files then put in js static folder
+ * Build main JS files, creating sourcemaps, to js folder
  */
 gulp.task('main-js', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
+		'!./frontend/vendor/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
 		'!./frontend/workers/sw.js'
 	], {base: './frontend'})
-//		.pipe(uglify())
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			plugins: ['transform-es2015-modules-systemjs'],
+			babelrc: false
+		}))
+		//.pipe(uglify())
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest(path.join(outputPath, 'js')))
+})
+
+/** Copy vendor files */
+gulp.task('vendor', () => {
+	return gulp.src([
+		'./frontend/vendor/**',
+		'!./frontend/vendor/**/*.src.js'
+	], {base: './frontend'})
 		.pipe(gulp.dest(path.join(outputPath, 'js')))
 })
 
@@ -60,7 +77,7 @@ gulp.task('jsdoc-backend', () => {
 })
 
 /** Run all frontend script related tasks */
-gulp.task('scripts', ['main-js', 'sw']);
+gulp.task('scripts', ['main-js', 'vendor', 'sw']);
 	
 /** Minify images and copy to static */
 gulp.task('images', () => {
@@ -100,10 +117,15 @@ gulp.task('watch', () => {
 	gulp.watch('./styles/**/*.css', ['styles'])
 	gulp.watch([
 		'./frontend/**/*.js',
+		'!./frontend/vendor/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
 		'!./frontend/workers/sw.js'
 	], ['main-js']);
+	gulp.watch([
+		'./frontend/vendor/**',
+		'!./frontend/vendor/**/*.src.js'
+	], ['vendor']);
 	gulp.watch('./frontend/workers/sw.js', ['sw']);
 	gulp.watch('./assets/images/**', ['images']);
 	gulp.watch('./assets/misc/**', ['misc-assets']);
