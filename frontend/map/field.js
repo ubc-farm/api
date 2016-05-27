@@ -2,7 +2,7 @@
  * Represents a field
  * @module map/field.js
  */
-export default class Field {
+export class Field {
 	/**
 	 * A JSON object representing a point
 	 * @typedef {Object} LatLngLiteral
@@ -19,8 +19,10 @@ export default class Field {
 	 * @param {number[]} [grid.widths=[]] - widths for each column
 	 * @param {number[]} [grid.heights=[]] - heights for each row
 	 */
-	constructor(path, name = '', {base = 0, widths = [], heights = []}) {
-		this.path = path;
+	constructor(path, name = '', grid = {}) {
+		console.log('construtor')
+		let {base = 0, widths = [], heights = []} = grid;
+		this.pathJson = path;
 		this.name = name;
 		this.grid_base = base;
 		this.grid_widths = widths;
@@ -30,13 +32,49 @@ export default class Field {
 	}
 	
 	/**
-	 * Get's a polygon's path as a JSON array
-	 * @requires google.maps
-	 * @param {google.maps.Polygon} polygon
+	 * Gets the polygon's path as a JSON array
 	 * @returns {LatLngLiteral[]} 
 	 */
-	static toPath(polygon) {
-		return poly.getPath().getArray().map(val => val.toJSON());
+	toPath() {
+		console.log('toPath')
+		return this.polygon.getPath().getArray().map(val => val.toJSON());
+	}
+	
+	/**
+	 * Get an array of LatLngLiteral lines, each
+	 * representing an edge of the field.
+	 * @param {boolean} googleType - return an array of MVCArray's instead of JSON
+	 * @returns {LatLngLiteral[][] | Array<MVCArray<LatLng>>}
+	 */
+	toLines(googleType = false) {
+		console.log('toLines')
+		let path, literal = true, lines = [];
+		if (googleType && this.googlePolygon) {
+			path = this.polygon.getPath().getArray();
+			literal = false;
+		} else {
+			path = this.path;
+		}
+		
+		for (let i = 0; i < path.length - 1; i++) {
+			let line = [path[i], path[i+1]]
+			
+			//line is an Array of LatLng, which we want
+			if (!literal) {
+				line = new google.maps.MVCArray(line);
+			}
+			//line is an Array of LatLngLiteral, but we want LatLng
+			else if (googleType) {
+				line = new google.maps.MVCArray(
+					line.map(literal => new google.maps.LatLng(literal)));
+			}	
+			//else: line is an Array of LatLngLiteral, just use that
+
+			line.polygonEdge = i;
+			lines.push(line);
+		}
+		
+		return lines;
 	}
 	
 	/**
@@ -44,10 +82,11 @@ export default class Field {
 	 * @returns {LatLngLiteral[]}
 	 */
 	get path() {
+		console.log('get path')
 		if (this.polygon && !this.pathUpdated) {
-			this.path = Field.toPath(this.polygon);
+			this.pathJson = this.toPath();
 		} 
-		return this.path;
+		return this.pathJson;
 	}
 	
 	/**
@@ -55,8 +94,9 @@ export default class Field {
 	 * @param {LatLngLiteral[]}
 	 */
 	set path(path) {
-		this.path = path;
-		if (this.polygon) {
+		console.log('set path')
+		this.pathJson = path;
+		if (this.googlePolygon) {
 			this.polygon.setPath(path);
 		}
 	}
@@ -66,12 +106,13 @@ export default class Field {
 	 * @requires google.maps
 	 */
 	get polygon() {
-		if (!this.polygon) {
+		console.log('get polygon')
+		if (!this.googlePolygon) {
 			let opts = polygonOptions;
 			opts.path = this.path;
-			this.polygon = new google.maps.Polygon(opts);
+			this.googlePolygon = new google.maps.Polygon(opts);
 		}
-		return this.polygon;
+		return this.googlePolygon;
 	}
 	
 	/**
@@ -82,9 +123,10 @@ export default class Field {
 	 * @param {google.maps.Polygon} poly
 	 */
 	set polygon(poly) {
+		console.log('set polygon')
 		poly.Field = this;
-		this.polygon = poly;
-		this.path = Field.toPath(poly);
+		this.googlePolygon = poly;
+		this.pathJson = this.toPath();
 		this.pathUpdated = false;
 	}
 	

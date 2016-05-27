@@ -5,7 +5,8 @@
  */
 
 import google from 'google-maps-drawing';
-import {polygonOptions} from 'map/field.js';
+import {Field, polygonOptions} from 'map/field.js';
+console.log(Field);
 
 const drawManagerOptions = {
 	drawingControl: false,
@@ -33,7 +34,7 @@ export default class FieldEditor {
 	/** Set the DrawingManager's assigned map */
 	set map(map) { manager.setMap(map) }
 	
-	
+	 
 	/**
 	 * Set the "Add field" button
 	 * @param {Element} button
@@ -49,6 +50,7 @@ export default class FieldEditor {
 	 */
 	set selectButton(button) {
 		select = button;
+		select.addEventListener('click', FieldEditor.selectMode);
 	}
 	
 	/**
@@ -100,7 +102,14 @@ export default class FieldEditor {
 	 * @this google.maps.DrawingManager
 	 */
 	static polygonComplete(polygon) {
+		let field = new Field();
+		field.polygon = polygon;
+		FieldEditor.edgeOverlay(field);
+		
 		polygons.push(polygon);
+		google.maps.event.addListener(polygon, 'click', function(e) {
+			console.log(this.Field)
+		})
 		FieldEditor.selectMode();
 	}
 	
@@ -115,41 +124,39 @@ export default class FieldEditor {
 	
 	/**
 	 * Create clickable, hoverable edges on the polygon
-	 * @param {google.maps.Polygon} polygon to draw over
+	 * @param {Field} polygon to draw over
 	 * @returns {google.maps.Polyline[]} lines drawn over the polygon
 	 */
-	static edgeOverlay(polygon) {
-		let path = polygon.getPath();
-		let map = polygon.getMap();
-		let lines = [];
+	static edgeOverlay(field) {
+		let lines = field.toLines(true);
+		let map = field.polygon.getMap();
 		
-		for (let i = 0; i < path.getLength() - 2; i++) {
-			let line = new google.maps.Polyline({
-				path: [path.getAt(i), path.getAt(i + 1)],
-				geodesic: true,
-				strokeColor: 'rgb(214, 83, 76)',
-				strokeOpacity: 1.0,
-				strokeWeight: 2,
-				visible: false,
-				map: map
-			});
-			
-			line.polyIndex = i; //reference to the edge this is above
-			
-			google.maps.event.addListener(line, 'mouseover', event => {
-				this.setVisible(true);
-				event.stop();
-			})
-			google.maps.event.addListener(line, 'mouseout', event => {
-				this.setVisible(false);
-				event.stop();
-			})
-			
-			//google.maps.event.addListener(line, 'click', SetThisEdgeAsTheBase)
-			
-			lines.push(line);
+		const polylineOptions = {
+			geodesic: true,
+			strokeColor: 'rgb(214, 83, 76)',
+			strokeOpacity: 1.0,
+			strokeWeight: 4,
+			map: map
 		}
-		return lines;
+		
+		function showLine(event) {
+			this.setOptions({strokeOpacity: 1.0});
+			event.stop();
+		}
+		
+		function hideLine(event) {
+			this.setOptions({strokeOpacity: 0.0});
+			event.stop();
+		}
+		
+		return field.toLines(true).map(line => {
+			polylineOptions.path = line;
+			let polyline = new google.maps.Polyline(polylineOptions);
+			console.log(polyline);
+			google.maps.event.addListener(polyline, 'mouseover', showLine);
+			google.maps.event.addListener(polyline, 'mouseout', hideLine);
+			return polyline;
+		})
 	}
 	
 	/**
