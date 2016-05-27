@@ -23,4 +23,7 @@ domReady.then(() => {
 	sidebar.insertBefore(frag, sidebar.firstChild);
 	
 	return start();
-}).then(map => { editor.map = map });
+}).then(map => { 
+	map.setTilt(0);
+	editor.map = map 
+});
