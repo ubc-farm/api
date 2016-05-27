@@ -16,6 +16,11 @@ const gridlineOptions = {
 	}]*/
 }
 
+/** Modulo that handles negative numbers properly */
+Number.prototype.mod = function(n) {
+	return ((this % n) + n) % n;
+}
+
 /**
  * Returns a endpoint from the start to the edge of the container
  * @param {LatLng} start position
@@ -36,9 +41,29 @@ export function growLine(start, heading, container, rate = 1.0) {
 	return end;
 }
 
+/** Finds the angle between two headings */
+export function angleBetween(...headings) {
+	let [angle1, angle2] = headings.map(headingToAngle);
+	let smaller, larger;
+	if (angle1 < angle2) {
+		smaller = angle1;
+		larger = angle2;
+	} else {
+		smaller = angle2;
+		larger = angle1;
+	}
+	
+	let between = Math.abs(larger - smaller);
+	if (between > 180) { //Too obtuse
+		between = (smaller + 360) - larger;
+	}
+	
+	return between;
+}
+
 /** Converts angle (0 to 360) to heading (-180 to 180) */
 export function angleToHeading(angle) {
-	angle = angle % 360;
+	angle = angle.mod(360);
 	if (angle <= 180) return angle;
 	else return angle - 360;
 }
@@ -60,17 +85,48 @@ export function clockwisePath(path) {
 	let sum = 0, length = path.length;
 	
 	for (let i = 0; i < length; i++) {
-		let [index, next] = [i, i+1].map(v => v % length);
+		let [index, next] = [i, i+1].map(v => v.mod(length));
 		let [point1, point2] = [path[index], path[next]].map(value => {
 			if (value instanceof google.maps.LatLng) {
 				return value.toJSON();
-			}
+			} else return value;
 		});
 		
 		sum += (point2.lng - point1.lng) * (point2.lat + point1.lat);
 	}
 	
 	return (sum > 0);
+}
+
+/**
+ * @TODO
+ * Finds the edge with the smallest angles
+ * @param {LatLngLiteral[]} path
+ */
+export function bestBaseline(path) {
+	if (path instanceof google.maps.MVCArray) path = path.getArray();
+	let smallestAngle = Infinity, edge = -1;
+	for (let i = 0; i < path.length; i++) {
+		//Points
+		let [prev, start, end, next] = [i - 1, i, i + 1, i + 2].map(v => {
+			return new google.maps.LatLng(path[ v.mod(path.length) ])
+		});
+		//Headings of Lines
+		let [ps, se, en] = [
+			google.maps.geometry.spherical.computeHeading(prev, start),
+			google.maps.geometry.spherical.computeHeading(start, end),
+			google.maps.geometry.spherical.computeHeading(end, next)
+		]
+		
+		let total = angleBetween(ps, se) + angleBetween(se, en);
+		console.log('total', total);
+		if (total < smallestAngle) {
+			smallestAngle = total;
+			edge = i;
+		}
+	}
+	console.log('baseline', edge);
+	return edge;
 }
 
 export class Grid {
@@ -83,15 +139,32 @@ export class Grid {
 	constructor(field, rowsize, columnsize) {
 		this.container = field.polygon;
 		this.field = field;
-		this.clockwise = clockwisePath(field.polygon.getPath().getArray());
-		this.baseline = field.getLine(0);
+		
+		this.clockwise = clockwisePath(this.field.path);
+		//this.edgeIndex = bestBaseline(this.field.path);
+		//this.baseline = this.field.getLine(this.edgeIndex);
+		this.baseline = this.field.getLine(0);
 		this.edgeIndex = 0;
+		
 		this.rowSize = rowsize;
 		this.columnSize = columnsize;
 		this.rowValues = [];
 		this.columnValues = [];
 		
 		this.buildColumns();
+	}
+	
+	/**
+	 * Creates bounds if they haven't already been set
+	 */
+	get bounds() {
+		if (this.calculatedBounds) return this.calculatedBounds
+		
+		let bounds = new google.maps.LatLngBounds();
+		this.container.getPath().forEach(point => {bounds.extend(point)});
+		
+		this.calculatedBounds = bounds;
+		return bounds;
 	}
 	
 	/** Get array representing widths of each row */ 
@@ -169,7 +242,6 @@ export class Grid {
 	
 	/**
 	 * Create lines perpendicular to the baseline, stemming from it
-	 * @returns {MVCArray<LatLng>}
 	 */
 	buildColumns() {
 		let [start, end] = this.baseline;
@@ -183,15 +255,18 @@ export class Grid {
 		let index = 0, offset = 0, lines = [];
 		while (offset < 1) {
 			let point = google.maps.geometry.spherical.interpolate(start, end, offset)
-			console.log(point.toJSON());
 			
 			options.path = [point, growLine(point, heading, this.container)];
-			console.log(options.path);
 			lines.push(new google.maps.Polyline(options))
 			
 			let nextDistance = this.columns[index];
 			if (nextDistance == null) nextDistance = this.columnSize;
 			offset += nextDistance / length; index++;
 		}
+		return lines;
+	}
+	
+	buildSquares() {
+		
 	}
 }
