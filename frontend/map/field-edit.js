@@ -5,7 +5,7 @@
 
 import google from 'google/maps/edit';
 import {Field, polygonOptions} from 'map/field.js';
-console.log(Field);
+import {Grid} from 'map/grid.js';
 
 const drawManagerOptions = {
 	drawingControl: false,
@@ -110,6 +110,8 @@ export default class FieldEditor {
 			console.log(this.Field)
 		})
 		FieldEditor.selectMode();
+		
+		console.log(FieldEditor.showGrid(field));
 	}
 	
 	/**
@@ -152,7 +154,7 @@ export default class FieldEditor {
 		return field.toLines(true).map(line => {
 			polylineOptions.path = line;
 			let polyline = new google.maps.Polyline(polylineOptions);
-			console.log(polyline);
+
 			google.maps.event.addListener(polyline, 'mouseover', showLine);
 			google.maps.event.addListener(polyline, 'mouseout', hideLine);
 			return polyline;
@@ -172,26 +174,7 @@ export default class FieldEditor {
 		
 	}
 	
-	/**
-	 * Called to update the grid on the map
-	 * @param {string} editAction (base/width/height)
-	 */
-	updateGrid(editAction) {
-		//TODO: Redraw grid
-	}
-	
-	/** Change the base ID of the grid, then update the map */
-	set grid_base(base) {
-		//this.grid_base = base;
-		updateGrid('base');
-	}
-	
-	set grid_widths(widths) {
-		//super.grid_widths = widths;
-		updateGrid('width');
-	}
-	set grid_heights(heights) {
-		//super.grid_heights = heights;
-		updateGrid('height');
+	static showGrid(field) {
+		return new Grid(field, 10, 10);
 	}
 }

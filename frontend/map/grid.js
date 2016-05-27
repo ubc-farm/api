@@ -1,4 +1,20 @@
-import google from 'google/maps/edit';
+//import google from 'google/maps/edit';
+
+const gridlineOptions = {
+	geodesic: true,
+	strokeColor: '#fff',
+	strokeOpacity: 0.7,
+	zIndex: 5,
+	/*icons: [{
+		icon: {
+			path: 'M 0,-1 0,1',
+			strokeOpacity: 0.7,
+			scale: 4
+		},
+		offset: '0',
+		repeat: '20px'
+	}]*/
+}
 
 /**
  * Returns a endpoint from the start to the edge of the container
@@ -11,10 +27,11 @@ export function growLine(start, heading, container, rate = 1.0) {
 	let complete = false, distance = rate, end;
 	while (!complete) {
 		end = google.maps.geometry.spherical
-			.completeOffset(start, distance, heading);
-		if (google.maps.geometry.poly.containsLocation(end, container)) {
+			.computeOffset(start, distance, heading);
+		if (!google.maps.geometry.poly.containsLocation(end, container)) {
 			complete = true;
 		}
+		distance += rate;
 	}
 	return end;
 }
@@ -66,11 +83,77 @@ export class Grid {
 	constructor(field, rowsize, columnsize) {
 		this.container = field.polygon;
 		this.field = field;
-		this.clockwise = clockwisePath(this.container.getPath().getArray());
+		this.clockwise = clockwisePath(field.polygon.getPath().getArray());
 		this.baseline = field.getLine(0);
 		this.edgeIndex = 0;
 		this.rowSize = rowsize;
 		this.columnSize = columnsize;
+		this.rowValues = [];
+		this.columnValues = [];
+		
+		this.buildColumns();
+	}
+	
+	/** Get array representing widths of each row */ 
+	get rows() {
+		let base = this.rowSize;
+		return this.rowValues.map(value => {
+			if (value == null) return base;
+			else return value;
+		})
+	}
+	
+	/**
+	 * Sets specific widths for a row, depending on the type given.
+	 * Arrays overwrite the existing rowValue array, using the array's index
+	 * as the key. Objects do the same, using the property as the key.
+	 * Setting false will clear out all the rowValues, leaving just the base size.
+	 * Setting just a number will change the base size.
+	 * @param {number[]|Object|boolean|number} value
+	 */
+	set rows(value) {
+		if (Array.isArray(value)) {
+			for (let i = 0; i < value.length; i++) {
+				if (value[i] != null) this.rowValues[i] = value[i];
+			}
+		} else if (value === Object(value)) {
+			for (let prop in value) {
+				this.rowValues[parseInt(prop)] = value[prop]
+			}
+		} else if (value === false) {
+			this.rowValues.map(() => null);
+		} else {
+			this.rowSize = value;
+		}
+	}
+	
+	/** Get array representing widths of each column */ 
+	get columns() {
+		let base = this.columnSize;
+		return this.columnValues.map(value => {
+			if (value == null) return base;
+			else return value;
+		})
+	}
+	
+	/**
+	 * Sets specific widths for a column, depending on the type given.
+	 * Arrays overwrite the existing columnValue array, using the array's index
+	 * as the key. Objects do the same, using the property as the key.
+	 * Setting false will clear out all the columnValue, leaving just the 
+	 * base size. Setting just a number will change the base size.
+	 * @param {number[]|Object|boolean|number} value
+	 */
+	set columns(value) {
+		if (Array.isArray(value)) {
+			for (let i = 0; i < value.length; i++) {
+				if (value[i] != null) this.columnValues[i] = value[i];
+			}
+		} else if (value === false) {
+			this.columnValues.map(() => null);
+		} else {
+			this.columnSize = value;
+		}
 	}
 	
 	/**
@@ -78,7 +161,7 @@ export class Grid {
 	 */
 	perpendicularHeading() {
 		let baseHeading = google.maps.geometry.spherical
-			.computeHeading(this.baseline.getAt(0), this.baseline.getAt(1));
+			.computeHeading(this.baseline[0], this.baseline[1]);
 		let angleShift = this.clockwise? 90 : -90;
 		
 		return angleToHeading(headingToAngle(baseHeading) + angleShift);
@@ -86,12 +169,29 @@ export class Grid {
 	
 	/**
 	 * Create lines perpendicular to the baseline, stemming from it
-	 * @param {number} distance in meters between columns
 	 * @returns {MVCArray<LatLng>}
 	 */
-	buildColumns(distance = 1) {
-		let [start, end] = this.baseline.getArray();
+	buildColumns() {
+		let [start, end] = this.baseline;
 		let length = google.maps.geometry.spherical
 			.computeDistanceBetween(start, end);
+		let heading = this.perpendicularHeading();
+		
+		let options = gridlineOptions;
+		options.map = this.container.getMap();
+		
+		let index = 0, offset = 0, lines = [];
+		while (offset < 1) {
+			let point = google.maps.geometry.spherical.interpolate(start, end, offset)
+			console.log(point.toJSON());
+			
+			options.path = [point, growLine(point, heading, this.container)];
+			console.log(options.path);
+			lines.push(new google.maps.Polyline(options))
+			
+			let nextDistance = this.columns[index];
+			if (nextDistance == null) nextDistance = this.columnSize;
+			offset += nextDistance / length; index++;
+		}
 	}
 }
