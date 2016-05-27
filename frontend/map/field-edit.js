@@ -134,8 +134,9 @@ export default class FieldEditor {
 		const polylineOptions = {
 			geodesic: true,
 			strokeColor: 'rgb(214, 83, 76)',
-			strokeOpacity: 1.0,
-			strokeWeight: 4,
+			strokeOpacity: 0.0,
+			strokeWeight: 6,
+			zIndex: 10,
 			map: map
 		}
 		

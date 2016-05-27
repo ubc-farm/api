@@ -56,8 +56,10 @@ export class Field {
 			path = this.path;
 		}
 		
-		for (let i = 0; i < path.length - 1; i++) {
-			let line = [path[i], path[i+1]]
+		for (let i = 0; i < path.length; i++) {
+			let next = i + 1;
+			if (i === path.length - 1) {next = 0}
+			let line = [path[i], path[next]];
 			
 			//line is an Array of LatLng, which we want
 			if (!literal) {
