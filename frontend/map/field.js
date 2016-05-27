@@ -2,6 +2,19 @@
  * Represents a field
  * @module map/field.js
  */
+
+/**
+ * Gets a single edge from a path
+ * @param {LatLngLiteral[] | LatLng[]} path
+ * @param {number} index - number of the edge
+ * @returns {LatLngLiteral[] | LatLng[]}
+ */
+function getSegment(path, index = 0) {
+	let [i, next] = [index, index + 1].map(v => v % path.length);
+	
+	return [path[i], path[next]]
+}
+
 export class Field {
 	/**
 	 * A JSON object representing a point
@@ -57,9 +70,7 @@ export class Field {
 		}
 		
 		for (let i = 0; i < path.length; i++) {
-			let next = i + 1;
-			if (i === path.length - 1) {next = 0}
-			let line = [path[i], path[next]];
+			let line = getSegment(path, i);
 			
 			//line is an Array of LatLng, which we want
 			if (!literal) {
@@ -80,12 +91,23 @@ export class Field {
 	}
 	
 	/**
+	 * Gets a single line from the Field.
+	 */
+	getLine(index) {
+		if (this.googlePolygon) {
+			return getSegment(this.polygon.getPath().getArray(), index);
+		} else {
+			return getSegment(this.path, index);
+		}
+	}
+	
+	/**
 	 * Converts the polygon to a fresh path if nessecary
 	 * @returns {LatLngLiteral[]}
 	 */
 	get path() {
 		console.log('get path')
-		if (this.polygon && !this.pathUpdated) {
+		if (this.googlePolygon && !this.pathUpdated) {
 			this.pathJson = this.toPath();
 		} 
 		return this.pathJson;
