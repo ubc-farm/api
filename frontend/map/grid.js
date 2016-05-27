@@ -119,13 +119,11 @@ export function bestBaseline(path) {
 		]
 		
 		let total = angleBetween(ps, se) + angleBetween(se, en);
-		console.log('total', total);
 		if (total < smallestAngle) {
 			smallestAngle = total;
 			edge = i;
 		}
 	}
-	console.log('baseline', edge);
 	return edge;
 }
 
@@ -158,11 +156,21 @@ export class Grid {
 	 * Creates bounds if they haven't already been set
 	 */
 	get bounds() {
+		//const extendBy = 2;
 		if (this.calculatedBounds) return this.calculatedBounds
 		
 		let bounds = new google.maps.LatLngBounds();
 		this.container.getPath().forEach(point => {bounds.extend(point)});
 		
+		/*let northeast = google.maps.geometry.spherical.computeOffset(
+			bounds.getNorthEast(),
+			extendBy, 45
+		),
+		southwest = google.maps.geometry.spherical.computeOffset(
+			bounds.getSouthWest(),
+			extendBy, -135
+		);*/
+		//this.calculatedBounds = new LatLngBounds(southwest, northeast);
 		this.calculatedBounds = bounds;
 		return bounds;
 	}
@@ -267,6 +275,14 @@ export class Grid {
 	}
 	
 	buildSquares() {
-		
+		let start = this.baseline[0];
+		let xHeading = google.maps.geometry.spherical
+			.computeHeading(start, this.baseline[1]);
+		let yHeading = this.perpendicularHeading();
+	}
+	
+	static buildBox(x, y, within, columnData = {}, rowData = {}) {
+		let {size: coulumnSize, specific: columnSpecific} = columnData;
+		let {size: rowSize, specific: rowSpecific} = rowData;
 	}
 }
