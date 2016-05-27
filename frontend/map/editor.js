@@ -5,8 +5,7 @@
 import {domReady} from 'utils.js';
 import {initMap as start} from 'map/config.js';
 import iconButton from 'elements/icon-button.js'
-import google from 'google-maps-drawing';
-
+import google from 'google/maps/edit';
 import FieldEditor from 'map/field-edit.js';
 
 var editor = new FieldEditor();

@@ -3,19 +3,14 @@ let googleMeta = {
 	format: 'global',
 	exports: 'google'
 };
-var c = {
+System.config({
 	baseURL: '/js',
 	map: {
-		//traceur: '/js/vendor/traceur.js',
-		//'plugin-babel': '/js/vendor/plugin-babel.js',
-		//'systemjs-babel-build': '/js/vendor/systemjs-babel-browser.js'
+		'google/maps': 'https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU',
+		'google/maps/edit': 'https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU&libraries=geometry,drawing'
 	},
-	//transpiler: 'plugin-babel',
-	//babelOptions: {
-	//	es2015: false
-	//},
 	meta: {
-		'google-maps': googleMeta,
-		'google-maps-drawing': googleMeta,
+		'google/maps': googleMeta,
+		'google/maps/edit': googleMeta,
 	}
-}
+})

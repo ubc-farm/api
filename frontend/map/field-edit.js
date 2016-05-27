@@ -1,10 +1,9 @@
 /**
  * Editing functionality using Field
- * @requires google.maps.drawing
  * @module map/field-edit.js
  */
 
-import google from 'google-maps-drawing';
+import google from 'google/maps/edit';
 import {Field, polygonOptions} from 'map/field.js';
 console.log(Field);
 
