@@ -22,7 +22,6 @@ var polygons = [];
 export default class FieldEditor {
 	constructor() {
 		manager = new google.maps.drawing.DrawingManager(drawManagerOptions);
-		console.log(manager);
 		google.maps.event.addListener(manager, 
 			'polygoncomplete', FieldEditor.polygonComplete);
 	}

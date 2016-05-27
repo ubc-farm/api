@@ -33,7 +33,6 @@ export class Field {
 	 * @param {number[]} [grid.heights=[]] - heights for each row
 	 */
 	constructor(path, name = '', grid = {}) {
-		console.log('construtor')
 		let {base = 0, widths = [], heights = []} = grid;
 		this.pathJson = path;
 		this.name = name;
@@ -49,7 +48,6 @@ export class Field {
 	 * @returns {LatLngLiteral[]} 
 	 */
 	toPath() {
-		console.log('toPath')
 		return this.polygon.getPath().getArray().map(val => val.toJSON());
 	}
 	
@@ -60,7 +58,6 @@ export class Field {
 	 * @returns {LatLngLiteral[][] | Array<MVCArray<LatLng>>}
 	 */
 	toLines(googleType = false) {
-		console.log('toLines')
 		let path, literal = true, lines = [];
 		if (googleType && this.googlePolygon) {
 			path = this.polygon.getPath().getArray();
@@ -106,9 +103,9 @@ export class Field {
 	 * @returns {LatLngLiteral[]}
 	 */
 	get path() {
-		console.log('get path')
-		if (this.googlePolygon && !this.pathUpdated) {
+		if (this.googlePolygon && this.pathUpdated) {
 			this.pathJson = this.toPath();
+			this.pathUpdated = false;
 		} 
 		return this.pathJson;
 	}
@@ -118,7 +115,6 @@ export class Field {
 	 * @param {LatLngLiteral[]}
 	 */
 	set path(path) {
-		console.log('set path')
 		this.pathJson = path;
 		if (this.googlePolygon) {
 			this.polygon.setPath(path);
@@ -130,7 +126,6 @@ export class Field {
 	 * @requires google.maps
 	 */
 	get polygon() {
-		console.log('get polygon')
 		if (!this.googlePolygon) {
 			let opts = polygonOptions;
 			opts.path = this.path;
@@ -147,7 +142,6 @@ export class Field {
 	 * @param {google.maps.Polygon} poly
 	 */
 	set polygon(poly) {
-		console.log('set polygon')
 		poly.Field = this;
 		this.googlePolygon = poly;
 		this.pathJson = this.toPath();
