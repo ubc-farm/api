@@ -149,6 +149,7 @@ export class Grid {
 		this.rowValues = [];
 		this.columnValues = [];
 		
+		this.gridPoints = new Set();
 		this.buildColumns();
 	}
 	
@@ -279,10 +280,47 @@ export class Grid {
 		let xHeading = google.maps.geometry.spherical
 			.computeHeading(start, this.baseline[1]);
 		let yHeading = this.perpendicularHeading();
+		
+		//flood-fill algorithm
+		let queue = [];
+		queue.push(start);
+		while (queue.length !== 0) {
+			let n = queue[0];
+			queue.splice(0, 1);
+			
+			let westPoint = google.maps.geometry.spherical.computeOffset(
+				n, this.rowSize, xHeading);
+			let northPoint = google.maps.geometry.spherical.computeOffset(
+				n, this.columnSize, yHeading);
+			
+			if (!this.gridPoints.has(n) &&
+			(google.maps.geometry.poly.containsLocation(n, this.container) ||
+			google.maps.geometry.poly.containsLocation(westPoint, this.container) ||
+			google.maps.geometry.poly.containsLocation(northPoint, this.container))) {
+				this.gridPoints.add(start);
+				
+				///TODO: Use dynamic grid lengths
+				queue.push(westPoint); //west
+				queue.push(google.maps.geometry.spherical.computeOffset(
+					n, this.rowSize, -xHeading)); //east
+				queue.push(northPoint); //north
+				queue.push(google.maps.geometry.spherical.computeOffset(
+					n, this.columnSize, -yHeading)); //east
+			}
+		}
+		return this.gridPoints;
 	}
 	
-	static buildBox(x, y, within, columnData = {}, rowData = {}) {
+	/**
+	 * Function that creates squares inside the given polygon
+	 * @param {LatLngLiteral} position - latitude of the box's starting point
+	 * @param {Polygon} within - restricted area for the polygon
+	 */
+	buildBox(position, within, heading, columnData, rowData) {
+		let {xdir: xHeading, yDir: yHeading} = heading;
 		let {size: coulumnSize, specific: columnSpecific} = columnData;
 		let {size: rowSize, specific: rowSpecific} = rowData;
+		
+		
 	}
 }
