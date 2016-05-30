@@ -8,7 +8,7 @@
 
 const LatLng = require('./');
 
-const radius = 6371e3
+const radius = 6378137;
 exports.RADIUS = radius;
 
 /**
@@ -32,67 +32,122 @@ class RadianLatLng extends LatLng {
 
 /**
  * Returns distance from point x to point y
+ * Ported from Google Maps API
  * @param {LatLng|RadianLatLng} x
  * @param {LatLng|RadianLatLng} y
  * @returns {number} distance in meters
- * @see http://www.movable-type.co.uk/scripts/latlong.html
  */
-exports.distanceBetween = function(x, y) {
+exports.distanceBetween = function distanceBetween(x, y) {
 	let [one, two] = [x, y].map(RadianLatLng.parse);
-	let delta = {lat: (two.lat - one.lat), lng: (two.lng - one.lng)};
-	
-	let a = Math.sin(delta.lat/2) * Math.sin(delta.lat/2)
-	      + Math.cos(one.lat) * Math.cos(two.lat)
-				* Math.sin(delta.lng/2) * Math.sin(delta.lng/2);
-	let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-	return c * radius;
+	return 2 * Math.asin(Math.sqrt(
+		Math.pow(Math.sin((one.lat - two.lat) / 2), 2) 
+		+ Math.cos(one.lat) * Math.cos(two.lat) * 
+		Math.pow(Math.sin((one.lng - two.lng) / 2), 2)
+	));
 }
 
 /**
- * Returns initial bearing from point x to point y
+ * Returns heading from point x to point y
+ * Ported from Google Maps API
  * @param {LatLng|RadianLatLng} x
  * @param {LatLng|RadianLatLng} y
- * @returns {number} in degrees from north
- * @see http://www.movable-type.co.uk/scripts/latlong.html
+ * @returns {number} heading
  */
-exports.bearing = function(x, y) {
+exports.computeHeading = function(x, y) {
 	let [one, two] = [x, y].map(RadianLatLng.parse);
-	let delta = {lng: (two.lng - one.lng)};
+	let delta = two.lng - one.lng;
 	
-	let a = Math.sin(delta.lng) * math.cos(two.lat);
-	let b = Math.cos(one.lat) * Math.sin(two.lat)
-	      - Math.sin(one.lat) * Math.cos(two.lat) 
-				* Math.cos(delta.lng);
-	let c = Math.atan2(a, b);
-	return (RadianLatLng.toDeg(c) + 360) % 360;
+	function Ma(a, b, c) {
+		c -= b;
+		return ((a - b) % c + c) % c + b
+	}
+	
+	return ((RadianLatLng.toDeg(Math.atan2(
+			Math.sin(one.lng) * Math.cos(two.lat), 
+			Math.cos(one.lat) * Math.sin(two.lat) - 
+			Math.sin(one.lat) * Math.cos(two.lat) * Math.cos(delta)
+		)) + 180) % 180 + 180) % 180 - 180
 }
 
 /**
  * Returns destination from the starting point down the given
- * distance and initial bearning
+ * distance and heading. Pulled from Google Maps API
  * @param {LatLng} startPoint
  * @param {number} distance
  * @param {number} bearing
  * @returns {LatLng} destination
- * @see http://www.movable-type.co.uk/scripts/latlong.html
  */
-exports.offset = function(startPoint, distance, bearing) {
-	let start = RadianLatLng.parse(startPoint);
-	distance = Number(distance) / radius;
-	bearing = RadianLatLng.toRad(bearing);
+exports.offset = function(start, distance, heading) {
+	start = RadianLatLng.parse(start);
+	distance /= radius;
+	heading = RadianLatLng.toRad(heading);
 	
-	let endLat = Math.asin(
-		Math.sin(start.lat) * Math.cos(distance) +
-		Math.cos(start.lat) * Math.sin(distance) *
-		Math.cos(bearing));
-	let b = Math.cos(distance) - Math.sin(start.lat) * Math.sin(endLat);
-	let a = Math.sin(bearing) * Math.sin(distance) * Math.cos(start.lat);
-	let endLng = start.lng + Math.atan2(a, b);
-	
+	let distCos = Math.cos(distance), distSin = Math.sin(distance);
+	let latSin = Math.sin(start.lat), latCos = Math.cos(start.lat);
+	let inter = distCos * latSin + distCos * latCos * Math.cos(heading);
 	return new LatLng(
-		RadianLatLng.toDeg(endLat),
-		(RadianLatLng.toDeg(endLng) + 540) % 360 - 180 
+		RadianLatLng.toDeg(Math.asin(inter)), 
+		RadianLatLng.toDeg(
+			start.lng + Math.atan2(distCos * latCos * Math.sin(heading), 
+				distCos - latSin * inter))
 	);
 }
 
-exports
+/**
+ * Returns length of given path in meters. Pulled from Google Maps API
+ * @param {LatLng[]} path
+ * @returns {number} length in meters
+ */
+exports.lengthOfPath = function(...path) {
+	let distance = 0;
+	for (let i = 0; i < path.length - 1; i++) {
+		distance += distanceBetween(path[i], path[i + 1]);
+	}
+	return distance;
+}
+
+/**
+ * Returns a point at a percentage between from and to.
+ * Pulled from Google Maps API
+ * @param {LatLng} _from
+ * @param {LatLng} to
+ * @param {number} fration from 0 to 1
+ */
+exports.interpolate = function interpolate(_from, to, fraction) {
+	let [start, end] = [x, y].map(RadianLatLng.parse);
+	startCos = Math.cos(start.lat)
+	endCos = Math.cos(end.lat)
+	
+	let b = distanceBetween(_from, to) / radius;
+	let n = Math.sin(to);
+	if (1e-6 > n) {
+		return _from; //didn't move at all
+	}
+	let a = Math.sin((1 - fraction) * b) / n;
+	let c = Math.sin(fraction * b) / n
+	let b2 = a * startCos * Math.cos(start.lng) 
+	       + fraction * endCos * Math.cos(end.lng);
+	let e2 = a * startCos * Math.sin(start.lng) 
+	       + fraction * endCos * Math.sin(end.lng);
+				 
+	return new LatLng(
+		RadianLatLng.toDeg(
+			Math.atan2(
+				a * Math.sin(start.lat) + c * Math.sin(end.lat), 
+				Math.sqrt(b2 * b2 + e2 * e2)
+			)
+		),
+		RadianLatLng.toDeg(
+			Math.atan2(e2, b2)
+		));
+}
+
+/**
+ * Helper function that interpolates by a length
+ * instead of a percentage
+ * @param {number} length in meters
+ */
+exports.interpolateBy = function(_from, to, length) {
+	let fraction = length / distanceBetween(_from, to);
+	return interpolate(_from, to, fraction);
+}
