@@ -7,6 +7,7 @@
  */
 
 const LatLng = require('./');
+const Angle = require('./angle.js');
 
 const radius = 6378137;
 exports.RADIUS = radius;
@@ -51,7 +52,7 @@ exports.distanceBetween = function distanceBetween(x, y) {
  * Ported from Google Maps API
  * @param {LatLng|RadianLatLng} x
  * @param {LatLng|RadianLatLng} y
- * @returns {number} heading
+ * @returns {Angle} heading
  */
 exports.computeHeading = function(x, y) {
 	let [one, two] = [x, y].map(RadianLatLng.parse);
@@ -62,11 +63,11 @@ exports.computeHeading = function(x, y) {
 		return ((a - b) % c + c) % c + b
 	}
 	
-	return ((RadianLatLng.toDeg(Math.atan2(
+	return new Angle(((RadianLatLng.toDeg(Math.atan2(
 			Math.sin(one.lng) * Math.cos(two.lat), 
 			Math.cos(one.lat) * Math.sin(two.lat) - 
 			Math.sin(one.lat) * Math.cos(two.lat) * Math.cos(delta)
-		)) + 180) % 180 + 180) % 180 - 180
+		)) + 180) % 180 + 180) % 180 - 180, true);
 }
 
 /**
@@ -74,13 +75,13 @@ exports.computeHeading = function(x, y) {
  * distance and heading. Pulled from Google Maps API
  * @param {LatLng} startPoint
  * @param {number} distance
- * @param {number} bearing
+ * @param {Angle} heading
  * @returns {LatLng} destination
  */
 exports.offset = function(start, distance, heading) {
 	start = RadianLatLng.parse(start);
 	distance /= radius;
-	heading = RadianLatLng.toRad(heading);
+	heading = RadianLatLng.toRad(Angle.parse(heading).heading);
 	
 	let distCos = Math.cos(distance), distSin = Math.sin(distance);
 	let latSin = Math.sin(start.lat), latCos = Math.cos(start.lat);
@@ -111,7 +112,7 @@ exports.lengthOfPath = function(...path) {
  * Pulled from Google Maps API
  * @param {LatLng} _from
  * @param {LatLng} to
- * @param {number} fration from 0 to 1
+ * @param {number} fraction from 0 to 1
  */
 exports.interpolate = function interpolate(_from, to, fraction) {
 	let [start, end] = [x, y].map(RadianLatLng.parse);
