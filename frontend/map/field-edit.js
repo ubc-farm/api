@@ -106,7 +106,7 @@ export default class FieldEditor {
 		
 		polygons.push(polygon);
 		google.maps.event.addListener(polygon, 'click', function(e) {
-			console.log(this.Field)
+			
 		})
 		FieldEditor.selectMode();
 		
