@@ -20,5 +20,3 @@ export function initMap(node = 'google-map') {
 		}
 	})
 }
-
-export function hi() {return 'hi'}

@@ -1,13 +1,13 @@
 /**
  * Represents latitude and longitude
- * @module
+ * @module map/latlng/index.js
  */
-module.exports = class LatLng {
+export class LatLng {
 	
 	/**
 	 * Takes either seperate lat and lng floats,
 	 * or an object with lat and lng/long keys
-	 * @param {number|Object|Array} lat - latitude, or object
+	 * @param {number|Object|Array|LatLng} lat - latitude, or object
 	 * @param {number} lng - longitude
 	 * @param {number} lat.lat - latitude, when lat is an object
 	 * @param {number} lat.lng - longitude
@@ -17,7 +17,10 @@ module.exports = class LatLng {
 	 * @throws if given bad arguments
 	 */
 	constructor(lat, lng) {
-		if (lng != null) {
+		if (lat instanceof LatLng) {
+			this.lat = lat.lat;
+			this.lng = lat.lng;
+		}	if (lng != null) {
 			this.lat = parseFloat(lat);
 			this.lng = parseFloat(lng);
 		} else if (Array.isArray(lat)) {
