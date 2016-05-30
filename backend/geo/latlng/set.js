@@ -1,3 +1,5 @@
+const LatLng = require('./');
+
 /**
  * Equivalent to set, but with different equality
  * checks so similar LatLngs are checked properly
@@ -9,17 +11,20 @@ module.exports = class LatLngSet extends Map {
 		this[Symbol.iterator] = this.values;
 	}
 	
-	add(latlng) {
-		this.map.set(JSON.stringify(latlng), latlng);
+	add(value) {
+		value = LatLng.parse(value);
+		this.map.set(value.toString(), value);
 		return this;
 	}
 	
-	delete(latlng) {
-		return this.map.delete(JSON.stringify(latlng));
+	delete(value) {
+		value = LatLng.parse(value);
+		return this.map.delete(value.toString());
 	}
 	
-	has(latlng) {
-		return this.map.has(JSON.stringify(latlng));
+	has(value) {
+		value = LatLng.parse(value);
+		return this.map.has(value.toString());
 	}
 	
 	keys() { return super.values() }
