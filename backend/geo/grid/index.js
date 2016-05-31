@@ -3,9 +3,22 @@ const {geom} = require('jsts');
 const {computeHeading: getHeading} = require('../latlng/spherical.js');
 const GridCell = require('./cell.js');
 
-class GridLength {
+/**
+ * A map with a default value
+ */
+class DefaultMap extends Map {
 	constructor(base) {
-		
+		this.base = base;
+		super();
+	}
+	
+	/**
+	 * If the index does not exist, return the default instead
+	 */
+	get(index) {
+		let value = super.get(index);
+		if (value === undefined) return base;
+		else return value;
 	}
 }
 
@@ -25,8 +38,8 @@ module.exports = class Grid {
 		}
 		this.container = container;
 		
-		this.width = new GridLength(baseWidth);
-		this.height = new GridLength(baseHeight);
+		this.width = new DefaultMap(baseWidth);
+		this.height = new DefaultMap(baseHeight);
 		
 		this.cellPoints = new CoordinateSet();
 		this.cells = [];
