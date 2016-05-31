@@ -82,4 +82,18 @@ module.exports = class Grid {
 		}
 		return cells;
 	}
+	
+	
+	
+	/**
+	 * Unite all the cells given into a single polygon
+	 */
+	static union(...cells) {
+		cells.reduce((previous, current) => {
+			return current.union(previous);
+		}, {
+			//this object pretends its an empty geometry
+			isEmpty: function() {return true}
+		});
+	}
 }
