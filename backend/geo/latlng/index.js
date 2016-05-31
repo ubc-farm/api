@@ -44,6 +44,11 @@ module.exports = class LatLng {
 	get long() { return this.lng; }
 	set long(value) { this.lng = value; }
 	
+	/** Aliases for JSTS Coordinate creation */
+	get x() { return this.lat; }
+	get y() { return this.lng; }
+	//get z() { return NaN; }
+	
 	/** Creates JSON string of coordinates */
 	toString() {
 		return JSON.stringify({

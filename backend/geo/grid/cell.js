@@ -1,10 +1,10 @@
 const {offset} = require('../latlng/spherical.js');
 const Angle = require('../latlng/angle.js');
-const d3_polygon = require('d3-polygon');
+const {geom} = require('jsts');
 
 module.exports = class GridCell {
 	constructor(start, width, height, angle) {
-		this.start = start;
+		this.start = new geom.Coordinate(start);
 		this.width = width;
 		this.height = height;
 		this.parallel = Angle.parse(angle);
