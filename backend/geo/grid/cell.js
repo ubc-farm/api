@@ -1,5 +1,6 @@
 const {offset} = require('../latlng/spherical.js');
 const Angle = require('../latlng/angle.js');
+const d3_polygon = require('d3-polygon');
 
 module.exports = class GridCell {
 	constructor(start, width, height, angle) {
