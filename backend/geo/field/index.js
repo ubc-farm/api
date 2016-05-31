@@ -1,24 +1,21 @@
-const LatLng = require('../latlng/');
+const {geom} = require('jsts');
 
-module.exports = class Field {
+module.exports = class Field extends geom.Polygon {
 	/**
-	 * @param {LatLng[]} path
+	 * @param {Coordinate[]} path
+	 * @param {string} name
+	 * @param {Grid} grid
 	 */
 	constructor(path, name = '', grid) {
-		this.path = path.map(LatLng.parse);
 		this.name = name;
 		this.grid = grid;
-	}
-	
-	/** 
-	 * @returns {Array<[number, number]>} a coordinate array for GeoJSON,
-	 * which includes the first point as the last point to connect the 
-	 * path together.
-	 */
-	toArray() {
-		let array = this.path;
-		array.map(coord => coord.toGeo());
-		array.push(coord[0]);
-		return array;
+		
+		let factory = new geom.GeometryFactory();
+		super(factory.createLinearRing(path), [], factory);
+		
+		if (this.grid) {
+			this.grid.setAlignment([path[0], path[1]]);
+			this.grid.container = this;	
+		}
 	}
 }

@@ -31,11 +31,8 @@ module.exports = class Grid {
 	 * @param {number} baseWidth
 	 * @param {number} baseHeight
 	 */
-	constructor(alignmentLine, container, baseWidth = 1.0, baseHeight = 1.0) {
-		this.align = {
-			point: alignmentLine[0],
-			base: getHeading(alignmentLine[0], alignmentLine[1])
-		}
+	constructor(baseWidth = 1.0, baseHeight = 1.0, alignmentLine, container) {
+		this.setAlignment(alignmentLine);
 		this.container = container;
 		
 		this.width = new DefaultMap(baseWidth);
@@ -43,6 +40,14 @@ module.exports = class Grid {
 		
 		this.cellPoints = new CoordinateSet();
 		this.cells = [];
+	}
+	
+	setAlignment(line) {
+		if (line == null) return;
+		this.align = {
+			point: line[0],
+			base: getHeading(alignmentLine[0], alignmentLine[1])
+		};
 	}
 	
 	/**
