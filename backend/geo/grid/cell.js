@@ -12,25 +12,35 @@ module.exports = class GridCell extends geom.Polygon {
 		
 		/** Initiate geom.Polygon */
 		let factory = new geom.GeometryFactory();
-		super(factory.createLinearRing(
-			buildPath().map(p => new geom.Coordinate(p.x, p.y))
-		), [], factory);
+		super(factory.createLinearRing(buildPath()), [], factory);
 	}
 	
 	/**
 	 * Returns/creates a clockwise path from the start
 	 * point of the cell. 
-	 * @returns {LatLng[]} 
+	 * @returns {Coordinate[]} 
 	 */
 	buildPath() {
 		if (this._path) return this._path;
 		//Build path clockwise
-		let point1 = offset(this.start, this.height, this.perpendicular);
-		let point2 = offset(point1, this.width, this.parallel);
-		let point3 = offset(point2, this.height, this.perpendicular * -1);
+		this.north = offset(this.start, this.height, this.perpendicular); //Draw up
+		let point2 = offset(this.north, this.width, this.parallel); //Draw right
+		this.east = offset(point2, this.height, this.perpendicular * -1);//down
 		
-		this._path = [this.start, point1, point2, point3];
+		this._path = [this.start, this.north, point2, this.east, this.start];
 		return this._path;
+	}
+	
+	get west() {
+		if (!this._west) 
+			this._west = offset(this.start, this.width, this.parallel * -1);
+		return this._west;
+	}
+	
+	get south() {
+		if (!this._south) 
+			this._south = offset(this.start, this.height, this.perpendicular * -1);
+		return this._south;
 	}
 	
 	//intersects(parent)
