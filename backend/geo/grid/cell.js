@@ -1,4 +1,4 @@
-const {offset} = require('../latlng/spherical.js');
+const {offset} = require('../spherical.js');
 const Angle = require('../latlng/angle.js');
 const {geom} = require('jsts');
 

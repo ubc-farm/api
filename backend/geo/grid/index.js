@@ -1,6 +1,6 @@
 const CoordinateSet = require('../latlng/set.js');
 const {geom} = require('jsts');
-const {computeHeading: getHeading} = require('../latlng/spherical.js');
+const {computeHeading: getHeading} = require('../spherical.js');
 const GridCell = require('./cell.js');
 
 /**
