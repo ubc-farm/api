@@ -39,7 +39,6 @@ module.exports = class Grid {
 		this.height = new DefaultMap(baseHeight);
 		
 		this.cellPoints = new CoordinateSet();
-		this.cells = [];
 	}
 	
 	setAlignment(line) {
@@ -54,7 +53,7 @@ module.exports = class Grid {
 	 * Using flood-fill algorithm, fill the container with grid squares
 	 */
 	fill() {
-		let queue = [];
+		let queue = [], cells = [];
 		queue.push({pos: this.align.point, x: 0, y:0});
 		
 		while (queue.length !== 0) {
@@ -65,16 +64,15 @@ module.exports = class Grid {
 				let cell = new GridCell(nPos, width.get(nX), height.get(nY), 
 					this.align.base);
 				
-				if (cell.within(this.container)) {
-					this.cellPoints.forceAdd(nPos);
-					this.cells.push(cell);
-				} else if (cell.intersects(this.container)) {
-					this.cellPoints.forceAdd(nPos);
-					cell.weaken(this.container);
-					this.cells.push(cell);
-				} else {
-					continue;
+				if (!cell.within(this.container)) {
+					if (cell.intersects(this.container)) {
+						cell.weaken(this.container);
+					} else {
+						continue;
+					}
 				}
+				this.cellPoints.forceAdd(nPos);
+				cells.push(cell);
 				
 				queue.push({pos: cell.west, x: nX - 1, y: nY});
 				queue.push({pos: cell.east, x: nX + 1, y: nY});
@@ -82,6 +80,6 @@ module.exports = class Grid {
 				queue.push({pos: cell.south, x: nX, y: nY - 1});
 			}
 		}
-		return this.cells;
+		return cells;
 	}
 }
