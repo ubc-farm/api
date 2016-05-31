@@ -2,6 +2,9 @@ const {offset} = require('../spherical.js');
 const Angle = require('../latlng/angle.js');
 const {geom} = require('jsts');
 
+import jsts from 'jsts';
+import { offset } from 'geo/spherical.js'
+
 export default class GridCell extends geom.Polygon {
 	constructor(start, width, height, angle) {
 		this.start = new geom.Coordinate(start.x, start.y);
