@@ -1,4 +1,4 @@
-const {geom: {Coordinate}} = require('jsts');
+const Coordinate = require('./');
 
 /**
  * Equivalent to set, but with different equality
@@ -23,40 +23,49 @@ module.exports = class CoordinateSet extends Map {
 	}
 	
 	/**
+	 * Converts object into a string key
+	 * @param {Coordinate} value
+	 * @returns {string} key
+	 */
+	static toKey(value) {
+		return `x:${value.x.toString()},y:${value.y.toString()}`;
+	}
+	
+	/**
 	 * Equivalent to Set.add(). Adds an element to
 	 * the set if it isn't in there already.
-	 * @param {LatLng} value - item to add
-	 * @returns {LatLngSet} this set
+	 * @param {Coordinate} value - item to add
+	 * @returns {CoordinateSet} this set
 	 */
 	add(value) {
-		value = LatLng.parse(value);
+		value = Coordinate.parse(value);
 		if (this.has(value)) { return this; }
 		
-		super.set(value.toString(), value);
+		super.set(CoordinateSet.toKey(value), value);
 		return this;
 	}
 	
 	/**
 	 * Adds without double-checking that an item isn't in the set.
 	 * Useful if you already checked Set.has() beforehand.
-	 * @param {LatLng} value - item to add
-	 * @returns {LatLngSet} this set
+	 * @param {Coordinate} value - item to add
+	 * @returns {CoordinateSet} this set
 	 */
 	forceAdd(value) {
-		value = LatLng.parse(value);
-		super.set(value.toString(), value);
+		value = Coordinate.parse(value);
+		super.set(CoordinateSet.toKey(value), value);
 		return this;
 	}
 	
 	/**
 	 * Equivalent to Set.delete(). Removes a value
 	 * from the set.
-	 * @param {LatLng} value - item to delete
+	 * @param {Coordinate} value - item to delete
 	 * @returns {boolean} true if the item was deleted and in the set
 	 */
 	delete(value) {
-		value = LatLng.parse(value);
-		if (!super.delete(value.toString())) {
+		value = Coordinate.parse(value);
+		if (!super.delete(CoordinateSet.toKey(value))) {
 			for (let [key, item] of this) {
 				if (CoordinateSet.equal(value, item)) {
 					return super.delete(key);
@@ -74,8 +83,8 @@ module.exports = class CoordinateSet extends Map {
 	 * @returns {boolean} value in the set?
 	 */
 	has(value) {
-		value = LatLng.parse(value);
-		if (super.has(value.toString())) {
+		value = Coordinate.parse(value);
+		if (super.has(CoordinateSet.toKey(value))) {
 			for (let [, item] of this) {
 				if (CoordinateSet.equal(value, item)) {
 					return true;
