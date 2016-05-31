@@ -9,6 +9,7 @@ module.exports = class GridCell extends geom.Polygon {
 		this.height = height;
 		this.parallel = Angle.parse(angle);
 		this.perpendicular = Angle.rotate(this.parallel, -90);
+		this.weak = null;
 		
 		/** Initiate geom.Polygon */
 		let factory = new geom.GeometryFactory();
@@ -29,6 +30,10 @@ module.exports = class GridCell extends geom.Polygon {
 		
 		this._path = [this.start, this.north, point2, this.east, this.start];
 		return this._path;
+	}
+	
+	weaken(container) {
+		this.weak = this.intersection(container);
 	}
 	
 	get west() {

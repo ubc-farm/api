@@ -1,25 +1,69 @@
 const CoordinateSet = require('../latlng/set.js');
 const {geom} = require('jsts');
+const {computeHeading: getHeading} = require('../latlng/spherical.js');
+const GridCell = require('./cell.js');
+
+class GridLength {
+	constructor(base) {
+		
+	}
+}
 
 module.exports = class Grid {
-	constructor(alignmentLine, container) {
+	/**
+	 * @param {Coordinate[]} alignmentLine - a line for the base, pointing right
+	 * @param {Coordinate} alignmentLine[0] - start point for grid generation
+	 * @param {Coordinate} alignmentLine[1] - end point for baseline
+	 * @param {Polygon} container
+	 * @param {number} baseWidth
+	 * @param {number} baseHeight
+	 */
+	constructor(alignmentLine, container, baseWidth = 1.0, baseHeight = 1.0) {
 		this.align = {
 			point: alignmentLine[0],
-			base: 0//heading from 0 to 1 of alignmentLine
+			base: getHeading(alignmentLine[0], alignmentLine[1])
 		}
 		this.container = container;
-		this.envelope = container.getEnvelopeInternal();
-		//this.envelope.expandByDistances(0, 0); expand by max width/height
 		
-		this.cellPoints = new CoordinateSet(undefined, false);
+		this.width = new GridLength(baseWidth);
+		this.height = new GridLength(baseHeight);
+		
+		this.cellPoints = new CoordinateSet();
 		this.cells = [];
 	}
 	
+	/**
+	 * Using flood-fill algorithm, fill the container with grid squares
+	 */
 	fill() {
 		let queue = [];
-		queue.push(this.align.point);
+		queue.push({pos: this.align.point, x: 0, y:0});
+		
 		while (queue.length !== 0) {
+			let {nPos, nX, nY} = queue[0];
+			queue.splice(0, 1);
 			
+			if (!this.cellPoints.has(nPos)) {
+				let cell = new GridCell(nPos, width.get(nX), height.get(nY), 
+					this.align.base);
+				
+				if (cell.within(this.container)) {
+					this.cellPoints.forceAdd(nPos);
+					this.cells.push(cell);
+				} else if (cell.intersects(this.container)) {
+					this.cellPoints.forceAdd(nPos);
+					cell.weaken(this.container);
+					this.cells.push(cell);
+				} else {
+					continue;
+				}
+				
+				queue.push({pos: cell.west, x: nX - 1, y: nY});
+				queue.push({pos: cell.east, x: nX + 1, y: nY});
+				queue.push({pos: cell.north, x: nX, y: nY + 1});
+				queue.push({pos: cell.south, x: nX, y: nY - 1});
+			}
 		}
+		return this.cells;
 	}
 }
