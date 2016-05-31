@@ -1,14 +1,25 @@
-const LatLng = require('./');
+const {geom: {Coordinate}} = require('jsts');
 
 /**
  * Equivalent to set, but with different equality
  * checks so similar LatLngs are checked properly
  * @module
  */
-module.exports = class LatLngSet extends Map {
+module.exports = class CoordinateSet extends Map {
 	constructor(iterable) {
 		super(iterable);
 		this[Symbol.iterator] = this.values;
+	}
+	
+	/**
+	 * Function used to check equality.
+	 * Can be redefined later if needed.
+	 * @param {Coordinate} one
+	 * @param {Coordinate} two
+	 * @returns {boolean} are they equal?
+	 */
+	static equal(one, two) {
+		return one.equals(two);
 	}
 	
 	/**
@@ -47,7 +58,7 @@ module.exports = class LatLngSet extends Map {
 		value = LatLng.parse(value);
 		if (!super.delete(value.toString())) {
 			for (let [key, item] of this) {
-				if (LatLng.equals(value, item)) {
+				if (CoordinateSet.equal(value, item)) {
 					return super.delete(key);
 				}
 			}
@@ -66,7 +77,7 @@ module.exports = class LatLngSet extends Map {
 		value = LatLng.parse(value);
 		if (super.has(value.toString())) {
 			for (let [, item] of this) {
-				if (LatLng.equals(value, item)) {
+				if (CoordinateSet.equal(value, item)) {
 					return true;
 				}
 			}
