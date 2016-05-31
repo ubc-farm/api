@@ -1,45 +1,43 @@
 /**
- * Calculation helpers
- * Note that anything taking a LatLng also works with
- * an object with lat and lng properties, or an 
- * array in the format [lat, lng].
+ * Calculation helpers that match up with Google Maps API
  * @module
  */
 
-const LatLng = require('./');
-const Angle = require('./angle.js');
+const {geom: {Coordinate}, algorithm: {Angle}} = require('jsts');
 
 const radius = 6378137;
 exports.RADIUS = radius;
 
-/**
- * Radian equivalent of degrees LatLng
- */
-class RadianLatLng extends LatLng {
+class RadCoord extends Coordinate {
 	constructor(lat, lng) {
+		lat = Angle.toRadians(lat);
+		lng = Angle.toRadians(lng);
 		super(lat, lng);
-		this.lat = RadianLatLng.toRad(this.lat);
-		this.lng = RadianLatLng.toRad(this.lng);
 	}
 	
-	static toRad(degrees) {return degrees * Math.PI / 180}
-	static toDeg(radians) {return radians * 180 / Math.PI}
+	get lat() {return this.x}
+	get lng() {return this.y}
+	get long() {return this.y}
 	
 	static parse(value) {
-		if (value instanceof RadianLatLng) return value;
-		else return new RadianLatLng(value);
+		if (value instanceof RadCoord) return value;
+		else if (value.hasOwnProperty(lat) && value.hasOwnProperty(lng)) {
+			return new RadCoord(value.lat, value.lng);
+		} else if (value.hasOwnProperty(x) && value.hasOwnProperty(y)) {
+			return new RadCoord(value.x, value.y);
+		} 
 	}
 }
 
 /**
  * Returns distance from point x to point y
  * Ported from Google Maps API
- * @param {LatLng|RadianLatLng} x
- * @param {LatLng|RadianLatLng} y
+ * @param {Coordinate} x
+ * @param {Coordinate} y
  * @returns {number} distance in meters
  */
 exports.distanceBetween = function distanceBetween(x, y) {
-	let [one, two] = [x, y].map(RadianLatLng.parse);
+	let [one, two] = [x, y].map(RadCoord.parse);
 	return 2 * Math.asin(Math.sqrt(
 		Math.pow(Math.sin((one.lat - two.lat) / 2), 2) 
 		+ Math.cos(one.lat) * Math.cos(two.lat) * 
@@ -50,45 +48,47 @@ exports.distanceBetween = function distanceBetween(x, y) {
 /**
  * Returns heading from point x to point y
  * Ported from Google Maps API
- * @param {LatLng|RadianLatLng} x
- * @param {LatLng|RadianLatLng} y
- * @returns {Angle} heading
+ * @param {Coordinate} x
+ * @param {Coordinate} y
+ * @returns {number} heading
  */
 exports.computeHeading = function(x, y) {
-	let [one, two] = [x, y].map(RadianLatLng.parse);
+	let [one, two] = [x, y].map(RadCoord.parse);
 	let delta = two.lng - one.lng;
 	
-	function Ma(a, b, c) {
-		c -= b;
-		return ((a - b) % c + c) % c + b
-	}
-	
-	return new Angle(((RadianLatLng.toDeg(Math.atan2(
+	/*return new Angle(((Angle.toDegrees(Math.atan2(
 			Math.sin(one.lng) * Math.cos(two.lat), 
 			Math.cos(one.lat) * Math.sin(two.lat) - 
 			Math.sin(one.lat) * Math.cos(two.lat) * Math.cos(delta)
-		)) + 180) % 180 + 180) % 180 - 180, true);
+		)) + 180) % 180 + 180) % 180 - 180, true);*/
+	return Angle.toDegrees(Angle.normalizePositive(
+		Math.atan2(
+			Math.sin(one.lng) * Math.cos(two.lat), 
+			Math.cos(one.lat) * Math.sin(two.lat) - 
+			Math.sin(one.lat) * Math.cos(two.lat) * Math.cos(delta)
+		)
+	));
 }
 
 /**
  * Returns destination from the starting point down the given
  * distance and heading. Pulled from Google Maps API
- * @param {LatLng} startPoint
+ * @param {Coordinate} startPoint
  * @param {number} distance
- * @param {Angle} heading
- * @returns {LatLng} destination
+ * @param {number} heading
+ * @returns {Coordinate} destination
  */
 exports.offset = function(start, distance, heading) {
-	start = RadianLatLng.parse(start);
+	start = RadCoord.parse(start);
 	distance /= radius;
-	heading = RadianLatLng.toRad(Angle.parse(heading).heading);
+	heading = Angle.normalize(Angle.toRadians(heading));
 	
 	let distCos = Math.cos(distance), distSin = Math.sin(distance);
 	let latSin = Math.sin(start.lat), latCos = Math.cos(start.lat);
 	let inter = distCos * latSin + distCos * latCos * Math.cos(heading);
-	return new LatLng(
-		RadianLatLng.toDeg(Math.asin(inter)), 
-		RadianLatLng.toDeg(
+	return new Coordinate(
+		Angle.toDegrees(Math.asin(inter)), 
+		Angle.toDegrees(
 			start.lng + Math.atan2(distCos * latCos * Math.sin(heading), 
 				distCos - latSin * inter))
 	);
@@ -96,7 +96,7 @@ exports.offset = function(start, distance, heading) {
 
 /**
  * Returns length of given path in meters. Pulled from Google Maps API
- * @param {LatLng[]} path
+ * @param {Coordinate[]} path
  * @returns {number} length in meters
  */
 exports.lengthOfPath = function(...path) {
@@ -110,12 +110,12 @@ exports.lengthOfPath = function(...path) {
 /**
  * Returns a point at a percentage between from and to.
  * Pulled from Google Maps API
- * @param {LatLng} _from
- * @param {LatLng} to
+ * @param {Coordinate} _from
+ * @param {Coordinate} to
  * @param {number} fraction from 0 to 1
  */
 exports.interpolate = function interpolate(_from, to, fraction) {
-	let [start, end] = [x, y].map(RadianLatLng.parse);
+	let [start, end] = [x, y].map(RadCoord.parse);
 	startCos = Math.cos(start.lat)
 	endCos = Math.cos(end.lat)
 	
@@ -131,14 +131,14 @@ exports.interpolate = function interpolate(_from, to, fraction) {
 	let e2 = a * startCos * Math.sin(start.lng) 
 	       + fraction * endCos * Math.sin(end.lng);
 				 
-	return new LatLng(
-		RadianLatLng.toDeg(
+	return new Coordinate(
+		Angle.toDegrees(
 			Math.atan2(
 				a * Math.sin(start.lat) + c * Math.sin(end.lat), 
 				Math.sqrt(b2 * b2 + e2 * e2)
 			)
 		),
-		RadianLatLng.toDeg(
+		Angle.toDegrees(
 			Math.atan2(e2, b2)
 		));
 }
