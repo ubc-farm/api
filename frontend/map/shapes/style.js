@@ -1,5 +1,3 @@
-import google from 'google/maps';
-
 export const color = {
 	primary: 'rgb(59, 166, 72)',
 	accent: 'rgb(214, 83, 76)',

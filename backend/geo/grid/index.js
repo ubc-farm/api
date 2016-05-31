@@ -57,8 +57,7 @@ module.exports = class Grid {
 		queue.push({pos: this.align.point, x: 0, y:0});
 		
 		while (queue.length !== 0) {
-			let {nPos, nX, nY} = queue[0];
-			queue.splice(0, 1);
+			let {nPos, nX, nY} = queue.shift();
 			
 			if (!this.cellPoints.has(nPos)) {
 				let cell = new GridCell(nPos, width.get(nX), height.get(nY), 
