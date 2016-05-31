@@ -21,22 +21,22 @@ module.exports = class LatLngSet extends Map {
 		value = LatLng.parse(value);
 		if (this.has(value)) { return this; }
 		
-		this.map.set(value.toString(), value);
+		super.set(value.toString(), value);
 		return this;
 	}
 	
 	/**
 	 * Equivalent to Set.delete(). Removes a value
 	 * from the set.
-	 * @param {LatLng} value - item to add
+	 * @param {LatLng} value - item to delete
 	 * @returns {boolean} true if the item was deleted and in the set
 	 */
 	delete(value) {
 		value = LatLng.parse(value);
-		if (!this.map.delete(value.toString())) {
+		if (!super.delete(value.toString())) {
 			for (let [key, item] of this) {
 				if (LatLng.equals(value, item)) {
-					return this.map.delete(key);
+					return super.delete(key);
 				}
 			}
 			
@@ -47,10 +47,12 @@ module.exports = class LatLngSet extends Map {
 	/**
 	 * Equivalent to Set.has(). Checks if a value is
 	 * in the set. 
+	 * @param {LatLng} value - item to check
+	 * @returns {boolean} value in the set?
 	 */
 	has(value) {
 		value = LatLng.parse(value);
-		if (this.map.has(value.toString())) {
+		if (super.has(value.toString())) {
 			for (let [, item] of this) {
 				if (LatLng.equals(value, item)) {
 					return true;
@@ -61,5 +63,9 @@ module.exports = class LatLngSet extends Map {
 		} else { return false; }
 	}
 	
+	/**
+	 * Equivalent to Set.keys(), which returns
+	 * values rather than keys.
+	 */
 	keys() { return super.values() }
 }
