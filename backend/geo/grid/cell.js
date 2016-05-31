@@ -1,18 +1,25 @@
 const {offset} = require('../spherical.js');
-const Angle = require('../latlng/angle.js');
-const {geom} = require('jsts');
+//const Angle = require('../latlng/angle.js');
+const {geom: {Polygon, GeometryFactory}, algorithm: {Angle}} = require('jsts');
 
-module.exports = class GridCell extends geom.Polygon {
+module.exports = class GridCell extends Polygon {
+	/**
+	 * @param {Coordinate} start
+	 * @param {number} width of cell
+	 * @param {number} height of cell
+	 * @param {number} angle of baseline, in degrees
+	 */
 	constructor(start, width, height, angle) {
-		this.start = new geom.Coordinate(start.x, start.y);
+		this.start = start;
 		this.width = width;
 		this.height = height;
-		this.parallel = Angle.parse(angle);
-		this.perpendicular = Angle.rotate(this.parallel, -90);
+		this.parallel = angle;
+		this.perpendicular = Angle.toDegrees(Angle.normalize(
+				Angle.toRadians(angle) - (Angle.PI_OVER_2 * -1) ));
 		this.weak = null;
 		
 		/** Initiate geom.Polygon */
-		let factory = new geom.GeometryFactory();
+		let factory = new GeometryFactory();
 		super(factory.createLinearRing(buildPath()), [], factory);
 	}
 	
