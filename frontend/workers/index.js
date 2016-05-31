@@ -1,0 +1,1 @@
+importScripts('../vendor/system.js', '../vendor/sys-config.js');
