@@ -20,7 +20,6 @@ export const domReady = new Promise(resolve => {
 /**
  * Creates a promise that can be resolved from the outside.
  * Used for async scripts and their onload attributes.
- * @property {Promise<any>} promise
  * @property {function} resolve - resolves the promise
  * @property {function} reject - rejects the promise
  */
