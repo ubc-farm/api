@@ -63,10 +63,14 @@ function polygonComplete(polygon) {
 	polygons.push(polygon);
 	google.maps.event.addListener(polygon, 'click', e => {})
 	selectMode();
-	buildGrid(polygon.getPath().getArray().map(point => {
+	
+	let path = polygon.getPath().getArray().map(point => {
 		let {lng: x, lat: y} = point.toJSON();
 		return {x, y};
-	}), {
+	});
+	path.push(path[0]);
+	
+	buildGrid(path, {
 		width: 1, height: 1,
 		widthSpecific: [], heightSpecific: []
 	});

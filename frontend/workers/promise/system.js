@@ -8,9 +8,9 @@ export default class ModuleWorker extends PromiseWorker {
 		
 		this.ready = new Deferred();
 		var ready = e => {
-		//	e.stopPropagation();
+			e.stopPropagation();
 			this.ready.resolve();
-			this.removeEventListener('message', ready, true);
+			this._worker.removeEventListener('message', ready, true);
 		}
 		this._worker.addEventListener('message', ready, true);
 

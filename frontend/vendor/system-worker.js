@@ -12,9 +12,9 @@ function init(e) {
 	let [, message] = JSON.parse(e.data);
 	console.log(message);
 	System.import(message)
-		/*.then(() => {
-			self.postMessage("{ready:true}");
-		}).catch(error => {console.error(error)});*/
+		.then(() => {
+			self.postMessage('[-1,null,"ready"]');
+		}).catch(error => {console.error(error)});
 	self.removeEventListener('message', init);
 }
 self.addEventListener('message', init); 

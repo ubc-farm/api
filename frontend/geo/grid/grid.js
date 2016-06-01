@@ -46,7 +46,7 @@ export default class Grid {
 		if (line == null) return;
 		this.align = {
 			point: line[0],
-			base: getHeading(alignmentLine[0], alignmentLine[1])
+			base: getHeading(line[0], line[1])
 		};
 	}
 	

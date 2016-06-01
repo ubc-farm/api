@@ -1,6 +1,7 @@
 import register from './promise/register.js';
 import Field from '../geo/field/field.js';
 import Grid from '../geo/grid/grid.js';
+import jsts from 'jsts';
 
 /**
  * Build a field and return its grid
@@ -17,8 +18,11 @@ import Grid from '../geo/grid/grid.js';
  * @param {Coordinate[]} [msg.gridSpec.alignment]
  */
 register(msg => {
-	let field = new Field(msg.path, msg.name, 
-		new Grid(msg.gridSpec.width, msg.gridSpec.height))
+	let path = msg.path.map(point => new jsts.geom.Coordinate(point.x, point.y));
+	 
+	let grid = new Grid(msg.gridSpec.width, msg.gridSpec.height)
+	let field = new Field(path, msg.name, grid)
+	console.log(field);
 	
 	if (msg.gridSpec.alignment) {
 		field.grid.setAlignment(msg.gridSpec.alignment);
