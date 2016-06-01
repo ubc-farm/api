@@ -7,11 +7,11 @@ module.exports = class Field extends geom.Polygon {
 	 * @param {Grid} grid
 	 */
 	constructor(path, name = '', grid) {
-		this.name = name;
-		this.grid = grid;
-		
 		let factory = new geom.GeometryFactory();
 		super(factory.createLinearRing(path), [], factory);
+		
+		this.name = name;
+		this.grid = grid;
 		
 		if (this.grid) {
 			this.grid.setAlignment([path[0], path[1]]);

@@ -10,6 +10,10 @@ export default class GridCell extends geom.Polygon {
 	 * @param {number} angle of baseline, in degrees
 	 */
 	constructor(start, width, height, angle) {
+		/** Initiate geom.Polygon */
+		let factory = new GeometryFactory();
+		super(factory.createLinearRing(this.path), [], factory);
+		
 		this.start = start;
 		this.width = width;
 		this.height = height;
@@ -17,10 +21,6 @@ export default class GridCell extends geom.Polygon {
 		this.perpendicular = Angle.toDegrees(Angle.normalize(
 				Angle.toRadians(angle) - (Angle.PI_OVER_2 * -1) ));
 		this.weak = null;
-		
-		/** Initiate geom.Polygon */
-		let factory = new GeometryFactory();
-		super(factory.createLinearRing(this.path), [], factory);
 	}
 	
 	/**

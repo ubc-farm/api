@@ -3,8 +3,8 @@ import {PromiseWorker} from 'worker/promise/main.js';
 
 export default class ModuleWorker extends PromiseWorker {
 	constructor(file) {
-		this.ready = new Deferred();
 		super('/js/worker/promise/system-worker.js');
+		this.ready = new Deferred();
 		let ready = e => {
 			e.stopPropagation();
 			this.ready.resolve();

@@ -8,8 +8,8 @@ const GridCell = require('./cell.js');
  */
 class DefaultMap extends Map {
 	constructor(base) {
-		this.base = base;
 		super();
+		this.base = base;
 	}
 	
 	/**

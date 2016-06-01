@@ -10,6 +10,10 @@ module.exports = class GridCell extends Polygon {
 	 * @param {number} angle of baseline, in degrees
 	 */
 	constructor(start, width, height, angle) {
+		/** Initiate geom.Polygon */
+		let factory = new GeometryFactory();
+		super(factory.createLinearRing(buildPath()), [], factory);
+		
 		this.start = start;
 		this.width = width;
 		this.height = height;
@@ -17,10 +21,6 @@ module.exports = class GridCell extends Polygon {
 		this.perpendicular = Angle.toDegrees(Angle.normalize(
 				Angle.toRadians(angle) - (Angle.PI_OVER_2 * -1) ));
 		this.weak = null;
-		
-		/** Initiate geom.Polygon */
-		let factory = new GeometryFactory();
-		super(factory.createLinearRing(buildPath()), [], factory);
 	}
 	
 	/**
