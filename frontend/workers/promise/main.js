@@ -7,15 +7,19 @@ var messageIds = 0; //incrementor for IDs
  * Additionally stringifies messages for performance
  * @extends Worker
  */
-class PromiseWorker extends Worker {
+export default class PromiseWorker {
   /**
-   * @param {DOMString} file - url to worker script
+   * @param {DOMString|Worker} file - url to worker script
    */
   constructor(file) {
-    super(file);
+    if (file instanceof Worker) {
+      this._worker = file;
+    } else {
+      this._worker = new Worker(file);
+    }
     this._callbacks = new Map();
 
-    this.addEventListener('message', e => {
+    this._worker.addEventListener('message', e => {
       let [messageId, error, result] = JSON.parse(e.data);
 
       let callback = this._callbacks.get(messageId);
@@ -43,9 +47,7 @@ class PromiseWorker extends Worker {
         if (error) return reject(new Error(error));
         resolve(result);
       })
-      super.postMessage(JSON.stringify([messageId, userMessage]));
+      this._worker.postMessage(JSON.stringify([messageId, userMessage]));
     });
   }
 }
-
-export default { PromiseWorker };

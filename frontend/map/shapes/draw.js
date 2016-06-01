@@ -1,4 +1,4 @@
-import google from 'google/maps';
+import google from 'google/maps/drawing';
 
 /**
  * @param {LatLngLiteral[][]} cells

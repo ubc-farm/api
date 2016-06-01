@@ -6,7 +6,9 @@ import {domReady} from 'utils.js';
 import {initMap as start} from 'map/config.js';
 import iconButton from 'elements/icon-button.js'
 import google from 'google/maps/drawing';
+import {field as fieldStyle} from 'map/shapes/style.js';
 import {displayGrid, displayEdges} from 'map/shapes/draw.js';
+import PromiseWorker from 'workers/promise/main.js'
 import ModuleWorker from 'workers/promise/system.js'
 
 /**
@@ -24,8 +26,8 @@ function addMode() {
  * @listens click
  */
 function selectMode() {
-	add.classList.remove('hover-toggle');
-	select.classList.add('hover-toggle');
+	buttons.add.classList.remove('hover-toggle');
+	buttons.select.classList.add('hover-toggle');
 	manager.setDrawingMode(null);
 }
 
@@ -39,10 +41,14 @@ function polygonClick() {
 }
 
 function buildGrid(path, gridSpec) {
-	gridWorker.postMessage({
+	let test = gridWorker.postMessage({
 		name: null,
 		path, gridSpec
-	}).then(cells => {
+	});
+	console.log(PromiseWorker);
+	console.log(ModuleWorker);
+	console.log(gridWorker);
+	test.then(cells => {
 		displayGrid(cells, null);
 	})
 	//Web worker then
@@ -68,12 +74,13 @@ function polygonComplete(polygon) {
 	});
 }
 
-
+var polygons = [];
 var buttons = {};
 var manager = new google.maps.drawing.DrawingManager({
-	drawingControl: false
+	drawingControl: false,
+	polygonOptions: fieldStyle.normal
 });
-var gridWorker = new ModuleWorker('/js/worker/grid.js');
+var gridWorker = new PromiseWorker('/js/worker/grid.js');
 
 //var editor = new FieldEditor();
 

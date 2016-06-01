@@ -1,5 +1,5 @@
 import {Deferred} from 'utils.js';
-import {PromiseWorker} from 'workers/promise/main.js';
+import PromiseWorker from 'workers/promise/main.js';
 
 export default class ModuleWorker extends PromiseWorker {
 	constructor(file) {
@@ -12,9 +12,10 @@ export default class ModuleWorker extends PromiseWorker {
 		}
 		this.addEventListener('message', ready, true);
 		super.postMessage(file);
+		return this;
 	}
 	
 	postMessage(userMessage) {
-		this.ready.then(() => { super.postMessage(userMessage); })
+		return this.ready.then(() => super.postMessage(userMessage))
 	}
 }
