@@ -20,7 +20,7 @@ export default class GridCell extends geom.Polygon {
 		
 		/** Initiate geom.Polygon */
 		let factory = new GeometryFactory();
-		super(factory.createLinearRing(buildPath()), [], factory);
+		super(factory.createLinearRing(this.path), [], factory);
 	}
 	
 	/**
@@ -28,7 +28,7 @@ export default class GridCell extends geom.Polygon {
 	 * point of the cell. 
 	 * @returns {Coordinate[]} 
 	 */
-	buildPath() {
+	get path() {
 		if (this._path) return this._path;
 		//Build path clockwise
 		this.north = offset(this.start, this.height, this.perpendicular); //Draw up
