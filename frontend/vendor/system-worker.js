@@ -3,20 +3,18 @@
  * context.
  */
 
+console.log('system-worker online');
+
 importScripts('../vendor/system.js', '../vendor/sys-config.js');
-onmessage = function(e) {
-	System.import(e.data)
-		.then(() => {console.log("Loaded worker", e.data)})
-		.catch(error => {console.error(error)})
-}
 
 function init(e) {
 	e.stopPropagation();
 	let [, message] = JSON.parse(e.data);
+	console.log(message);
 	System.import(message)
-		.then(() => {
+		/*.then(() => {
 			self.postMessage("{ready:true}");
-		}).catch(error => {console.error(error)});
+		}).catch(error => {console.error(error)});*/
 	self.removeEventListener('message', init);
 }
-self.addEventListener('message', init);
+self.addEventListener('message', init); 

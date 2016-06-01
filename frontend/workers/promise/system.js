@@ -3,14 +3,17 @@ import PromiseWorker from 'workers/promise/main.js';
 
 export default class ModuleWorker extends PromiseWorker {
 	constructor(file) {
-		super('/js/worker/promise/system-worker.js');
+		console.log('system', file);
+		super('/js/vendor/system-worker.js');
+		
 		this.ready = new Deferred();
 		var ready = e => {
-			e.stopPropagation();
+		//	e.stopPropagation();
 			this.ready.resolve();
 			this.removeEventListener('message', ready, true);
 		}
-		this.addEventListener('message', ready, true);
+		this._worker.addEventListener('message', ready, true);
+
 		super.postMessage(file);
 		return this;
 	}

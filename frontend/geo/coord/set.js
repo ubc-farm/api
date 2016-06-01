@@ -1,4 +1,4 @@
-import Coordinate from 'workers/geo/coord/set.js';
+import Coordinate from 'geo/coord/coord.js';
 
 /**
  * Equivalent to set, but with different equality

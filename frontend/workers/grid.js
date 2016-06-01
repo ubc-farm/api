@@ -1,10 +1,10 @@
-import register from 'worker/promise/register.js';
-import Field from 'geo/field/field.js';
-import Grid from 'geo/grid/grid.js';
+import register from './promise/register.js';
+import Field from '../geo/field/field.js';
+import Grid from '../geo/grid/grid.js';
 
 /**
  * Build a field and return its grid
- * @param {Object} msg
+ * @param {Object} msg 
  * @param {string} msg.name
  * @param {Coordinate[]} msg.path of field
  * @param {Object} msg.gridSpec

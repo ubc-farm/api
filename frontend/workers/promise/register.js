@@ -6,7 +6,7 @@
  * @param {function} callback - handles the message
  * @listens Worker~message 
  */
-function register(callback) {
+export default function register(callback) {
 	function postOutgoingMessage(messageId, error, result) {
 		if (error && self.console && console.error) {
 			// This is to make errors easier to debug. I think it's important
@@ -36,4 +36,4 @@ function register(callback) {
 	});
 }
 
-export default { register };
+//export default { register };

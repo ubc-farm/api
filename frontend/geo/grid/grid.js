@@ -1,7 +1,8 @@
-const CoordinateSet = require('../latlng/set.js');
-const {geom} = require('jsts');
-const {computeHeading: getHeading} = require('../spherical.js');
-const GridCell = require('./cell.js');
+import CoordinateSet from 'geo/coord/set.js';
+import jsts from 'jsts';
+import {computeHeading as getHeading} from 'geo/spherical.js';
+import GridCell from 'geo/grid/cell.js';
+const {geom} = jsts;
 
 /**
  * A map with a default value

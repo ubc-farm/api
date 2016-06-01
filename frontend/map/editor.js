@@ -45,9 +45,7 @@ function buildGrid(path, gridSpec) {
 		name: null,
 		path, gridSpec
 	});
-	console.log(PromiseWorker);
-	console.log(ModuleWorker);
-	console.log(gridWorker);
+	console.log(test);
 	test.then(cells => {
 		displayGrid(cells, null);
 	})
@@ -80,7 +78,7 @@ var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false,
 	polygonOptions: fieldStyle.normal
 });
-var gridWorker = new PromiseWorker('/js/worker/grid.js');
+var gridWorker = new ModuleWorker('workers/grid.js');
 
 //var editor = new FieldEditor();
 

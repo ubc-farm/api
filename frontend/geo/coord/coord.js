@@ -3,9 +3,8 @@
  * @module
  */
 import jsts from 'jsts';
-const {geom} = jsts;
 
-export default class Coordinate extends geom.Coordinate {
+export default class Coordinate extends jsts.geom.Coordinate {
 	/**
 	 * Takes either seperate lat and lng floats,
 	 * or an object with lat and lng/long keys
@@ -22,7 +21,7 @@ export default class Coordinate extends geom.Coordinate {
 	 */
 	constructor(x, y) {
 		if (typeof x === 'number' 
-		    || x instanceof geom.Coordinate
+		    || x instanceof jsts.geom.Coordinate
 				|| x == null
 				|| typeof x === 'string') {
 			super(x, y);
@@ -74,7 +73,7 @@ export default class Coordinate extends geom.Coordinate {
 	 */
 	static parse(value, deep = false) {
 		if (value instanceof Coordinate) return value;
-		else if (value instanceof geom.Coordinate && !deep) return value;
+		else if (value instanceof jsts.geom.Coordinate && !deep) return value;
 		else return new LatLng(value);
 	}
 }

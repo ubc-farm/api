@@ -2,7 +2,7 @@ import jsts from 'jsts';
 import { offset } from 'geo/spherical.js';
 const {geom: {Polygon, GeometryFactory}, algorithm: {Angle}} = jsts;
 
-export default class GridCell extends geom.Polygon {
+export default class GridCell extends Polygon {
 	/**
 	 * @param {Coordinate} start
 	 * @param {number} width of cell
