@@ -1,5 +1,5 @@
 import {Deferred} from 'utils.js';
-import {PromiseWorker} from 'worker/promise/main.js';
+import {PromiseWorker} from 'workers/promise/main.js';
 
 export default class ModuleWorker extends PromiseWorker {
 	constructor(file) {

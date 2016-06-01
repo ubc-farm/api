@@ -5,10 +5,9 @@
 import {domReady} from 'utils.js';
 import {initMap as start} from 'map/config.js';
 import iconButton from 'elements/icon-button.js'
-import google from 'google/maps/edit';
+import google from 'google/maps/drawing';
 import {displayGrid, displayEdges} from 'map/shapes/draw.js';
-
-import FieldEditor from 'map/field-edit.js';
+import ModuleWorker from 'workers/promise/system.js'
 
 /**
  * Called to switch to add mode on the map
@@ -43,7 +42,9 @@ function buildGrid(path, gridSpec) {
 	gridWorker.postMessage({
 		name: null,
 		path, gridSpec
-	}).then()
+	}).then(cells => {
+		displayGrid(cells, null);
+	})
 	//Web worker then
 	//displayGrid(cells, name)
 }
@@ -61,17 +62,20 @@ function polygonComplete(polygon) {
 	buildGrid(polygon.getPath().getArray().map(point => {
 		let {lng: x, lat: y} = point.toJSON();
 		return {x, y};
-	}), {});
+	}), {
+		width: 1, height: 1,
+		widthSpecific: [], heightSpecific: []
+	});
 }
 
 
 var buttons = {};
-var manager = new google.maps.drawing.DrawingManger({
+var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false
 });
-var gridWorker = new PromiseWorker('/js/worker/grid.js');
+var gridWorker = new ModuleWorker('/js/worker/grid.js');
 
-var editor = new FieldEditor();
+//var editor = new FieldEditor();
 
 domReady.then(() => {
 	let sidebar = document.getElementById('map-edit-aside');
@@ -84,9 +88,13 @@ domReady.then(() => {
 	frag.appendChild(select); 
 	sidebar.insertBefore(frag, sidebar.firstChild);
 	
+	add.addEventListener('click', addMode);
+	select.addEventListener('click', selectMode);
 	buttons = {add, select};
+	
 	return start();
 }).then(map => { 
 	map.setTilt(0);
-	editor.map = map 
+	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
+	manager.setMap(map); 
 });
