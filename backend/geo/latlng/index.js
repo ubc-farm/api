@@ -24,15 +24,15 @@ module.exports = class Coordinate extends geom.Coordinate {
 		    || x instanceof geom.Coordinate
 				|| x == null
 				|| typeof x === 'string') {
-			super(lat, lng);
+			super(x, y);
 		} else if (x.hasOwnProperty('x') && x.hasOwnProperty('y')) {
 			super(x.x, x.y);
 		} else if (x.hasOwnProperty('lat')
 		           && (lat.hasOwnProperty('lng') || lat.hasOwnProperty('long'))) {
 			if (x.hasOwnProperty('lng')) {
-				super(x.lat, x.lng);
+				super(x.lng, x.lat);
 			} else {
-				super(x.lat, x.long);
+				super(x.long, x.lat);
 			}
 		} else {
 			throw TypeError();
@@ -40,16 +40,21 @@ module.exports = class Coordinate extends geom.Coordinate {
 	}
 	
 	/* Aliases */
-	get lat() {return this.x;}
-	get lng() {return this.y;}
-	get long() {return this.u;}
+	get lat() {return this.y;}
+	get lng() {return this.x;}
+	get long() {return this.x;}
 	
 	/** Creates LatLngLiteral object from coordinates */
 	toLiteral() {
 		return {
-			lat: this.x,
-			lng: this.y
+			lat: this.y,
+			lng: this.x
 		};
+	}
+	
+	/** Create coordinate string */
+	toString() {
+		return `{x:${this.x},y:${this.y}}`
 	}
 	
 	/** Creates array form of coordinates, such as for GeoJSON */
