@@ -1,4 +1,4 @@
-import register from 'promise-worker.js';
+import register from 'worker/promise/register.js';
 import Field from 'geo/field/field.js';
 import Grid from 'geo/grid/grid.js';
 
