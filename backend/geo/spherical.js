@@ -9,21 +9,21 @@ const radius = 6378137;
 exports.RADIUS = radius;
 
 class RadCoord extends Coordinate {
-	constructor(lat, lng) {
-		lat = Angle.toRadians(lat);
-		lng = Angle.toRadians(lng);
-		super(lat, lng);
+	constructor(x, y) {
+		x = Angle.toRadians(x);
+		y = Angle.toRadians(y);
+		super(x, y);
 	}
 	
-	get lat() {return this.x}
-	get lng() {return this.y}
-	get long() {return this.y}
+	get lat() {return this.y}
+	get lng() {return this.x}
+	get long() {return this.x}
 	
 	static parse(value) {
 		if (value instanceof RadCoord) return value;
-		else if (value.hasOwnProperty(lat) && value.hasOwnProperty(lng)) {
-			return new RadCoord(value.lat, value.lng);
-		} else if (value.hasOwnProperty(x) && value.hasOwnProperty(y)) {
+		else if (value.hasOwnProperty('lat') && value.hasOwnProperty('lng')) {
+			return new RadCoord(value.lng, value.lat);
+		} else if (value.hasOwnProperty('x') && value.hasOwnProperty('y')) {
 			return new RadCoord(value.x, value.y);
 		} 
 	}

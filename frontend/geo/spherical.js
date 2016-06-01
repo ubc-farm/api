@@ -16,19 +16,19 @@ class RadCoord extends Coordinate {
 	constructor(lat, lng) {
 		lat = Angle.toRadians(lat);
 		lng = Angle.toRadians(lng);
-		super(lat, lng);
+		super(lng, lat);
 	}
 	
-	get lat() {return this.x}
-	get lng() {return this.y}
-	get long() {return this.y}
+	get lat() {return this.y}
+	get lng() {return this.x}
+	get long() {return this.x}
 	
 	static parse(value) {
 		if (value instanceof RadCoord) return value;
-		else if (value.hasOwnProperty(lat) && value.hasOwnProperty(lng)) {
+		else if (value.hasOwnProperty('lat') && value.hasOwnProperty('lng')) {
 			return new RadCoord(value.lat, value.lng);
-		} else if (value.hasOwnProperty(x) && value.hasOwnProperty(y)) {
-			return new RadCoord(value.x, value.y);
+		} else if (value.hasOwnProperty('x') && value.hasOwnProperty('y')) {
+			return new RadCoord(value.y, value.x);
 		} 
 	}
 }
@@ -57,7 +57,9 @@ export function distanceBetween(x, y) {
  * @returns {number} heading
  */
 export function computeHeading(x, y) {
+	console.log(x);
 	let [one, two] = [x, y].map(RadCoord.parse);
+	console.log(one);
 	let delta = two.lng - one.lng;
 	
 	/*return new Angle(((Angle.toDegrees(Math.atan2(
