@@ -74,6 +74,6 @@ export default class Coordinate extends jsts.geom.Coordinate {
 	static parse(value, deep = false) {
 		if (value instanceof Coordinate) return value;
 		else if (value instanceof jsts.geom.Coordinate && !deep) return value;
-		else return new LatLng(value);
+		else return new Coordinate(value);
 	}
 }

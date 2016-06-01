@@ -22,7 +22,6 @@ register(msg => {
 	 
 	let grid = new Grid(msg.gridSpec.width, msg.gridSpec.height)
 	let field = new Field(path, msg.name, grid)
-	console.log(field);
 	
 	if (msg.gridSpec.alignment) {
 		field.grid.setAlignment(msg.gridSpec.alignment);

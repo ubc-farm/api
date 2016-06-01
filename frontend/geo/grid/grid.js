@@ -18,7 +18,7 @@ class DefaultMap extends Map {
 	 */
 	get(index) {
 		let value = super.get(index);
-		if (value === undefined) return base;
+		if (value === undefined) return this.base;
 		else return value;
 	}
 }
@@ -56,13 +56,16 @@ export default class Grid {
 	fill() {
 		let queue = [], cells = [];
 		queue.push({pos: this.align.point, x: 0, y:0});
+		console.log(this);
 		
 		while (queue.length !== 0) {
-			let {nPos, nX, nY} = queue.shift();
+			let {pos:nPos, x:nX, y:nY} = queue.shift();
 			
 			if (!this.cellPoints.has(nPos)) {
-				let cell = new GridCell(nPos, width.get(nX), height.get(nY), 
+				console.log('yey');
+				let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
 					this.align.base);
+				console.log(cell);
 				
 				if (!cell.within(this.container)) {
 					if (cell.intersects(this.container)) {

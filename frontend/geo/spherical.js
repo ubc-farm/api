@@ -4,10 +4,8 @@
  */
 
 import jsts from 'jsts';
-const {
-	geom: {Coordinate},
-	algorithm: {Angle}
-} = jsts;
+import * as Angle from './angle.js';
+const {geom: {Coordinate}} = jsts;
 
 /** Radius of earth, same as Google Maps API */
 export const radius = 6378137;
@@ -57,9 +55,7 @@ export function distanceBetween(x, y) {
  * @returns {number} heading
  */
 export function computeHeading(x, y) {
-	console.log(x);
 	let [one, two] = [x, y].map(RadCoord.parse);
-	console.log(one);
 	let delta = two.lng - one.lng;
 	
 	/*return new Angle(((Angle.toDegrees(Math.atan2(
@@ -88,6 +84,7 @@ export function offset(start, distance, heading) {
 	start = RadCoord.parse(start);
 	distance /= radius;
 	heading = Angle.normalize(Angle.toRadians(heading));
+	console.log(start, distance, heading);
 	
 	let distCos = Math.cos(distance), distSin = Math.sin(distance);
 	let latSin = Math.sin(start.lat), latCos = Math.cos(start.lat);
