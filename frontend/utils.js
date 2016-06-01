@@ -24,11 +24,15 @@ export const domReady = new Promise(resolve => {
  * @property {function} resolve - resolves the promise
  * @property {function} reject - rejects the promise
  */
-export class Deferred {
+export class Deferred extends Promise {
 	constructor() {
-		this.promise = new Promise((resolve, reject) => {
-			this.resolve = resolve;
-			this.reject = reject;
+		var _resolve, _reject;
+		super((resolve, reject) => {
+			_resolve = resolve;
+			_reject = reject;
 		})
+		
+		this.resolve = _resolve;
+		this.reject = _reject;
 	}
 }
