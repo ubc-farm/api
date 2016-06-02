@@ -29,7 +29,7 @@ function selectMode() {
 	buttons.add.classList.remove('hover-toggle');
 	buttons.select.classList.add('hover-toggle');
 	manager.setDrawingMode(null);
-}
+} 
 
 /**
  * Opens polygon for editing when clicked
@@ -41,16 +41,18 @@ function polygonClick() {
 }
 
 function buildGrid(path, gridSpec) {
-	let test = gridWorker.postMessage({
+	return gridWorker.postMessage({
 		name: null,
 		path, gridSpec
-	});
-	console.log(test);
-	test.then(cells => {
-		displayGrid(cells, null);
+	}).then(cells => {
+		return cells.map(cell => {
+			return new google.maps.Data.Polygon([
+				cell.map(point => new google.maps.LatLng(point.y, point.x))
+			])
+		})
+	}).then(cells => {
+		return displayGrid(cells, null);
 	})
-	//Web worker then
-	//displayGrid(cells, name)
 }
 
 /**
@@ -70,10 +72,17 @@ function polygonComplete(polygon) {
 	});
 	path.push(path[0]);
 	
-	buildGrid(path, {
-		width: 1, height: 1,
-		widthSpecific: [], heightSpecific: []
-	});
+	Promise.all([
+		buildGrid(path, {
+			width: 100000, height: 100000,
+			widthSpecific: [], heightSpecific: []
+		}),
+		map
+	]).then(results => {
+		let [grid, map] = results;
+		console.log(grid);
+		map.data.add(grid);
+	})
 }
 
 var polygons = [];
@@ -86,7 +95,7 @@ var gridWorker = new ModuleWorker('workers/grid.js');
 
 //var editor = new FieldEditor();
 
-domReady.then(() => {
+var map = domReady.then(() => {
 	let sidebar = document.getElementById('map-edit-aside');
 	
 	let frag = document.createDocumentFragment();
@@ -106,4 +115,5 @@ domReady.then(() => {
 	map.setTilt(0);
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
 	manager.setMap(map); 
+	return map;
 });
