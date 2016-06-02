@@ -20,18 +20,15 @@ export const domReady = new Promise(resolve => {
 /**
  * Creates a promise that can be resolved from the outside.
  * Used for async scripts and their onload attributes.
+ * @property {Promise} promise - the promise
  * @property {function} resolve - resolves the promise
  * @property {function} reject - rejects the promise
  */
-export class Deferred extends Promise {
+export class Deferred {
 	constructor() {
-		var _resolve, _reject;
-		super((resolve, reject) => {
-			_resolve = resolve;
-			_reject = reject;
-		})
-		
-		this.resolve = _resolve;
-		this.reject = _reject;
+		this.promise = new Promise((resolve, reject) => {
+			this.resolve = resolve;
+			this.reject = reject;
+		});
 	}
 }
