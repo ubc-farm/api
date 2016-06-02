@@ -25,13 +25,14 @@ export default function register(callback) {
 		}
 		
 		Promise.resolve().then(() => callback(message))
-			.catch(error => {
-				postOutgoingMessage(messageId, error.message);
-			})
+			//.catch(error => {
+			//	postOutgoingMessage(messageId, error.message);
+			//})
 			.then(finalResult => {
 				postOutgoingMessage(messageId, null, finalResult);
-			}).catch(finalError => {
-				postOutgoingMessage(messageId, finalError.message);
+			//}).catch(finalError => {
+			//	postOutgoingMessage(messageId, finalError.message);
+			//})
 			})
 	});
 }

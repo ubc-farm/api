@@ -97,7 +97,7 @@ export function offset(start, distance, heading) {
 		lng: Angle.toDegrees(a + Math.atan2(b * e * Math.sin(heading), d - f * g))
 	}
 	console.log(result);
-	return result;
+	return new Coordinate(result.lng, result.lat);
 } 
 
 /**
