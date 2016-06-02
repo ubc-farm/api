@@ -14,7 +14,7 @@ function buildPath(start, width, height, parallel, perpendicular) {
 	let point2 = offset(north, width, parallel); //Draw right
 	let east = offset(point2, height, perpendicular * -1);//Draw down
 	
-	return [start, north, point2, east]//, start];
+	return [start, north, point2, east, start];
 }
 
 export default class GridCell extends Polygon {
@@ -29,7 +29,7 @@ export default class GridCell extends Polygon {
 				Angle.toRadians(angle) - (Angle.PI_OVER_2 * -1) ));
 		
 		let path = buildPath(start, width, height, angle, perpendicular);
-
+	
 		/** Initiate geom.Polygon */
 		let factory = new GeometryFactory();
 		super(factory.createLinearRing(path), [], factory);
@@ -41,10 +41,14 @@ export default class GridCell extends Polygon {
 		this.perpendicular = perpendicular;
 		this.path = path;
 		this.weak = null;
+		
+		this.north = path[1];
+		this.east = path[3];
 	}
 	
 	weaken(container) {
-		this.weak = this.intersection(container);
+		//this.weak = this.intersection(container);
+		this.weak = true;
 	}
 	
 	get west() {

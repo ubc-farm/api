@@ -28,9 +28,9 @@ export default class PromiseWorker {
         // This message is not for us.
         return;
       }
-
-      this._callbacks.delete(messageId);
+      
       callback(error, result);
+      this._callbacks.delete(messageId);
     }); 
   }
   

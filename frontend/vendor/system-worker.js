@@ -13,7 +13,7 @@ function init(e) {
 	console.log(message);
 	System.import(message)
 		.then(() => {
-			self.postMessage('[-1,null,"ready"]');
+			self.postMessage('[0,null,"ready"]');
 		}).catch(error => {console.error(error)});
 	self.removeEventListener('message', init);
 }

@@ -19,6 +19,6 @@ export default class ModuleWorker extends PromiseWorker {
 	}
 	
 	postMessage(userMessage) {
-		return this.ready.then(() => super.postMessage(userMessage))
+		return this.ready.promise.then(() => super.postMessage(userMessage));
 	}
 }
