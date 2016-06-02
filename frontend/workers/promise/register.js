@@ -29,10 +29,10 @@ export default function register(callback) {
 			//	postOutgoingMessage(messageId, error.message);
 			//})
 			.then(finalResult => {
+				console.log("worker #", messageId, "did well");
 				postOutgoingMessage(messageId, null, finalResult);
 			//}).catch(finalError => {
 			//	postOutgoingMessage(messageId, finalError.message);
-			//})
 			})
 	});
 }

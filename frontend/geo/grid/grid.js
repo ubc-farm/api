@@ -56,17 +56,15 @@ export default class Grid {
 	fill() {
 		let queue = [], cells = [];
 		queue.push({pos: this.align.point, x: 0, y:0});
-		console.log(this);
 		
 		while (queue.length !== 0) {
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
-			
+
 			if (!this.cellPoints.has(nPos)) {
-				console.log('yey');
 				let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
 					this.align.base);
-				console.log(cell);
 				
+				//TODO: fix within detection
 				if (!cell.within(this.container)) {
 					if (cell.intersects(this.container)) {
 						cell.weaken(this.container);
@@ -81,6 +79,7 @@ export default class Grid {
 				queue.push({pos: cell.east, x: nX + 1, y: nY});
 				queue.push({pos: cell.north, x: nX, y: nY + 1});
 				queue.push({pos: cell.south, x: nX, y: nY - 1});
+				console.log(queue.slice());
 			}
 		}
 		return cells;
