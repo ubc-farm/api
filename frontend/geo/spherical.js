@@ -83,19 +83,22 @@ export function computeHeading(x, y) {
 export function offset(start, distance, heading) {
 	start = RadCoord.parse(start);
 	distance /= radius;
-	heading = Angle.normalize(Angle.toRadians(heading));
-	console.log(start, distance, heading);
+	heading = Angle.toRadians(heading);
 	
-	let distCos = Math.cos(distance), distSin = Math.sin(distance);
-	let latSin = Math.sin(start.lat), latCos = Math.cos(start.lat);
-	let inter = distCos * latSin + distCos * latCos * Math.cos(heading);
-	return new Coordinate(
-		Angle.toDegrees(Math.asin(inter)), 
-		Angle.toDegrees(
-			start.lng + Math.atan2(distCos * latCos * Math.sin(heading), 
-				distCos - latSin * inter))
-	);
-}
+	var e = start.lat; //return Radian lat
+	var a = start.lng; //return Radian lng
+	var d = Math.cos(distance);
+	var b = Math.sin(distance);
+	var f = Math.sin(e)
+	  , e = Math.cos(e)
+	  , g = d * f + b * e * Math.cos(heading);
+	let result = {
+		lat: Angle.toDegrees(Math.asin(g)),
+		lng: Angle.toDegrees(a + Math.atan2(b * e * Math.sin(heading), d - f * g))
+	}
+	console.log(result);
+	return result;
+} 
 
 /**
  * Returns length of given path in meters. Pulled from Google Maps API
