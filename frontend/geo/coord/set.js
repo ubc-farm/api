@@ -66,7 +66,7 @@ export default class CoordinateSet extends Map {
 	delete(value) {
 		value = Coordinate.parse(value);
 		if (!super.delete(CoordinateSet.toKey(value))) {
-			for (let [key, item] of this) {
+			for (let [key, item] of super.entries) {
 				if (CoordinateSet.equal(value, item)) {
 					return super.delete(key);
 				}
@@ -84,15 +84,15 @@ export default class CoordinateSet extends Map {
 	 */
 	has(value) {
 		value = Coordinate.parse(value);
-		if (super.has(CoordinateSet.toKey(value))) {
-			for (let [, item] of this) {
+		if (!super.has(CoordinateSet.toKey(value))) {
+			for (let item of this) {
 				if (CoordinateSet.equal(value, item)) {
 					return true;
 				}
 			}
 			
 			return false;
-		} else { return false; }
+		} else { return true; }
 	}
 	
 	/**
