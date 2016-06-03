@@ -22,6 +22,7 @@ export default class Queue {
 	 * After the transactions finish, open resolves
 	 * with the transaction results.
 	 * @param {Queue~promiseCallback[]} callbacks 
+	 * @param {boolean} [readonly] - set true to only read, not write
 	 * @returns {Promise}
 	 */
 	open(callbacks, readonly = false) {
@@ -71,8 +72,25 @@ export default class Queue {
 		}]);
 	}
 	
-	dequeue() {
-		
+	/**
+	 * Returns and deletes the first item in the queue.
+	 * @param {boolean} [reverse] - get the last item instead
+	 * @returns {Promise} the item
+	 */
+	dequeue(reverse = false) {
+		return this.open([objectStore => {
+			return new Promise((resolve, reject) => {
+				let request = objectStore.openCursor(null, reverse? 'prev': null);
+				request.onerror = e => {reject(request.error)};
+				request.onsuccess = e => {
+					let cursor = e.target.result;
+					if (cursor) {
+						resolve(cursor.value);
+						cursor.delete();
+					}
+				};
+			})
+		}]);
 	}
 	
 	* [Symbol.iterator]() {
