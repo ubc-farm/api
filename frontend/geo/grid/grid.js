@@ -45,7 +45,14 @@ export default class Grid {
 	 * @returns {Polygon[]} array of grid cells
 	 */
 	fill() {
-		console.log(jsts);
+		return [...this.generate()];
+	}
+	
+	/**
+	 * Using flood-fill algorithm, fill the container with grid squares
+	 * @yeilds {Polygon} grid cell
+	 */
+	* generate() {
 		let queue = [];
 		queue.push({pos: this.corner, x: 0, y:0});
 		
@@ -60,25 +67,29 @@ export default class Grid {
 			
 			if (!cells.has(cell)) {
 				
-				//TODO: fix within detection
+				let result;
 				if (!cell.within(this.container)) {
 					if (cell.intersects(this.container)) {
 						cell.weaken(this.container);
 						weakCells.add(cell.weak);
+						cells.forceAdd(cell);	
+						result = cell.weak;
 					} else {
 						continue;
 					}
-				} 
-				cells.forceAdd(cell);	
+				} else {
+					cells.forceAdd(cell);	
+					result = cell;
+				}
 				
 				queue.push({pos: cell.west, x: nX - 1, y: nY});
 				queue.push({pos: cell.east, x: nX + 1, y: nY});
 				queue.push({pos: cell.north, x: nX, y: nY + 1});
 				queue.push({pos: cell.south, x: nX, y: nY - 1});
+				
+				yield result;
 			}
 		}
-		return Array.from(cells).filter(cell => cell.weak === null)
-			.concat(Array.from(weakCells));
 	}
 	
 	/**

@@ -41,7 +41,10 @@ gulp.task('main-js', () => {
 	], {base: './frontend'})
 		.pipe(sourcemaps.init())
 		.pipe(babel({
-			plugins: ['transform-es2015-modules-systemjs'],
+			plugins: [
+				'transform-es2015-modules-systemjs',
+				'transform-strict-mode'
+			],
 			babelrc: false
 		}))
 		//.pipe(uglify())
