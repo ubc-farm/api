@@ -6,10 +6,9 @@ import {domReady} from 'utils.js';
 import {initMap as start} from 'map/config.js';
 import iconButton from 'elements/icon-button.js'
 import google from 'google/maps/drawing';
-import {field as fieldStyle} from 'map/shapes/style.js';
-import {displayGrid, displayEdges} from 'map/shapes/draw.js';
-import PromiseWorker from 'workers/promise/main.js'
-import ModuleWorker from 'workers/promise/system.js'
+import * as style from 'map/shapes/style.js';
+import {displayGrid} from 'map/shapes/draw.js';
+import ModuleWorker from 'workers/promise/system.js';
 
 /**
  * Called to switch to add mode on the map
@@ -89,7 +88,7 @@ var polygons = [];
 var buttons = {};
 var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false,
-	polygonOptions: fieldStyle.normal
+	polygonOptions: style.field.normal
 });
 var gridWorker = new ModuleWorker('workers/grid.js');
 
@@ -115,5 +114,10 @@ var map = domReady.then(() => {
 	map.setTilt(0);
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
 	manager.setMap(map); 
+	map.data.setStyle(feature => {
+		if (feature.getProperty('isGrid')) {
+			return style.grid.normal;
+		}
+	})
 	return map;
 });

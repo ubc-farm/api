@@ -7,7 +7,7 @@ export const color = {
 
 export const grid = {
 	normal: {
-		zIndex: 20,
+		zIndex: 2,
 		fillOpacity: 0.0,
 		strokeOpacity: 0.5,
 		fillColor: color.gray,
@@ -31,21 +31,5 @@ export const field = {
 		fillColor: color.primary,
 		strokeColor: color.primary,
 		zIndex: 1
-	}
-}
-
-export const edge = {
-	normal: {
-		strokeOpacity: 0.0,
-		strokeColor: color.accent,
-		strokeWeight: 6,
-		zIndex: 3,
-		visible: false
-	},
-	hover: {
-		strokeOpacity: 1.0
-	},
-	show: {
-		visible: true
 	}
 }

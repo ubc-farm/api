@@ -8,32 +8,11 @@ import google from 'google/maps/drawing';
  */
 export function displayGrid(cells, name) {
 	let options = {
-		geometry: new google.maps.Data.MultiPolygon(cells)
+		geometry: new google.maps.Data.MultiPolygon(cells),
+		properties: {isGrid: true}
 	}
 	if (name != null) {
 		options.id = name + '-field';
 	}
 	return options;
-}
-
-/**
- * @param {LatLngLinteral[]} polygon path
- * @param {string} [name]
- * @returns {Data.FeatureOptions}
- */
-export function displayEdges(polygon, name) {
-	let edges = polygon.reduce((previous, current) => {
-		return [previous[1], current];
-	}, [0, polygon[polygon.length - 1]]);
-
-	return edges.map((edge, index) => {
-		let options = {
-			geometry: new google.maps.Data.LineString(edge),
-			properties: {show: false}
-		};
-		if (name != null) {
-			options.id = `${name}-edge-${index}`;
-		}
-		return options;
-	})	
 }
