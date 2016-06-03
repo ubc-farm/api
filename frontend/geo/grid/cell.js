@@ -12,8 +12,8 @@ function buildPath(start, width, height, parallel, perpendicular) {
 	//Build path clockwise
 	let north = offset(start, height, perpendicular); //Draw up
 	let point2 = offset(north, width, parallel); //Draw right
-	let east = offset(point2, height, perpendicular * -1);//Draw down
-	
+	let east = offset(point2, height, perpendicular + 180);//Draw down
+	console.log(perpendicular, parallel);
 	return [start, north, point2, east, start];
 }
 
