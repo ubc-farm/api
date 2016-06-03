@@ -25,27 +25,19 @@ class DefaultMap extends Map {
 
 export default class Grid {
 	/**
-	 * @param {Coordinate[]} alignmentLine - a line for the base, pointing right
-	 * @param {Coordinate} alignmentLine[0] - start point for grid generation
-	 * @param {Coordinate} alignmentLine[1] - end point for baseline
-	 * @param {Polygon} container
 	 * @param {number} baseWidth
 	 * @param {number} baseHeight
+	 * @param {number} [angle] - angle of the grid
+	 * @param {Coordinate} corner - corner to start grid generation from
+	 * @param {Polygon} container - containing polygon
 	 */
-	constructor(baseWidth = 1.0, baseHeight = 1.0, alignmentLine, container) {
-		this.setAlignment(alignmentLine);
+	constructor(baseWidth = 1.0, baseHeight = 1.0, angle = 0, corner, container) {
+		this.angle = angle;
+		this.corner = corner;
 		this.container = container;
 		
 		this.width = new DefaultMap(baseWidth);
 		this.height = new DefaultMap(baseHeight);
-	}
-	
-	setAlignment(line) {
-		if (line == null) return;
-		this.align = {
-			point: line[0],
-			base: getHeading(line[0], line[1])
-		};
 	}
 	
 	/**
@@ -54,7 +46,7 @@ export default class Grid {
 	fill() {
 		console.log(jsts);
 		let queue = [];
-		queue.push({pos: this.align.point, x: 0, y:0});
+		queue.push({pos: this.corner, x: 0, y:0});
 		
 		let cells = new CellSet();
 		let weakCells = new CellSet();
@@ -63,7 +55,7 @@ export default class Grid {
 			//if (cells.size > 100) break;
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
 			let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
-					this.align.base);
+					this.angle);
 			
 			if (!cells.has(cell)) {
 				
