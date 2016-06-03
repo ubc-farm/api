@@ -39,6 +39,14 @@ function polygonClick() {
 	
 }
 
+/**
+ * Sends grid data off to a web worker then
+ * resolves with a new grid data feature for the map
+ * @param {Coordinate[]} path - path of containing polygon
+ * @param {Object} gridSpec
+ * @see module:workers/grid.js
+ * @returns {Promise<Data.FeatureOptions>} grid as a feature
+ */
 function buildGrid(path, gridSpec) {
 	return gridWorker.postMessage({
 		name: null,
@@ -74,6 +82,7 @@ function polygonComplete(polygon) {
 	Promise.all([
 		buildGrid(path, {
 			width: 2, height: 2,
+			angle: 25,
 			widthSpecific: [], heightSpecific: []
 		}),
 		map

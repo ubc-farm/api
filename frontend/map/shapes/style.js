@@ -1,3 +1,8 @@
+/**
+ * @file preset styles for map objects
+ * @module map/shapes/style.js
+ */
+
 export const color = {
 	primary: 'rgb(59, 166, 72)',
 	accent: 'rgb(214, 83, 76)',

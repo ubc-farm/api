@@ -3,6 +3,7 @@
 /**
  * Calls the function passed whenever a message is posted to 
  * the web worker. 
+ * @module workers/promise/register.js
  * @param {function} callback - handles the message
  * @listens Worker~message 
  */

@@ -1,6 +1,7 @@
 import google from 'google/maps/drawing';
 
 /**
+ * Creates a Data Feature from the provided grid cells
  * @param {LatLngLiteral[][]} cells
  * @param {LatLngLinteral[]} cells[] - the path of a cell's polygon 
  * @param {string} [name]

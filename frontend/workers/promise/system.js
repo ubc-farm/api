@@ -8,6 +8,7 @@ import PromiseWorker from 'workers/promise/main.js';
  * opens the file you passed to the constructor.
  * Because of this, you can only pass URLs, not
  * existing Workers.
+ * @module workers/promise/system.js
  * @extends PromiseWorker
  */
 export default class ModuleWorker extends PromiseWorker {

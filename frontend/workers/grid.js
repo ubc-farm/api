@@ -4,6 +4,11 @@ import Grid from '../geo/grid/grid.js';
 import jsts from 'jsts';
 
 /**
+ * @file Worker that generates a grid on a seperate thread
+ * @module workers/grid.js
+ */
+
+/**
  * Build a field and return its grid
  * @param {Object} msg 
  * @param {string} msg.name
