@@ -2,9 +2,6 @@
  * Represents a queue of taks
  * @module
  */
-
-import {Deferred} from 'utils.js';
-
 export default class Queue {
 	constructor() {
 		
@@ -14,7 +11,20 @@ export default class Queue {
 	get DB_NAME() {return 'queue-db';}
 	get STORE_NAME() {return 'queue';}
 	
-	open(callbackPromise, readonly = false) {
+	/**
+	 * @callbacks Queue~promiseCallback
+	 * @param {IDBObjectStore}
+	 */
+	
+	/**
+	 * Creates a transaction with an indexedDb.
+	 * Once ready, the callbacks are called with the object store. 
+	 * After the transactions finish, open resolves
+	 * with the transaction results.
+	 * @param {Queue~promiseCallback[]} callbacks 
+	 * @returns {Promise}
+	 */
+	open(callbacks, readonly = false) {
 		let mode = readonly ? 'readonly' : 'readwrite';
 		return new Promise((resolve, reject) => {
 			let request = indexedDB.open(this.DB_NAME, Queue.DB_VERSION);
@@ -30,33 +40,41 @@ export default class Queue {
 			request.onsuccess = e => {
 				let transaction = db.transaction(this.STORE_NAME, mode);
 				
-				let result, error;
-				transaction.oncomplete = e => {
-					if (error != null) reject(error);
-					else resolve(result);
-				};
-				transaction.onerror = e => {reject(e.target.errorCode)};
-				
 				let objectStore = transaction.objectStore(this.STORE_NAME);
-				callbackPromise(objectStore)
-					.catch(e => {error = e})
-					.then(r => {result = r})
+				let result = Promise.all(callbacks.map(cb => {
+					return cb(objectStore)
+						.catch(e => {error = e})
+						.then(r => {result = r})
+				}));
+				
+				transaction.oncomplete = e => {resolve(result)};
+				transaction.onerror = e => {reject(e.target.errorCode)};
 			};
 		})
 	}
 	
 	enqueue(item) {
-		return this.open(objectStore => {
+		return this.open([objectStore => {
 			return new Promise((resolve, reject) => {
 				let request = objectStore.add(item);
-				transaction.oncomplete = e => {resolve(e.target)};
-				transaction.onerror = e => {reject(e.target.errorCode)};
+				request.onerror = e => {reject(request.error)};
+				request.onsuccess = e => {
+					let count = objectStore.count();
+					count.onerror = e => {reject(count.result)};
+					count.onsuccess = e => {resolve(count.result)}
+				};
 			})
-		});
+		}]);
 	}
 	
 	dequeue() {
-		
+		return this.open(objectStore => {
+			return new Promise((resolve, reject) => {
+				let request = objectStore.add(item);
+				request.onsuccess = e => {resolve(e.target)};
+				request.onerror = e => {reject(e.target.errorCode)};
+			})
+		});
 	}
 	
 	* [Symbol.iterator]() {
