@@ -38,8 +38,6 @@ export default class Grid {
 		
 		this.width = new DefaultMap(baseWidth);
 		this.height = new DefaultMap(baseHeight);
-		
-		this.cellPoints = new CoordinateSet();
 	}
 	
 	setAlignment(line) {
@@ -54,12 +52,15 @@ export default class Grid {
 	 * Using flood-fill algorithm, fill the container with grid squares
 	 */
 	fill() {
-		let queue = [], cells = [];
+		let queue = [];
 		queue.push({pos: this.align.point, x: 0, y:0});
 		
+		let cells = new CellSet();
+		
 		while (queue.length !== 0) {
+			if (cells.length > 50) break;
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
-
+			console.log(nPos.x, nPos.y);
 			if (!this.cellPoints.has(nPos)) {
 				let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
 					this.align.base);
@@ -79,7 +80,6 @@ export default class Grid {
 				queue.push({pos: cell.east, x: nX + 1, y: nY});
 				queue.push({pos: cell.north, x: nX, y: nY + 1});
 				queue.push({pos: cell.south, x: nX, y: nY - 1});
-				console.log(queue.slice());
 			}
 		}
 		return cells;

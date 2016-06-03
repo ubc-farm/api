@@ -5,7 +5,7 @@ import Coordinate from 'geo/coord/coord.js';
  * checks so similar LatLngs are checked properly
  * @module
  */
-export default class CoordinateSet extends Map {
+export default class CellSet extends Map {
 	constructor(iterable) {
 		super(iterable);
 		this[Symbol.iterator] = this.values;
@@ -19,7 +19,10 @@ export default class CoordinateSet extends Map {
 	 * @returns {boolean} are they equal?
 	 */
 	static equal(one, two) {
-		return one.equals(two);
+		return (
+			Math.abs(two.x - one.x) < Number.EPSILON &&
+			Math.abs(two.y - one.y) < Number.EPSILON
+		);
 	}
 	
 	/**

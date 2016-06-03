@@ -74,7 +74,7 @@ function polygonComplete(polygon) {
 	
 	Promise.all([
 		buildGrid(path, {
-			width: 100000, height: 100000,
+			width: 2, height: 2,
 			widthSpecific: [], heightSpecific: []
 		}),
 		map
