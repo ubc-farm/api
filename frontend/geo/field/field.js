@@ -1,5 +1,11 @@
 import jsts from 'jsts';
 
+/**
+ * Represents a field of crops. This will either be extended with more 
+ * functionality, or the logic will just be moved into the script that
+ * calls this (currently the grid.js web worker) 
+ * @module geo/field/field.js
+ */
 export default class Field extends jsts.geom.Polygon {
 	/**
 	 * @param {Coordinate[]} path

@@ -2,8 +2,8 @@ import jsts from 'jsts';
 
 /**
  * Equivalent to set, but with different equality
- * checks so similar LatLngs are checked properly
- * @module
+ * checks so similar GridCells are checked properly
+ * @module geo/grid/set.js
  */
 export default class CellSet extends Map {
 	constructor(iterable) {

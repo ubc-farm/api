@@ -42,6 +42,7 @@ export default class Grid {
 	
 	/**
 	 * Using flood-fill algorithm, fill the container with grid squares
+	 * @returns {Polygon[]} array of grid cells
 	 */
 	fill() {
 		console.log(jsts);

@@ -1,9 +1,10 @@
-/**
- * Represents latitude and longitude
- * @module
- */
 import jsts from 'jsts';
 
+/**
+ * Adds some helper functionality to make conversion
+ * between jsts Coordinates and Google Maps LatLngs easier.
+ * @module geo/coord/coord.js
+ */
 export default class Coordinate extends jsts.geom.Coordinate {
 	/**
 	 * Takes either seperate lat and lng floats,
@@ -47,7 +48,10 @@ export default class Coordinate extends jsts.geom.Coordinate {
 	get lng() {return this.x;}
 	get long() {return this.x;}
 	
-	/** Creates LatLngLiteral object from coordinates */
+	/** 
+	 * Creates LatLngLiteral object from coordinates
+	 * @returns {LatLngLiteral} 
+	 */
 	toLiteral() {
 		return {
 			lat: this.y,

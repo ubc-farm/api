@@ -17,6 +17,10 @@ function buildPath(start, width, height, parallel, perpendicular) {
 	return [start, north, point2, west, start];
 }
 
+/**
+ * Represents a square cell of a grid.
+ * @module geo/grid/cell.js
+ */
 export default class GridCell extends Polygon {
 	/**
 	 * @param {Coordinate} start
@@ -39,16 +43,21 @@ export default class GridCell extends Polygon {
 		this.height = height;
 		this.parallel = angle;
 		this.perpendicular = perpendicular;
-		//this.path = path;
 		this.weak = null;
 		
 		this.north = path[1];
 		this.west = path[3];
 	}
 	
+	/**
+	 * Weakens the cell because it partially lies outside the container.
+	 * The weak property can be used to get a partial cell that fits properly
+	 * as the extra portion is chopped off.
+	 * @returns {Polygon} smaller cell
+	 */
 	weaken(container) {
 		this.weak = this.intersection(container);
-		//this.weak = true;
+		return this.weak;
 	}
 	
 	get east() {
@@ -63,6 +72,4 @@ export default class GridCell extends Polygon {
 				(this.perpendicular + 180) % 360);
 		return this._south;
 	}
-	
-	//intersects(parent)
 }

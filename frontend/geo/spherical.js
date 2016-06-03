@@ -1,6 +1,8 @@
 /**
  * Calculation helpers that match up with Google Maps API
- * @module
+ * @module geo/spherical.js
+ * @todo merge with spherical-geometry-js
+ * @see https://github.com/NotWoods/spherical-geometry-js
  */
 
 import jsts from 'jsts';
@@ -58,11 +60,6 @@ export function computeHeading(x, y) {
 	let [one, two] = [x, y].map(RadCoord.parse);
 	let delta = two.lng - one.lng;
 	
-	/*return new Angle(((Angle.toDegrees(Math.atan2(
-			Math.sin(one.lng) * Math.cos(two.lat), 
-			Math.cos(one.lat) * Math.sin(two.lat) - 
-			Math.sin(one.lat) * Math.cos(two.lat) * Math.cos(delta)
-		)) + 180) % 180 + 180) % 180 - 180, true);*/
 	return Angle.toDegrees(Angle.normalizePositive(
 		Math.atan2(
 			Math.sin(one.lng) * Math.cos(two.lat), 
@@ -98,20 +95,6 @@ export function offset(start, distance, heading) {
 	}
 	return new Coordinate(result.lng, result.lat);
 } 
-
-/**
- * Returns length of given path in meters. Pulled from Google Maps API
- * @param {Coordinate[]} path
- * @returns {number} length in meters
- */
-
-/*export function lengthOfPath(...path) {
-	let distance = 0;
-	for (let i = 0; i < path.length - 1; i++) {
-		distance += distanceBetween(path[i], path[i + 1]);
-	}
-	return distance;
-}*/
 
 /**
  * Returns a point at a percentage between from and to.
