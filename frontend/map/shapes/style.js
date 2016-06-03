@@ -7,7 +7,7 @@ export const color = {
 
 export const grid = {
 	normal: {
-		zIndex: 2,
+		zIndex: 20,
 		fillOpacity: 0.0,
 		strokeOpacity: 0.5,
 		fillColor: color.gray,
@@ -29,7 +29,8 @@ export const field = {
 		fillOpacity: 0.5,
 		strokeOpacity: 1,
 		fillColor: color.primary,
-		strokeColor: color.primary
+		strokeColor: color.primary,
+		zIndex: 1
 	}
 }
 

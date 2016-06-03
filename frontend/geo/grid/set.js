@@ -1,3 +1,5 @@
+import jsts from 'jsts';
+
 /**
  * Equivalent to set, but with different equality
  * checks so similar LatLngs are checked properly
@@ -17,7 +19,7 @@ export default class CellSet extends Map {
 	 * @returns {boolean} are they equal?
 	 */
 	static equal(one, two) {
-		return one.covers(two);
+		return one.equalsExact(two, .00001);
 	}
 	
 	/**

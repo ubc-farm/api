@@ -36,7 +36,7 @@ register(msg => {
 	}
 	
 	return field.grid.fill().map(cell => {
-		return cell.path.map(coord => {
+		return cell.getCoordinates().map(coord => {
 			return {x: coord.x, y: coord.y};
 		});
 	});

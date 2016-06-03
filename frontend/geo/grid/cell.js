@@ -12,9 +12,9 @@ function buildPath(start, width, height, parallel, perpendicular) {
 	//Build path clockwise
 	let north = offset(start, height, perpendicular); //Draw up
 	let point2 = offset(north, width, parallel); //Draw right
-	let east = offset(point2, height, (perpendicular + 180) % 360);//Draw down
+	let west = offset(point2, height, (perpendicular + 180) % 360);//Draw down
 	
-	return [start, north, point2, east, start];
+	return [start, north, point2, west, start];
 }
 
 export default class GridCell extends Polygon {
@@ -39,27 +39,28 @@ export default class GridCell extends Polygon {
 		this.height = height;
 		this.parallel = angle;
 		this.perpendicular = perpendicular;
-		this.path = path;
+		//this.path = path;
 		this.weak = null;
 		
 		this.north = path[1];
-		this.east = path[3];
+		this.west = path[3];
 	}
 	
 	weaken(container) {
-		//this.weak = this.intersection(container);
-		this.weak = true;
+		this.weak = this.intersection(container);
+		//this.weak = true;
 	}
 	
-	get west() {
-		if (!this._west) 
-			this._west = offset(this.start, this.width, this.parallel * -1);
-		return this._west;
+	get east() {
+		if (!this._east) 
+			this._east = offset(this.start, this.width, (this.parallel + 180) % 360);
+		return this._east;
 	}
 	
 	get south() {
 		if (!this._south) 
-			this._south = offset(this.start, this.height, this.perpendicular * -1);
+			this._south = offset(this.start, this.height, 
+				(this.perpendicular + 180) % 360);
 		return this._south;
 	}
 	

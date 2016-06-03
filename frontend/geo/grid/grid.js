@@ -1,4 +1,4 @@
-import CellSet from 'geo/coord/set.js';
+import CellSet from 'geo/grid/set.js';
 import jsts from 'jsts';
 import {computeHeading as getHeading} from 'geo/spherical.js';
 import GridCell from 'geo/grid/cell.js';
@@ -52,13 +52,15 @@ export default class Grid {
 	 * Using flood-fill algorithm, fill the container with grid squares
 	 */
 	fill() {
+		console.log(jsts);
 		let queue = [];
 		queue.push({pos: this.align.point, x: 0, y:0});
 		
 		let cells = new CellSet();
+		let weakCells = new CellSet();
 		
 		while (queue.length !== 0) {
-			if (cells.size > 50) break;
+			//if (cells.size > 100) break;
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
 			let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
 					this.align.base);
@@ -69,12 +71,12 @@ export default class Grid {
 				if (!cell.within(this.container)) {
 					if (cell.intersects(this.container)) {
 						cell.weaken(this.container);
+						weakCells.add(cell.weak);
 					} else {
 						continue;
 					}
-				}
-				cell.forceAdd(nPos);
-				cells.push(cell);
+				} 
+				cells.forceAdd(cell);	
 				
 				queue.push({pos: cell.west, x: nX - 1, y: nY});
 				queue.push({pos: cell.east, x: nX + 1, y: nY});
@@ -82,7 +84,8 @@ export default class Grid {
 				queue.push({pos: cell.south, x: nX, y: nY - 1});
 			}
 		}
-		return cells;
+		return Array.from(cells).filter(cell => cell.weak === null)
+			.concat(Array.from(weakCells));
 	}
 	
 	/**
