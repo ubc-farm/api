@@ -5,7 +5,6 @@ var messageIds = 0; //incrementor for IDs
 /**
  * A Web Worker that returns a promise when calling postMessage.
  * Additionally stringifies messages for performance
- * @extends Worker
  */
 export default class PromiseWorker {
   /**
