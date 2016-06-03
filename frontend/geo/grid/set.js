@@ -1,5 +1,3 @@
-import Coordinate from 'geo/coord/coord.js';
-
 /**
  * Equivalent to set, but with different equality
  * checks so similar LatLngs are checked properly
@@ -14,63 +12,58 @@ export default class CellSet extends Map {
 	/**
 	 * Function used to check equality.
 	 * Can be redefined later if needed.
-	 * @param {Coordinate} one
-	 * @param {Coordinate} two
+	 * @param {Geometry} one
+	 * @param {Geometry} two
 	 * @returns {boolean} are they equal?
 	 */
 	static equal(one, two) {
-		return (
-			Math.abs(two.x - one.x) < Number.EPSILON &&
-			Math.abs(two.y - one.y) < Number.EPSILON
-		);
+		return one.covers(two);
 	}
 	
 	/**
 	 * Converts object into a string key
-	 * @param {Coordinate} value
+	 * @param {Geometry} value
 	 * @returns {string} key
 	 */
 	static toKey(value) {
-		return `x:${value.x.toString()},y:${value.y.toString()}`;
+		let center = value.getCentroid();
+		return `x:${center.getX()},y:${center.getY()}`;
 	}
 	
 	/**
 	 * Equivalent to Set.add(). Adds an element to
 	 * the set if it isn't in there already.
-	 * @param {Coordinate} value - item to add
-	 * @returns {CoordinateSet} this set
+	 * @param {Geometry} value - item to add
+	 * @returns {CellSet} this set
 	 */
 	add(value) {
-		value = Coordinate.parse(value);
 		if (this.has(value)) { return this; }
 		
-		super.set(CoordinateSet.toKey(value), value);
+		super.set(CellSet.toKey(value), value);
 		return this;
 	}
 	
 	/**
 	 * Adds without double-checking that an item isn't in the set.
 	 * Useful if you already checked Set.has() beforehand.
-	 * @param {Coordinate} value - item to add
-	 * @returns {CoordinateSet} this set
+	 * @param {Geometry} value - item to add
+	 * @returns {CellSet} this set
 	 */
 	forceAdd(value) {
-		value = Coordinate.parse(value);
-		super.set(CoordinateSet.toKey(value), value);
+		super.set(CellSet.toKey(value), value);
 		return this;
 	}
 	
 	/**
 	 * Equivalent to Set.delete(). Removes a value
 	 * from the set.
-	 * @param {Coordinate} value - item to delete
+	 * @param {Geometry} value - item to delete
 	 * @returns {boolean} true if the item was deleted and in the set
 	 */
 	delete(value) {
-		value = Coordinate.parse(value);
-		if (!super.delete(CoordinateSet.toKey(value))) {
+		if (!super.delete(CellSet.toKey(value))) {
 			for (let [key, item] of super.entries) {
-				if (CoordinateSet.equal(value, item)) {
+				if (CellSet.equal(value, item)) {
 					return super.delete(key);
 				}
 			}
@@ -82,14 +75,13 @@ export default class CellSet extends Map {
 	/**
 	 * Equivalent to Set.has(). Checks if a value is
 	 * in the set. 
-	 * @param {LatLng} value - item to check
+	 * @param {Geometry} value - item to check
 	 * @returns {boolean} value in the set?
 	 */
-	has(value) {
-		value = Coordinate.parse(value);
-		if (!super.has(CoordinateSet.toKey(value))) {
+	has(value) { 
+		if (!super.has(CellSet.toKey(value))) { 
 			for (let item of this) {
-				if (CoordinateSet.equal(value, item)) {
+				if (CellSet.equal(value, item)) {
 					return true;
 				}
 			}

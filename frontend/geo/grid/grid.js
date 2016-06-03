@@ -1,4 +1,4 @@
-import CoordinateSet from 'geo/coord/set.js';
+import CellSet from 'geo/coord/set.js';
 import jsts from 'jsts';
 import {computeHeading as getHeading} from 'geo/spherical.js';
 import GridCell from 'geo/grid/cell.js';
@@ -58,12 +58,12 @@ export default class Grid {
 		let cells = new CellSet();
 		
 		while (queue.length !== 0) {
-			if (cells.length > 50) break;
+			if (cells.size > 50) break;
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
-			console.log(nPos.x, nPos.y);
-			if (!this.cellPoints.has(nPos)) {
-				let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
+			let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
 					this.align.base);
+			
+			if (!cells.has(cell)) {
 				
 				//TODO: fix within detection
 				if (!cell.within(this.container)) {
@@ -73,7 +73,7 @@ export default class Grid {
 						continue;
 					}
 				}
-				this.cellPoints.forceAdd(nPos);
+				cell.forceAdd(nPos);
 				cells.push(cell);
 				
 				queue.push({pos: cell.west, x: nX - 1, y: nY});
