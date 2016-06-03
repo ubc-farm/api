@@ -93,7 +93,28 @@ export default class Queue {
 		}]);
 	}
 	
-	* [Symbol.iterator]() {
-		
+	* values(reverse = false) {
+		this.open([objectStore => {
+			return new Promise((resolve, reject) => {
+				let request = objectStore.openCursor(null, reverse? 'prev': null);
+				request.onerror = e => {reject(request.error)};
+				request.onsuccess = e => {
+					let cursor = e.target.result;
+					if (cursor) {
+						let newValue = yield cursor.value;
+						if (newValue !== undefined) {
+							cursor.update(newValue);
+						}
+						cursor.continue();
+					} else {
+						resolve();
+					}
+				};
+			})
+		}])
+	}
+	
+	[Symbol.iterator]() {
+		return this.values();
 	}
 }
