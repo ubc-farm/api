@@ -53,6 +53,10 @@ export default class Queue {
 		})
 	}
 	
+	/**
+	 * Adds an item to the queue
+	 * @returns {Promise<number>} the new length of the queue
+	 */
 	enqueue(item) {
 		return this.open([objectStore => {
 			return new Promise((resolve, reject) => {
@@ -68,13 +72,7 @@ export default class Queue {
 	}
 	
 	dequeue() {
-		return this.open(objectStore => {
-			return new Promise((resolve, reject) => {
-				let request = objectStore.add(item);
-				request.onsuccess = e => {resolve(e.target)};
-				request.onerror = e => {reject(e.target.errorCode)};
-			})
-		});
+		
 	}
 	
 	* [Symbol.iterator]() {
