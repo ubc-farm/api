@@ -223,8 +223,19 @@ exports.up = function(knex) {
 	})
 	.createTable('Program', table => {
 		table.bigIncrements('id');
-		table.string('program_name').index();
-		table.specificType('program_color', 'smallint[]');
+		table.text('name').index();
+		table.specificType('color', 'smallint[]'); //rgb
+
+		table.bigInteger('linkedAccount').unsigned()
+			.references('id').inTable('Account');
+	})
+	.createTable('Account', table => {
+		table.bigIncrements('id');
+		table.text('name').index();
+		table.text('number').index();
+		table.text('sortCode').index();
+		table.text('taxReference');
+		table.text('ubcReference');
 	})
 	.createTable('Chemical', table => {
 		table.bigIncrements('id');
