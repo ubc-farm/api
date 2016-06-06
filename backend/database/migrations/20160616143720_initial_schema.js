@@ -53,8 +53,6 @@ exports.up = function(knex) {
 	.createTable('Assignment', table => {
 		table.bigIncrements('id');
 
-		table.bigInteger('event').unsigned()
-			.references('id').inTable('Event');
 		table.bigInteger('task').unsigned()
 			.references('id').inTable('Task');
 
@@ -90,19 +88,16 @@ exports.up = function(knex) {
 	})
 	// Event
 	.createTable('Event', table => {
-		table.bigIncrements('id');
+		table.inherits('Task');
 		table.string('type').index();
 		table.text('name').index();
 
 		//table.specificType('keywords', 'tsvector').index()
-		table.specificType('time', 'tsrange');
 		table.integer('estimatedAttendeeAmount');
 		table.specificType('targetAgeGroup', 'int4range')
 		
 		table.bigInteger('location').unsigned()
 			.references('id').inTable('Location');
-		table.bigInteger('program').unsigned()
-			.references('id').inTable('Program');
 		table.bigInteger('ticket').unsigned()
 			.references('id').inTable('Sale');
 		table.bigInteger('contact').unsigned()
@@ -112,8 +107,11 @@ exports.up = function(knex) {
 	.createTable('Task', table => {
 		table.bigIncrements('id');
 
-		table.specificType('task_time', 'tsrange').index();
-		table.specificType('task_worked_time', 'interval');
+		table.specificType('time', 'tsrange');
+		table.specificType('hoursTaken', 'interval');
+
+		table.bigInteger('program').unsigned()
+			.references('id').inTable('Program');
 		table.bigInteger('location').unsigned()
 			.references('id').inTable('Location');
 	})
