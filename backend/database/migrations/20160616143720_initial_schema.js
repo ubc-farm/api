@@ -43,18 +43,53 @@ exports.up = function(knex) {
 		table.text('researcher_partners');
 	}).createTable('Assignment', table => {
 		table.increments('assignment_id').primary();
-		table.integer('assigned_employee')
+		table.biginteger('assigned_employee')
 			.references('person_id').inTable('employee')
-			.notNullable();
+			.unsigned().notNullable();
 			
 		table.integer('assigned_event')
-			.references('event_id').inTable('event');
+			.unsigned().references('event_id').inTable('event');
 		table.integer('assigned_task')
-			.references('task_id').inTable('task');
+			.unsigned().references('task_id').inTable('task');
 			
 		table.specificType('assignment_time', 'tsrange');
 		table.integer('assignment_location')
-			.references('location_id').inTable('location');
+			.unsigned().references('location_id').inTable('location');
+	})
+	// Equipment and Usage
+	.createTable('Equipment', table => {
+		table.increments('equipment_id').primary();
+		table.specificType('purchase_date', 'date');
+		
+		table.integer('product_data')
+			.references('invetory_id').inTable('inventory')
+		table.integer('quantity');
+		
+		table.integer('equipment_location').index()
+			.references('location_id').inTable('location')
+			
+		table.text('equipment_notes')
+	}).createTable('EquipmentUsage', table => {
+		table.increments('usage_id').primary();
+		table.integer('equipment_info')
+			.unsigned().references('equipment_id').inTable('equipment').notNullable();
+		table.integer('quantity_used')
+		table.specificType('usage_time', 'tsrange');
+		table.integer('selling_usage').references('sale_id').inTable('sale')
+		table.text('usage_note')
+	})
+	// Event
+	.createTable('Event', table => {
+		table.increments('event_id').primary();
+		table.text('event_name').index()
+		table.string('event_type')
+		table.integer('attendee_number')
+		table.specificType('age_group', 'int4range')
+		table.specificType('event_time', 'tsrange').index()
+		//table.specificType('keywords', 'tsvector').index()
+		table.integer('event_location').references('location.location_id')
+		table.integer('event_program').references('program.program_id')
+		table.integer('ticket').references('sale_id').inTable('sale');
 	})
 };
 
