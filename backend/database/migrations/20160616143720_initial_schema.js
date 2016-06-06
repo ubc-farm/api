@@ -33,7 +33,7 @@ exports.up = function(knex) {
 		table.specificType('inLieuHours', 'interval');
 		table.specificType('medicalAppHours', 'tsrange[]');
 	}).createTable('Researcher', table => {
-		table.inherits('person');
+		table.inherits('Person');
 		table.text('researcher_position');
 		table.text('researcher_faculty');
 		table.text('researcher_department');
@@ -46,7 +46,7 @@ exports.up = function(knex) {
 	}).createTable('Assignment', table => {
 		table.increments('assignment_id').primary();
 		table.biginteger('assigned_employee')
-			.references('person_id').inTable('employee')
+			.references('id').inTable('employee')
 			.unsigned().notNullable();
 			
 		table.integer('assigned_event')
@@ -146,9 +146,11 @@ exports.up = function(knex) {
 		table.text('plant_latin').index();
 		table.integer('plant_value').references('inventory_id').inTable('inventory')
 	}).createTable('Inventory', table => {
+		table.biginteger('supplier').unsigned().index()
+			.references('id').inTable('Person');
+
 		table.increments('inventory_id').primary();
 		table.text('inventory_name').index();
-		table.integer('supplier').references('person_id').inTable('person').index()
 		table.string('product_code').index();
 		table.text('inventory_notes');
 		table.boolean('item_consumable').index();
@@ -170,11 +172,13 @@ exports.up = function(knex) {
 	})
 	// Sales and Grants
 	.createTable('Sale', table => {
+		table.biginteger('customer').unsigned().index()
+			.references('id').inTable('Person');
+
 		table.increments('sale_id').primary();
 		table.integer('sale_quantity').defaultTo(1)
 		table.specificType('selling_price', 'money');
 		table.specificType('sale_date', 'date');
-		table.integer('customer').references('person_id').inTable('person');
 	}).createTable('Grant', table => {
 		table.inherits('sale');
 		table.text('grant_name');
