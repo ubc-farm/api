@@ -168,6 +168,26 @@ exports.up = function(knex) {
 		table.text('chem_product');
 		table.text('chem_composition');
 	})
+	// Sales and Grants
+	.createTable('Sale', table => {
+		table.increments('sale_id').primary();
+		table.integer('sale_quantity').defaultTo(1)
+		table.specificType('selling_price', 'money');
+		table.specificType('sale_date', 'date');
+		table.integer('customer').references('person_id').inTable('person');
+	}).createTable('Grant', table => {
+		table.inherits('sale');
+		table.text('grant_name');
+	})
+	// Research Projects
+	.createTable('ResearchProject', table => {
+		table.increments('project_id').primary();
+		table.integer('researcher').unique().index()
+		table.text('project_title')
+		table.specificType('project_date', 'daterange')
+		table.specificType('project_copis', 'integer[]')
+		table.specificType('project_hqp', 'integer[]')
+	})
 };
 
 exports.down = function(knex, Promise) {
