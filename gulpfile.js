@@ -43,7 +43,8 @@ gulp.task('main-js', () => {
 		.pipe(babel({
 			plugins: [
 				'transform-es2015-modules-systemjs',
-				'transform-strict-mode'
+				'transform-strict-mode',
+				'transform-react-jsx'
 			],
 			babelrc: false
 		}))
