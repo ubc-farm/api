@@ -24,16 +24,20 @@ exports.up = function(knex) {
 	})
 	.createTable('Employee', table => {
 		table.inherits('Person');
-		table.boolean('fullOrPartTime').index();
-		table.specificType('daysAvaliable', 'boolean[7]').index();
+
+		table.specificType('workingDays', 'boolean[7]').index();
 		table.specificType('hourlyPay', 'money');
+		table.boolean('fullOrPartTime').index();
 
 		//possiblity reconfigure to use child tables
 		table.specificType('holidayDays', 'date[]');
 		table.specificType('sickDays', 'date[]');
 		table.specificType('paidLeaveDays', 'date[]');
 		table.specificType('inLieuHours', 'interval');
-		table.specificType('medicalAppHours', 'tsrange[]');
+		table.specificType('medicalLeaveTime', 'tsrange[]');
+
+		table.text('emergencyContactName');
+		table.string('emergencyContactNumber', 15);
 	})
 	.createTable('Researcher', table => {
 		table.inherits('Person');
@@ -47,19 +51,20 @@ exports.up = function(knex) {
 		table.text('projects');
 	})
 	.createTable('Assignment', table => {
-		table.increments('assignment_id').primary();
-		table.biginteger('assigned_employee')
-			.references('id').inTable('employee')
-			.unsigned().notNullable();
+		table.bigincrements('id').primary();
+
+		table.integer('event').unsigned()
+			.references('event_id').inTable('Event');
+		table.integer('task').unsigned()
+			.references('task_id').inTable('Task');
 			
-		table.integer('assigned_event')
-			.unsigned().references('event_id').inTable('event');
-		table.integer('assigned_task')
-			.unsigned().references('task_id').inTable('task');
-			
-		table.specificType('assignment_time', 'tsrange');
-		table.integer('assignment_location')
-			.unsigned().references('location_id').inTable('location');
+		table.specificType('assignedTime', 'tsrange');
+		table.integer('assignedLocation').unsigned()
+			.references('location_id').inTable('Location');
+
+		table.biginteger('assignedEmployee')
+			.unsigned().notNullable()
+			.references('id').inTable('Employee');
 	})
 	// Equipment and Usage
 	.createTable('Equipment', table => {
