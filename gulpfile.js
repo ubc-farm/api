@@ -34,11 +34,12 @@ gulp.task('styles', () => {
 gulp.task('main-js', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
+		'./backend/shared/**/*.js', //shared JS with backend
 		'!./frontend/vendor/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
 		'!./frontend/workers/sw.js'
-	], {base: './frontend'})
+	])
 		.pipe(sourcemaps.init())
 		.pipe(babel({
 			plugins: [
