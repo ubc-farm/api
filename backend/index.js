@@ -1,7 +1,17 @@
+require("babel-register")({
+	plugins: [
+		'transform-strict-mode',
+		'transform-react-jsx',
+		'transform-es2015-modules-commonjs'
+	],
+	babelrc: false
+});
+
 const Promise = require('bluebird');
+const server = require('./server.js');
 
 const port = process.env.NODE_PORT || 3000;
 
-require('./server.js').then(app => {
+server.then(app => {
 	app.listen(port);
 })
