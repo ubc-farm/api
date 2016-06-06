@@ -117,7 +117,7 @@ exports.up = function(knex) {
 	})
 	.createTable('Seeding', table => {
 		table.inherits('Task');
-		table.bigInteger('cropType').unsigned()
+		table.bigInteger('crop').unsigned()
 			.references('id').inTable('Crop');
 		
 		table.bigInteger('variety').unsigned()
@@ -167,6 +167,36 @@ exports.up = function(knex) {
 		table.specificType('entryInterval', 'interval');
 		table.specificType('harvestInterval', 'interval');
 	})
+	.createTable('ScoutHarvest', table => {
+		table.inherits('Task');
+		table.bigInteger('crop').unsigned()
+			.references('id').inTable('Crop');
+		table.specificType('newExpectedHarvest', 'date');
+		table.float('newPredictedYield');
+	})
+	.createTable('ScoutPest', table => {
+		table.inherits('Task');
+		table.string('pestType');
+		table.string('affectedSpot');
+		
+		table.text('pestName');
+		table.text('pestNameLatin');
+
+		table.float('percentAreaAffected');
+		table.float('percentPlantsAffected');
+		table.float('economicThreshold');
+	})
+	.createTable('SoilSampling', table => {
+		table.inherits('Task');
+
+		table.float('depth');
+		table.string('methodUsed').index();
+		table.text('variable');
+		table.text('result');
+
+		table.bigInteger('company').unsigned()
+			.references('id').inTable('Person');
+	})
 	// Fields and Crops
 	.createTable('Field', table => {
 		table.bigIncrements('id');
@@ -184,13 +214,12 @@ exports.up = function(knex) {
 		table.bigInteger('type')
 			.unsigned().notNullable().index()
 			.references('id').inTable('Plant');
-		table.integer('crop_field')
-			.references('field.field_id').notNullable().index()
 		table.bigInteger('field')
 			.unsigned().notNullable().index()
 			.references('id').inTable('Field');
-		table.integer('crop_quantity')
-		table.text('predicted_nutrient_req')
+		table.integer('quantity')
+		table.text('predictedNutrientReq');
+		table.specificType('expectedHarvest', 'date');
 	})
 	// Information tables
 	.createTable('Item', table => {
@@ -316,6 +345,9 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Irrigation')
 		.dropTableIfExists('Fertilizing')
 		.dropTableIfExists('PestControl')
+		.dropTableIfExists('ScoutHarvest')
+		.dropTableIfExists('ScoutPest')
+		.dropTableIfExists('SoilSampling')
 		.dropTableIfExists('Field')
 		.dropTableIfExists('Crop')
 		.dropTableIfExists('Plant')
