@@ -57,10 +57,6 @@ exports.up = function(knex) {
 			.references('id').inTable('Event');
 		table.bigInteger('task').unsigned()
 			.references('id').inTable('Task');
-			
-		table.specificType('assignedTime', 'tsrange');
-		table.bigInteger('assignedLocation').unsigned()
-			.references('id').inTable('Location');
 
 		table.bigInteger('assignedEmployee')
 			.unsigned().notNullable()
@@ -69,17 +65,16 @@ exports.up = function(knex) {
 	// Equipment and Usage
 	.createTable('Equipment', table => {
 		table.bigIncrements('id');
-
-		table.specificType('purchase_date', 'date');
+		table.bigInteger('product')
+			.unsigned().index()
+			.references('id').inTable('Item');
 		
-		table.integer('product_data')
-			.references('invetory_id').inTable('inventory')
+		table.text('description');
 		table.integer('quantity');
+		table.specificType('purchaseDate', 'date');
 		
-		table.integer('equipment_location').index()
-			.references('location_id').inTable('location')
-			
-		table.text('equipment_notes')
+		table.bigInteger('location').index()
+			.references('id').inTable('Location');
 	})
 	.createTable('EquipmentUsage', table => {
 		table.bigIncrements('id');
@@ -87,28 +82,31 @@ exports.up = function(knex) {
 		table.bigInteger('usedEquipment')
 			.unsigned().notNullable()
 			.references('id').inTable('Equipment');
-		table.integer('quantity_used')
-		table.specificType('usage_time', 'tsrange');
+		table.integer('quantity');
+
 		table.bigInteger('sellingUsage').unsigned()
 			.references('id').inTable('Sale');
-		table.text('usage_note')
+		table.text('notes')
 	})
 	// Event
 	.createTable('Event', table => {
 		table.bigIncrements('id');
+		table.string('type').index();
+		table.text('name').index();
 
-		table.text('event_name').index()
-		table.string('event_type')
-		table.integer('attendee_number')
-		table.specificType('age_group', 'int4range')
-		table.specificType('event_time', 'tsrange').index()
 		//table.specificType('keywords', 'tsvector').index()
+		table.specificType('time', 'tsrange');
+		table.integer('estimatedAttendeeAmount');
+		table.specificType('targetAgeGroup', 'int4range')
+		
 		table.bigInteger('location').unsigned()
 			.references('id').inTable('Location');
 		table.bigInteger('program').unsigned()
 			.references('id').inTable('Program');
 		table.bigInteger('ticket').unsigned()
 			.references('id').inTable('Sale');
+		table.bigInteger('contact').unsigned()
+			.references('id').inTable('Person');
 	})
 	// Tasks
 	.createTable('Task', table => {
@@ -127,7 +125,7 @@ exports.up = function(knex) {
 		table.bigInteger('variety').unsigned()
 			.references('id').inTable('Plant');
 		table.bigInteger('product').unsigned()
-			.references('id').inTable('Inventory');
+			.references('id').inTable('Item');
 		
 		table.string('methodUsed').index();
 		
@@ -197,29 +195,30 @@ exports.up = function(knex) {
 		table.text('predicted_nutrient_req')
 	})
 	// Information tables
-	.createTable('Plant', table => {
-		table.bigIncrements('id')
-		table.text('plant_name').index().notNullable();
-		table.text('plant_latin').index();
-		table.bigInteger('value').unsigned()
-			.references('id').inTable('Inventory');
-	})
-	.createTable('Inventory', table => {
+	.createTable('Item', table => {
+		table.bigIncrements('id');
+		table.text('name').index();
+		
+		table.text('sku').unique().index();
+		table.text('barcode').unique();
+
 		table.bigInteger('supplier').unsigned().index()
 			.references('id').inTable('Person');
-
-		table.bigIncrements('id');
-		table.text('inventory_name').index();
-		table.string('product_code').index();
-		table.text('inventory_notes');
-		table.boolean('item_consumable').index();
-		table.specificType('inventory_value', 'money');
-		table.specificType('depreciation_rate', 'money');
+		
+		table.specificType('lifespan', 'interval').index();
+		table.specificType('value', 'money');
+		table.specificType('salvageValue', 'money');
+	})
+	.createTable('Plant', table => {
+		table.inherits('Item');
+		table.text('latin').index().unique();
 	})
 	.createTable('Location', table => {
 		table.bigIncrements('id');
-		table.text('location_name');
-		table.specificType('location_position', 'point');
+		table.text('name');
+		table.specificType('position', 'point');
+		table.bigInteger('field').unsigned().unique()
+			.references('id').inTable('Field');
 	})
 	.createTable('Program', table => {
 		table.bigIncrements('id');
@@ -306,11 +305,12 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Field')
 		.dropTableIfExists('Crop')
 		.dropTableIfExists('Plant')
-		.dropTableIfExists('Inventory')
+		.dropTableIfExists('Item')
 		.dropTableIfExists('Location')
 		.dropTableIfExists('Program')
 		.dropTableIfExists('Chemical')
 		.dropTableIfExists('Sale')
 		.dropTableIfExists('Grant')
 		.dropTableIfExists('ResearchProject')
+		.dropTableIfExists('ResearchPartner')
 }
