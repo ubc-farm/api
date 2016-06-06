@@ -13,7 +13,7 @@ exports.up = function(knex) {
 	// Person and sub-types
 	return knex.schema
 	.createTable('Person', table => {
-		table.bigincrements('id').primary();
+		table.bigIncrements('id');
 		table.text('name').index().notNullable();
 		table.string('role');
 
@@ -51,7 +51,7 @@ exports.up = function(knex) {
 		table.text('projects');
 	})
 	.createTable('Assignment', table => {
-		table.bigincrements('id').primary();
+		table.bigIncrements('id');
 
 		table.integer('event').unsigned()
 			.references('event_id').inTable('Event');
@@ -62,7 +62,7 @@ exports.up = function(knex) {
 		table.integer('assignedLocation').unsigned()
 			.references('location_id').inTable('Location');
 
-		table.biginteger('assignedEmployee')
+		table.bigInteger('assignedEmployee')
 			.unsigned().notNullable()
 			.references('id').inTable('Employee');
 	})
@@ -137,13 +137,13 @@ exports.up = function(knex) {
 	})
 	// Fields and Crops
 	.createTable('Field', table => {
-		table.bigincrements('id').primary();
+		table.bigIncrements('id');
 		table.specificType('path', 'path').index(, 'GiST');
 
 		table.specificType('gridWidths', 'real[]');
 		table.specificType('gridHeights', 'real[]');
 
-		table.biginteger('parent').unsigned()
+		table.bigInteger('parent').unsigned()
 			.references('id').inTable('Field');
 	})
 	.createTable('Crop', table => {
@@ -163,7 +163,7 @@ exports.up = function(knex) {
 		table.integer('plant_value').references('inventory_id').inTable('inventory')
 	})
 	.createTable('Inventory', table => {
-		table.biginteger('supplier').unsigned().index()
+		table.bigInteger('supplier').unsigned().index()
 			.references('id').inTable('Person');
 
 		table.increments('inventory_id').primary();
@@ -192,7 +192,7 @@ exports.up = function(knex) {
 	})
 	// Sales and Grants
 	.createTable('Sale', table => {
-		table.biginteger('customer').unsigned().index()
+		table.bigInteger('customer').unsigned().index()
 			.references('id').inTable('Person');
 
 		table.increments('sale_id').primary();
@@ -206,12 +206,33 @@ exports.up = function(knex) {
 	})
 	// Research Projects
 	.createTable('ResearchProject', table => {
-		table.increments('project_id').primary();
-		table.integer('researcher').unique().index()
-		table.text('project_title')
-		table.specificType('project_date', 'daterange')
-		table.specificType('project_copis', 'integer[]')
-		table.specificType('project_hqp', 'integer[]')
+		table.bigIncrements('id');
+		table.bigInteger('researcher')
+			.unsigned().notNullable().unique()
+			.references('id').inTable('Researcher');
+		
+		table.text('title');
+		table.specificType('date', 'daterange').index();
+
+		table.integer('postDocs');
+		table.integer('phds');
+		table.integer('masters');
+		table.integer('bachelors');
+		table.integer('others');
+
+		table.specificType('grantValue', 'money');
+		table.text('grantSource');
+		table.specificType('publications', 'text[]');
+	})
+	.createTable('ResearchPartner', table => {
+		table.bigIncrements('id');
+		
+		table.bigInteger('person')
+			.unsigned().notNullable()
+			.references('id').inTable('Researcher');
+		table.bigInteger('project')
+			.unsigned().notNullable()
+			.references('id').inTable('ResearchProject');
 	})
 };
 
