@@ -137,12 +137,14 @@ exports.up = function(knex) {
 	})
 	// Fields and Crops
 	.createTable('Field', table => {
-		table.increments('field_id').primary();
-		table.integer('parent_field').references('field_id').inTable('field')
-		table.specificType('field_area', 'path').index(, 'GiST');
-		table.boolean('as_tile_values').defaultTo(false)
-		table.decimal('grid_widths', 9, 3);
-		table.decimal('grid_heights', 9, 3);
+		table.bigincrements('id').primary();
+		table.specificType('path', 'path').index(, 'GiST');
+
+		table.specificType('gridWidths', 'real[]');
+		table.specificType('gridHeights', 'real[]');
+
+		table.biginteger('parent').unsigned()
+			.references('id').inTable('Field');
 	})
 	.createTable('Crop', table => {
 		table.increments('crop_id').primary();
