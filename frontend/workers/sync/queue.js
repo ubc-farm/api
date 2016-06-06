@@ -93,6 +93,12 @@ export default class Queue {
 		}]);
 	}
 	
+	/**
+	 * Creates a generator that flips through the values
+	 * in the Object Store.
+	 * @param {boolean} reverse - sort desending instead of ascending.
+	 * @returns {Generator}
+	 */
 	* values(reverse = false) {
 		this.open([objectStore => {
 			return new Promise((resolve, reject) => {
@@ -114,6 +120,9 @@ export default class Queue {
 		}])
 	}
 	
+	/**
+	 * Maps to the values generator function
+	 */
 	[Symbol.iterator]() {
 		return this.values();
 	}
