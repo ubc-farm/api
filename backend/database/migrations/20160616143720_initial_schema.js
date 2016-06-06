@@ -242,13 +242,25 @@ exports.up = function(knex) {
 	})
 	// Sales and Grants
 	.createTable('Sale', table => {
-		table.bigInteger('customer').unsigned().index()
-			.references('id').inTable('Person');
-
 		table.bigIncrements('id');
-		table.integer('sale_quantity').defaultTo(1)
-		table.specificType('selling_price', 'money');
-		table.specificType('sale_date', 'date');
+
+		table.specificType('orderDate', 'timestamp');
+		table.specificType('deliveryDate', 'timestamp');
+
+		table.bigInteger('customer')
+			.unsigned().index()
+			.references('id').inTable('Person');
+		table.bigInteger('product')
+			.unsigned().index()
+			.references('id').inTable('Equipment');
+		
+		table.integer('quantity').defaultTo(1)
+		table.specificType('price', 'money');
+		
+		table.float('discount').defaultTo(0.0);
+		table.float('tax');
+		
+		table.text('notes');
 	})
 	.createTable('Grant', table => {
 		table.inherits('sale');
