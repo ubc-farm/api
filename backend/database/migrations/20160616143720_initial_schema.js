@@ -149,7 +149,6 @@ exports.up = function(knex) {
 	})
 	.createTable('Fertilizing', table => {
 		table.inherits('Task');
-		table.string('type').index();
 
 		table.bigInteger('product')
 			.unsigned().index()
@@ -160,7 +159,6 @@ exports.up = function(knex) {
 	})
 	.createTable('PestControl', table => {
 		table.inherits('Task');
-		table.string('type').index();
 
 		table.bigInteger('product')
 			.unsigned().index()
@@ -230,9 +228,9 @@ exports.up = function(knex) {
 	})
 	.createTable('Chemical', table => {
 		table.bigIncrements('id');
-		table.string('chem_type').index();
-		table.text('chem_product');
-		table.text('chem_composition');
+		table.string('type').index();
+		table.text('productName');
+		table.text('composition');
 	})
 	// Sales and Grants
 	.createTable('Sale', table => {
