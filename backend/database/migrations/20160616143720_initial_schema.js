@@ -122,6 +122,23 @@ exports.up = function(knex) {
 		table.specificType('interval_harvest', 'interval');
 		table.specificType('water_mix_ratio', 'point');
 	})
+	// Fields and Crops
+	.createTable('Field', table => {
+		table.increments('field_id').primary();
+		table.integer('parent_field').references('field_id').inTable('field')
+		table.specificType('field_area', 'path').index(, 'GiST');
+		table.boolean('as_tile_values').defaultTo(false)
+		table.decimal('grid_widths', 9, 3);
+		table.decimal('grid_heights', 9, 3);
+	}).createTable('Crop', table => {
+		table.increments('crop_id').primary();
+		table.integer('crop_type')
+			.references('plant.plant_id').notNullable().index()
+		table.integer('crop_field')
+			.references('field.field_id').notNullable().index()
+		table.integer('crop_quantity')
+		table.text('predicted_nutrient_req')
+	})
 };
 
 exports.down = function(knex, Promise) {
