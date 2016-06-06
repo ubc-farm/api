@@ -253,6 +253,10 @@ exports.up = function(knex) {
 		table.bigInteger('product')
 			.unsigned().index()
 			.references('id').inTable('Equipment');
+
+		table.bigInteger('deliveryLocation')
+			.unsigned().index()
+			.references('id').inTable('Location');
 		
 		table.integer('quantity').defaultTo(1)
 		table.specificType('price', 'money');
