@@ -1,6 +1,6 @@
 import jsts from 'jsts';
-import { offset } from 'geo/spherical.js';
-import * as Angle from 'geo/angle.js';
+import { offset } from '../spherical.js';
+import * as Angle from '../angle.js';
 const {geom: {Polygon, GeometryFactory}} = jsts;
 
 /**

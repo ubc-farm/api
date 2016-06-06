@@ -1,7 +1,7 @@
-import CellSet from 'geo/grid/set.js';
+import CellSet from '../grid/set.js';
 import jsts from 'jsts';
-import {computeHeading as getHeading} from 'geo/spherical.js';
-import GridCell from 'geo/grid/cell.js';
+import {computeHeading as getHeading} from '../spherical.js';
+import GridCell from '../grid/cell.js';
 const {geom} = jsts;
 
 /**
