@@ -11,7 +11,8 @@
 
 exports.up = function(knex) {
 	// Person and sub-types
-	return knex.schema.createTable('Person', table => {
+	return knex.schema
+	.createTable('Person', table => {
 		table.bigincrements('id').primary();
 		table.text('name').index().notNullable();
 		table.string('role');
@@ -20,7 +21,8 @@ exports.up = function(knex) {
 		table.string('phoneNumber', 15);
 		table.text('addressMailing');
 		table.text('addressPhysical');
-	}).createTable('Employee', table => {
+	})
+	.createTable('Employee', table => {
 		table.inherits('Person');
 		table.boolean('fullOrPartTime').index();
 		table.specificType('daysAvaliable', 'boolean[7]').index();
@@ -32,18 +34,19 @@ exports.up = function(knex) {
 		table.specificType('paidLeaveDays', 'date[]');
 		table.specificType('inLieuHours', 'interval');
 		table.specificType('medicalAppHours', 'tsrange[]');
-	}).createTable('Researcher', table => {
+	})
+	.createTable('Researcher', table => {
 		table.inherits('Person');
-		table.text('researcher_position');
-		table.text('researcher_faculty');
-		table.text('researcher_department');
-		table.text('lab_website');
-		table.text('researcher_expertise');
-		table.specificType('researcher_courses', 'text[]');
-		table.text('researcher_affiliation');
-		table.text('researcher_publications');
-		table.text('researcher_partners');
-	}).createTable('Assignment', table => {
+
+		table.text('position');
+		table.text('faculty');
+		table.text('department');
+		table.text('labWebsite');
+		table.text('expertise');
+		table.specificType('coursesTaught', 'text[]');
+		table.text('projects');
+	})
+	.createTable('Assignment', table => {
 		table.increments('assignment_id').primary();
 		table.biginteger('assigned_employee')
 			.references('id').inTable('employee')
@@ -71,7 +74,8 @@ exports.up = function(knex) {
 			.references('location_id').inTable('location')
 			
 		table.text('equipment_notes')
-	}).createTable('EquipmentUsage', table => {
+	})
+	.createTable('EquipmentUsage', table => {
 		table.increments('usage_id').primary();
 		table.integer('equipment_info')
 			.unsigned().references('equipment_id').inTable('equipment').notNullable();
@@ -99,22 +103,26 @@ exports.up = function(knex) {
 		table.specificType('task_time', 'tsrange').index();
 		table.specificType('task_worked_time', 'interval');
 		table.integer('task_location').references('location_id').inTable('location')
-	}).createTable('Seeding', table => {
+	})
+	.createTable('Seeding', table => {
 		table.inherits('task');
 		table.integer('crop').references('crop_id').inTable('crop')
 		table.string('seed_method').index()
 		table.specificType('seed_hole_spacing', 'point')
 		table.decimal('seed_hole_depth', 9, 3);
-	}).createTable('Irrigation', table => {
+	})
+	.createTable('Irrigation', table => {
 		table.inherits('task');
 		table.string('irrigation_type').index()
 		table.decimal('flow_rate', 9, 3);
-	}).createTable('Fertilizing', table => {
+	})
+	.createTable('Fertilizing', table => {
 		table.inherits('task');
 		table.integer('chemical').references('chem_id').inTable('chemical').index()
 		table.decimal('fertilizer_quantity', 9, 3);
 		table.specificType('water_mix_ratio', 'point');
-	}).createTable('PestControl', table => {
+	})
+	.createTable('PestControl', table => {
 		table.inherits('task');
 		table.integer('chemical').references('chem_id').inTable('chemical').index()
 		table.decimal('application_rate', 9, 3);
@@ -130,7 +138,8 @@ exports.up = function(knex) {
 		table.boolean('as_tile_values').defaultTo(false)
 		table.decimal('grid_widths', 9, 3);
 		table.decimal('grid_heights', 9, 3);
-	}).createTable('Crop', table => {
+	})
+	.createTable('Crop', table => {
 		table.increments('crop_id').primary();
 		table.integer('crop_type')
 			.references('plant.plant_id').notNullable().index()
@@ -145,7 +154,8 @@ exports.up = function(knex) {
 		table.text('plant_name').index().notNullable();
 		table.text('plant_latin').index();
 		table.integer('plant_value').references('inventory_id').inTable('inventory')
-	}).createTable('Inventory', table => {
+	})
+	.createTable('Inventory', table => {
 		table.biginteger('supplier').unsigned().index()
 			.references('id').inTable('Person');
 
@@ -156,15 +166,18 @@ exports.up = function(knex) {
 		table.boolean('item_consumable').index();
 		table.specificType('inventory_value', 'money');
 		table.specificType('depreciation_rate', 'money');
-	}).createTable('Inventory', table => {
+	})
+	.createTable('Location', table => {
 		table.increments('location_id').primary();
 		table.text('location_name');
 		table.specificType('location_position', 'point');
-	}).createTable('Program', table => {
+	})
+	.createTable('Program', table => {
 		table.increments('program_id').primary();
 		table.string('program_name').index();
 		table.specificType('program_color', 'smallint[]');
-	}).createTable('Chemical', table => {
+	})
+	.createTable('Chemical', table => {
 		table.increments('chem_id').primary();
 		table.string('chem_type').index();
 		table.text('chem_product');
@@ -179,7 +192,8 @@ exports.up = function(knex) {
 		table.integer('sale_quantity').defaultTo(1)
 		table.specificType('selling_price', 'money');
 		table.specificType('sale_date', 'date');
-	}).createTable('Grant', table => {
+	})
+	.createTable('Grant', table => {
 		table.inherits('sale');
 		table.text('grant_name');
 	})
@@ -200,4 +214,22 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Employee')
 		.dropTableIfExists('Researcher')
 		.dropTableIfExists('Assignment')
+		.dropTableIfExists('Equipment')
+		.dropTableIfExists('EquipmentUsage')
+		.dropTableIfExists('Event')
+		.dropTableIfExists('Task')
+		.dropTableIfExists('Seeding')
+		.dropTableIfExists('Irrigation')
+		.dropTableIfExists('Fertilizing')
+		.dropTableIfExists('PestControl')
+		.dropTableIfExists('Field')
+		.dropTableIfExists('Crop')
+		.dropTableIfExists('Plant')
+		.dropTableIfExists('Inventory')
+		.dropTableIfExists('Location')
+		.dropTableIfExists('Program')
+		.dropTableIfExists('Chemical')
+		.dropTableIfExists('Sale')
+		.dropTableIfExists('Grant')
+		.dropTableIfExists('ResearchProject')
 }
