@@ -3,6 +3,8 @@
  * knex migrate. The up function is called when applying the migration, and the
  * down function should be called to 'undo' the up migration.
  * 
+ * The model classes will reference these tables, but will be better documented.
+ * 
  * This initial file will do first-time setup, but future files will modify the
  * schema established here.
  */
@@ -90,6 +92,35 @@ exports.up = function(knex) {
 		table.integer('event_location').references('location.location_id')
 		table.integer('event_program').references('program.program_id')
 		table.integer('ticket').references('sale_id').inTable('sale');
+	})
+	// Tasks
+	.createTable('Task', table => {
+		table.increments('task_id').primary();
+		table.specificType('task_time', 'tsrange').index();
+		table.specificType('task_worked_time', 'interval');
+		table.integer('task_location').references('location_id').inTable('location')
+	}).createTable('Seeding', table => {
+		table.inherits('task');
+		table.integer('crop').references('crop_id').inTable('crop')
+		table.string('seed_method').index()
+		table.specificType('seed_hole_spacing', 'point')
+		table.decimal('seed_hole_depth', 9, 3);
+	}).createTable('Irrigation', table => {
+		table.inherits('task');
+		table.string('irrigation_type').index()
+		table.decimal('flow_rate', 9, 3);
+	}).createTable('Fertilizing', table => {
+		table.inherits('task');
+		table.integer('chemical').references('chem_id').inTable('chemical').index()
+		table.decimal('fertilizer_quantity', 9, 3);
+		table.specificType('water_mix_ratio', 'point');
+	}).createTable('PestControl', table => {
+		table.inherits('task');
+		table.integer('chemical').references('chem_id').inTable('chemical').index()
+		table.decimal('application_rate', 9, 3);
+		table.specificType('interval_entry', 'interval');
+		table.specificType('interval_harvest', 'interval');
+		table.specificType('water_mix_ratio', 'point');
 	})
 };
 
