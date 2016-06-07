@@ -53,10 +53,10 @@ exports.up = function(knex) {
 	.createTable('Assignment', table => {
 		table.bigIncrements('id');
 
-		table.bigInteger('task').unsigned()
+		table.bigInteger('assigned_task').unsigned()
 			.references('id').inTable('Task');
 
-		table.bigInteger('assignedEmployee')
+		table.bigInteger('assigned_employee')
 			.unsigned().notNullable()
 			.references('id').inTable('Employee');
 	})
@@ -77,13 +77,15 @@ exports.up = function(knex) {
 	.createTable('EquipmentUsage', table => {
 		table.bigIncrements('id');
 
-		table.bigInteger('usedEquipment')
+		table.bigInteger('equipment')
 			.unsigned().notNullable()
 			.references('id').inTable('Equipment');
 		table.integer('quantity');
 
 		table.bigInteger('sellingUsage').unsigned()
 			.references('id').inTable('Sale');
+		table.bigInteger('taskUsage').unsigned()
+			.references('id').inTable('Task');
 		table.text('notes')
 	})
 	// Event
@@ -279,9 +281,6 @@ exports.up = function(knex) {
 		table.bigInteger('customer')
 			.unsigned().index()
 			.references('id').inTable('Person');
-		table.bigInteger('product')
-			.unsigned().index()
-			.references('id').inTable('Equipment');
 
 		table.bigInteger('deliveryLocation')
 			.unsigned().index()
