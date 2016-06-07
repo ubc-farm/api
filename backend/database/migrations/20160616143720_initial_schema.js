@@ -217,7 +217,7 @@ exports.up = function(knex) {
 		table.bigInteger('type')
 			.unsigned().notNullable().index()
 			.references('id').inTable('Plant');
-		table.bigInteger('field')
+		table.bigInteger('fieldId')
 			.unsigned().notNullable().index()
 			.references('id').inTable('Field');
 		table.integer('quantity')
@@ -247,7 +247,7 @@ exports.up = function(knex) {
 		table.bigIncrements('id');
 		table.text('name');
 		table.specificType('position', 'point');
-		table.bigInteger('field').unsigned().unique()
+		table.bigInteger('fieldId').unsigned().unique()
 			.references('id').inTable('Field');
 	})
 	.createTable('Program', table => {
