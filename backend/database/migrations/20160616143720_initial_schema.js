@@ -308,11 +308,11 @@ exports.up = function(knex) {
 		table.text('title');
 		table.specificType('date', 'daterange').index();
 
-		table.integer('postDocs');
-		table.integer('phds');
-		table.integer('masters');
-		table.integer('bachelors');
-		table.integer('others');
+		table.integer('postDocs').defaultTo(0);
+		table.integer('phds').defaultTo(0);
+		table.integer('masters').defaultTo(0);
+		table.integer('bachelors').defaultTo(0);
+		table.integer('others').defaultTo(0);
 
 		table.specificType('grantValue', 'money');
 		table.text('grantSource');
