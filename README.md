@@ -4,7 +4,7 @@ Program for the [Centre for Sustainable Food Systems at UBC Farm](http://ubcfarm
 ## Application Structure ##
 
 ### Backend
-[backend](backend) scripts for node.js are contained here, including the server code. [koa v2](https://github.com/koajs/koa/tree/v2.x) is used as the server framework, but with Promises instead of the async function sugar. Keep server JavaScript files within this folder.
+[backend](backend) scripts for node.js are contained here, including the server code. [koa v2](https://github.com/koajs/koa/tree/v2.x) is used as the server framework, but with Promises instead of the async function sugar. Keep server JavaScript files within this folder. All files are run in strict mode and transformed with babel, which allows ES6 import syntax in the node.js files. Some files, in the shared folder, are complied to the browser as well.
 
 ### Frontend
 [frontend](frontend) contains JavaScript run in the browser, and is consequently designed to run in different potential enviornments. [src](frontend/src) contains code to be included through `<script>` tags while [workers](frontend/workers) contains Web, Shared, and Service Worker scripts. [vendor](frontend/vendor) has vendor scripts like Google Analytics and polyfills. These files are compiled into the build subfolder with content hashes and a manifest. 
