@@ -7,9 +7,7 @@ export default class Employee extends Person {
 	static get tableName() {return 'Employee'}
 
 	static get relationMappings() {
-		return {
-			purchases: Person.relationMappings.purchases,
-			products: Person.relationMappings.products,
+		return Object.assign({
 			assignments: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Task,
@@ -23,7 +21,7 @@ export default class Employee extends Person {
 					to: 'Task.id'
 				}
 			}
-		}
+		}, super.relationMappings);
 	}
 }
 

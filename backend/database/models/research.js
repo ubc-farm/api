@@ -11,9 +11,7 @@ export class Researcher extends Person {
 	}
 
 	static get relationMappings() {
-		return {
-			purchases: Person.relationMappings.purchases,
-			products: Person.relationMappings.products,
+		return Object.assign({
 			projects: {
 				relation: Model.OneToManyRelation,
 				modelClass: ResearchProject,
@@ -35,7 +33,7 @@ export class Researcher extends Person {
 					to: 'ResearchProject.id'
 				}
 			}
-		}
+		}, super.relationMappings);
 	}
 }
 
