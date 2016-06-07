@@ -169,13 +169,16 @@ exports.up = function(knex) {
 	})
 	.createTable('ScoutHarvest', table => {
 		table.inherits('Task');
-		table.bigInteger('crop').unsigned()
+		table.bigInteger('cropId').unsigned()
 			.references('id').inTable('Crop');
 		table.specificType('newExpectedHarvest', 'date');
 		table.float('newPredictedYield');
 	})
 	.createTable('ScoutPest', table => {
 		table.inherits('Task');
+		table.bigInteger('cropId').unsigned()
+			.references('id').inTable('Crop');
+		
 		table.string('pestType');
 		table.string('affectedSpot');
 		
