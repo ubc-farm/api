@@ -3,11 +3,29 @@ import {Model} from 'objection';
 import Plant from './ref/plant.js';
 import {Scouting} from './task/scouting.js';
 
+/**
+ * Represents a field or sub-field in the farm with crops. If parentField is 
+ * specified, the field is a sub-field. 
+ * @property {float[][]} path - [x,y] coordinates of the field's path
+ * @property {float[]} [gridWidths]
+ * @property {float[]} [gridHeights]
+ * @property {string} [parent] field id
+ */
 export class Field extends Model {
 	static get tableName() {return 'Field'}
 
+	get grid() {
+		let [baseWidth, ...specificWidths] = this.gridWidths;
+		let [baseHeight, ...specificHeights] = this.gridHeights;
+		return {
+			baseWidth, baseHeight,
+			specificWidths, specificHeights
+		};
+	}
+
 	static get relationMappings() {
 		return {
+			/** Crops growing in this field */
 			crops: {
 				relation: Model.OneToManyRelation,
 				modelClass: Crop,
@@ -16,6 +34,7 @@ export class Field extends Model {
 					to: 'Crop.fieldId'
 				}
 			},
+			/** The containing field, if applicable */
 			parentField: {
 				relation: Model.OneToOneRelation,
 				modelClass: Field,
@@ -24,6 +43,7 @@ export class Field extends Model {
 					to: 'Field.id'
 				}
 			},
+			/** Fields within this one, if applicable */
 			childFields: {
 				relation: Model.OneToManyRelation,
 				modelClass: Field,
@@ -36,11 +56,21 @@ export class Field extends Model {
 	}
 }
 
+/**
+ * Data for a crop growing in a field, including the type of plant it it and
+ * historical data like scouting.
+ * @property {string} type of plant growing in this field.
+ * @property {string} fieldId of the field this crop grows in
+ * @property {number} quantity of this crop growing in the field
+ * @property {string} predictedNutrientReq - predicted nutrient requirements
+ * @proeprty {Date} [expectedHarvest]
+ */
 export class Crop extends Model {
 	static get tableName() {return 'Crop'}
 
 	static get relationMappings() {
 		return {
+			/** The type of plant */
 			variety: {
 				relation: Model.OneToOneRelation,
 				modelClass: Plant,
@@ -49,6 +79,7 @@ export class Crop extends Model {
 					to: 'Plant.id'
 				}
 			},
+			/** The field this crop grows in */
 			field: {
 				relation: Model.OneToOneRelation,
 				modelClass: Field,
@@ -57,6 +88,7 @@ export class Crop extends Model {
 					to: 'Field.id'
 				}
 			},
+			/** Scouting logs */
 			scouting: {
 				relation: Model.OneToManyRelation,
 				modelClass: Scouting,
