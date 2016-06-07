@@ -98,11 +98,9 @@ exports.up = function(knex) {
 		table.integer('estimatedAttendeeAmount');
 		table.specificType('targetAgeGroup', 'int4range')
 		
-		table.bigInteger('location').unsigned()
-			.references('id').inTable('Location');
-		table.bigInteger('ticket').unsigned()
+		table.bigInteger('ticketId').unsigned()
 			.references('id').inTable('Sale');
-		table.bigInteger('contact').unsigned()
+		table.bigInteger('contactId').unsigned()
 			.references('id').inTable('Person');
 	})
 	// Tasks
@@ -112,9 +110,9 @@ exports.up = function(knex) {
 		table.specificType('time', 'tsrange');
 		table.specificType('hoursTaken', 'interval');
 
-		table.bigInteger('program').unsigned()
+		table.bigInteger('programId').unsigned()
 			.references('id').inTable('Program');
-		table.bigInteger('location').unsigned()
+		table.bigInteger('locationId').unsigned()
 			.references('id').inTable('Location');
 	})
 	.createTable('Seeding', table => {
