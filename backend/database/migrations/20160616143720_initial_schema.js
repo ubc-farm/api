@@ -201,7 +201,7 @@ exports.up = function(knex) {
 	// Fields and Crops
 	.createTable('Field', table => {
 		table.bigIncrements('id');
-		table.specificType('path', 'path').index(, 'GiST');
+		table.specificType('path', 'polygon').index(, 'GiST');
 
 		table.specificType('gridWidths', 'real[]');
 		table.specificType('gridHeights', 'real[]');

@@ -68,20 +68,3 @@ export class Crop extends Model {
 		}
 	}
 }
-
-export class Location extends Model {
-	static get tableName() {return 'Location'}
-
-	static get relationMappings() {
-		return {
-			field: {
-				relation: Model.OneToOneRelation,
-				modelClass: Field,
-				join: {
-					from: 'Location.fieldId',
-					to: 'Field.id'
-				}
-			}
-		}
-	}
-}
