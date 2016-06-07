@@ -1,8 +1,8 @@
 import {Model} from 'objection';
-import Task from './task.js';
+import Task from './';
 
-import {Crop} from './field.js';
-import {Plant, Item} from './reference.js';
+import {Crop} from '../field.js';
+import {Plant, Item} from '../reference.js';
 
 export class Seeding extends Task {
 	static get tableName() {return 'Seeding'}

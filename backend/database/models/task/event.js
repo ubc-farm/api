@@ -1,10 +1,10 @@
 import {Model} from 'objection';
-import {Task} from './task.js';
+import Task from './';
 
-import Sale from './sale.js';
-import Person from './person.js';
+import Sale from '../sale.js';
+import Person from '../person';
 
-export class Event extends Task {
+export default class Event extends Task {
 	static get tableName() {return 'Event'}
 
 	static get relationMappings() {

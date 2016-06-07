@@ -1,9 +1,9 @@
 import {Model} from 'objection';
 
-import {Location} from './field.js';
-import {Program} from './reference.js';
-import {Employee, Assignment} from './employee.js';
-import {Equipment, EquipmentUsage} from './equipment.js';
+import {Location} from '../field.js';
+import {Program} from '../reference.js';
+import {Employee, Assignment} from '../person/employee.js';
+import {Equipment, EquipmentUsage} from '../equipment.js';
 
 export default class Task extends Model {
 	static get tableName() {return 'Task'}

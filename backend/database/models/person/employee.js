@@ -1,7 +1,7 @@
 import {Model} from 'objection';
-import Person from './person.js';
+import Person from './';
 
-import Task from './task.js';
+import Task from '../task';
 
 export default class Employee extends Person {
 	static get tableName() {return 'Employee'}

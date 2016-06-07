@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import Person from './person.js';
+import Person from './';
 
 export class Researcher extends Person {
 	static get tableName() {return 'Researcher'}

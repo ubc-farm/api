@@ -1,6 +1,7 @@
 import {Model} from 'objection';
+
 import {Plant} from './reference.js';
-import {Scouting} from './crop_tasks.js';
+import {Scouting} from './task/scouting.js';
 
 export class Field extends Model {
 	static get tableName() {return 'Field'}
