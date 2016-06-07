@@ -143,23 +143,20 @@ exports.up = function(knex) {
 		table.float('flowRate');
 		table.string('type').index();
 	})
-	.createTable('Fertilizing', table => {
+	.createTable('ChemicalTask', table => {
 		table.inherits('Task');
-
+		
 		table.bigInteger('product')
 			.unsigned().index()
 			.references('id').inTable('Chemical');
 		table.float('applicationRate');
-		
+	})
+	.createTable('Fertilizing', table => {
+		table.inherits('ChemicalTask');
 		table.string('location') //spot, broadcast
 	})
 	.createTable('PestControl', table => {
-		table.inherits('Task');
-
-		table.bigInteger('product')
-			.unsigned().index()
-			.references('id').inTable('Chemical');
-		table.float('applicationRate');
+		table.inherits('ChemicalTask');
 
 		table.specificType('waterToMixRatio', 'point');
 		table.string('location') //foliar, root
@@ -167,17 +164,18 @@ exports.up = function(knex) {
 		table.specificType('entryInterval', 'interval');
 		table.specificType('harvestInterval', 'interval');
 	})
-	.createTable('ScoutHarvest', table => {
+	.createTable('Scouting', table => {
 		table.inherits('Task');
 		table.bigInteger('cropId').unsigned()
 			.references('id').inTable('Crop');
+	})
+	.createTable('ScoutHarvest', table => {
+		table.inherits('Scouting');
 		table.specificType('newExpectedHarvest', 'date');
 		table.float('newPredictedYield');
 	})
 	.createTable('ScoutPest', table => {
-		table.inherits('Task');
-		table.bigInteger('cropId').unsigned()
-			.references('id').inTable('Crop');
+		table.inherits('Scouting');
 		
 		table.string('pestType');
 		table.string('affectedSpot');
@@ -232,7 +230,7 @@ exports.up = function(knex) {
 		table.text('sku').unique().index();
 		table.text('barcode').unique();
 
-		table.bigInteger('supplier').unsigned().index()
+		table.bigInteger('supplierId').unsigned().index()
 			.references('id').inTable('Person');
 		
 		table.specificType('lifespan', 'interval').index();

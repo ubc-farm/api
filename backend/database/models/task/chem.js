@@ -3,8 +3,8 @@ import Task from './';
 
 import {Chemical} from '../reference.js';
 
-export default class PestControl extends Task {
-	static get tableName() {return 'PestControl'}
+export class ChemicalTask extends Task {
+	static get tableName() {return 'ChemicalTask'}
 
 	static get relationMappings() {
 		return Object.assign({
@@ -12,10 +12,18 @@ export default class PestControl extends Task {
 				relation: Model.OneToOneRelation,
 				modelClass: Chemical,
 				join: {
-					from: 'PestControl.product',
+					from: 'ChemicalTask.product',
 					to: 'Chemical.id'
 				}
 			}
 		}, super.relationMappings);
 	}
+}
+
+export class Fertilizing extends ChemicalTask {
+	static get tableName() {return 'Fertilizing'}
+}
+
+export class PestControl extends ChemicalTask {
+	static get tableName() {return 'PestControl'}
 }
