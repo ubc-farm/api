@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 
-import {Plant} from './reference.js';
+import Plant from './ref/plant.js';
 import {Scouting} from './task/scouting.js';
 
 export class Field extends Model {

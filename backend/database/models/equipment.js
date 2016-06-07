@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import {Item} from './reference.js';
+import Item from './ref/item.js';
 
 import Sale from './sale.js';
 

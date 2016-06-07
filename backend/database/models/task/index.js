@@ -1,7 +1,7 @@
 import {Model} from 'objection';
 
 import {Location} from '../field.js';
-import {Program} from '../reference.js';
+import Program from '../ref/program.js';
 import {Employee, Assignment} from '../person/employee.js';
 import {Equipment, EquipmentUsage} from '../equipment.js';
 

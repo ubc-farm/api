@@ -1,7 +1,7 @@
 import {Model} from 'objection';
 import Task from './';
 
-import {Chemical} from '../reference.js';
+import Chemical from '../ref/chemical.js';
 
 export default class ChemicalTask extends Task {
 	static get tableName() {return 'ChemicalTask'}
