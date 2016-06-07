@@ -32,6 +32,8 @@ const dayTime = new RegExp(pgInterval + pgDayTime);
 /**
  * Parses a PostgreSQL interval and returns and object describing the
  * interval. 
+ * @param {string} value - Interval in the postgres format.
+ * @returns {Object} 
  */
 export function interval(value) {
 	let result = {};
