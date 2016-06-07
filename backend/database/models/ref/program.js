@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 
-import Task from './task';
+import Task from '../task';
 
 export default class Program extends Model {
 	static get tableName() {return 'Program'}

@@ -1,5 +1,6 @@
 import {Model} from 'objection';
 
+import Location from './ref/location.js';
 export default class Sale extends Model {
 	static get tableName() {return 'Sale'}
 }

@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 
-import {Crop} from './field.js';
+import {Crop} from '../field.js';
 
 export default class Plant extends Item {
 	static get tableName() {return 'Plant'}

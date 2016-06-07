@@ -1,7 +1,7 @@
 import {Model} from 'objection';
 
-import {Person as Company} from './person';
-import Equipment from './equipment.js';
+import {Person as Company} from '../person';
+import Equipment from '../equipment.js';
 
 export default class Item extends Model {
 	static get tableName() {return 'Item'}

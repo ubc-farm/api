@@ -2,6 +2,7 @@ import {Model} from 'objection';
 import Item from './ref/item.js';
 
 import Sale from './sale.js';
+import Location from './ref/location.js';
 
 export default class Equipment extends Model {
 	static get tableName() {return 'Equipment'}
@@ -33,7 +34,15 @@ export default class Equipment extends Model {
 					},
 					to: 'Task.id'
 				}
-			}
+			},
+			loc: {
+				relation: Model.OneToOneRelation,
+				modelClass: Location,
+				join: {
+					from: 'Equipment.location',
+					to: 'Location.id'
+				}
+			},
 		}
 	}
 }

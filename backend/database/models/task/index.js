@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 
-import {Location} from '../field.js';
+import Location from '../ref/location.js';
 import Program from '../ref/program.js';
 import {Employee, Assignment} from '../person/employee.js';
 import {Equipment, EquipmentUsage} from '../equipment.js';
