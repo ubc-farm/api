@@ -1,7 +1,7 @@
 import {Model} from 'objection';
 
 import Sale from '../sale.js';
-import {Item} from '../reference.js';
+import Item from '../ref/item.js';
 
 export default class Person extends Model {
 	static get tableName() {return 'Person'}

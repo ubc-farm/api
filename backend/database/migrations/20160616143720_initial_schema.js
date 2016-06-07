@@ -277,7 +277,7 @@ exports.up = function(knex) {
 		table.specificType('orderDate', 'timestamp');
 		table.specificType('deliveryDate', 'timestamp');
 
-		table.bigInteger('customer')
+		table.bigInteger('customerId')
 			.unsigned().index()
 			.references('id').inTable('Person');
 
