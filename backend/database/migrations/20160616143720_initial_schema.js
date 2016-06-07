@@ -285,11 +285,11 @@ exports.up = function(knex) {
 			.unsigned().index()
 			.references('id').inTable('Location');
 		
-		table.integer('quantity').defaultTo(1)
+		table.integer('quantity').defaultTo(1);
 		table.specificType('price', 'money');
 		
-		table.float('discount').defaultTo(0.0);
-		table.float('tax');
+		table.specificType('discount', 'money');
+		table.specificType('tax', 'money');
 		
 		table.text('notes');
 	})

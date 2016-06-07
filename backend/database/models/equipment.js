@@ -4,11 +4,22 @@ import Item from './ref/item.js';
 import Sale from './sale.js';
 import Location from './ref/location.js';
 
+/**
+ * Represents an item in the inventory, with fields like the amount stored and 
+ * its location. While the table is named Equipment, this can also represent
+ * other stored items like harvested crops or seeds.
+ * @property {string} product - the type of item this equipment is
+ * @property {string} location - where this equipment is stored
+ * @property {number} [quantity]
+ * @property {Date} [purchaseDate] - may be populated by purchase (Sale) info
+ * @property {string} [description]
+ */
 export default class Equipment extends Model {
 	static get tableName() {return 'Equipment'}
 
 	static get relationMappings() {
 		return {
+			/** Sale data related to this equipment */
 			sales: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Sale,
@@ -22,6 +33,7 @@ export default class Equipment extends Model {
 					to: 'Sale.id'
 				}
 			},
+			/** Tasks this equipment is being used for */
 			tasks: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Task,
@@ -35,6 +47,7 @@ export default class Equipment extends Model {
 					to: 'Task.id'
 				}
 			},
+			/** The location where this equipment is stored */
 			loc: {
 				relation: Model.OneToOneRelation,
 				modelClass: Location,
@@ -42,11 +55,14 @@ export default class Equipment extends Model {
 					from: 'Equipment.location',
 					to: 'Location.id'
 				}
-			},
+			}
 		}
 	}
 }
 
+/**
+ * A helper table for joining equipment to some usage
+ */
 export class EquipmentUsage extends Model {
 	static get tableName() {return 'EquipmentUsage'}
 
