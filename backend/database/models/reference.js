@@ -1,8 +1,10 @@
 import {Model} from 'objection';
 
 import {Person as Company} from './person'
+import Task from './task'
 import Equipment from './equipment.js'
 import {Crop} from './field.js'
+import ChemicalTask from './task/chem.js'
 
 export class Item extends Model {
 	static get tableName() {return 'Item'}
@@ -58,15 +60,49 @@ export class Program extends Model {
 					from: 'Program.linkedAccount',
 					to: 'Account.id'
 				}
+			},
+			tasks: {
+				relation: Model.OneToManyRelation,
+				modelClass: Task,
+				join: {
+					from: 'Program.id',
+					to: 'Task.programId'
+				}
 			}
 		}
 	}
 }
 
 export class Chemical extends Model {
-	static get tableName() {return 'Program'}
+	static get tableName() {return 'Chemical'}
+
+	static get relationMappings() {
+		return {
+			usage: {
+				relation: Model.OneToManyRelation,
+				modelClass: ChemicalTask,
+				join: {
+					from: 'Chemical.id',
+					to: 'ChemicalTask.product'
+				}
+			}
+		}
+	}
 }
 
 export class Account extends Model {
-	static get tableName() {return 'Program'}
+	static get tableName() {return 'Account'}
+
+	static get relationMappings() {
+		return {
+			programs: {
+				relation: Model.OneToManyRelation,
+				modelClass: Program,
+				join: {
+					from: 'Account.id',
+					to: 'Program.linkedAccount'
+				}
+			}
+		}
+	}
 }

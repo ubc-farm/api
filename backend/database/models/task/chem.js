@@ -3,7 +3,7 @@ import Task from './';
 
 import {Chemical} from '../reference.js';
 
-export class ChemicalTask extends Task {
+export default class ChemicalTask extends Task {
 	static get tableName() {return 'ChemicalTask'}
 
 	static get relationMappings() {
