@@ -3,7 +3,7 @@ import Task from './';
 
 import {Person as Company} from '../person';
 
-export class SoilSampling extends Task {
+export default class SoilSampling extends Task {
 	static get tableName() {return 'SoilSampling'}
 
 	static get relationMappings() {
