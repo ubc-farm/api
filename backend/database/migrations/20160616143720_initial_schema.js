@@ -133,7 +133,7 @@ exports.up = function(knex) {
 		table.float('predictedYield');
 		table.specificType('daysToMaturity', 'interval');
 
-		table.specificType('npkReq', 'integer[]');
+		table.json('npkReq');
 	})
 	.createTable('Irrigation', table => {
 		table.inherits('Task');
@@ -151,13 +151,13 @@ exports.up = function(knex) {
 	})
 	.createTable('Fertilizing', table => {
 		table.inherits('ChemicalTask');
-		table.string('location') //spot, broadcast
+		table.string('plantLocation') //spot, broadcast
 	})
 	.createTable('PestControl', table => {
 		table.inherits('ChemicalTask');
 
 		table.specificType('waterToMixRatio', 'point');
-		table.string('location') //foliar, root
+		table.string('plantLocation') //foliar, root
 
 		table.specificType('entryInterval', 'interval');
 		table.specificType('harvestInterval', 'interval');
