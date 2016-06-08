@@ -26,10 +26,15 @@ export default class Program extends Model {
 			},
 			/** Tasks and events classified under this program */
 			tasks: {
-				relation: Model.OneToManyRelation,
+				relation: Model.ManyToManyRelation,
 				modelClass: Task,
 				join: {
 					from: 'Program.id',
+					through: {
+						modelClass: ProgramUsage,
+						from: 'ProgramUsage.programId',
+						to: 'ProgramUsage.taskId'
+					},
 					to: 'Task.programId'
 				}
 			}
@@ -48,6 +53,34 @@ export class Account extends Model {
 				join: {
 					from: 'Account.id',
 					to: 'Program.linkedAccount'
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Helper table to join Programs with Tasks
+ */
+export class ProgramUsage extends Model {
+	static get tableName() {return 'ProgramUsage'}
+
+	static get relationMappings() {
+		return {
+			program: {
+				relation: Model.OneToManyRelation,
+				modelClass: Program,
+				join: {
+					from: 'ProgramUsage.programId',
+					to: 'Program.id'
+				}
+			},
+			task: {
+				relation: Model.OneToManyRelation,
+				modelClass: Task,
+				join: {
+					from: 'ProgramUsage.taskId',
+					to: 'Task.id'
 				}
 			}
 		}

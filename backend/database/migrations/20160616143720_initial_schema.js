@@ -110,8 +110,6 @@ exports.up = function(knex) {
 		table.specificType('time', 'tsrange');
 		table.specificType('hoursTaken', 'interval');
 
-		table.bigInteger('programId').unsigned()
-			.references('id').inTable('Program');
 		table.bigInteger('locationId').unsigned()
 			.references('id').inTable('Location');
 	})
@@ -256,6 +254,15 @@ exports.up = function(knex) {
 		table.bigInteger('linkedAccount').unsigned()
 			.references('id').inTable('Account');
 	})
+	.createTable('ProgramUsage', table => {
+		table.bigIncrements('id');
+		table.bigInteger('programId')
+			.unsigned().notNullable()
+			.references('id').inTable('Program');
+		table.bigInteger('taskId')
+			.unsigned().notNullable()
+			.references('id').inTable('Task');
+	})
 	.createTable('Account', table => {
 		table.bigIncrements('id');
 		table.text('name').index();
@@ -352,6 +359,7 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Item')
 		.dropTableIfExists('Location')
 		.dropTableIfExists('Program')
+		.dropTableIfExists('ProgramUsage')
 		.dropTableIfExists('Chemical')
 		.dropTableIfExists('Sale')
 		.dropTableIfExists('Grant')
