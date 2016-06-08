@@ -3,6 +3,12 @@ import Task from './';
 
 import Chemical from '../ref/chemical.js';
 
+/**
+ * Shared properties for chemical tasks
+ * @extends Task
+ * @property {string} [product] used for this task
+ * @property {number} [applicationRate] of the product
+ */
 export default class ChemicalTask extends Task {
 	static get tableName() {return 'ChemicalTask'}
 
@@ -20,10 +26,23 @@ export default class ChemicalTask extends Task {
 	}
 }
 
+/**
+ * Task for fertilizing a field
+ * @extends ChemicalTask
+ * @property {string} [plantLocation] - i.e.: spot, broadcast
+ */
 export class Fertilizing extends ChemicalTask {
 	static get tableName() {return 'Fertilizing'}
 }
 
+/**
+ * Task for pest control for a field
+ * @extends ChemicalTask
+ * @property {float[]} [waterToMixRatio] - where water:mix maps to [water, mix]
+ * @property {string} [plantLocation] - i.e.: foliar, root
+ * @property {Object} [entryInterval]
+ * @property {Object} [harvestInterval]
+ */
 export class PestControl extends ChemicalTask {
 	static get tableName() {return 'PestControl'}
 }
