@@ -18,9 +18,9 @@ const propTypes = {
 	className: PropTypes.string,
 	checked: PropTypes.boolean,
 	required: PropTypes.boolean,
-	label: PropTypes.string.isRequired
+	label: PropTypes.string
 }
-const defaultProps = { className: '' };
+const defaultProps = { className: '', label: '' };
 
 export default function Checkbox(props) {return CheckBase(props, false)}
 export default function Radio(props) {return CheckBase(props, true)}
