@@ -5,6 +5,9 @@ import {Field} from '../field.js'
 /**
  * Represents a location. If field is specified, this location represents that
  * field.
+ * @property {string} [name]
+ * @property {float[]} [position] - a coordinate expressed as [x, y]
+ * @property {string} [fieldId]
  */
 export default class Location extends Model {
 	static get tableName() {return 'Location'}

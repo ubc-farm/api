@@ -2,11 +2,20 @@ import {Model} from 'objection';
 
 import Task from '../task';
 
+/**
+ * Represents a program at the farm
+ * @property {string} name
+ * @property {Object} [color] used to represent this program in the interface
+ * @property {boolean} [darkText] - true if black text should be used instead 
+ * of white text. Should be auto-calculated based on the color.
+ * @property {string} [linkedAccount]
+ */
 export default class Program extends Model {
 	static get tableName() {return 'Program'}
 
 	static get relationMappings() {
 		return {
+			/** An Account linked to this program */
 			link: {
 				relation: Model.OneToOneRelation,
 				modelClass: Account,
@@ -15,6 +24,7 @@ export default class Program extends Model {
 					to: 'Account.id'
 				}
 			},
+			/** Tasks and events classified under this program */
 			tasks: {
 				relation: Model.OneToManyRelation,
 				modelClass: Task,

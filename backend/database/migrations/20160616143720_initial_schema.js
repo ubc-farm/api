@@ -19,8 +19,8 @@ exports.up = function(knex) {
 
 		table.text('email');
 		table.string('phoneNumber', 15);
-		table.text('addressMailing');
-		table.text('addressPhysical');
+		table.json('addressMailing');
+		table.json('addressPhysical');
 	})
 	.createTable('Employee', table => {
 		table.inherits('Person');
@@ -251,7 +251,7 @@ exports.up = function(knex) {
 	.createTable('Program', table => {
 		table.bigIncrements('id');
 		table.text('name').index();
-		table.specificType('color', 'smallint[]'); //rgb
+		table.json('color'); 
 
 		table.bigInteger('linkedAccount').unsigned()
 			.references('id').inTable('Account');
@@ -268,7 +268,7 @@ exports.up = function(knex) {
 		table.bigIncrements('id');
 		table.string('type').index();
 		table.text('productName');
-		table.text('composition');
+		table.json('composition');
 	})
 	// Sales and Grants
 	.createTable('Sale', table => {
