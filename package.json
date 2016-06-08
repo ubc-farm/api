@@ -1,6 +1,6 @@
 {
   "name": "ubc-farm",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "main": "backend/index.js",
   "directories": {
     "lib": "backend",
@@ -29,6 +29,7 @@
     "koa-router": "^7.0.1",
     "koa-send": "^3.2.0",
     "marko": "^3.3.0",
+    "objection": "^0.4.0",
     "pg": "^4.5.5",
     "pg-query-stream": "^1.0.0"
   },
