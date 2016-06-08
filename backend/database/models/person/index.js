@@ -3,6 +3,16 @@ import {Model} from 'objection';
 import Sale from '../sale.js';
 import Item from '../ref/item.js';
 
+/**
+ * Used to represent a person or company, such as employees and customers. Can
+ * be linked to a user account.
+ * @property {string} name
+ * @property {string} [role] of the person
+ * @property {string} [email] - email address
+ * @property {string} [phoneNumber]
+ * @property {Object} [addressMailing], following addressSchema
+ * @property {Object} [addressPhysical], following addressSchema
+ */
 export default class Person extends Model {
 	static get tableName() {return 'Person'}
 
@@ -28,6 +38,9 @@ export default class Person extends Model {
 	}
 }
 
+/**
+ * Schema for objects used to represent an address.
+ */
 const addressSchema = {
 	type: 'object',
 	properties: {

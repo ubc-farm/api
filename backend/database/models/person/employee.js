@@ -3,6 +3,21 @@ import Person from './';
 
 import Task from '../task';
 
+/**
+ * Extends Person with timetable information. Task assignments are also
+ * joined to employees
+ * @extends Person
+ * @property {boolean[]} [workingDays], where the index corresponds to a day
+ * @property {number} [hourlyPay]
+ * @property {boolean} [fullOrPartTime] true if full time, false if part time
+ * @property {Date[]} [holidayDays=[]]
+ * @property {Date[]} [sickDays=[]]
+ * @property {Date[]} [paidLeaveDays=[]]
+ * @property {Object} [inLieuHours] - an interval object
+ * @property {Date[][]} [medicalLeaveTime] - an array of tsrange values
+ * @property {string} [emergencyContactName]
+ * @property {string} [emergencyContactNumber]
+ */
 export default class Employee extends Person {
 	static get tableName() {return 'Employee'}
 
@@ -25,6 +40,9 @@ export default class Employee extends Person {
 	}
 }
 
+/**
+ * Helper table to join Employees with their assigned Tasks
+ */
 export class Assignment extends Model {
 	static get tableName() {return 'Assignment'}
 

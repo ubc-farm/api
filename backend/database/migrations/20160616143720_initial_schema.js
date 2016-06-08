@@ -295,7 +295,7 @@ exports.up = function(knex) {
 	})
 	.createTable('Grant', table => {
 		table.inherits('sale');
-		table.text('grant_name');
+		table.text('grantName');
 	})
 	// Research Projects
 	.createTable('ResearchProject', table => {
