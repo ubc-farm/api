@@ -6,8 +6,9 @@
  * @param {boolean} [trailing=false] - set to false to truncate hours, 
  * i.e.: 12:00 becomes 12 instead. 
  * @param {boolean} [twelve=true] - true to use 12 hours clock, false to use 24
+ * @returns {string}
  */
-export default function TimeBase({date, amPm=true,trailing=false,twelve=true}) {
+export function timeString({date, amPm=true,trailing=false,twelve=true}) {
 	if (typeof date === 'string') {
 		let time = date.toString();
 		let hr = 0, min = parseInt(time.slice(-2));
@@ -38,9 +39,11 @@ export default function TimeBase({date, amPm=true,trailing=false,twelve=true}) {
 	return hour.toString() + minString + amPmStr;
 }
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+	'August', 'September', 'October', 'November', 'December'];
 
-const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug',
+	'Sept', 'Oct', 'Nov', 'Dec'];
 
 /**
  * Used to render a date. You can pass a Date object or an object with the 
@@ -51,9 +54,16 @@ const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', '
  * @param {number} time.year
  * @param {boolean} [showYear=false] - wheter or not to display the year
  * @param {boolean} [shortMonth=true] - wheter or not to shorten the month
+ * @returns {string}
  */
-export default function DateBase({date, showYear = false, shortMonth = true}) {
+export function dateString({date, showYear = false, shortMonth = true}) {
 	if (!date instanceof Date) {
 		date = new Date(date.year, date.month, date.date);
 	}
+
+	let yearString = '';
+	if (showYear) yearString = ' ' + date.getFullYear().toString(); 
+
+	let month = shortMonth? shortMonths[date.getMonth()] : months[date.getMonth()]
+	return date.getDate().toString() + ' ' + month + yearString;
 }
