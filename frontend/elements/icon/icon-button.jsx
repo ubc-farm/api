@@ -30,5 +30,8 @@ const propTypes = {
 	label: PropTypes.string.isRequired,
 	className: PropTypes.string
 };
+const defaultProps = { className: '' };
+IconLabelButton.defaultProps = defaultProps;
 IconLabelButton.propTypes = propTypes;
+IconOnlyButton.defaultProps = defaultProps;
 IconOnlyButton.propTypes = propTypes;
