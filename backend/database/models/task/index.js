@@ -5,11 +5,19 @@ import Program from '../ref/program.js';
 import {Employee, Assignment} from '../person/employee.js';
 import {Equipment, EquipmentUsage} from '../equipment.js';
 
+/**
+ * Common attributes for tasks that other tables inherit.
+ * @property {Date[]} [time] - tsrange representing the task time
+ * @property {Object} [hoursTaken] - interval showing how long the 
+ * task actually took.
+ * @property {string} [locationId]
+ */
 export default class Task extends Model {
 	static get tableName() {return 'Task'}
 
 	static get relationMappings() {
 		return {
+			/** Location for this task */
 			location: {
 				relation: Model.OneToOneRelation,
 				modelClass: Location,
@@ -18,14 +26,21 @@ export default class Task extends Model {
 					to: 'Location.id'
 				}
 			},
+			/** Programs that this task is linked to */
 			program: {
-				relation: Model.OneToOneRelation,
+				relation: Model.ManyToManyRelation,
 				modelClass: Program,
 				join: {
-					from: 'Task.programId',
+					from: 'Task.id',
+					through: {
+						modelClass: ProgramUsage,
+						from: 'ProgramUsage.taskId',
+						to: 'ProgramUsage.programId'
+					},
 					to: 'Program.id'
 				}
 			},
+			/** Employees assigned to this task */
 			labour: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Employee,
@@ -39,6 +54,7 @@ export default class Task extends Model {
 					to: 'Employee.id'
 				}
 			},
+			/** Equipment used by this task */
 			equipment: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Equipment,

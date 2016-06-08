@@ -35,7 +35,7 @@ export default class Program extends Model {
 						from: 'ProgramUsage.programId',
 						to: 'ProgramUsage.taskId'
 					},
-					to: 'Task.programId'
+					to: 'Task.id'
 				}
 			}
 		}
