@@ -4,7 +4,7 @@
 
 import {domReady} from 'utils.js';
 import {initMap as start} from 'map/config.js';
-import iconButton from 'elements/icon-button.js'
+import iconButton from 'elements/icon-button-old.js'
 import google from 'google/maps/drawing';
 import * as style from 'map/shapes/style.js';
 import {displayGrid} from 'map/shapes/draw.js';
