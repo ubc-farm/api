@@ -20,6 +20,47 @@ export default class Plant extends Item {
 					from: 'Plant.id',
 					to: 'Crop.type'
 				}
+			},
+			mixedPlants: {
+				relation: Model.ManyToManyRelation,
+				modelClass: Plant,
+				join: {
+					from: 'Plant.id',
+					through: {
+						modelClass: Mix,
+						from: 'Mix.forId',
+						to: 'Mix.subId'
+					},
+					to: 'Plant.id'
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Helper table for mix of seeds
+ */
+export class Mix extends Model {
+	static get tableName() {return 'Mix'}
+
+	static get relationMappings() {
+		return {
+			subPlants: {
+				relation: Model.OneToManyRelation,
+				modelClass: Plant,
+				join: {
+					from: 'Mix.subId',
+					to: 'Plant.id'
+				}
+			},
+			forPlant: {
+				relation: Model.OneToOneRelation,
+				modelClass: Plant,
+				join: {
+					from: 'Mix.forId',
+					to: 'Plant.id'
+				}
 			}
 		}
 	}
