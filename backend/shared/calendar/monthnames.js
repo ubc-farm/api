@@ -11,3 +11,5 @@ export const shortMonths = [
 	'July', 'Aug', 'Sept', 
 	'Oct', 'Nov', 'Dec'
 ];
+
+export default months;

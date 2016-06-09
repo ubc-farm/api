@@ -9,18 +9,19 @@ function CheckBase(props, isRadio) {
 	return (
 		<label className={'check-hack-label' + (props.className)}>
 			<input type={isRadio? 'radio' : 'checkbox'} className='check-real' 
-			       checked={props.checked} required={props.required}/>
+			       defaultChecked={props.checked} onChange={props.onChange}
+						 required={props.required} disabled={props.disabled}/>
 			<i className={isRadio? 'radio-hack' : 'checkbox-hack'}/>
-			{props.label}
+			{props.children}
 		</label>);
 }
 const propTypes = {
 	className: PropTypes.string,
 	checked: PropTypes.boolean,
 	required: PropTypes.boolean,
-	label: PropTypes.string
+	disabled: PropTypes.boolean
 }
-const defaultProps = { className: '', label: '' };
+const defaultProps = { className: '' };
 
 export default function Checkbox(props) {return CheckBase(props, false)}
 export function Radio(props) {return CheckBase(props, true)}
