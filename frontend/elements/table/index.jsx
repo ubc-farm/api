@@ -44,7 +44,7 @@ var Table = React.createClass({
 			<table>
 				{caption}
 				{thead}
-				{rows}
+				<tbody>{rows}</tbody>
 			</table>
 		);
 	}
