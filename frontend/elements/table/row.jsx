@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {TableCell, Cell} from './cell.jsx'
-import CheckBase from '../form/checkbox.jsx'
+import {CheckBase} from '../form/checkbox.jsx'
 
 export default class TableRow extends Component {
 	constructor(props) {

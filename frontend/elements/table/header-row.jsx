@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, Children } from 'react';
 import TableRow from './row.jsx';
-import CheckBase from '../form/checkbox.jsx'
+import {CheckBase} from '../form/checkbox.jsx'
 
 export default class HeaderRow extends TableRow {
 	handleCheck(e) {
@@ -11,7 +11,7 @@ export default class HeaderRow extends TableRow {
 		let {data, children} = this.props;
 		if (children) data = children;
 		else if (data instanceof Map) data = data.keys();
-		
+
 		return (
 			<tr data-selected={this.state.selected} key={data.id}>
 				{Array.from(data, key => {
