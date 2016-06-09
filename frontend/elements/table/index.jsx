@@ -20,16 +20,31 @@ var Table = React.createClass({
 			initialSortColumn: 0
 		}
 	},
+	propTypes: {
+		initialSortColumn: PropTypes.number
+	},
 	render: function() {
-		
+		let rows = [], selectHead, head, headingRow;
 		Children.forEach(this.props.children, child => {
-			if (child instanceof SelectedTableHeader) var selectHead = child;
-			else if (child instanceof TableHeader) var head = child;
+			if (child instanceof SelectedTableHeader) selectHead = child;
+			else if (child instanceof TableHeader) head = child;
+			else if (child instanceof HeaderRow) headingRow = child;
+			else rows.push(child);
 		})
+
+		let caption = null, thead = null;
+		if (head || selectHead) {
+			caption = <caption>{head}{selectHead}</caption>;
+		}
+		if (headingRow) {
+			thead = <thead>{headingRow}</thead>;
+		}
 
 		return (
 			<table>
-				
+				{caption}
+				{thead}
+				{rows}
 			</table>
 		);
 	}
@@ -40,5 +55,6 @@ Table.SelectionHeader = SelectedTableHeader;
 Table.ColumnHeading = TableColumn;
 Table.Row = TableRow;
 Table.Cell = Cell;
+Table.HeadingRow = HeaderRow;
 
 export default Table;

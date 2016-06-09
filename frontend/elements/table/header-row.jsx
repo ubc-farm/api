@@ -8,8 +8,10 @@ export default class HeaderRow extends TableRow {
 	}
 
 	render() {
-		let {data} = this.props;
-		if (data instanceof Map) data = data.keys();
+		let {data, children} = this.props;
+		if (children) data = children;
+		else if (data instanceof Map) data = data.keys();
+		
 		return (
 			<tr data-selected={this.state.selected} key={data.id}>
 				{Array.from(data, key => {
