@@ -1,3 +1,5 @@
+import {months, shortMonths} from './monthnames.js';
+
 /**
  * Used to render a time. You can either pass in a date object or pass in
  * a time string in format HHMM (such as 1300 for 13 o'clock / 1 pm).
@@ -38,12 +40,6 @@ export function timeString({date, amPm=true,trailing=false,twelve=true}) {
 
 	return hour.toString() + minString + amPmStr;
 }
-
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-	'August', 'September', 'October', 'November', 'December'];
-
-const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug',
-	'Sept', 'Oct', 'Nov', 'Dec'];
 
 /**
  * Used to render a date. You can pass a Date object or an object with the 
