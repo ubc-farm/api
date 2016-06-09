@@ -23,7 +23,7 @@ const propTypes = {
 const defaultProps = { className: '', label: '' };
 
 export default function Checkbox(props) {return CheckBase(props, false)}
-export default function Radio(props) {return CheckBase(props, true)}
+export function Radio(props) {return CheckBase(props, true)}
 
 Checkbox.defaultProps = defaultProps;
 Checkbox.propTypes = propTypes;

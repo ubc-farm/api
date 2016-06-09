@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {dateString, timeString} from './base-datetime.js';
+import {dateString, timeString} from 'shared/calendar/base-datetime.js';
 
 /**
  * 
