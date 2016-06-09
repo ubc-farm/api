@@ -7,8 +7,10 @@ import _ from '../classnames.js';
  * correct checkbox/radio. Most of the logic is done with CSS as a result. 
  */
 function CheckBase(props, isRadio) {
-	let hack = props.customCheck 
-		|| <i className={isRadio? 'radio-hack' : 'checkbox-hack'}/>;
+	let hack = <i className={isRadio? 'radio-hack' : 'checkbox-hack'}/>
+	if (props.customCheck !== undefined) {
+		hack = props.customCheck;
+	}
 	return (
 		<label className={_('check-hack-label', props.className)}>
 			<input type={isRadio? 'radio' : 'checkbox'} className='check-real' 
