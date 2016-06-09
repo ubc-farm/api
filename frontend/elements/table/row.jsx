@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import {Radio, Checkbox} from '../form/checkbox.jsx'
+import {TableCell, Cell} from './cell.jsx'
+import CheckBase from '../form/checkbox.jsx'
 
-export class TableRow extends Component {
+export default class TableRow extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {selected: false};
@@ -17,16 +18,13 @@ export class TableRow extends Component {
 		return (
 			<tr data-selected={this.state.selected} key={data.id}>
 				{data.forEach((value, key) => {
-					if (typeof value === 'object' && value.type) {
-						let type = value.type; delete value.type;
-						if (type === 'checkbox') {
-							return <td><Checkbox {...value} onChange={this.handleCheck}/></td>
-						} else if (type === 'radio') {
-							return <td><Radio {...value} onChange={this.handleCheck}/></td>
-						}
-					} 
+					if (value instanceof TableCell) return value;
+
+					if (value instanceof CheckBase) {
+						value.setProps({onChange: this.handleCheck});
+					}
 					let num = typeof value === 'number';
-					return <td data-num={num}>{value}</td>
+					return <Cell data-num={num}>{value}</Cell>
 				})}
 			</tr>
 		);

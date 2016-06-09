@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import TableHeader from './header.jsx';
 
 /**
  * An alternate header for the table that appears once one or more items are
@@ -13,15 +14,15 @@ export default class SelectedTableHeader extends Component {
 
 	render() {
 		return (
-			<div className='table-header table-header-selectmenu' 
-			     hidden={(this.props.selected < 1)}>
+			<TableHeader className='table-header-selectmenu' 
+			             hidden={(this.props.selected < 1)}>
 				<span className='table-header-selectmenu-state'>
 					{this.props.selected} 
 					item{this.props.selected > 1 ? 's' : ''} 
 					selected
 				</span>
 				{this.props.children}
-			</div>
+			</TableHeader>
 		);
 	}
 
