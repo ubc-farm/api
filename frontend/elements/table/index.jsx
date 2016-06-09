@@ -1,60 +1,93 @@
 import React, { Component, PropTypes, Children } from 'react';
 
-import TableHeader from './header.jsx';
-import SelectedTableHeader from './select-header.jsx';
-import Cell from './column.jsx';
-import TableColumn from './column.jsx';
-import TableRow from './row.jsx';
-import HeaderRow from './header-row.jsx';
+import TableActions from './actions.jsx';
+import TableHead from './th.jsx';
+import TableRow from './tr.jsx';
 
-var Table = React.createClass({
-	getInitialState: function() {
+export default class Table extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			selected: new Set(),
+			sort: {
+				column: this.props.initialSortKey,
+				dir: 1
+			}
+		};
+	}
+
+	static get propTypes() {
 		return {
-			sortColumn: this.props.initialSortColumn,
-			sortDirection: 1,
-			selected: 0
+			initialSortKey: PropTypes.any.isRequired,
+			data: PropTypes.arrayOf(PropTypes.instanceOf(Map)).isRequired,
+			mainActions: PropTypes.arrayOf(PropTypes.node),
+			altActions: PropTypes.arrayOf(PropTypes.node)
 		}
-	},
-	getDefaultProps: function() {
-		return {
-			initialSortColumn: 0
+	}
+
+	handleRowSelect(id) {
+		if (this.state.selected.has(id)) {
+			this.state.selected.delete(id);
+		} else {
+			this.state.selected.add(id);
 		}
-	},
-	propTypes: {
-		initialSortColumn: PropTypes.number
-	},
-	render: function() {
-		let rows = [], selectHead, head, headingRow;
-		Children.forEach(this.props.children, child => {
-			if (child instanceof SelectedTableHeader) selectHead = child;
-			else if (child instanceof TableHeader) head = child;
-			else if (child instanceof HeaderRow) headingRow = child;
-			else rows.push(child);
+	}
+
+	handleHeadingSelect(key) {
+		if (this.state.column === key) {
+			// Flip the direction if clicking the same column
+			this.state.sort = this.state.sort * -1;
+		} else {
+			this.state.column = key;
+		}
+	}
+
+	sort() {
+		let {column: key, dir} = this.state.sort;
+		return this.props.data.sort((aMap, bMap) => {
+			let a = aMap.get(key), b = bMap.get(key);
+			return a.toString().localeCompare(b) * dir;
 		})
+	}
 
-		let caption = null, thead = null;
-		if (head || selectHead) {
-			caption = <caption>{head}{selectHead}</caption>;
-		}
-		if (headingRow) {
-			thead = <thead>{headingRow}</thead>;
-		}
+	static id(map) {
+		return [...map.values()].join();
+	}
 
+	render() {
+		let {selected, sort} = this.state;
 		return (
-			<table>
-				{caption}
-				{thead}
-				<tbody>{rows}</tbody>
+			<table onClick>
+				<caption>
+					<TableActions count={selected.size}>
+						{this.props.mainActions}
+					</TableActions>
+					<TableActions whenSelected count={selected.size}>
+						{this.props.altActions}
+					</TableActions>
+				</caption>
+				<thead>
+					{Array.from(this.props.data[0].keys(), key => {
+						let handler = this.handleHeadingSelect.bind(this, key);
+						return (
+							<TableHead onClick={handler}
+							           sort={sort.column === key && sort.dir}>
+								{key}
+							</TableHead>
+						);
+					})}
+				</thead>
+				<tbody>
+					{this.sort().map((rowData, index) => {
+						let id = Table.id(rowData); 
+						let handler = this.handleRowSelect.bind(this, id);
+						return (
+							<TableRow key={id} selected={selected.has(id)}
+							          onClick={handler}/>
+						);
+					})}
+				</tbody>
 			</table>
 		);
 	}
-})
-
-Table.Header = TableHeader;
-Table.SelectionHeader = SelectedTableHeader;
-Table.ColumnHeading = TableColumn;
-Table.Row = TableRow;
-Table.Cell = Cell;
-Table.HeadingRow = HeaderRow;
-
-export default Table;
+}
