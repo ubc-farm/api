@@ -123,10 +123,12 @@ var map = domReady.then(() => {
 	map.setTilt(0);
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
 	manager.setMap(map); 
+
 	map.data.setStyle(feature => {
 		if (feature.getProperty('isGrid')) {
 			return style.grid.normal;
 		}
 	})
+
 	return map;
 });
