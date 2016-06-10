@@ -4,7 +4,7 @@ import google from 'google/maps/drawing';
  * Adds functionality to 'select' grid tiles when mousing over them
  * while the mouse button is down. 
  */
-export class GridSelector {
+export default class GridSelector {
 	constructor(map) {
 		this.selected = [];
 		this.active = 0; //using number in case multiple buttons are pressed at once
