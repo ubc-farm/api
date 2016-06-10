@@ -13,6 +13,8 @@ export default class Table extends Component {
 			sortDir: 1,
 			sortColumn: this.props.initialSortKey
 		};
+		this.handleRowSelect = this.handleRowSelect.bind(this);
+		this.handleHeadingSelect = this.handleHeadingSelect.bind(this);
 	}
 
 	static get propTypes() {
@@ -47,7 +49,7 @@ export default class Table extends Component {
 				return { selected };
 			});
 		} else {
-			if (this.state.column === key) {
+			if (this.state.sortColumn === key) {
 				// Flip the direction if clicking the same column
 				this.setState((prevState) => ({sortDir: prevState.sortDir * -1}));
 			} else {
@@ -86,10 +88,9 @@ export default class Table extends Component {
 	renderBody() {
 		return this.sort().map((rowData, index) => {
 			let id = Table.id(rowData); 
-			let handler = this.handleRowSelect.bind(this, id);
 			return (
 				<TableRow key={id} selected={selected.has(id)}
-				          onSelect={handler}>
+				          onSelect={this.handleRowSelect}>
 					{[...rowData.values()]}
 				</TableRow>
 			);

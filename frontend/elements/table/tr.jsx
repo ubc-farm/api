@@ -43,5 +43,5 @@ function renderCells(props) {
 }
 
 function callSelect(props) {
-	props.onSelect();
+	props.onSelect(props.key);
 }

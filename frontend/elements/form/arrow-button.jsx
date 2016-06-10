@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import _ from '../classnames.js';
 
+/**
+ * A small button with a left or right arrow icon. 
+ */
 export default function ArrowButton(props) {
 	return (
 		<button className={_(
