@@ -4,11 +4,12 @@
 
 import {domReady} from 'utils.js';
 import {initMap as start} from 'map/config.js';
-import iconButton from 'elements/icon-button.js'
+import iconButton from 'elements/icon-button-old.js'
 import google from 'google/maps/drawing';
 import * as style from 'map/shapes/style.js';
 import {displayGrid} from 'map/shapes/draw.js';
 import ModuleWorker from 'workers/promise/system.js';
+import GridSelector from 'map/shapes/select.js';
 
 /**
  * Called to switch to add mode on the map
@@ -79,6 +80,7 @@ function polygonComplete(polygon) {
 	});
 	path.push(path[0]);
 	
+	/** @todo let user define the grid values */
 	Promise.all([
 		buildGrid(path, {
 			width: 2, height: 2,
@@ -123,10 +125,16 @@ var map = domReady.then(() => {
 	map.setTilt(0);
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
 	manager.setMap(map); 
+
+	new GridSelector(map);
+
 	map.data.setStyle(feature => {
 		if (feature.getProperty('isGrid')) {
 			return style.grid.normal;
+		} else if (feature.getProperty('selected')) {
+			return style.grid.selected;
 		}
 	})
+	
 	return map;
 });
