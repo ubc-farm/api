@@ -12,6 +12,8 @@ import {dateString, timeString} from 'shared/calendar/base-datetime.js';
 export default function TimeRange(props) {
 	let {start, end} = props;
 
+	if (start == null && end == null) return null;
+
 	let sameHalf = true;
 	if (props.twelve) {
 		let first = start.getHours(), last = end.getHours();
@@ -20,43 +22,53 @@ export default function TimeRange(props) {
 		}
 	}
 
-	function endTime() {
-		return (<time datetime={end.toUTCString()}>
+	const endTime = (
+		<time datetime={end.toUTCString()}>
 			{timeString({date: end, amPm: true, twelve: twelve})}
-		</time>);
-	}
+		</time>
+	);
 
-	if (!props.forceDate && 
-		start.toDateString() === end.toDateString()) {
+	if (!props.forceDate 
+	&& start.toDateString() === end.toDateString()) {
 		//same date
-		return (<span>
-			<time datetime={start.toUTCString()}>
-				{timeString({date: start, amPm: !sameHalf, twelve: twelve})}
-			</time>{'–'}{endTime()}
-		</span>);
-	} else if (props.forceDate && 
-		start.toDateString() === end.toDateString()) {
+		return (
+			<span className='time'>
+				<time datetime={start.toUTCString()}>
+					{timeString({date: start, amPm: !sameHalf, twelve: twelve})}
+				</time>
+				{'–'}
+				{endTime}
+			</span>
+		);
+	} else if (props.forceDate 
+	&& start.toDateString() === end.toDateString()) {
 		//show the date
-		return (<span>
-			<time datetime={start.toUTCString()}>
-				{dateString({date: start, shortMonth: false})}, 
-				<br/>
-				{timeString({date: start, amPm: !sameHalf, twelve: twelve})}
-			</time>{'–'}{endTime()}
-		</span>);
+		return (
+			<span className='time'>
+				<time datetime={start.toUTCString()}>
+					{dateString({date: start, shortMonth: false})}, 
+					<br/>
+					{timeString({date: start, amPm: !sameHalf, twelve: twelve})}
+				</time>
+				{'–'}
+				{endTime}
+			</span>
+		);
 	} else {
 		//diff date
-		return (<span>
-			<time datetime={start.toUTCString()}>
-				{dateString({date: start, shortMonth: true})}, 
-				{timeString({date: start, amPm: true, twelve: twelve})}
-			</time>
-			{'–'}
-			<time datetime={end.toUTCString()}>
-				{dateString({date: end, shortMonth: true})},
-				{timeString({date: end, amPm: true, twelve: twelve})}
-			</time>
-		</span>);
+		return (
+			<span className='time'>
+				<time datetime={start.toUTCString()}>
+					{dateString({date: start, shortMonth: true})}, 
+					{timeString({date: start, amPm: true, twelve: twelve})}
+				</time>
+				{'–'}
+				<time datetime={end.toUTCString()}>
+					{dateString({date: end, shortMonth: true})},
+					{timeString({date: end, amPm: true, twelve: twelve})}
+				</time>
+			</span>
+		);
 	}
 }
 TimeRange.propTypes = {
