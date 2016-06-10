@@ -1,5 +1,6 @@
 import React, { Component, PropTypes, Children } from 'react';
 
+import Checkbox from '../form/checkbox.jsx';
 import TableActions from './actions.jsx';
 import TableHead from './th.jsx';
 import TableRow from './tr.jsx';
@@ -9,10 +10,8 @@ export default class Table extends Component {
 		super(props);
 		this.state = {
 			selected: new Set(),
-			sort: {
-				column: this.props.initialSortKey,
-				dir: 1
-			}
+			sortDir: 1,
+			sortColumn: this.props.initialSortKey
 		};
 	}
 
@@ -26,24 +25,39 @@ export default class Table extends Component {
 	}
 
 	handleRowSelect(id) {
-		if (this.state.selected.has(id)) {
-			this.state.selected.delete(id);
-		} else {
-			this.state.selected.add(id);
-		}
+		this.setState((prevState) => {
+			let selected = prevState.selected;
+			if (selected.has(id)) {
+				selected.delete(id);
+			} else {
+				selected.add(id);
+			}
+			return { selected };
+		})
 	}
 
-	handleHeadingSelect(key) {
-		if (this.state.column === key) {
-			// Flip the direction if clicking the same column
-			this.state.sort = this.state.sort * -1;
+	handleHeadingSelect(key, isCheckbox) {
+		if (isCheckbox) {
+			// Select all rows if the heading checkbox is clicked
+			this.setState((prevState, props) => {
+				let selected = prevState.selected;
+				for (let rowData in props.data) {
+					selected.add(Table.id(rowData));
+				}
+				return { selected };
+			});
 		} else {
-			this.state.column = key;
+			if (this.state.column === key) {
+				// Flip the direction if clicking the same column
+				this.setState((prevState) => ({sortDir: prevState.sortDir * -1}));
+			} else {
+				this.setState({sortColumn: key});
+			}
 		}
 	}
 
 	sort() {
-		let {column: key, dir} = this.state.sort;
+		let {sortColumn: key, sortDir: dir} = this.state;
 		return this.props.data.sort((aMap, bMap) => {
 			let a = aMap.get(key), b = bMap.get(key);
 			return a.toString().localeCompare(b) * dir;
@@ -54,8 +68,36 @@ export default class Table extends Component {
 		return [...map.values()].join();
 	}
 
+	renderHeadings() {
+		return Array.from(this.props.data[0].keys(), key => {
+			let check = false;
+			if (key.type === Checkbox) check = true; 
+			let handler = this.handleHeadingSelect.bind(this, key, false)
+			
+			return (
+				<TableHead onClick={handler}
+				           sort={this.state.sortColumn === key && this.state.sortDir}>
+					{key}
+				</TableHead>
+			);
+		})
+	}
+
+	renderBody() {
+		return this.sort().map((rowData, index) => {
+			let id = Table.id(rowData); 
+			let handler = this.handleRowSelect.bind(this, id);
+			return (
+				<TableRow key={id} selected={selected.has(id)}
+				          onSelect={handler}>
+					{[...rowData.values()]}
+				</TableRow>
+			);
+		})
+	}
+
 	render() {
-		let {selected, sort} = this.state;
+		let selected = this.state.selected;
 		return (
 			<table onClick>
 				<caption>
@@ -66,27 +108,8 @@ export default class Table extends Component {
 						{this.props.altActions}
 					</TableActions>
 				</caption>
-				<thead>
-					{Array.from(this.props.data[0].keys(), key => {
-						let handler = this.handleHeadingSelect.bind(this, key);
-						return (
-							<TableHead onClick={handler}
-							           sort={sort.column === key && sort.dir}>
-								{key}
-							</TableHead>
-						);
-					})}
-				</thead>
-				<tbody>
-					{this.sort().map((rowData, index) => {
-						let id = Table.id(rowData); 
-						let handler = this.handleRowSelect.bind(this, id);
-						return (
-							<TableRow key={id} selected={selected.has(id)}
-							          onClick={handler}/>
-						);
-					})}
-				</tbody>
+				<thead>{this.renderHeadings()}</thead>
+				<tbody>{this.renderBody()}</tbody>
 			</table>
 		);
 	}

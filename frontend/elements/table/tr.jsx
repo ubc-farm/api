@@ -1,20 +1,47 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, Children, cloneElement } from 'react';
 import _ from '../classnames.js';
+import Checkbox from '../form/checkbox.jsx';
 
 /**
  * Creates a row from the map given
  */
 export default function TableRow(props) {
+	let handler = this.callSelect.bind(this, props);
 	return (
-		<tr className={_('table-row', props.selected && 'table-row-selected')}>
-			{Array.from(props.data.entries(), ([key, value]) => {
-				return <td>{value}</td>;
-			})}
+		<tr onClick={handler}
+		    className={_('table-row', props.selected && 'table-row-selected')}>
+			{this.renderCells(this.props)}
 		</tr>
 	);
 }
+
 TableRow.propTypes = {
 	key: PropTypes.string,
 	selected: PropTypes.boolean,
-	data: PropTypes.instanceOf(Map)
+	//data: PropTypes.instanceOf(Map),
+	onSelect: PropTypes.func
+}
+
+function renderCells(props) {
+	return Children.map(props.children, child => {
+		if (child.type === Checkbox) {
+			child = cloneElement(child, {
+				checked: props.selected
+			})
+		}
+		return <td>{child}</td>;
+	})
+	/*return Array.from(props.data.entries(), ([, cellNode]) => {
+		if (cellNode.type === Checkbox) {
+			cellNode = React.cloneElement(cellNode, {
+				checked: props.selected
+			})
+		} 
+
+		return <td>{cellNode}</td>;
+	});*/
+}
+
+function callSelect(props) {
+	props.onSelect();
 }
