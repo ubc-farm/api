@@ -62,14 +62,20 @@ export default class TextField extends Component {
 	render() {
 		let classList = _('text-field', {
 			'text-field-focus': this.state.focused,
-			'text-field-force-helper': this.props.persistHelper
+			'text-field-force-helper': this.props.persistHelper,
+			'text-field-floating': this.props.float
 		});
+
 		let {key: id, textType: type, disabled, hint: placeholder, pattern} = this.props;
 		let inputProps = {id, type, disabled, placeholder, required, pattern};
+
 		return (
 			<div className={classList} 
 			     key={this.props.key}>
-				<label htmlFor={this.props.key}>
+				<label htmlFor={this.props.key} className={_({
+				 'floating-label': this.props.float,
+				 'floating-label-focus': this.state.focused
+				})}>
 					{this.props.children}
 				</label>
 				<input {...inputProps} className='text-field-input'
@@ -94,6 +100,7 @@ export default class TextField extends Component {
 			error: PropTypes.string,
 			helper: PropTypes.string,
 			persistHelper: PropTypes.boolean,
+			float: PropTypes.boolean,
 
 			disabled: PropTypes.boolean,
 			required: PropTypes.boolean,
