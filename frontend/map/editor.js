@@ -7,7 +7,7 @@ import {initMap as start} from 'map/config.js';
 import iconButton from 'elements/icon-button-old.js'
 import google from 'google/maps/drawing';
 import * as style from 'map/shapes/style.js';
-import * as grid from 'map/shapes/select.js';
+import {setActive as setActiveGrid} from 'map/editor-grid-render.js';
 
 /**
  * Called to switch to add mode on the map
@@ -49,25 +49,7 @@ function polygonComplete(polygon) {
 	google.maps.event.addListener(polygon, 'click', e => {})
 	selectMode();
 	
-	let path = polygon.getPath().getArray().map(point => {
-		let {lng: x, lat: y} = point.toJSON();
-		return {x, y};
-	});
-	path.push(path[0]);
-	
-	/** @todo let user define the grid values */
-	Promise.all([
-		grid.buildGrid(path, {
-			width: 2, height: 2,
-			angle: 25,
-			widthSpecific: [], heightSpecific: []
-		}),
-		map
-	]).then(results => {
-		let [grid, map] = results;
-		console.log(grid);
-		map.data.add(grid);
-	})
+	setActiveGrid(polygon); //@todo custom grid options
 }
 
 var polygons = [];

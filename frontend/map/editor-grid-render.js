@@ -6,18 +6,20 @@ import * as style from 'map/shapes/style.js';
 import ModuleWorker from 'workers/promise/system.js';
 import {displayGrid, convertCells} from 'map/shapes/draw.js';
 
+/** 
+ * Default settings for the grid 
+ * @see module:workers/grid.js
+ */
 const defaultGrid = {
 	width: 2, height: 2,
 	angle: 25,
 	widthSpecific: [], heightSpecific: []
 };
 
-export function worker() {
-	return new ModuleWorker('workers/grid.js');
-}
-
 /**
  * Display a grid on the selected polygon
+ * @param {google.maps.Polygon} polygon
+ * @param {Object} gridOptions
  */
 export function setActive(polygon, gridOptions) {
 	let gridOpts;
@@ -31,7 +33,7 @@ export function setActive(polygon, gridOptions) {
 	path.push(path[0]);
 
 	let map = polygon.getMap();
-	return buildGridData(path, gridOpts).then(grid => {
+	return buildGrid(path, gridOpts).then(grid => {
 		map.data.add(grid);
 	})
 }
@@ -45,7 +47,8 @@ export function setActive(polygon, gridOptions) {
  * @see module:workers/grid.js
  * @returns {Promise<Data.FeatureOptions>} grid as a feature
  */
-function buildGrid(path, gridSpec = defaultGrid, worker = worker()) {
+function buildGrid(path, gridSpec = defaultGrid, 
+worker = new ModuleWorker('workers/grid.js')) {
 	let name = JSON.stringify(path);
 
 	return worker.postMessage({name, path, gridSpec})
