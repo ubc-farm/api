@@ -25,6 +25,7 @@ export default class TextField extends Component {
 
 	handleChange(e) {
 		this.setState({value: e.target.value})
+		this.props.onChange(e.target.value);
 	}
 
 	renderHelper() {
@@ -61,30 +62,30 @@ export default class TextField extends Component {
 
 	render() {
 		let {value, focused} = this.state;
-		let {key: id, textType: type, hint: placeholder} = this.props; 
-		let {disabled, required, pattern, name, float} = this.props;
-		let inputProps = {
-			id, type, placeholder,
-			disabled, required, pattern,
-			value,
-			name: name || id,
-			className: 'text-field-input'
+		let props = this.props;
+		let {key: id, hint: placeholder, maxLength: maxlength} = props; 
+		delete props.key; delete props.hint; delete props.maxLength;
+		let extraProps = {
+			id, placeholder, maxlength,
+			value, name: props.name || id,
+			className: 'text-field-input',
+			onFocus: this.onFocus, onBlur: this.onBlur
 		}
-		let classList = _('text-field', {
+		let classList = _('text-field', props.className, {
 			'text-field-focus': focused,
 			'text-field-force-helper': this.props.persistHelper,
-			'text-field-floating': this.props.float,
+			'text-field-floating': props.float,
 			'text-field-disabled': disabled
 		});
 
 		return (
 			<div className={classList} key={id}>
 				<label htmlFor={id} className={_({
-				 'floating-label': float
+				 'floating-label': props.float
 				})}>
 					{this.props.children}
 				</label>
-				<input {...inputProps} onChange={this.handleChange}/>
+				<input {...props} {...extraProps} onChange={this.handleChange}/>
 				{this.renderHelper()} 
 				{this.renderError()} 
 				{this.renderCounter()}
@@ -95,8 +96,9 @@ export default class TextField extends Component {
 	/**
 	 * @property {function} [onFocusChange] - callback for when input is 
 	 * focused/blurred. If focused, passed true. If blurred, passed false.
+	 * @property {function} [onChange] - callback for value change
 	 * @property {any} key - also used as input name (unless overriden)
-	 * @property {string} [textType=text] - type for the input.
+	 * @property {string} [type=text] - type for the input.
 	 * Only a few types, related to text, are allowed.
 	 * @property {number} [maxLength] - sets a maxiumum length for the input,
 	 * which will also cause a character counter to be rendered.
@@ -116,8 +118,9 @@ export default class TextField extends Component {
 	static get propTypes() {
 		return {
 			onFocusChange: PropTypes.func,
+			onChange: PropTypes.func,
 			key: PropTypes.any.isRequired,
-			textType: PropTypes.oneOf([
+			type: PropTypes.oneOf([
 				'email', 'text', 'url', 'tel'
 			]),
 			maxLength: PropTypes.number,
@@ -137,8 +140,9 @@ export default class TextField extends Component {
 	static get defaultProps() {
 		return {
 			maxLength: -1,
-			textType: 'text',
+			type: 'text',
 			onFocusChange: () => {},
+			onChange: () => {},
 			float: true
 		}
 	}
