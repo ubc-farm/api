@@ -8,6 +8,7 @@ import iconButton from 'elements/icon-button-old.js'
 import google from 'google/maps/drawing';
 import * as style from 'map/shapes/style.js';
 import {setActive as setActiveGrid} from 'map/editor-grid-render.js';
+import Selector from 'map/shapes/select.js';
 
 /**
  * Called to switch to add mode on the map
@@ -82,11 +83,11 @@ var map = domReady.then(() => {
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
 	manager.setMap(map); 
 
+	new Selector(map);
+
 	map.data.setStyle(feature => {
 		if (feature.getProperty('isGrid')) {
 			return style.grid.normal;
-		} else if (feature.getProperty('selected')) {
-			return style.grid.selected;
 		}
 	})
 	
