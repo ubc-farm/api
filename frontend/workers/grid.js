@@ -21,6 +21,8 @@ import jsts from 'jsts';
  * @param {number[]} msg.gridSpec.widthSpecific[] - key and width
  * @param {number[][]} msg.gridSpec.heightSpecific - specific heights
  * @param {number[]} msg.gridSpec.heightSpecific[] - key and height
+ * @return {Promise<Array<Object[]>>} array of cell arrays, where each point is 
+ * an object with x and y.
  */
 register(msg => {
 	let path = msg.path.map(point => new jsts.geom.Coordinate(point.x, point.y));
