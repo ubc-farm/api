@@ -4,7 +4,7 @@
 
 import * as style from 'map/shapes/style.js';
 import ModuleWorker from 'workers/promise/system.js';
-import {displayGrid, convertCells} from 'map/shapes/draw.js';
+import {convertCells, createCollection} from 'map/shapes/draw.js';
 
 /** 
  * Default settings for the grid 

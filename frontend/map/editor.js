@@ -87,7 +87,9 @@ var map = domReady.then(() => {
 
 	map.data.setStyle(feature => {
 		if (feature.getProperty('isGrid')) {
-			return style.grid.normal;
+			if (feature.getProperty('selected')) {
+				return style.grid.selected;
+			} else return style.grid.normal;
 		}
 	})
 	
