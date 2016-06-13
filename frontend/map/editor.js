@@ -3,32 +3,21 @@
  */
 
 import {domReady} from 'utils.js';
-import {initMap as start} from 'map/config.js';
-import iconButton from 'elements/icon-button-old.js'
-import google from 'google/maps/drawing';
+import {initMap} from 'map/config.js';
 import * as style from 'map/shapes/style.js';
 import {setActive as setActiveGrid} from 'map/editor-grid-render.js';
 import Selector from 'map/shapes/select.js';
+import MapSidebar from './sidebar.js';
 
-/**
- * Called to switch to add mode on the map
- * @listens click
- */
-function addMode() {
-	buttons.select.classList.remove('hover-toggle');
-	buttons.add.classList.add('hover-toggle');
-	manager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import google from 'google/maps/drawing';
+
+function swapMode(newMode) {
+	let drawMode = null;
+	if (newMode === 'add') drawMode = google.maps.drawing.OverlayType.POLYGON;
+	manager.setDrawingMode(drawMode)
 }
-
-/**
- * Called to switch to select mode
- * @listens click
- */
-function selectMode() {
-	buttons.add.classList.remove('hover-toggle');
-	buttons.select.classList.add('hover-toggle');
-	manager.setDrawingMode(null);
-} 
 
 /**
  * Opens polygon for editing when clicked
@@ -48,43 +37,35 @@ function polygonClick() {
 function polygonComplete(polygon) {
 	polygons.push(polygon);
 	google.maps.event.addListener(polygon, 'click', e => {})
-	selectMode();
+	aside.setMode('select');
 	
 	setActiveGrid(polygon); //@todo custom grid options
 }
 
 var polygons = [];
-var buttons = {};
+var aside;
 var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false,
 	polygonOptions: style.field.normal
 });
 
-//var editor = new FieldEditor();
+var aside;
+domReady.then(() => {
+	aside = ReactDOM.render(
+		<MapSidebar onModeChange={swapMode}/>,
+		document.getElementById('map-edit-aside')
+	);
+	return aside;
+})
 
-var map = domReady.then(() => {
-	let sidebar = document.getElementById('map-edit-aside');
-	
-	let frag = document.createDocumentFragment();
-	let add = iconButton('add', 'Add Field');
-	let select = iconButton('edit', 'Select');
-	
-	frag.appendChild(add); 
-	frag.appendChild(select); 
-	sidebar.insertBefore(frag, sidebar.firstChild);
-	
-	add.addEventListener('click', addMode);
-	select.addEventListener('click', selectMode);
-	buttons = {add, select};
-	
-	return start();
-}).then(map => { 
-	map.setTilt(0);
+var map = domReady.then(() => initMap())
+.then(map => { 
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
-	manager.setMap(map); 
+	manager.setMap(map);
+	return map; });
 
+map.then(map => {
 	new Selector(map);
-
 	map.data.setStyle(feature => {
 		if (feature.getProperty('isGrid')) {
 			if (feature.getProperty('selected')) {
@@ -92,6 +73,5 @@ var map = domReady.then(() => {
 			} else return style.grid.normal;
 		}
 	})
-	
 	return map;
 });

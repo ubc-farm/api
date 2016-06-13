@@ -34,8 +34,11 @@ gulp.task('styles', () => {
 gulp.task('main-js', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
+		'./frontend/**/*.jsx',
 		'./backend/shared/**/*.js', //shared JS with backend
+		'./backend/shared/**/*.jsx', //shared JS with backend
 		'!./frontend/vendor/**',
+		'!./frontend/vendor-es6/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
 		'!./frontend/workers/sw.js'
@@ -55,12 +58,28 @@ gulp.task('main-js', () => {
 })
 
 /** Copy vendor files */
-gulp.task('vendor', () => {
+gulp.task('vendor', ['vendor-es6'], () => {
 	return gulp.src([
 		'./frontend/vendor/**',
 		'!./frontend/vendor/**/*.src.js'
 	], {base: './frontend'})
 		.pipe(gulp.dest(path.join(outputPath, 'js')))
+})
+
+gulp.task('vendor-es6', () => {
+	return gulp.src([
+		'./frontend/vendor-es6/**',
+		'!./frontend/vendor-es6/**/*.src.js'
+	])
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			plugins: [
+				'transform-es2015-modules-systemjs'
+			],
+			babelrc: false
+		}))
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest(path.join(outputPath, 'js/vendor')))
 })
 
 /** Minify sw.js and put it in root */
@@ -122,6 +141,7 @@ gulp.task('watch', () => {
 	gulp.watch('./styles/**/*.css', ['styles'])
 	gulp.watch([
 		'./frontend/**/*.js',
+		'./frontend/**/*.jsx',
 		'!./frontend/vendor/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',

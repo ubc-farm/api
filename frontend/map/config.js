@@ -17,6 +17,7 @@ export function initMap(node = 'google-map') {
 				google.maps.MapTypeId.SATELLITE,
 				google.maps.MapTypeId.HYBRID
 			] 
-		}
+		},
+		tilt: 0
 	})
 }
