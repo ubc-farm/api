@@ -16,7 +16,6 @@ export default function IconButton(props) {
 
 IconButton.propTypes = {
 	icon: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	onClick: PropTypes.func
 };

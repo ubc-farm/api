@@ -6,7 +6,7 @@
 const hasOwn = {}.hasOwnProperty;
 export default function classList(...classes) {
 	let list = [];
-	for (classname of classes) {
+	for (let classname of classes) {
 		if (!classname) continue; //skip falsy values
 		
 		let type = typeof classname;
@@ -21,6 +21,6 @@ export default function classList(...classes) {
 				}
 			}
 		}
-		return list.join(' ');
 	}
+	return list.join(' ');
 }

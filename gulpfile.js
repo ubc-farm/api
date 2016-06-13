@@ -141,6 +141,7 @@ gulp.task('watch', () => {
 	gulp.watch('./styles/**/*.css', ['styles'])
 	gulp.watch([
 		'./frontend/**/*.js',
+		'./frontend/**/*.jsx',
 		'!./frontend/vendor/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',

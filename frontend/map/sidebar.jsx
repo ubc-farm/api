@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import IconButton from 'elements/icon/button.jsx';
+import IconButton from 'elements/icon/button.js';
 
 /**
  * Sidebar component for the map editor page.

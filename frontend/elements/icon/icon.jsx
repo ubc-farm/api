@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import _ from '../classnames.js';
 
 /**
  * Represents an icon from the assets/images/icons folder. If the icon isn't 
@@ -11,7 +12,7 @@ import React, { PropTypes } from 'react';
 export default function Icon(props) {
 	if (props.name == null) return null;
 	return (
-		<img className={'icon-image' + (props.className)} alt='' 
+		<img className={_('icon-image', props.className)} alt='' 
 			   width={props.size} height={props.size} 
 				 src={'/assets/images/icons/' + (props.name) + '.svg'}/> );
 }
@@ -20,4 +21,4 @@ Icon.propTypes = {
 	className: PropTypes.string,
 	name: PropTypes.string
 };
-Icon.defaultProps = { size: 24, className: '' };
+Icon.defaultProps = { size: 24 };
