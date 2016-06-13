@@ -34,7 +34,9 @@ gulp.task('styles', () => {
 gulp.task('main-js', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
+		'./frontend/**/*.jsx',
 		'./backend/shared/**/*.js', //shared JS with backend
+		'./backend/shared/**/*.jsx', //shared JS with backend
 		'!./frontend/vendor/**',
 		'!./frontend/vendor-es6/**',
 		'!./frontend/typings/**',
