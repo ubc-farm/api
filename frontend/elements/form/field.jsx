@@ -60,27 +60,31 @@ export default class TextField extends Component {
 	}
 
 	render() {
+		let {value, focused} = this.state;
+		let {key: id, textType: type, hint: placeholder} = this.props; 
+		let {disabled, required, pattern, name, float} = this.props;
+		let inputProps = {
+			id, type, placeholder,
+			disabled, required, pattern,
+			value,
+			name: name || id,
+			className: 'text-field-input'
+		}
 		let classList = _('text-field', {
-			'text-field-focus': this.state.focused,
+			'text-field-focus': focused,
 			'text-field-force-helper': this.props.persistHelper,
-			'text-field-floating': this.props.float
+			'text-field-floating': this.props.float,
+			'text-field-disabled': disabled
 		});
 
-		let {key: id, textType: type, disabled, hint: placeholder, pattern} = this.props;
-		let inputProps = {id, type, disabled, placeholder, required, pattern};
-
 		return (
-			<div className={classList} 
-			     key={this.props.key}>
-				<label htmlFor={this.props.key} className={_({
-				 'floating-label': this.props.float,
-				 'floating-label-focus': this.state.focused
+			<div className={classList} key={id}>
+				<label htmlFor={id} className={_({
+				 'floating-label': float
 				})}>
 					{this.props.children}
 				</label>
-				<input {...inputProps} className='text-field-input'
-				       value={this.state.value} onChange={this.handleChange}
-							 name={this.props.name || this.props.key}/>
+				<input {...inputProps} onChange={this.handleChange}/>
 				{this.renderHelper()} 
 				{this.renderError()} 
 				{this.renderCounter()}
@@ -88,6 +92,27 @@ export default class TextField extends Component {
 		)
 	}
 
+	/**
+	 * @property {function} [onFocusChange] - callback for when input is 
+	 * focused/blurred. If focused, passed true. If blurred, passed false.
+	 * @property {any} key - also used as input name (unless overriden)
+	 * @property {string} [textType=text] - type for the input.
+	 * Only a few types, related to text, are allowed.
+	 * @property {number} [maxLength] - sets a maxiumum length for the input,
+	 * which will also cause a character counter to be rendered.
+	 * @property {string} [hint] text displayed as a placeholder inside the input.
+	 * Should be unimportant example text (same pitfalls as input placeholder)
+	 * @property {string} [error] text shown (with CSS) if the input is invalid.
+	 * Extend this component instead if you want more advanced error-checking.
+	 * @property {string} [helper] text shown after the input when focused. 
+	 * Should be instruction text.
+	 * @property {boolean} [persistHelper] - always show the helper text if true
+	 * @property {boolean} [float=true] - sets a class to indicate a floating 
+	 * label should be used for the input.
+	 * @property {boolean} [disabled] - disabled the input
+	 * @property {boolean} [required] - flags the input as required
+	 * @property {string} [name] overrides the name for the input
+	 */
 	static get propTypes() {
 		return {
 			onFocusChange: PropTypes.func,
@@ -112,7 +137,9 @@ export default class TextField extends Component {
 	static get defaultProps() {
 		return {
 			maxLength: -1,
-			textType: 'text'
+			textType: 'text',
+			onFocusChange: () => {},
+			float: true
 		}
 	}
 }
