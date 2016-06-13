@@ -34,7 +34,7 @@ export function setActive(polygon, gridOptions) {
 
 	let map = polygon.getMap();
 	return buildGrid(path, gridOpts).then(grid => {
-		map.data.add(grid);
+		map.data.addGeoJson(grid);
 	})
 }
 
@@ -52,6 +52,6 @@ worker = new ModuleWorker('workers/grid.js')) {
 	let name = JSON.stringify(path);
 
 	return worker.postMessage({name, path, gridSpec})
-		.then(convertCells)
-		.then(cells => displayGrid(cells, name))
+		.then(cells => convertCells(cells, name))
+		.then(features => createCollection(features))
 }
