@@ -17,3 +17,16 @@ export function displayGrid(cells, name) {
 	}
 	return options;
 }
+
+/**
+ * Converts an array of cell JSON objects to Google Maps data polygons
+ * @param {Array<Object[]>} cells
+ * @returns {google.maps.Data.Polygon}
+ */
+export function convertCells(cells) {
+	return cells.map(cell => {
+		return new google.maps.Data.Polygon([
+			cell.map(point => new google.maps.LatLng(point.y, point.x))
+		])
+	});
+}

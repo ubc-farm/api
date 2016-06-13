@@ -4,7 +4,7 @@
 
 import * as style from 'map/shapes/style.js';
 import ModuleWorker from 'workers/promise/system.js';
-import GridSelector from 'map/shapes/select.js';
+import {displayGrid, convertCells} from 'map/shapes/draw.js';
 
 const defaultGrid = {
 	width: 2, height: 2,
@@ -37,12 +37,18 @@ export function setActive(polygon, gridOptions) {
 }
 
 /**
- * Process the path within a web worker
+ * Sends grid data off to a web worker then
+ * resolves with a new grid data feature for the map
+ * @param {Coordinate[]} path - path of containing polygon
+ * @param {Object} [gridSpec]
+ * @param {ModuleWorker} [worker] - override the worker
+ * @see module:workers/grid.js
+ * @returns {Promise<Data.FeatureOptions>} grid as a feature
  */
-export function buildGridData(path, gridSpec = defaultGrid, worker = worker()) {
-	return worker.postMessage({
-		name: JSON.stringify(path), //@todo create ID for polygon
-		path, 
-		gridSpec
-	})
+function buildGrid(path, gridSpec = defaultGrid, worker = worker()) {
+	let name = JSON.stringify(path);
+
+	return worker.postMessage({name, path, gridSpec})
+		.then(convertCells)
+		.then(cells => displayGrid(cells, name))
 }
