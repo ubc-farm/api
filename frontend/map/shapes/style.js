@@ -22,6 +22,7 @@ export const grid = {
 		fillOpacity: 0.4
 	},
 	selected: {
+		zIndex: 3,
 		fillOpacity: 0.5,
 		strokeOpacity: 0.9,
 		fillColor: color.accent,

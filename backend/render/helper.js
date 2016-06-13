@@ -1,5 +1,5 @@
 require('marko/node-require').install();
-var Promise = require('bluebird');
+const Promise = require('bluebird');
 
 /**
  * Streams out template

@@ -334,6 +334,17 @@ exports.up = function(knex) {
 			.unsigned().notNullable()
 			.references('id').inTable('ResearchProject');
 	})
+	.createTable('Mix', table => {
+		table.bigIncrements('id');
+
+		table.bigIncrements('forId')
+			.unsigned().notNullable()
+			.references('id').inTable('Plant');
+
+		table.bigIncrements('subId')
+			.unsigned().notNullable()
+			.references('id').inTable('Plant');
+	})
 };
 
 exports.down = function(knex, Promise) {
@@ -365,4 +376,5 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Grant')
 		.dropTableIfExists('ResearchProject')
 		.dropTableIfExists('ResearchPartner')
+		.dropTableIfExists('Mix')
 }

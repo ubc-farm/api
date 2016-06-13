@@ -1,19 +1,33 @@
-import google from 'google/maps/drawing';
+/**
+ * Creates a feature collection from the given features
+ * @param {GeoJSON.Feature[]} features
+ * @returns {GeoJSON.FeatureCollection}
+ */
+export function createCollection(features) {
+	return {
+		type: 'FeatureCollection',
+		features
+	}
+}
 
 /**
- * Creates a Data Feature from the provided grid cells
- * @param {LatLngLiteral[][]} cells
- * @param {LatLngLinteral[]} cells[] - the path of a cell's polygon 
- * @param {string} [name]
- * @returns {Data.FeatureOptions}
+ * Converts an array of cell JSON objects to GeoJSON features
+ * @param {Array<Object[]>} cells
+ * @param {string} name
+ * @returns {GeoJSON.Feature}
  */
-export function displayGrid(cells, name) {
-	let options = {
-		geometry: new google.maps.Data.MultiPolygon(cells),
-		properties: {isGrid: true}
-	}
-	if (name != null) {
-		options.id = name + '-field';
-	}
-	return options;
+export function convertCells(cells, name) {
+	return cells.map((cell, index) => {
+		return {
+			type: 'Feature',
+			geometry: {
+				type: 'Polygon',
+				coordinates: [cell.map(point => [point.x, point.y])]
+			},
+			properties: {
+				id: name + index,
+				isGrid: true
+			}
+		}
+	});
 }
