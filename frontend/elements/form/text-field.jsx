@@ -65,6 +65,7 @@ export default class TextField extends Component {
 		let props = this.props;
 		let {key: id, hint: placeholder, maxLength: maxlength} = props; 
 		delete props.key; delete props.hint; delete props.maxLength;
+		delete props.children;
 		let extraProps = {
 			id, placeholder, maxlength,
 			value, name: props.name || id,
