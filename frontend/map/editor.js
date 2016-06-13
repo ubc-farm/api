@@ -9,9 +9,9 @@ import {setActive as setActiveGrid} from 'map/editor-grid-render.js';
 import Selector from 'map/shapes/select.js';
 import MapSidebar from './sidebar.js';
 
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import google from 'google/maps/drawing';
-import React, {createElement} from 'react';
-import ReactDOM, {render} from 'react-dom';
 
 function swapMode(newMode) {
 	let drawMode = null;
@@ -37,7 +37,7 @@ function polygonClick() {
 function polygonComplete(polygon) {
 	polygons.push(polygon);
 	google.maps.event.addListener(polygon, 'click', e => {})
-	aside.setMode('select')
+	aside.setMode('select');
 	
 	setActiveGrid(polygon); //@todo custom grid options
 }
@@ -49,9 +49,13 @@ var manager = new google.maps.drawing.DrawingManager({
 	polygonOptions: style.field.normal
 });
 
-var aside = domReady.then(() => {
-	return ReactDOM.render(<MapSidebar onModeChange={swapMode}/>,
-		document.getElementById('map-edit-aside'));
+var aside;
+domReady.then(() => {
+	aside = ReactDOM.render(
+		<MapSidebar onModeChange={swapMode}/>,
+		document.getElementById('map-edit-aside')
+	);
+	return aside;
 })
 
 var map = domReady.then(() => initMap())

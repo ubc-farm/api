@@ -8,7 +8,8 @@ import _ from '../classnames.js';
  */
 export default function IconButton(props) {
 	return (
-		<button className={_('i-button icon-text hover-light', props.className)}>
+		<button onClick={props.onClick}
+		        className={_('i-button icon-text hover-light', props.className)}>
 			<Icon className='i-button-icon' name={props.icon}/>
 			{props.children}
 		</button>);

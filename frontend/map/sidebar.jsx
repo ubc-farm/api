@@ -7,7 +7,13 @@ import IconButton from 'elements/icon/button.js';
 export default class MapSidebar extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {mode: this.props.initialMode}
+		this.state = {mode: this.props.mode}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.mode && nextProps.mode !== this.state.mode) {
+			this.setMode(mode);
+		}
 	}
 
 	setMode(mode) {
@@ -38,7 +44,7 @@ export default class MapSidebar extends Component {
 	static propTypes() {
 		return {
 			onModeChange: PropTypes.func,
-			initialMode: PropTypes.oneOf(['add', 'select'])
+			mode: PropTypes.oneOf(['add', 'select'])
 		}
 	}
 
