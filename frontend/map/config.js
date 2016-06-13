@@ -12,11 +12,7 @@ export function initMap(node = 'google-map') {
 		fullscreenControl: true,
     scaleControl: true,
 		mapTypeControlOptions: {
-			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-			mapTypeIds: [
-				google.maps.MapTypeId.SATELLITE,
-				google.maps.MapTypeId.HYBRID
-			] 
+			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
 		},
 		tilt: 0
 	})

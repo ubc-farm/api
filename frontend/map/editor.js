@@ -13,19 +13,14 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import google from 'google/maps/drawing';
 
-function swapMode(newMode) {
-	let drawMode = null;
-	if (newMode === 'add') drawMode = google.maps.drawing.OverlayType.POLYGON;
-	manager.setDrawingMode(drawMode)
-}
-
 /**
  * Opens polygon for editing when clicked
  * @listens click
  * @this google.maps.Polygon
+ * @todo
  */
 function polygonClick() {
-	
+	setActiveGrid(this);
 }
 
 /**
@@ -40,6 +35,16 @@ function polygonComplete(polygon) {
 	aside.setMode('select');
 	
 	setActiveGrid(polygon); //@todo custom grid options
+}
+
+/**
+ * Switches the drawing mode on the map
+ * @param {string} newMode - either 'add' or 'select'
+ */
+function swapMode(newMode) {
+	let drawMode = null;
+	if (newMode === 'add') drawMode = google.maps.drawing.OverlayType.POLYGON;
+	manager.setDrawingMode(drawMode)
 }
 
 var polygons = [];
@@ -58,11 +63,11 @@ domReady.then(() => {
 	return aside;
 })
 
-var map = domReady.then(() => initMap())
-.then(map => { 
+var map = domReady.then(() => initMap()).then(map => { 
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
 	manager.setMap(map);
-	return map; });
+	return map; 
+});
 
 map.then(map => {
 	new Selector(map);

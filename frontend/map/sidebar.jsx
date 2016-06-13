@@ -31,12 +31,17 @@ export default class MapSidebar extends Component {
 	render() {
 		return (
 			<div>
-				<IconButton {...this.buttonProps('add')} icon='add'>
-					Add Field
-				</IconButton>
-				<IconButton {...this.buttonProps('select')} icon='edit'>
-					Select
-				</IconButton>
+				<header>
+					<IconButton {...this.buttonProps('add')} icon='add'>
+						Add Field
+					</IconButton>
+					<IconButton {...this.buttonProps('select')} icon='edit'>
+						Select
+					</IconButton>
+				</header>
+				<form>
+					
+				</form>
 			</div>
 		);
 	}
