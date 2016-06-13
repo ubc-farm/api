@@ -1,7 +1,7 @@
 import React, { Component, PropTypes, Children } from 'react';
 import _ from '../classnames.js';
 
-import {Checkbox, Radio} from './checkbox.jsx';
+import {Checkbox, Radio} from './checkbox.js';
 
 export default class Filter extends Component {
 	constructor(props) {

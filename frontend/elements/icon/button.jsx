@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Icon from './icon.jsx';
+import Icon from './icon.js';
 import _ from '../classnames.js';
 
 /**

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from '../classnames.js';
-import IconButton from '../icon/button.jsx';
+import IconButton from '../icon/button.js';
 
 /**
  * An element that can collaspe and expand.

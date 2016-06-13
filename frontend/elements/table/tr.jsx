@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, Children, cloneElement } from 'react';
 import _ from '../classnames.js';
-import Checkbox from '../form/checkbox.jsx';
+import Checkbox from '../form/checkbox.js';
 
 /**
  * Creates a row from the map given

@@ -7,7 +7,7 @@ import {initMap} from 'map/config.js';
 import * as style from 'map/shapes/style.js';
 import {setActive as setActiveGrid} from 'map/editor-grid-render.js';
 import Selector from 'map/shapes/select.js';
-import MapSidebar from './sidebar.jsx';
+import MapSidebar from './sidebar.js';
 
 import google from 'google/maps/drawing';
 import React, {createElement} from 'react';

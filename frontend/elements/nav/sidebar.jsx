@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import NavLink from './nav-link.jsx';
+import NavLink from './nav-link.js';
 
 /**
  * The sidebar of the site.

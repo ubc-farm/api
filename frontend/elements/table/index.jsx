@@ -1,9 +1,9 @@
 import React, { Component, PropTypes, Children } from 'react';
 
-import Checkbox from '../form/checkbox.jsx';
-import TableActions from './actions.jsx';
-import TableHead from './th.jsx';
-import TableRow from './tr.jsx';
+import Checkbox from '../form/checkbox.js';
+import TableActions from './actions.js';
+import TableHead from './th.js';
+import TableRow from './tr.js';
 
 export default class Table extends Component {
 	constructor(props) {

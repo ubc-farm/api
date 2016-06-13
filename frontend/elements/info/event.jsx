@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import _ from '../classnames.js';
-import Checkbox from '../form/checkbox.jsx';
-import TimeRange from './range.jsx';
+import Checkbox from '../form/checkbox.js';
+import TimeRange from './range.js';
 
 /**
  * An event card to display in a agenda

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import calendarArray from 'shared/calendar/array.js';
 import {months} from 'shared/calendar/monthnames.js';
 import _ from '../classnames.js';
-import ArrowButton from '../form/arrow-button.jsx';
+import ArrowButton from '../form/arrow-button.js';
 
 /**
  * A single month view. Multiple can be combined to pageinate
