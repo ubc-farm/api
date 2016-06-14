@@ -109,7 +109,8 @@ export default class MapSidebar extends Component {
 					</IconButton>
 				</header>
 				<form hidden={!this.state.polygon} ref={f => this._form = f}>
-					<IconButton {...this.buttonProps('resize')} icon='transform'>
+					<IconButton {...this.buttonProps('resize')} icon='transform'
+					            className='large-button'>
 						Resize Outline
 					</IconButton>
 					<section id='grid-config'>
