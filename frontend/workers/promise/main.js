@@ -4,7 +4,7 @@ var messageIds = 0; //incrementor for IDs
 
 /**
  * A Web Worker that returns a promise when calling postMessage.
- * Additionally stringifies messages for performance
+ * Additionally stringifies messages for performance.
  * @see https://github.com/NotWoods/promise-worker
  * @module workers/promise/main.js
  */
@@ -13,22 +13,25 @@ export default class PromiseWorker {
    * @param {DOMString|Worker} file - url to worker script
    */
   constructor(file) {
-    if (file instanceof Worker) {
-      this._worker = file;
-    } else {
-      this._worker = new Worker(file);
-    }
+    /** @member {Worker} _worker */
+    if (file instanceof Worker) this._worker = file;  
+    else this._worker = new Worker(file);
+    /** @member {Map<number, function>} _callbacks */
     this._callbacks = new Map();
 
+    /**
+     * @alias PromiseWorker.onmessage
+     * @listens Worker~message
+     * Handles messages sent back from the worker, then
+     * calls the callback with the corresponding ID.
+     */
     this._worker.addEventListener('message', e => {
       let [messageId, error, result] = JSON.parse(e.data);
 
       let callback = this._callbacks.get(messageId);
-      if (!callback) {
-        // Ignore - user might have created multiple PromiseWorkers.
-        // This message is not for us.
-        return;
-      }
+      // Ignore - user might have created multiple PromiseWorkers.
+      // This message is not for us.
+      if (!callback) return;
       
       callback(error, result);
       this._callbacks.delete(messageId);
@@ -52,3 +55,5 @@ export default class PromiseWorker {
     });
   }
 }
+
+//export {default as register} from './register.js';
