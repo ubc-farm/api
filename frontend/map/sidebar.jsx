@@ -34,9 +34,14 @@ export default class MapSidebar extends Component {
 		})
 	}
 
-	submit() {
+	/**
+	 * Submits updates to the grid to the callback
+	 * @param {Object} newState - used when setState may still be pending
+	 */
+	submit(newState) {
 		let {angle, width, height, polygon} = this.state;
-		this.props.updateGrid({angle, width, height, polygon});
+		let payload = Object.assign({angle, width, height, polygon}, newState);
+		this.props.updateGrid(payload);
 	}
 
 	/**
@@ -51,9 +56,13 @@ export default class MapSidebar extends Component {
 		}
 	}
 
-	/** Public function to set the focused polygon for the form */
+	/** 
+	 * Function to set the focused polygon for the form
+	 * @public 
+	 */
 	setPolygon(newPolygon) {
 		this.setState({polygon: newPolygon, mode: 'select'});
+		this.submit({polygon: newPolygon});
 	}
 
 	/**

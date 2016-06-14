@@ -9,9 +9,7 @@ export default class Selector {
 	 */
 	constructor(map, filter = ()=>true, onMouseRelease = ()=>{}) {
 		this.active = false; this.ctrlKey = false;
-		this.layer = map.data;
-		this.filter = filter;
-		this.onMouseRelease = onMouseRelease;
+		Object.assign(this, {layer: map.data, filter, onMouseRelease})
 
 		this.onMouseOver = this.onMouseOver.bind(this);
 		this.onMouseDown = this.onMouseDown.bind(this);
