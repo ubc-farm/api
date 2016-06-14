@@ -64,14 +64,15 @@ export default class TextField extends Component {
 		let {value, focused} = this.state;
 		let props = this.props;
 		let {key: id, hint: placeholder, maxLength: maxlength} = props; 
-		delete props.key; delete props.hint; delete props.maxLength;
-		delete props.children;
 		let extraProps = {
 			id, placeholder, maxlength,
 			value, name: props.name || id,
 			className: 'text-field-input',
+			'data-suffix': suffix,
 			onFocus: this.onFocus, onBlur: this.onBlur
 		}
+		delete props.key; delete props.hint; delete props.maxLength;
+		delete props.children; delete props.suffix;
 		let classList = _('text-field', props.className, {
 			'text-field-focus': focused,
 			'text-field-force-helper': this.props.persistHelper,
@@ -112,6 +113,8 @@ export default class TextField extends Component {
 	 * @property {boolean} [persistHelper] - always show the helper text if true
 	 * @property {boolean} [float=true] - sets a class to indicate a floating 
 	 * label should be used for the input.
+	 * @property {string} [suffix] - displays a suffix for the text input, such as
+	 * a unit like kg or °.
 	 * @property {boolean} [disabled] - disabled the input
 	 * @property {boolean} [required] - flags the input as required
 	 * @property {string} [name] overrides the name for the input
@@ -130,6 +133,7 @@ export default class TextField extends Component {
 			helper: PropTypes.string,
 			persistHelper: PropTypes.boolean,
 			float: PropTypes.boolean,
+			suffix: PropTypes.string,
 
 			disabled: PropTypes.boolean,
 			required: PropTypes.boolean,
