@@ -24,9 +24,9 @@ import jsts from 'jsts';
  * @return {Promise<Array<Object[]>>} array of cell arrays, where each point is 
  * an object with x and y.
  */
-register(msg => {
+register(function(msg) {
 	let path = msg.path.map(point => new jsts.geom.Coordinate(point.x, point.y));
-	 
+	
 	let field = new Field(path, msg.name);
 	let grid = new Grid(msg.gridSpec.width, msg.gridSpec.height, 		
 		msg.gridSpec.angle, path[0], field);
