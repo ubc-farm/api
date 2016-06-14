@@ -22,9 +22,8 @@ const defaultGrid = {
  * @param {Object} gridOptions
  */
 export function setActive(polygon, gridOptions) {
-	let gridOpts;
-	if (polygon.gridOptions) gridOpts = polygon.gridOptions;
-	else if (gridOptions) gridOpts = gridOptions;
+	let gridOpts = gridOptions;
+	if (polygon.gridOptions) gridOpts = polygon.gridOptions; //@todo
 
 	let path = polygon.getPath().getArray().map(point => {
 		let {lng: x, lat: y} = point.toJSON();
@@ -50,6 +49,8 @@ export function setActive(polygon, gridOptions) {
 function buildGrid(path, gridSpec = defaultGrid, 
 worker = new ModuleWorker('workers/grid.js')) {
 	let name = JSON.stringify(path);
+
+	gridSpec = Object.assign({}, defaultGrid, gridSpec);
 
 	return worker.postMessage({name, path, gridSpec})
 		.then(cells => convertCells(cells, name))

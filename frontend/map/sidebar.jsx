@@ -11,8 +11,8 @@ export default class MapSidebar extends Component {
 		super(props);
 		this.state = {
 			mode: this.props.initialMode,
-			angle: 0,
-			width: 1, height: 1,
+			angle: 25,
+			width: 2, height: 2,
 			polygon: {active: false}
 		}
 
