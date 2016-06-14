@@ -117,7 +117,7 @@ export default class MapSidebar extends Component {
 						<section id='grid-angle'>
 							<NumberField min={0} max={360} step={5} 
 							             onChange={this.valueChanged.bind(this, 'angle')}
-													 value={this.state.angle}
+													 value={this.state.angle} className='angle-field'
 													 suffix='°' id='grid-config-angle'
 													 error='Angle must be between 0 and 360'>
 								Grid Angle

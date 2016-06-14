@@ -33,3 +33,26 @@
 .footer-button {
 	padding-bottom: 2.25em;
 }
+
+.angle-field {
+	width: calc(100% - 3.5em);
+	display: inline-block;
+}
+
+.angle-indicator {
+	display: inline-block;
+	width: 3em;
+	height: 3em;
+	vertical-align: bottom;
+	margin-bottom: 8px;
+	margin-left: .5em;
+}
+.angle-indicator-dial {
+	width: 1.5em;
+	height: 0.2em;
+	background: var(--dark-secondary);
+	border-top-right-radius: 0.1em;
+	border-bottom-right-radius: 0.1em;
+	transform-origin: left center;
+	margin: 1.4em 0 1.4em 1.5em;
+}
