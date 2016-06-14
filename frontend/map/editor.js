@@ -35,6 +35,10 @@ function polygonComplete(polygon) {
 	react.then(aside => {aside.setPolygon(polygon)});
 }
 
+/**
+ * Updates the grid using the provided data
+ * @listens MapSidebar#submit
+ */
 function updateGrid({angle, width, height, polygon}) {
 	setActiveGrid(polygon, {angle, width, height})
 }

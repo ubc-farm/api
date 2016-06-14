@@ -27,6 +27,7 @@ export default class MapSidebar extends Component {
 	}
 
 	componentDidMount() {
+		//Uses a normal event listener to cancel form submission
 		this._form.addEventListener('submit', e => {
 			e.preventDefault();
 			this.submit();
@@ -37,10 +38,20 @@ export default class MapSidebar extends Component {
 	/**
 	 * Submits updates to the grid to the callback
 	 * @param {Object} newState - used when setState may still be pending
+	 * @fires MapSidebar#submit
 	 */
 	submit(newState) {
 		let {angle, width, height, polygon} = this.state;
 		let payload = Object.assign({angle, width, height, polygon}, newState);
+		/**
+		 * Form submission event.
+		 * @event MapSidebar#submit
+		 * @type {Object}
+		 * @property {google.maps.Polygon} polygon associated with the grid
+		 * @property {number} angle for the grid, in degrees 0 - 360.
+		 * @property {number} width of the grid
+		 * @property {number} height of the grid
+		 */
 		this.props.updateGrid(payload);
 	}
 
