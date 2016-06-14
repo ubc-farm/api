@@ -17,3 +17,19 @@
 	background: var(--white-secondary);
 	display: inline-block;
 }
+
+.buttons-half .i-button {
+	width: calc(50% - 1em);
+	margin: 0.5em;
+}
+
+.form-divided {
+	padding-top: 0.75em;
+	margin: 0.75em 1.5em 1.5em;
+	border-top: 0.0625em solid var(--dark-divider);
+	text-align: center;
+}
+
+.footer-button {
+	padding-bottom: 2.25em;
+}
