@@ -96,6 +96,8 @@ export default class TextField extends Component {
 	}
 
 	/**
+	 * @memberof TextField
+	 * @name props
 	 * @property {function} [onFocusChange] - callback for when input is 
 	 * focused/blurred. If focused, passed true. If blurred, passed false.
 	 * @property {function} [onChange] - callback for value change

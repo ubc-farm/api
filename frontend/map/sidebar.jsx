@@ -11,8 +11,12 @@ export default class MapSidebar extends Component {
 		super(props);
 		this.state = {
 			mode: this.props.mode,
-			angle: 0
+			angle: 0,
+			width: 1, height: 1,
+			polygon: null
 		}
+
+		this.setPolygon = this.setPolygon.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -21,11 +25,21 @@ export default class MapSidebar extends Component {
 		}
 	}
 
+	/**
+	 * Creates shared properties for buttons
+	 * @param {string} mode
+	 * @returns {Object} new props for the button
+	 */
 	buttonProps(mode) {
 		return {
 			className: this.state.mode === mode ? 'hover-toggle' : null,
 			onClick: this.valueChanged.bind(this, 'tab', mode)
 		}
+	}
+
+	/** Public function to set the focused polygon for the form */
+	setPolygon(newPolygon) {
+		this.setState({polygon: newPolygon});
 	}
 
 	/**
@@ -41,7 +55,14 @@ export default class MapSidebar extends Component {
 				this.props.onModeChange(newValue);
 				break;
 			case 'angle':
-				this.setState({angle: newValue});
+			case 'width':
+			case 'height':
+				let {angle, width, height, polygon} = this.state;
+				let gridData = {angle, width, height, polygon};
+				gridData[field] = newValue;
+				this.props.onGridChange(gridData);
+			default:
+				this.setState( {[field]: newValue} )
 				break;
 		}
 	}
@@ -57,7 +78,7 @@ export default class MapSidebar extends Component {
 						Select
 					</IconButton>
 				</header>
-				<form>
+				<form hidden={!this.props.polygon}>
 					<IconButton {...this.buttonProps('resize')} icon='transform'>
 						Resize Outline
 					</IconButton>
@@ -90,6 +111,7 @@ export default class MapSidebar extends Component {
 	static propTypes() {
 		return {
 			onModeChange: PropTypes.func,
+			onGridChange: PropTypes.func,
 			mode: PropTypes.oneOf(['add', 'select'])
 		}
 	}
@@ -97,6 +119,7 @@ export default class MapSidebar extends Component {
 	static defaultProps() {
 		return {
 			onModeChange: mode => {},
+			onGridChange: gridData => {},
 			initialMode: undefined
 		}
 	}

@@ -21,6 +21,7 @@ import google from 'google/maps/drawing';
  */
 function polygonClick() {
 	setActiveGrid(this);
+	react.then(aside => {aside.setPolygon(this)});
 }
 
 /**
@@ -37,14 +38,22 @@ function polygonComplete(polygon) {
 	setActiveGrid(polygon); //@todo custom grid options
 }
 
+function updateGrid({angle, width, height, polygon}) {
+	setActiveGrid(polygon, {angle, width, height})
+}
+
 /**
  * Switches the drawing mode on the map
  * @param {string} newMode - either 'add' or 'select'
  */
 function swapMode(newMode) {
-	let drawMode = null;
-	if (newMode === 'add') drawMode = google.maps.drawing.OverlayType.POLYGON;
-	manager.setDrawingMode(drawMode)
+	if (newMode === 'resize') {
+
+	} else {
+		let drawMode = null;
+		if (newMode === 'add') drawMode = google.maps.drawing.OverlayType.POLYGON;
+		manager.setDrawingMode(drawMode);
+	}
 }
 
 var polygons = [];
@@ -55,7 +64,7 @@ var manager = new google.maps.drawing.DrawingManager({
 
 var react = domReady.then(() => {
 	let aside = ReactDOM.render(
-		<MapSidebar onModeChange={swapMode}/>,
+		<MapSidebar onModeChange={swapMode} onGridChange={updateGrid}/>,
 		document.getElementById('map-edit-aside')
 	);
 	return aside;
