@@ -20,7 +20,6 @@ import google from 'google/maps/drawing';
  * @todo
  */
 function polygonClick() {
-	setActiveGrid(this);
 	react.then(aside => {aside.setPolygon(this)});
 }
 
@@ -33,9 +32,7 @@ function polygonClick() {
 function polygonComplete(polygon) {
 	polygons.push(polygon);
 	google.maps.event.addListener(polygon, 'click', e => {})
-	react.then(aside => {aside.setMode('select')});
-	
-	setActiveGrid(polygon); //@todo custom grid options
+	react.then(aside => {aside.setPolygon(polygon)});
 }
 
 function updateGrid({angle, width, height, polygon}) {

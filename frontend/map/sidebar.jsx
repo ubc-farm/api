@@ -27,16 +27,16 @@ export default class MapSidebar extends Component {
 	}
 
 	componentDidMount() {
-		/**
-		 * @alias submit
-		 * @memberof MapSidebar
-		 */
 		this._form.addEventListener('submit', e => {
 			e.preventDefault();
-			let {angle, width, height, polygon} = this.state;
-			this.props.updateGrid({angle, width, height, polygon});
+			this.submit();
 			return false;
 		})
+	}
+
+	submit() {
+		let {angle, width, height, polygon} = this.state;
+		this.props.updateGrid({angle, width, height, polygon});
 	}
 
 	/**
@@ -53,7 +53,7 @@ export default class MapSidebar extends Component {
 
 	/** Public function to set the focused polygon for the form */
 	setPolygon(newPolygon) {
-		this.setState({polygon: newPolygon});
+		this.setState({polygon: newPolygon, mode: 'select'});
 	}
 
 	/**
