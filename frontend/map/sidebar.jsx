@@ -13,7 +13,7 @@ export default class MapSidebar extends Component {
 			mode: this.props.initialMode,
 			angle: 25,
 			width: 2, height: 2,
-			polygon: {active: false}
+			polygon: null
 		}
 
 		this.setPolygon = this.setPolygon.bind(this);
@@ -69,7 +69,7 @@ export default class MapSidebar extends Component {
 	setPolygon(newPolygon) {
 		if (newPolygon.active) return;
 		let oldPolygon = this.state.polygon;
-		oldPolygon.active = false;
+		if (oldPolygon) oldPolygon.active = false;
 		newPolygon.active = true;
 		this.valueChanged('tab', 'select');
 		this.setState({polygon: newPolygon});
@@ -100,20 +100,20 @@ export default class MapSidebar extends Component {
 	render() {
 		return (
 			<div>
-				<header>
+				<header className='buttons-half'>
 					<IconButton {...this.buttonProps('add')} icon='add'>
 						Add Field
 					</IconButton>
 					<IconButton {...this.buttonProps('select')} icon='edit'>
 						Select
 					</IconButton>
-				</header>
-				<form hidden={!this.state.polygon} ref={f => this._form = f}>
+				</header> 
+				<form ref={f => this._form = f} className='form-divided'>
 					<IconButton {...this.buttonProps('resize')} icon='transform'
-					            className='large-button'>
+					            className='colored' disabled={!this.state.polygon}>
 						Resize Outline
 					</IconButton>
-					<section id='grid-config'>
+					<section id='grid-config' className='footer-button'>
 						<section id='grid-angle'>
 							<NumberField min={0} max={360} step={5} 
 							             onChange={this.valueChanged.bind(this, 'angle')}
@@ -136,7 +136,8 @@ export default class MapSidebar extends Component {
 								Grid Height
 							</NumberField>
 						</section>
-						<IconButton type='submit' icon='done'>
+						<IconButton type='submit' icon='done' className='right colored'
+						            disabled={!this.state.polygon}>
 							Update grid
 						</IconButton>
 					</section>
