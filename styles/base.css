@@ -1,8 +1,8 @@
-.clear-margin {margin:0}
-
 .inline {display: inline-block}
 
 .left {float: left}
+.right {float: right}
+.clear {clear:both}
 
 .rel {position: relative}
 

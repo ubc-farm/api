@@ -1,5 +1,9 @@
 .i-button {
 	padding: 0.417em 1.1111em;
+	min-width: 4em;
+}
+.i-button,
+.i-button.hover-light {
 	border-radius: 0.125em;
 }
 
@@ -8,5 +12,23 @@
 }
 
 .i-button-icon {
-	margin-right: 0.5em;
+	margin-right: 0.2em;
 } 
+
+.i-button:disabled {
+	opacity: 0.3;
+}
+
+.raised {
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+		0 1px 5px 0 rgba(0,0,0,0.12),
+		0 3px 1px -2px rgba(0,0,0,0.2); 
+}
+
+.colored {
+	background: var(--primary-color);
+	color: var(--white-primary);
+}
+.colored:disabled {
+	background: var(--dark-secondary);
+}
