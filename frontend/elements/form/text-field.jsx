@@ -7,11 +7,16 @@ import _ from '../classnames.js';
 export default class TextField extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {value: '', focused: false}
+		this.state = {value: this.props.value, focused: false}
 
 		this.handleChange = this.handleChange.bind(this);
 		this.onFocus = this.onFocus.bind(this);
 		this.onBlur = this.onBlur.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.state.value !== nextProps.value) 
+			this.setState({value: nextProps.value})
 	}
 
 	onFocus() {
@@ -140,7 +145,8 @@ export default class TextField extends Component {
 			disabled: PropTypes.bool,
 			required: PropTypes.bool,
 			name: PropTypes.string,
-			pattern: PropTypes.string
+			pattern: PropTypes.string,
+			value: PropTypes.any
 		}
 	}
 
@@ -150,7 +156,8 @@ export default class TextField extends Component {
 			type: 'text',
 			onFocusChange: () => {},
 			onChange: () => {},
-			float: true
+			float: true,
+			value: ''
 		}
 	}
 }

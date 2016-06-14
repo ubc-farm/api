@@ -116,6 +116,7 @@ export default class MapSidebar extends Component {
 						<section id='grid-angle'>
 							<NumberField min={0} max={360} step={5} 
 							             onChange={this.valueChanged.bind(this, 'angle')}
+													 value={this.state.angle}
 													 suffix='°' id='grid-config-angle'
 													 error='Angle must be between 0 and 360'>
 								Grid Angle
@@ -124,10 +125,12 @@ export default class MapSidebar extends Component {
 						</section>
 						<section id='grid-size'>
 							<NumberField min={0} id='grid-config-width' suffix='m' 
+							             value={this.state.width}
 							             onChange={this.valueChanged.bind(this, 'width')}>
 								Grid Width
 							</NumberField>
 							<NumberField min={0} id='grid-config-height' suffix='m'
+							             value={this.state.height}
 							             onChange={this.valueChanged.bind(this, 'height')}>
 								Grid Height
 							</NumberField>
