@@ -1,4 +1,4 @@
-.hover-light {position: relative}
+.hover-light {position: relative;cursor: pointer;}
 .hover-light::before {
 	display: block;
 	position: absolute;
