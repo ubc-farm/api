@@ -55,34 +55,32 @@ export default class TextField extends Component {
 					{this.props.error}
 				</span>
 			)
-		} else {
-			return null;
-		}
+		} else return null;
 	}
 
 	render() {
 		let {value, focused} = this.state;
-		let props = this.props;
-		let {key: id, hint: placeholder, maxLength: maxlength} = props; 
+		let props = Object.assign({}, this.props);
+		let {hint: placeholder, maxLength: maxlength} = props; 
 		let extraProps = {
-			id, placeholder, maxlength,
-			value, name: props.name || id,
+			placeholder, maxlength,
+			value, name: props.name || props.id,
 			className: 'text-field-input',
-			'data-suffix': suffix,
+			'data-suffix': props.suffix,
 			onFocus: this.onFocus, onBlur: this.onBlur
 		}
-		delete props.key; delete props.hint; delete props.maxLength;
+		delete props.hint; delete props.maxLength;
 		delete props.children; delete props.suffix;
 		let classList = _('text-field', props.className, {
 			'text-field-focus': focused,
 			'text-field-force-helper': this.props.persistHelper,
 			'text-field-floating': props.float,
-			'text-field-disabled': disabled
+			'text-field-disabled': props.disabled
 		});
 
 		return (
-			<div className={classList} key={id}>
-				<label htmlFor={id} className={_({
+			<div className={classList} key={props.id}>
+				<label htmlFor={props.id} className={_({
 				 'floating-label': props.float
 				})}>
 					{this.props.children}
@@ -101,7 +99,7 @@ export default class TextField extends Component {
 	 * @property {function} [onFocusChange] - callback for when input is 
 	 * focused/blurred. If focused, passed true. If blurred, passed false.
 	 * @property {function} [onChange] - callback for value change
-	 * @property {any} key - also used as input name (unless overriden)
+	 * @property {any} id - also used as input name (unless overriden)
 	 * @property {string} [type=text] - type for the input.
 	 * Only a few types, related to text, are allowed.
 	 * @property {number} [maxLength] - sets a maxiumum length for the input,
@@ -125,9 +123,11 @@ export default class TextField extends Component {
 		return {
 			onFocusChange: PropTypes.func,
 			onChange: PropTypes.func,
-			key: PropTypes.any.isRequired,
+			id: PropTypes.any.isRequired,
 			type: PropTypes.oneOf([
-				'email', 'text', 'url', 'tel'
+				'email', 'text', 'url', 'tel',
+				//PRIVATE TYPES
+				'number' 
 			]),
 			maxLength: PropTypes.number,
 			hint: PropTypes.string,
