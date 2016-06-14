@@ -32,7 +32,7 @@ function polygonClick() {
 function polygonComplete(polygon) {
 	polygons.push(polygon);
 	google.maps.event.addListener(polygon, 'click', e => {})
-	aside.setMode('select');
+	react.then(aside => {aside.setMode('select')});
 	
 	setActiveGrid(polygon); //@todo custom grid options
 }
@@ -48,15 +48,13 @@ function swapMode(newMode) {
 }
 
 var polygons = [];
-var aside;
 var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false,
 	polygonOptions: style.field.normal
 });
 
-var aside;
-domReady.then(() => {
-	aside = ReactDOM.render(
+var react = domReady.then(() => {
+	let aside = ReactDOM.render(
 		<MapSidebar onModeChange={swapMode}/>,
 		document.getElementById('map-edit-aside')
 	);
