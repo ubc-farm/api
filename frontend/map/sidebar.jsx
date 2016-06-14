@@ -10,20 +10,15 @@ export default class MapSidebar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			mode: this.props.mode,
+			mode: this.props.initialMode,
 			angle: 0,
 			width: 1, height: 1,
-			polygon: null
+			polygon: {active: false}
 		}
 
 		this.setPolygon = this.setPolygon.bind(this);
 		this.submit = this.submit.bind(this);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.mode && nextProps.mode !== this.state.mode) {
-			this.setMode(mode);
-		}
+		this.valueChanged = this.valueChanged.bind(this);
 	}
 
 	componentDidMount() {
@@ -72,7 +67,12 @@ export default class MapSidebar extends Component {
 	 * @public 
 	 */
 	setPolygon(newPolygon) {
-		this.setState({polygon: newPolygon, mode: 'select'});
+		if (newPolygon.active) return;
+		let oldPolygon = this.state.polygon;
+		oldPolygon.active = false;
+		newPolygon.active = true;
+		this.valueChanged('tab', 'select');
+		this.setState({polygon: newPolygon});
 		this.submit({polygon: newPolygon});
 	}
 
@@ -108,7 +108,7 @@ export default class MapSidebar extends Component {
 						Select
 					</IconButton>
 				</header>
-				<form hidden={!this.props.polygon} ref={f => this._form = f}>
+				<form hidden={!this.state.polygon} ref={f => this._form = f}>
 					<IconButton {...this.buttonProps('resize')} icon='transform'>
 						Resize Outline
 					</IconButton>
@@ -116,18 +116,18 @@ export default class MapSidebar extends Component {
 						<section id='grid-angle'>
 							<NumberField min={0} max={360} step={5} 
 							             onChange={this.valueChanged.bind(this, 'angle')}
-													 suffix='°' key='grid-config-angle'
+													 suffix='°' id='grid-config-angle'
 													 error='Angle must be between 0 and 360'>
 								Grid Angle
 							</NumberField>
 							<AngleIndicator angle={this.state.angle}/>
 						</section>
 						<section id='grid-size'>
-							<NumberField min={0} key='grid-config-width' suffix='m' 
+							<NumberField min={0} id='grid-config-width' suffix='m' 
 							             onChange={this.valueChanged.bind(this, 'width')}>
 								Grid Width
 							</NumberField>
-							<NumberField min={0} key='grid-config-height' suffix='m'
+							<NumberField min={0} id='grid-config-height' suffix='m'
 							             onChange={this.valueChanged.bind(this, 'height')}>
 								Grid Height
 							</NumberField>
@@ -145,7 +145,7 @@ export default class MapSidebar extends Component {
 		return {
 			onModeChange: PropTypes.func,
 			updateGrid: PropTypes.func,
-			mode: PropTypes.oneOf(['add', 'select'])
+			initialMode: PropTypes.oneOf(['add', 'select'])
 		}
 	}
 
