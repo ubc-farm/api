@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import IfTag from '../helpers.js';
 import _ from '../classnames.js';
 
 /**
@@ -33,36 +34,6 @@ export default class TextField extends Component {
 		this.props.onChange(e.target.value);
 	}
 
-	renderHelper() {
-		if (this.props.helper) {
-			return (
-				<span className='text-field-helpertext'>
-					{this.props.helper}
-				</span>
-			)
-		} else return null;
-	}
-
-	renderCounter() {
-		if (this.props.maxLength > -1) {
-			return (
-				<span className='text-field-counter'>
-					{this.state.value.length} / {this.props.maxLength}
-				</span>
-			)
-		} else return null;
-	}
-
-	renderError() {
-		if (this.props.error) {
-			return (
-				<span className='text-field-helpertext text-field-errortext' hidden>
-					{this.props.error}
-				</span>
-			)
-		} else return null;
-	}
-
 	render() {
 		let {value, focused} = this.state;
 		let props = Object.assign({}, this.props);
@@ -71,29 +42,47 @@ export default class TextField extends Component {
 			placeholder, maxlength,
 			value, name: props.name || props.id,
 			className: 'text-field-input',
-			'data-suffix': props.suffix,
 			onFocus: this.onFocus, onBlur: this.onBlur
 		}
 		delete props.hint; delete props.maxLength;
 		delete props.children; delete props.suffix;
 		let classList = _('text-field', props.className, {
-			'text-field-focus': focused,
 			'text-field-force-helper': this.props.persistHelper,
 			'text-field-floating': props.float,
 			'text-field-disabled': props.disabled
 		});
 
 		return (
-			<div className={classList} key={props.id}>
-				<label htmlFor={props.id} className={_({
-				 'floating-label': props.float
-				})}>
+			<div className={classList} key={props.id} data-focus={focused}>
+				<label htmlFor={props.id} className={_(
+					'text-field-label', {
+					'text-field-label-focus': focused,
+					'floating-label': props.float
+				})} data-text={this.props.children}>
 					{this.props.children}
 				</label>
 				<input {...props} {...extraProps} onChange={this.handleChange}/>
-				{this.renderHelper()} 
-				{this.renderError()} 
-				{this.renderCounter()}
+				<span className='text-field-border'/>
+				<IfTag cond={this.props.suffix}>
+					<span className='text-field-suffix'>
+						{this.props.suffix}
+					</span>
+				</IfTag>
+				<IfTag cond={this.props.helper}>
+					<span className='text-field-helpertext'>
+						{this.props.helper}
+					</span>
+				</IfTag>
+				<IfTag cond={this.props.error}>
+					<span className='text-field-helpertext text-field-errortext' hidden>
+						{this.props.error}
+					</span>
+				</IfTag>
+				<IfTag cond={this.props.maxLength > -1}>
+					<span className='text-field-counter'>
+						{this.state.value.length} / {this.props.maxLength}
+					</span>
+				</IfTag>
 			</div>
 		)
 	}
@@ -116,7 +105,7 @@ export default class TextField extends Component {
 	 * @property {string} [helper] text shown after the input when focused. 
 	 * Should be instruction text.
 	 * @property {boolean} [persistHelper] - always show the helper text if true
-	 * @property {boolean} [float=true] - sets a class to indicate a floating 
+	 * @property {boolean} [float] - sets a class to indicate a floating 
 	 * label should be used for the input.
 	 * @property {string} [suffix] - displays a suffix for the text input, such as
 	 * a unit like kg or °.
@@ -156,7 +145,6 @@ export default class TextField extends Component {
 			type: 'text',
 			onFocusChange: () => {},
 			onChange: () => {},
-			float: true,
 			value: ''
 		}
 	}
