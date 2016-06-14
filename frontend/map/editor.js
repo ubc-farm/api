@@ -64,7 +64,7 @@ var manager = new google.maps.drawing.DrawingManager({
 
 var react = domReady.then(() => {
 	let aside = ReactDOM.render(
-		<MapSidebar onModeChange={swapMode} onGridChange={updateGrid}/>,
+		<MapSidebar onModeChange={swapMode} updateGrid={updateGrid}/>,
 		document.getElementById('map-edit-aside')
 	);
 	return aside;

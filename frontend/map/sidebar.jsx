@@ -17,12 +17,26 @@ export default class MapSidebar extends Component {
 		}
 
 		this.setPolygon = this.setPolygon.bind(this);
+		this.submit = this.submit.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.mode && nextProps.mode !== this.state.mode) {
 			this.setMode(mode);
 		}
+	}
+
+	componentDidMount() {
+		/**
+		 * @alias submit
+		 * @memberof MapSidebar
+		 */
+		this._form.addEventListener('submit', e => {
+			e.preventDefault();
+			let {angle, width, height, polygon} = this.state;
+			this.props.updateGrid({angle, width, height, polygon});
+			return false;
+		})
 	}
 
 	/**
@@ -57,10 +71,6 @@ export default class MapSidebar extends Component {
 			case 'angle':
 			case 'width':
 			case 'height':
-				let {angle, width, height, polygon} = this.state;
-				let gridData = {angle, width, height, polygon};
-				gridData[field] = newValue;
-				this.props.onGridChange(gridData);
 			default:
 				this.setState( {[field]: newValue} )
 				break;
@@ -78,7 +88,7 @@ export default class MapSidebar extends Component {
 						Select
 					</IconButton>
 				</header>
-				<form hidden={!this.props.polygon}>
+				<form hidden={!this.props.polygon} ref={f => this._form = f}>
 					<IconButton {...this.buttonProps('resize')} icon='transform'>
 						Resize Outline
 					</IconButton>
@@ -102,6 +112,9 @@ export default class MapSidebar extends Component {
 								Grid Height
 							</NumberField>
 						</section>
+						<IconButton type='submit' icon='done'>
+							Update grid
+						</IconButton>
 					</section>
 				</form>
 			</div>
@@ -111,7 +124,7 @@ export default class MapSidebar extends Component {
 	static propTypes() {
 		return {
 			onModeChange: PropTypes.func,
-			onGridChange: PropTypes.func,
+			updateGrid: PropTypes.func,
 			mode: PropTypes.oneOf(['add', 'select'])
 		}
 	}
@@ -119,7 +132,7 @@ export default class MapSidebar extends Component {
 	static defaultProps() {
 		return {
 			onModeChange: mode => {},
-			onGridChange: gridData => {},
+			updateGrid: gridData => {},
 			initialMode: undefined
 		}
 	}
