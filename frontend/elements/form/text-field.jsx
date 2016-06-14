@@ -133,12 +133,12 @@ export default class TextField extends Component {
 			hint: PropTypes.string,
 			error: PropTypes.string,
 			helper: PropTypes.string,
-			persistHelper: PropTypes.boolean,
-			float: PropTypes.boolean,
+			persistHelper: PropTypes.bool,
+			float: PropTypes.bool,
 			suffix: PropTypes.string,
 
-			disabled: PropTypes.boolean,
-			required: PropTypes.boolean,
+			disabled: PropTypes.bool,
+			required: PropTypes.bool,
 			name: PropTypes.string,
 			pattern: PropTypes.string
 		}

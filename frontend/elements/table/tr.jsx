@@ -17,7 +17,7 @@ export default function TableRow(props) {
 
 TableRow.propTypes = {
 	key: PropTypes.string,
-	selected: PropTypes.boolean,
+	selected: PropTypes.bool,
 	//data: PropTypes.instanceOf(Map),
 	onSelect: PropTypes.func
 }

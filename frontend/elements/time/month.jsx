@@ -71,8 +71,8 @@ export class DateIcon extends Component {
 	static get propTypes() {
 		return {
 			date: PropTypes.number,
-			hasEvent: PropTypes.boolean,
-			today: PropTypes.boolean
+			hasEvent: PropTypes.bool,
+			today: PropTypes.bool
 		}
 	}
 	static get defaultProps() {

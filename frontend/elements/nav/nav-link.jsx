@@ -29,9 +29,9 @@ NavLink.propTypes = {
 	name: PropTypes.string.isRequired,
 	href: PropTypes.string,
 	prefix: PropTypes.string,
-	active: PropTypes.boolean,
-	color: PropTypes.boolean,
-	hide: PropTypes.boolean
+	active: PropTypes.bool,
+	color: PropTypes.bool,
+	hide: PropTypes.bool
 };
 NavLink.defaultProps = { 
 	prefix: '/'
