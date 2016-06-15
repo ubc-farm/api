@@ -16,6 +16,14 @@ const defaultGrid = {
 	widthSpecific: [], heightSpecific: []
 };
 
+export function styler(feature) {
+	if (feature.getProperty('isGrid')) {
+		if (feature.getProperty('selected')) {
+			return style.grid.selected;
+		} else return style.grid.normal;
+	}
+}
+
 /**
  * Display a grid on the selected polygon
  * @param {google.maps.Polygon} polygon
@@ -33,6 +41,11 @@ export function setActive(polygon, gridOptions) {
 
 	let map = polygon.getMap();
 	return buildGrid(path, gridOpts).then(grid => {
+		//Flush the previous grid
+		map.data.setMap(null);
+		map.data = new google.maps.Data({map});
+		map.data.setStyle(styler);
+		
 		map.data.addGeoJson(grid);
 	})
 }

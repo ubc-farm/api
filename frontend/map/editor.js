@@ -5,7 +5,7 @@
 import {domReady} from 'utils.js';
 import {initMap} from 'map/config.js';
 import * as style from 'map/shapes/style.js';
-import {setActive as setActiveGrid} from 'map/editor-grid-render.js';
+import {setActive as setActiveGrid, styler} from 'map/editor-grid-render.js';
 import Selector from 'map/shapes/select.js';
 import MapSidebar from './sidebar.js';
 
@@ -40,7 +40,7 @@ function polygonComplete(polygon) {
  * @listens MapSidebar#submit
  */
 function updateGrid({angle, width, height, polygon}) {
-	setActiveGrid(polygon, {angle, width, height})
+	return setActiveGrid(polygon, {angle, width, height})
 }
 
 /**
@@ -79,12 +79,5 @@ var map = domReady.then(() => initMap()).then(map => {
 
 map.then(map => {
 	new Selector(map);
-	map.data.setStyle(feature => {
-		if (feature.getProperty('isGrid')) {
-			if (feature.getProperty('selected')) {
-				return style.grid.selected;
-			} else return style.grid.normal;
-		}
-	})
-	return map;
+	map.data.setStyle(styler);
 });
