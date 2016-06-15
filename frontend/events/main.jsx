@@ -11,6 +11,7 @@ export default class EventMainPage extends Component {
 			viewing: this.props.today
 		}
 		this.changeView = this.changeView.bind(this);
+		this.onArrowClick = this.onArrowClick.bind(this);
 	}
 
 	changeView(day, month, year) {
@@ -20,11 +21,18 @@ export default class EventMainPage extends Component {
 		this.setState({viewing: new Date(year, month, day)})
 	}
 
+	onArrowClick(dir) {
+		console.log(dir);
+		console.log(this.state.viewing);
+		this.changeView(null, this.state.viewing.getMonth() + dir)
+	}
+
 	render() {
 		return (
 			<div>
 				<Month month={this.state.viewing} today={this.props.today}
-				       onClick={this.changeView}/>
+				       onClick={this.changeView}
+							 onArrowClick={this.onArrowClick}/>
 				{/*<Filter></Filter>*/}
 				<section className='agenda'>
 					{this.props.children}

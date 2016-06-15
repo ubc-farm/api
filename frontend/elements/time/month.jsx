@@ -19,6 +19,10 @@ export default function Month(props) {
 	function onDayClick(day) {
 		props.onClick(day);
 	}
+
+	function onArrowClick(dir) {
+		props.onArrowClick(dir);
+	}
 	
 	let rows = calendarArray(props.month).map((week, i) => {
 		let blankKeys = 100;
@@ -28,7 +32,7 @@ export default function Month(props) {
 					return <DateIcon 
 						onClick={onDayClick.bind(null, day)} 
 					  key={day > 0 ? 'calendar-day-' + day : blankKeys++}
-						viewing={todayDate && props.month.getDate() === day}
+						viewing={props.month.getDate() === day}
 					  isToday={todayDate === day}>
 						{day}
 					</DateIcon>;
@@ -40,9 +44,11 @@ export default function Month(props) {
 	return (
 		<table className='small-calendar'>
 			<caption className='month-heading'>
-				<ArrowButton dir='left'/>
+				<ArrowButton dir='left' onClick={onArrowClick.bind(null, -1)}/>
 				{months[props.month.getMonth()]}
-				<ArrowButton dir='right'/>
+				{props.today.getFullYear() === props.month.getFullYear() 
+					? props.month.getFullYear : null}
+				<ArrowButton dir='right' onClick={onArrowClick.bind(null, 1)}/>
 			</caption>
 			<thead>
 				<tr className='week-title'>

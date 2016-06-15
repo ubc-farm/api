@@ -6,7 +6,7 @@ import _ from '../classnames.js';
  */
 export default function ArrowButton(props) {
 	return (
-		<button className={_(
+		<button onClick={props.onClick} className={_(
 			'arrow hover-light circle', 
 			{
 				'left-arrow': props.dir === 'left',
