@@ -162,7 +162,7 @@ export default class MapSidebar extends Component {
 								Grid Height
 							</NumberField>
 						</section>
-						<LoadingIndicator hidden={!this.state.loading}/>
+						<LoadingIndicator hidden={!this.state.loading} className='left'/>
 						<IconButton type='submit' icon='done' className='right colored'
 						            disabled={!this.state.gridSettingsChanged}>
 							Update grid
