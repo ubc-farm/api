@@ -31,7 +31,7 @@ export function styler(feature) {
  */
 export function setActive(polygon, gridOptions) {
 	let gridOpts = gridOptions;
-	if (polygon.gridOptions) gridOpts = polygon.gridOptions; //@todo
+	polygon.gridOptions = gridOptions; //store the grid state with the polygon
 
 	let path = polygon.getPath().getArray().map(point => {
 		let {lng: x, lat: y} = point.toJSON();

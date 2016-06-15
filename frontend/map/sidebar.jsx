@@ -71,7 +71,14 @@ export default class MapSidebar extends Component {
 
 		this.valueChanged('tab', 'select');   //switch to select mode
 		this.setState({polygon: newPolygon}); //set the polygon
-		this.submit({polygon: newPolygon});   //create a grid
+		if (newPolygon.gridOptions) {            //create a grid
+			let {angle, width, height} = newPolygon.gridOptions;
+			this.setState({angle, width, height});
+			this.submit({polygon: newPolygon, angle, width, height});
+		} else {
+			this.submit({polygon: newPolygon});   
+		}
+		
 	}
 
 	/**
