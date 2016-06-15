@@ -26,8 +26,11 @@
 }
 
 .colored {
-	background: var(--primary-color);
+	background: var(--accent-color);
 	color: var(--white-primary);
+}
+.colored.color-primary {
+	background: var(--primary-color);
 }
 .colored:disabled {
 	background: var(--dark-secondary);

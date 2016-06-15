@@ -38,7 +38,7 @@
 	width: calc(100% - 3.5em);
 	display: inline-block;
 }
-
+/** Pending cleanup (TODO) */
 .angle-indicator {
 	display: inline-block;
 	width: 3em;
@@ -51,7 +51,7 @@
 .angle-indicator-dial {
 	width: 1.5em;
 	height: 0.2em;
-	background: var(--dark-secondary);
+	background: var(--accent-color);
 	border-top-right-radius: 0.1em;
 	border-bottom-right-radius: 0.1em;
 	transform-origin: left center;

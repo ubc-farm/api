@@ -17,7 +17,7 @@
 
 .text-field-label::after {
 	content: attr(data-text);
-	color: var(--primary-color);
+	color: var(--accent-color);
 	transition: opacity 0.1s ease;
 	visibility: visible;
 	opacity: 0;
@@ -61,7 +61,7 @@
 .text-field-border::after {
 	border-bottom-width: 0.15em;
 	border-style: inherit;
-	border-color: var(--primary-color);
+	border-color: var(--accent-color);
 	transform-origin: 0.5em center;
 	transform: scaleX(0);
 	transition: transform 0.1s ease;
