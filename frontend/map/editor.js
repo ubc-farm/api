@@ -17,7 +17,6 @@ import google from 'google/maps/drawing';
  * Opens polygon for editing when clicked
  * @listens click
  * @this google.maps.Polygon
- * @todo
  */
 function polygonClick() {
 	react.then(aside => {aside.setPolygon(this)});
@@ -31,7 +30,7 @@ function polygonClick() {
  */
 function polygonComplete(polygon) {
 	polygons.push(polygon);
-	google.maps.event.addListener(polygon, 'click', e => {})
+	google.maps.event.addListener(polygon, 'click', polygonClick)
 	react.then(aside => {aside.setPolygon(polygon)});
 }
 

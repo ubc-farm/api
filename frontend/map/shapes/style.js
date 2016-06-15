@@ -37,5 +37,8 @@ export const field = {
 		fillColor: color.primary,
 		strokeColor: color.primary,
 		zIndex: 1
+	},
+	selected: {
+		fillOpacity: 0.1
 	}
 }
