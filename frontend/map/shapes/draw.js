@@ -25,7 +25,6 @@ export function convertCells(cells, name) {
 				coordinates: [cell.map(point => [point.x, point.y])]
 			},
 			properties: {
-				id: name + index,
 				isGrid: true
 			}
 		}

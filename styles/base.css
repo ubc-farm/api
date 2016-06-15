@@ -6,6 +6,8 @@
 
 .rel {position: relative}
 
+.circle {border-radius: 50%}
+
 @import 'utils/color.css';
 
 body {

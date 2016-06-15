@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import IconButton from 'elements/icon/button.js';
 import NumberField from 'elements/form/number-field.js';
 import AngleIndicator from 'elements/info/angle-indicator.js';
+import LoadingIndicator from 'elements/info/loading.js';
 
 /**
  * Sidebar component for the map editor page.
@@ -13,7 +14,9 @@ export default class MapSidebar extends Component {
 			mode: this.props.initialMode,
 			angle: 25,
 			width: 2, height: 2,
-			polygon: null
+			polygon: null,
+			gridSettingsChanged: false,
+			loading: false
 		}
 
 		this.setPolygon = this.setPolygon.bind(this);
@@ -31,35 +34,28 @@ export default class MapSidebar extends Component {
 	}
 
 	/**
-	 * Submits updates to the grid to the callback
+	 * Form submission event.
+	 * @event MapSidebar#submit
+	 * @type {Object}
+	 * @property {google.maps.Polygon} polygon associated with the grid
+	 * @property {number} angle for the grid, in degrees 0 - 360.
+	 * @property {number} width of the grid
+	 * @property {number} height of the grid
+	 */
+
+	/**
+	 * Submits updates to the grid to the callback, then displays a loading 
+	 * indicator while waiting for the promise to resolve.
 	 * @param {Object} newState - used when setState may still be pending
 	 * @fires MapSidebar#submit
 	 */
 	submit(newState) {
 		let {angle, width, height, polygon} = this.state;
 		let payload = Object.assign({angle, width, height, polygon}, newState);
-		/**
-		 * Form submission event.
-		 * @event MapSidebar#submit
-		 * @type {Object}
-		 * @property {google.maps.Polygon} polygon associated with the grid
-		 * @property {number} angle for the grid, in degrees 0 - 360.
-		 * @property {number} width of the grid
-		 * @property {number} height of the grid
-		 */
-		this.props.updateGrid(payload);
-	}
-
-	/**
-	 * Creates shared properties for buttons
-	 * @param {string} mode
-	 * @returns {Object} new props for the button
-	 */
-	buttonProps(mode) {
-		return {
-			className: this.state.mode === mode ? 'hover-toggle' : null,
-			onClick: this.valueChanged.bind(this, 'tab', mode)
-		}
+		this.setState({gridSettingsChanged: false, loading: true});
+		//Promise.resolve() ensures the callback acts like a promise.
+		Promise.resolve(this.props.updateGrid(payload)) 
+		.then(() => this.setState({loading: false}));
 	}
 
 	/** 
@@ -67,13 +63,15 @@ export default class MapSidebar extends Component {
 	 * @public 
 	 */
 	setPolygon(newPolygon) {
+		//Code to check if the exact same polygon was set
 		if (newPolygon.active) return;
 		let oldPolygon = this.state.polygon;
 		if (oldPolygon) oldPolygon.active = false;
 		newPolygon.active = true;
-		this.valueChanged('tab', 'select');
-		this.setState({polygon: newPolygon});
-		this.submit({polygon: newPolygon});
+
+		this.valueChanged('tab', 'select');   //switch to select mode
+		this.setState({polygon: newPolygon}); //set the polygon
+		this.submit({polygon: newPolygon});   //create a grid
 	}
 
 	/**
@@ -91,9 +89,22 @@ export default class MapSidebar extends Component {
 			case 'angle':
 			case 'width':
 			case 'height':
+				this.setState({gridSettingsChanged: true});
 			default:
 				this.setState( {[field]: newValue} )
 				break;
+		}
+	}
+
+	/**
+	 * Creates shared properties for buttons
+	 * @param {string} mode
+	 * @returns {Object} new props for the button
+	 */
+	buttonProps(mode) {
+		return {
+			className: this.state.mode === mode ? 'hover-toggle' : null,
+			onClick: this.valueChanged.bind(this, 'tab', mode)
 		}
 	}
 
@@ -136,8 +147,9 @@ export default class MapSidebar extends Component {
 								Grid Height
 							</NumberField>
 						</section>
+						<LoadingIndicator hidden={!this.state.loading}/>
 						<IconButton type='submit' icon='done' className='right colored'
-						            disabled={!this.state.polygon}>
+						            disabled={!this.state.gridSettingsChanged}>
 							Update grid
 						</IconButton>
 					</section>
@@ -149,7 +161,7 @@ export default class MapSidebar extends Component {
 	static propTypes() {
 		return {
 			onModeChange: PropTypes.func,
-			updateGrid: PropTypes.func,
+			updateGrid: PropTypes.func, //should return a Promise
 			initialMode: PropTypes.oneOf(['add', 'select'])
 		}
 	}

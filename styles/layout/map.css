@@ -46,6 +46,7 @@
 	vertical-align: bottom;
 	margin-bottom: 8px;
 	margin-left: .5em;
+	background: white;
 }
 .angle-indicator-dial {
 	width: 1.5em;
@@ -55,4 +56,52 @@
 	border-bottom-right-radius: 0.1em;
 	transform-origin: left center;
 	margin: 1.4em 0 1.4em 1.5em;
+	transition: transform 0.1s ease;
 }
+
+.folding-cube {
+	width: 1.5em;
+	height: 1.5em;
+	position: relative;
+	transform: rotateZ(45deg);
+	margin: 0.35em;
+	float: left;
+}
+.f-cube {
+	float: left;
+	width: 50%;
+	height: 50%;
+	position: relative;
+	transform: scale(1.1);
+}
+.f-cube::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: var(--primary-color);
+	transform-origin: 100% 100%;
+	animation: foldCube 2.4s infinite linear both;
+}
+
+@keyframes foldCube {
+	0%, 10% {
+		transform: perspective(8.75em) rotateX(-180deg);
+		opacity: 0;
+	} 25%, 75% {
+		transform: perspective(8.75em) rotateX(0deg);
+		opacity: 1;
+	} 90%, 100% {
+		transform: perspective(8.75em) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+.f-cube2 {transform: scale(1.1) rotateZ(90deg)}
+.f-cube3 {transform: scale(1.1) rotateZ(180deg)}
+.f-cube4 {transform: scale(1.1) rotateZ(270deg)}
+.f-cube2::before {animation-delay: 0.3s}
+.f-cube3::before {animation-delay: 0.6s}
+.f-cube4::before {animation-delay: 0.9s}
