@@ -15,13 +15,13 @@
 
 <layout-use("../_layouts/default.marko") this='Events' sticky>
 <layout-put into="title">Events</layout-put>
-<layout-put into="head">
-		<link href="/css/layout/calendar.css" rel="stylesheet" type="text/css"/>
-		<link href="/css/modules/icon-button.css" rel="stylesheet" type="text/css">
-		
+<layout-put into="head">		
 		<script>System.import('events/index.js')</script>
 	</layout-put>
 <layout-put into="content">
+	<link href="/css/layout/calendar.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/modules/icon-button.css" rel="stylesheet" type="text/css">
+		<link href="/css/modules/arrow.css" rel="stylesheet" type="text/css">
 	<div id='main-event'>
 		<table class="small-calendar">
 			<tr class="week-title">

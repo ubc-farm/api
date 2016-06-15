@@ -14,9 +14,9 @@ export default class EventMainPage extends Component {
 	}
 
 	changeView(day, month, year) {
-		if (!year) year = this.props.today.getFullYear();
-		if (!month) month = this.props.today.getMonth();
-		if (!day) day = this.props.today.getDay();
+		if (!year) year = this.state.viewing.getFullYear();
+		if (!month && month !== 0) month = this.state.viewing.getMonth();
+		if (!day) day = this.state.viewing.getDay();
 		this.setState({viewing: new Date(year, month, day)})
 	}
 

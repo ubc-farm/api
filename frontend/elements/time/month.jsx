@@ -28,6 +28,7 @@ export default function Month(props) {
 					return <DateIcon 
 						onClick={onDayClick.bind(null, day)} 
 					  key={day > 0 ? 'calendar-day-' + day : blankKeys++}
+						viewing={todayDate && props.month.getDate() === day}
 					  isToday={todayDate === day}>
 						{day}
 					</DateIcon>;
