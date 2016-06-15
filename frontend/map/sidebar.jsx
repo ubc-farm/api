@@ -55,7 +55,8 @@ export default class MapSidebar extends Component {
 		this.setState({gridSettingsChanged: false, loading: true});
 		//Promise.resolve() ensures the callback acts like a promise.
 		Promise.resolve(this.props.updateGrid(payload)) 
-		.then(() => this.setState({loading: false}));
+		.then(() => this.setState({loading: false}))
+		.catch(err => console.error(err));
 	}
 
 	/** 
@@ -71,7 +72,7 @@ export default class MapSidebar extends Component {
 
 		this.valueChanged('tab', 'select');   //switch to select mode
 		this.setState({polygon: newPolygon}); //set the polygon
-		if (newPolygon.gridOptions) {            //create a grid
+		if (newPolygon.gridOptions) {         //create a grid
 			let {angle, width, height} = newPolygon.gridOptions;
 			this.setState({angle, width, height});
 			this.submit({polygon: newPolygon, angle, width, height});
@@ -97,6 +98,8 @@ export default class MapSidebar extends Component {
 			case 'width':
 			case 'height':
 				this.setState({gridSettingsChanged: true});
+				this.setState( {[field]: parseFloat(newValue)} );
+				break;
 			default:
 				this.setState( {[field]: newValue} )
 				break;
