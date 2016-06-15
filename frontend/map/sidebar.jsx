@@ -3,6 +3,7 @@ import IconButton from 'elements/icon/button.js';
 import NumberField from 'elements/form/number-field.js';
 import AngleIndicator from 'elements/info/angle-indicator.js';
 import LoadingIndicator from 'elements/info/loading.js';
+import {field as fieldStyle} from 'map/shapes/style.js';
 
 /**
  * Sidebar component for the map editor page.
@@ -67,8 +68,12 @@ export default class MapSidebar extends Component {
 		//Code to check if the exact same polygon was set
 		if (newPolygon.active) return;
 		let oldPolygon = this.state.polygon;
-		if (oldPolygon) oldPolygon.active = false;
+		if (oldPolygon) {
+			oldPolygon.active = false;
+			oldPolygon.setOptions(fieldStyle.normal);
+		}
 		newPolygon.active = true;
+		newPolygon.setOptions(fieldStyle.selected);
 
 		this.valueChanged('tab', 'select');   //switch to select mode
 		this.setState({polygon: newPolygon}); //set the polygon

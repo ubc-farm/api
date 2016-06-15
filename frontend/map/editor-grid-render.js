@@ -46,6 +46,10 @@ export function setActive(polygon, gridOptions) {
 		map.data = new google.maps.Data({map});
 		map.data.setStyle(styler);
 		
+		//in case user made multiple polygons
+		polygon.active = true;
+		polygon.setOptions(style.field.selected);
+
 		map.data.addGeoJson(grid);
 	})
 }
