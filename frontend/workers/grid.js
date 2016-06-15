@@ -1,5 +1,5 @@
 import register from './promise/register.js';
-import Field from '../geo/field/field.js';
+import {convertPolygon} from '../geo/converter.js';
 import Grid from '../geo/grid/grid.js';
 import jsts from 'jsts';
 
@@ -25,11 +25,9 @@ import jsts from 'jsts';
  * an object with x and y.
  */
 register(function(msg) {
-	let path = msg.path.map(point => new jsts.geom.Coordinate(point.x, point.y));
-	
-	let field = new Field(path, msg.name);
+	let polygon = convertPolygon(msg.path);
 	let grid = new Grid(msg.gridSpec.width, msg.gridSpec.height, 		
-		msg.gridSpec.angle, path[0], field);
+		msg.gridSpec.angle, polygon);
 	
 	for (let [key, width] of msg.gridSpec.widthSpecific) {
 		field.grid.width.set(key, width);

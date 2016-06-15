@@ -1,0 +1,15 @@
+import {geom} from 'jsts';
+
+/**
+ * Converts the provided JSON cell into a JSTS Polygon
+ * @param {Coordinate[]} cell - the cell's path
+ * @param {Coordinate} cell[] - a point on the path of the cell
+ * @param {number} cell[].x
+ * @param {number} cell[].y
+ * @param {geom.GeometryFactory} [factory]
+ * @returns {geom.Polygon}
+ */
+export function convertPolygon(cell, factory=new geom.GeometryFactory()) {
+	let path = cell.map(point => new geom.Coordinate(point.x, point.y));
+	return new geom.Polygon(factory.createLinearRing(path), [], factory);
+}
