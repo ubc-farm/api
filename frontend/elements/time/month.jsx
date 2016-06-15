@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import calendarArray from 'shared/calendar/array.js';
-import {months} from 'shared/calendar/monthnames.js';
+import calendarArray from 'calendar/array.js';
+import {months} from 'calendar/monthnames.js';
 import _ from '../classnames.js';
 import ArrowButton from '../form/arrow-button.js';
 

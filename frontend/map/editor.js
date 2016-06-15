@@ -63,11 +63,10 @@ var manager = new google.maps.drawing.DrawingManager({
 });
 
 var react = domReady.then(() => {
-	let aside = ReactDOM.render(
+	return ReactDOM.render(
 		<MapSidebar onModeChange={swapMode} updateGrid={updateGrid}/>,
 		document.getElementById('map-edit-aside')
 	);
-	return aside;
 })
 
 var map = domReady.then(() => initMap()).then(map => { 

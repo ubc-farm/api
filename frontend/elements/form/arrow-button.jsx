@@ -9,8 +9,8 @@ export default function ArrowButton(props) {
 		<button className={_(
 			'arrow hover-light circle', 
 			{
-				'left-arrow': this.props.dir === 'left',
-				'right-arrow': this.props.dir === 'right'
+				'left-arrow': props.dir === 'left',
+				'right-arrow': props.dir === 'right'
 			}
 		)}></button>
 	);
