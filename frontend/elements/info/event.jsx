@@ -35,7 +35,7 @@ EventCard.propTypes = {
 	programs: PropTypes.arrayOf(PropTypes.string),
 	startTime: PropTypes.instanceOf(Date),
 	endTime: PropTypes.instanceOf(Date),
-	done: PropTypes.boolean,
+	done: PropTypes.bool,
 	location: PropTypes.node,
 	onCheck: PropTypes.func,
 	onOpen: PropTypes.func

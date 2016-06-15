@@ -23,5 +23,5 @@ export default function TableActions(props) {
 }
 TableActions.propTypes = {
 	count: PropTypes.number,
-	whenSelected: PropTypes.boolean
+	whenSelected: PropTypes.bool
 }

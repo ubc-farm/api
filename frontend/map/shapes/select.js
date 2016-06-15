@@ -9,9 +9,7 @@ export default class Selector {
 	 */
 	constructor(map, filter = ()=>true, onMouseRelease = ()=>{}) {
 		this.active = false; this.ctrlKey = false;
-		this.layer = map.data;
-		this.filter = filter;
-		this.onMouseRelease = onMouseRelease;
+		Object.assign(this, {map, filter, onMouseRelease})
 
 		this.onMouseOver = this.onMouseOver.bind(this);
 		this.onMouseDown = this.onMouseDown.bind(this);
@@ -24,7 +22,7 @@ export default class Selector {
 	onMouseDown(e) {
 		if (e.button !== 2) return;
 		this.active = true; this.ctrlKey = e.ctrlKey;
-		this.overListener = this.layer.addListener('mouseover', this.onMouseOver);
+		this.overListener = this.map.data.addListener('mouseover', this.onMouseOver)
 	}
 
 	onMouseUp(e) {

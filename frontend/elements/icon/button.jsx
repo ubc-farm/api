@@ -8,7 +8,7 @@ import _ from '../classnames.js';
  */
 export default function IconButton(props) {
 	return (
-		<button onClick={props.onClick}
+		<button {...props}
 		        className={_('i-button icon-text hover-light', props.className)}>
 			<Icon className='i-button-icon' name={props.icon}/>
 			{props.children}
@@ -18,5 +18,9 @@ export default function IconButton(props) {
 IconButton.propTypes = {
 	icon: PropTypes.string.isRequired,
 	className: PropTypes.string,
-	onClick: PropTypes.func
+	onClick: PropTypes.func,
+	type: PropTypes.oneOf(['button', 'submit', 'reset']),
 };
+IconButton.defaultProps = {
+	type: 'button'
+}

@@ -22,9 +22,9 @@ function CheckBase(props, isRadio) {
 }
 const propTypes = {
 	className: PropTypes.string,
-	checked: PropTypes.boolean,
-	required: PropTypes.boolean,
-	disabled: PropTypes.boolean,
+	checked: PropTypes.bool,
+	required: PropTypes.bool,
+	disabled: PropTypes.bool,
 	onChange: PropTypes.func,
 	customCheck: PropTypes.node
 };

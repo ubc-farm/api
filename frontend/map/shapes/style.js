@@ -5,7 +5,7 @@
 
 export const color = {
 	primary: 'rgb(59, 166, 72)',
-	accent: 'rgb(214, 83, 76)',
+	accent: 'rgb(47, 123, 130)',
 	gray: '#999',
 	light: '#ddd'
 }
@@ -37,5 +37,8 @@ export const field = {
 		fillColor: color.primary,
 		strokeColor: color.primary,
 		zIndex: 1
+	},
+	selected: {
+		fillOpacity: 0.1
 	}
 }

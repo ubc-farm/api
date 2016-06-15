@@ -74,7 +74,7 @@ export default function TimeRange(props) {
 TimeRange.propTypes = {
 	start: PropTypes.instanceOf(Date),
 	end: PropTypes.instanceOf(Date),
-	forceDate: PropTypes.boolean,
-	twelve: PropTypes.boolean
+	forceDate: PropTypes.bool,
+	twelve: PropTypes.bool
 };
 TimeRange.defaultProps = { forceDate: false, twelve: true };

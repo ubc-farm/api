@@ -16,15 +16,22 @@ const defaultGrid = {
 	widthSpecific: [], heightSpecific: []
 };
 
+export function styler(feature) {
+	if (feature.getProperty('isGrid')) {
+		if (feature.getProperty('selected')) {
+			return style.grid.selected;
+		} else return style.grid.normal;
+	}
+}
+
 /**
  * Display a grid on the selected polygon
  * @param {google.maps.Polygon} polygon
  * @param {Object} gridOptions
  */
 export function setActive(polygon, gridOptions) {
-	let gridOpts;
-	if (polygon.gridOptions) gridOpts = polygon.gridOptions;
-	else if (gridOptions) gridOpts = gridOptions;
+	let gridOpts = gridOptions;
+	polygon.gridOptions = gridOptions; //store the grid state with the polygon
 
 	let path = polygon.getPath().getArray().map(point => {
 		let {lng: x, lat: y} = point.toJSON();
@@ -34,6 +41,15 @@ export function setActive(polygon, gridOptions) {
 
 	let map = polygon.getMap();
 	return buildGrid(path, gridOpts).then(grid => {
+		//Flush the previous grid
+		map.data.setMap(null);
+		map.data = new google.maps.Data({map});
+		map.data.setStyle(styler);
+		
+		//in case user made multiple polygons
+		polygon.active = true;
+		polygon.setOptions(style.field.selected);
+
 		map.data.addGeoJson(grid);
 	})
 }
@@ -50,6 +66,8 @@ export function setActive(polygon, gridOptions) {
 function buildGrid(path, gridSpec = defaultGrid, 
 worker = new ModuleWorker('workers/grid.js')) {
 	let name = JSON.stringify(path);
+
+	gridSpec = Object.assign({}, defaultGrid, gridSpec);
 
 	return worker.postMessage({name, path, gridSpec})
 		.then(cells => convertCells(cells, name))

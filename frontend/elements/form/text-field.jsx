@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import IfTag from '../helpers.js';
 import _ from '../classnames.js';
 
 /**
@@ -7,11 +8,16 @@ import _ from '../classnames.js';
 export default class TextField extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {value: '', focused: false}
+		this.state = {value: this.props.value, focused: false}
 
 		this.handleChange = this.handleChange.bind(this);
 		this.onFocus = this.onFocus.bind(this);
 		this.onBlur = this.onBlur.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.state.value !== nextProps.value) 
+			this.setState({value: nextProps.value})
 	}
 
 	onFocus() {
@@ -25,78 +31,70 @@ export default class TextField extends Component {
 
 	handleChange(e) {
 		this.setState({value: e.target.value})
-	}
-
-	renderHelper() {
-		if (this.props.helper) {
-			return (
-				<span className='text-field-helpertext'>
-					{this.props.helper}
-				</span>
-			)
-		} else return null;
-	}
-
-	renderCounter() {
-		if (this.props.maxLength > -1) {
-			return (
-				<span className='text-field-counter'>
-					{this.state.value.length} / {this.props.maxLength}
-				</span>
-			)
-		} else return null;
-	}
-
-	renderError() {
-		if (this.props.error) {
-			return (
-				<span className='text-field-helpertext text-field-errortext' hidden>
-					{this.props.error}
-				</span>
-			)
-		} else {
-			return null;
-		}
+		this.props.onChange(e.target.value);
 	}
 
 	render() {
 		let {value, focused} = this.state;
-		let {key: id, textType: type, hint: placeholder} = this.props; 
-		let {disabled, required, pattern, name, float} = this.props;
-		let inputProps = {
-			id, type, placeholder,
-			disabled, required, pattern,
-			value,
-			name: name || id,
-			className: 'text-field-input'
+		let props = Object.assign({}, this.props);
+		let {hint: placeholder, maxLength: maxlength} = props; 
+		let extraProps = {
+			placeholder, maxlength,
+			value, name: props.name || props.id,
+			className: 'text-field-input',
+			onFocus: this.onFocus, onBlur: this.onBlur
 		}
-		let classList = _('text-field', {
-			'text-field-focus': focused,
+		delete props.hint; delete props.maxLength;
+		delete props.children; delete props.suffix;
+		let classList = _('text-field', props.className, {
 			'text-field-force-helper': this.props.persistHelper,
-			'text-field-floating': this.props.float,
-			'text-field-disabled': disabled
+			'text-field-floating': props.float,
+			'text-field-disabled': props.disabled
 		});
 
 		return (
-			<div className={classList} key={id}>
-				<label htmlFor={id} className={_({
-				 'floating-label': float
-				})}>
+			<div className={classList} key={props.id} data-focus={focused}>
+				<label htmlFor={props.id} className={_(
+					'text-field-label', {
+					'text-field-label-focus': focused,
+					'floating-label': props.float
+				})} data-text={this.props.children}>
 					{this.props.children}
 				</label>
-				<input {...inputProps} onChange={this.handleChange}/>
-				{this.renderHelper()} 
-				{this.renderError()} 
-				{this.renderCounter()}
+				<input {...props} {...extraProps} onChange={this.handleChange}/>
+				<span className='text-field-border'/>
+				<IfTag cond={this.props.suffix}>
+					<span className='text-field-suffix'>
+						{this.props.suffix}
+					</span>
+				</IfTag>
+				<IfTag cond={this.props.helper}>
+					<span className='text-field-helpertext'>
+						{this.props.helper}
+					</span>
+				</IfTag>
+				<IfTag cond={this.props.error}>
+					<span className='text-field-helpertext text-field-errortext' hidden>
+						{this.props.error}
+					</span>
+				</IfTag>
+				<IfTag cond={this.props.maxLength > -1}>
+					<span className='text-field-counter'>
+						{this.state.value.length} / {this.props.maxLength}
+					</span>
+				</IfTag>
 			</div>
 		)
 	}
 
 	/**
+	 * @memberof TextField
+	 * @name props
 	 * @property {function} [onFocusChange] - callback for when input is 
 	 * focused/blurred. If focused, passed true. If blurred, passed false.
-	 * @property {any} key - also used as input name (unless overriden)
-	 * @property {string} [textType=text] - type for the input.
+	 * @property {function} [onChange] - callback for value change
+	 * @property {any} id - also used as input name (unless overriden)
+	 * @property {string} [type=text] - type for the input.
 	 * Only a few types, related to text, are allowed.
 	 * @property {number} [maxLength] - sets a maxiumum length for the input,
 	 * which will also cause a character counter to be rendered.
@@ -107,8 +105,10 @@ export default class TextField extends Component {
 	 * @property {string} [helper] text shown after the input when focused. 
 	 * Should be instruction text.
 	 * @property {boolean} [persistHelper] - always show the helper text if true
-	 * @property {boolean} [float=true] - sets a class to indicate a floating 
+	 * @property {boolean} [float] - sets a class to indicate a floating 
 	 * label should be used for the input.
+	 * @property {string} [suffix] - displays a suffix for the text input, such as
+	 * a unit like kg or °.
 	 * @property {boolean} [disabled] - disabled the input
 	 * @property {boolean} [required] - flags the input as required
 	 * @property {string} [name] overrides the name for the input
@@ -116,30 +116,36 @@ export default class TextField extends Component {
 	static get propTypes() {
 		return {
 			onFocusChange: PropTypes.func,
-			key: PropTypes.any.isRequired,
-			textType: PropTypes.oneOf([
-				'email', 'text', 'url', 'tel'
+			onChange: PropTypes.func,
+			id: PropTypes.any.isRequired,
+			type: PropTypes.oneOf([
+				'email', 'text', 'url', 'tel',
+				//PRIVATE TYPES
+				'number' 
 			]),
 			maxLength: PropTypes.number,
 			hint: PropTypes.string,
 			error: PropTypes.string,
 			helper: PropTypes.string,
-			persistHelper: PropTypes.boolean,
-			float: PropTypes.boolean,
+			persistHelper: PropTypes.bool,
+			float: PropTypes.bool,
+			suffix: PropTypes.string,
 
-			disabled: PropTypes.boolean,
-			required: PropTypes.boolean,
+			disabled: PropTypes.bool,
+			required: PropTypes.bool,
 			name: PropTypes.string,
-			pattern: PropTypes.string
+			pattern: PropTypes.string,
+			value: PropTypes.any
 		}
 	}
 
 	static get defaultProps() {
 		return {
 			maxLength: -1,
-			textType: 'text',
+			type: 'text',
 			onFocusChange: () => {},
-			float: true
+			onChange: () => {},
+			value: ''
 		}
 	}
 }
