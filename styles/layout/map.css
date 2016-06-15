@@ -65,7 +65,6 @@
 	position: relative;
 	transform: rotateZ(45deg);
 	margin: 0.35em;
-	float: left;
 }
 .f-cube {
 	float: left;
