@@ -3,32 +3,15 @@
  */
 
 import {domReady} from 'utils.js';
-import {initMap as start} from 'map/config.js';
-import iconButton from 'elements/icon-button.js'
-import google from 'google/maps/drawing';
+import {initMap} from 'map/config.js';
 import * as style from 'map/shapes/style.js';
-import {displayGrid} from 'map/shapes/draw.js';
-import ModuleWorker from 'workers/promise/system.js';
+import {setActive as setActiveGrid, styler} from 'map/editor-grid-render.js';
+import Selector from 'map/shapes/select.js';
+import MapSidebar from './sidebar.js';
 
-/**
- * Called to switch to add mode on the map
- * @listens click
- */
-function addMode() {
-	buttons.select.classList.remove('hover-toggle');
-	buttons.add.classList.add('hover-toggle');
-	manager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-}
-
-/**
- * Called to switch to select mode
- * @listens click
- */
-function selectMode() {
-	buttons.add.classList.remove('hover-toggle');
-	buttons.select.classList.add('hover-toggle');
-	manager.setDrawingMode(null);
-} 
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import google from 'google/maps/drawing';
 
 /**
  * Opens polygon for editing when clicked
@@ -36,30 +19,7 @@ function selectMode() {
  * @this google.maps.Polygon
  */
 function polygonClick() {
-	
-}
-
-/**
- * Sends grid data off to a web worker then
- * resolves with a new grid data feature for the map
- * @param {Coordinate[]} path - path of containing polygon
- * @param {Object} gridSpec
- * @see module:workers/grid.js
- * @returns {Promise<Data.FeatureOptions>} grid as a feature
- */
-function buildGrid(path, gridSpec) {
-	return gridWorker.postMessage({
-		name: null,
-		path, gridSpec
-	}).then(cells => {
-		return cells.map(cell => {
-			return new google.maps.Data.Polygon([
-				cell.map(point => new google.maps.LatLng(point.y, point.x))
-			])
-		})
-	}).then(cells => {
-		return displayGrid(cells, null);
-	})
+	react.then(aside => {aside.setPolygon(this)});
 }
 
 /**
@@ -70,63 +30,53 @@ function buildGrid(path, gridSpec) {
  */
 function polygonComplete(polygon) {
 	polygons.push(polygon);
-	google.maps.event.addListener(polygon, 'click', e => {})
-	selectMode();
-	
-	let path = polygon.getPath().getArray().map(point => {
-		let {lng: x, lat: y} = point.toJSON();
-		return {x, y};
-	});
-	path.push(path[0]);
-	
-	Promise.all([
-		buildGrid(path, {
-			width: 2, height: 2,
-			angle: 25,
-			widthSpecific: [], heightSpecific: []
-		}),
-		map
-	]).then(results => {
-		let [grid, map] = results;
-		console.log(grid);
-		map.data.add(grid);
-	})
+	google.maps.event.addListener(polygon, 'click', polygonClick)
+	react.then(aside => {aside.setPolygon(polygon)});
+}
+
+/**
+ * Updates the grid using the provided data
+ * @listens MapSidebar#submit
+ */
+function updateGrid({angle, width, height, polygon}) {
+	return setActiveGrid(polygon, {angle, width, height})
+}
+
+/**
+ * Switches the drawing mode on the map
+ * @param {string} newMode - either 'add' or 'select'
+ */
+function swapMode(newMode) {
+	if (newMode === 'resize') {
+
+	} else {
+		let drawMode = null;
+		if (newMode === 'add') drawMode = google.maps.drawing.OverlayType.POLYGON;
+		manager.setDrawingMode(drawMode);
+	}
 }
 
 var polygons = [];
-var buttons = {};
 var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false,
 	polygonOptions: style.field.normal
 });
-var gridWorker = new ModuleWorker('workers/grid.js');
 
-//var editor = new FieldEditor();
+var react = domReady.then(() => {
+	let aside = ReactDOM.render(
+		<MapSidebar onModeChange={swapMode} updateGrid={updateGrid}/>,
+		document.getElementById('map-edit-aside')
+	);
+	return aside;
+})
 
-var map = domReady.then(() => {
-	let sidebar = document.getElementById('map-edit-aside');
-	
-	let frag = document.createDocumentFragment();
-	let add = iconButton('add', 'Add Field');
-	let select = iconButton('edit', 'Select');
-	
-	frag.appendChild(add); 
-	frag.appendChild(select); 
-	sidebar.insertBefore(frag, sidebar.firstChild);
-	
-	add.addEventListener('click', addMode);
-	select.addEventListener('click', selectMode);
-	buttons = {add, select};
-	
-	return start();
-}).then(map => { 
-	map.setTilt(0);
+var map = domReady.then(() => initMap()).then(map => { 
 	google.maps.event.addListener(manager, 'polygoncomplete', polygonComplete);
-	manager.setMap(map); 
-	map.data.setStyle(feature => {
-		if (feature.getProperty('isGrid')) {
-			return style.grid.normal;
-		}
-	})
-	return map;
+	manager.setMap(map);
+	return map; 
+});
+
+map.then(map => {
+	new Selector(map);
+	map.data.setStyle(styler);
 });

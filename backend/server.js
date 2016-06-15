@@ -1,4 +1,4 @@
-const Promise = require('bluebird');
+//const Promise = require('bluebird');
 const Koa = require('koa');
 const router = require('koa-router')();
 const layers = require('./routes');

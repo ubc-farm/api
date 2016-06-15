@@ -29,10 +29,10 @@
 		</tr>
 		<tr for(row in cal(data.dateVal)) class="cal-week">
 			<td for(date in row) class=[
-				'circle', 'hover-light',
-				(date === 0? null : 'cal-day'), 
-				(date == 5 || date == 10 ? 'cal-event' : null),
-				(data.event? data.event[date] : null)]
+				'circle', 'hover-light', {
+					'cal-day': date !== 0,
+					'cal-event': date == 5 || date == 10
+				}, (data.event? data.event[date] : null)]
 				>${date === 0? '' : date}</td>	
 		</tr>
 	</table>

@@ -14,14 +14,6 @@
 </macro>
 
 <layout-use("../../_layouts/logging.marko")>
-	<layout-put into="head">
-		<script>
-			var loadMap = new Deferred();
-			function mapReady() {loadMap.resolve()}
-		</script>
-		<google-script api="maps" libraries=["drawing", "geometry"] cb="mapReady"/>
-	</layout-put>
-
 	<layout-put into="title">Field Editor</layout-put>
 	<layout-put into="banner">
 		<h1 class="banner-title">Field Editor</h1>

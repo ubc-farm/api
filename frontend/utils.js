@@ -19,7 +19,7 @@ export const domReady = new Promise(resolve => {
 
 /**
  * Creates a promise that can be resolved from the outside.
- * Used for async scripts and their onload attributes.
+ * @deprecated Try to avoid using when possible, this is a hacky promise
  * @property {Promise} promise - the promise
  * @property {function} resolve - resolves the promise
  * @property {function} reject - rejects the promise

@@ -1,10 +1,12 @@
-.clear-margin {margin:0}
-
 .inline {display: inline-block}
 
 .left {float: left}
+.right {float: right}
+.clear {clear:both}
 
 .rel {position: relative}
+
+.circle {border-radius: 50%}
 
 @import 'utils/color.css';
 
@@ -24,14 +26,16 @@ a {
 	color: inherit;
 }
 
-button {
+hr {
+	border-width: 1px 0 0 0;
+	border-color: var(--dark-divider);
+}
+
+input, button {
 	background: none;
 	border: 0;
 	font: inherit;
 	color: inherit;
-}
-
-hr {
-	border-width: 1px 0 0 0;
-	border-color: var(--dark-divider);
+	padding: 0;
+	margin: 0;
 }
