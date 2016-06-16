@@ -40,7 +40,7 @@ export default class Queue {
 		return dbRequest.then(db => {
 			let objStore = db.transaction(this.STORE_NAME, 'readwrite')
 				.objectStore(this.STORE_NAME);
-			let operations = items.map(item => objStore.put(item));
+			let operations = items.map(item => objStore.add(item));
 			return Promise.all([tx.complete, ...operations]);
 		})
 	}
@@ -61,6 +61,7 @@ export default class Queue {
 	 * Retrives, but does not remove, the head of the queue.
 	 * @returns {null} if queue is empty
 	 * @returns {any} the head item
+	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
 	peek() {
 
@@ -70,6 +71,7 @@ export default class Queue {
 	 * Retrives and removes the head of the queue.
 	 * @returns {null} if the queue is empty.
 	 * @returns {any} the head item
+	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
 	poll() {
 		this.peek();
@@ -78,6 +80,7 @@ export default class Queue {
 	/**
 	 * Returns the amount of items in the queue.
 	 * @returns {Promise<number>} count
+	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
 	size() {
 		return dbRequest.then(db => {
