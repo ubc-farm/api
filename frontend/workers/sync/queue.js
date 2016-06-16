@@ -1,7 +1,9 @@
 import idb from 'vendor/idb.js';
 
 /**
- * Represents a queue of taks
+ * Represents a queue of tasks. Some methods as based on the Java Queue object,
+ * and the JavaScript Set object. The tasks are stored in IndexedDB, and this
+ * queue is designed to be used to store HTTP requests for background syncing.
  * @module
  */
 export default class Queue {
@@ -13,7 +15,8 @@ export default class Queue {
 	static get DB_VERSION() {return 1;}
 	static get STORE_NAME() {return 'queue';}
 
-	get db() {
+	/** @const {Promise<DB>} */
+	get dbRequest() {
 		return idb.open(Queue.DB_NAME, Queue.DB_VERSION, upgradeDB => {
 			switch (upgradeDB.oldVersion) {
 				case 0:
@@ -23,6 +26,78 @@ export default class Queue {
 					break;
 			}
 		})
+	}
+
+	/**
+	 * Inserts the specified item into this queue if possible.
+	 * @param {any} item
+	 * @return {boolean} true upon success
+	 */
+	add(item) {
+
+	}
+
+	/** 
+	 * Inserts all values of an iterable object into the queue. Objects
+	 * are inserted in the order of the iterable, so the final value will become
+	 * the last element of the queue.
+	 * @param {Iterable} items
+	 * @returns {boolean} true upon success
+	 */
+	addAll(...items) {
+		let successful = true;
+		for (let item in items) {
+			if (this.add(item)) continue;
+			else {
+				successful = false;
+				break;
+			}
+		}
+		return successful;
+	}
+
+	/** Removes all items in the Queue. */
+	clear() {
+
+	}
+
+	/**
+	 * Retrives, but does not remove, the head of the queue.
+	 * @returns {null} if queue is empty
+	 * @returns {any} the head item
+	 */
+	peek() {
+
+	}
+
+	/**
+	 * Retrives and removes the head of the queue.
+	 * @returns {null} if the queue is empty.
+	 * @returns {any} the head item
+	 */
+	poll() {
+		this.peek();
+	}
+
+	/**
+	 * Returns the amount of items in the queue.
+	 * @returns {number} count
+	 */
+	size() {
+
+	}
+
+	/**
+	 * Gets the values of the queue as a generator
+	 * @returns {Generator}
+	 */
+	*values() {
+
+	}
+
+	/** Alias for Queue.values() to use with for...of */
+	[Symbol.iterator]() {
+		return this.values();
 	}
 	
 	/**
@@ -113,7 +188,7 @@ export default class Queue {
 	 * @param {boolean} reverse - sort desending instead of ascending.
 	 * @returns {Generator}
 	 */
-	* values(reverse = false) {
+	* OldValues(reverse = false) {
 		this.oldOpen([objectStore => {
 			return new Promise((resolve, reject) => {
 				let request = objectStore.openCursor(null, reverse? 'prev': null);
@@ -132,12 +207,5 @@ export default class Queue {
 				};
 			})
 		}])
-	}
-	
-	/**
-	 * Maps to the values generator function
-	 */
-	[Symbol.iterator]() {
-		return this.values();
 	}
 }
