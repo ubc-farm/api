@@ -145,10 +145,30 @@ export default class Queue {
 			}, this.keys)
 		})
 	}
+
+	/**
+	 * Gets the values of the queue as a generator. If null is passed in the
+	 * next() method, then the value will be deleted from the queue. If another
+	 * value is passed, then the value will be updated in the queue. Both of these
+	 * steps will cause the generator to pause at those commands, so you need to
+	 * re-run next() later on to move forward. 
+	 * IDBCursor isn't used because of the short transaction lifespan. 
 	 * @returns {Generator}
 	 */
 	*values() {
-
+		for (let key in this.keys) {
+			let command = yield this.peek(key);
+			if (command === null) {
+				// delete the value
+				yield this.poll(key);
+			} else if (command !== undefined) {
+				// update the value
+				yield dbRequest.then(db => {
+					return db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME)
+						.put(command, key);
+				});
+			} 
+		}
 	}
 
 	/** Alias for Queue.values() to use with for...of */
