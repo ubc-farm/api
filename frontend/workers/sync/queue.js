@@ -13,6 +13,7 @@ export default class Queue {
 	 */
 	constructor(STORE_NAME = 'queue', DB_NAME = 'ubc-farm') {
 		Object.assign(this, {STORE_NAME, DB_NAME});
+		this.keys = []; //keys are stored here for local reference
 	}
 	static get DB_VERSION() {return 1;}
 
@@ -38,10 +39,18 @@ export default class Queue {
 	 */
 	add(...items) {
 		return dbRequest.then(db => {
-			let objStore = db.transaction(this.STORE_NAME, 'readwrite')
-				.objectStore(this.STORE_NAME);
-			let operations = items.map(item => objStore.add(item));
+			let tx = db.transaction(this.STORE_NAME, 'readwrite');
+			let objStore = tx.objectStore(this.STORE_NAME);
+			//put is used because it returns the new key of the object.
+			//as far as I can tell from documentation, add does not return the key.
+			let operations = items.map(item => objStore.put(item));
 			return Promise.all([tx.complete, ...operations]);
+		})
+		//get rid of the tx.complete value
+		.then(results => { results.shift(); return results;	})
+		//push the keys from put() into the Queue.keys() array
+		.then(keys => {
+			this.keys = this.keys.concat(keys);
 		})
 	}
 	
