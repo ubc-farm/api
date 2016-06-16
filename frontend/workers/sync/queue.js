@@ -139,13 +139,14 @@ export default class Queue {
 	 */
 	forceKeyUpdate() {
 		return dbRequest.then(db => {
-			return db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME)
-				.getAllKeys();
-		}).then(newKeys => {
+			let tx = db.transaction(this.STORE_NAME);
 			this.keys.clear();
-			return newKeys.reduce((set, value) => {
-				return set.add(value);
-			}, this.keys)
+			tx.objectStore(this.STORE_NAME).iterateCursor(cursor => {
+				if (!cursor) return;
+				this.keys.add(cursor.value);
+				cursor.continue();
+			})
+			return tx.complete.then(() => this.keys);
 		})
 	}
 
