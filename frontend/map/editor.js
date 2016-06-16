@@ -5,7 +5,11 @@
 import {domReady} from 'utils.js';
 import {initMap} from 'map/config.js';
 import * as style from 'map/shapes/style.js';
-import {setActive as setActiveGrid, styler} from 'map/editor-grid-render.js';
+import {
+	setActive as setActiveGrid, 
+	styler, 
+	mergeGrid
+} from 'map/editor-grid-render.js';
 import Selector from 'map/shapes/select.js';
 import MapSidebar from './sidebar.js';
 
@@ -56,6 +60,8 @@ function swapMode(newMode) {
 	}
 }
 
+function merge() {select.then(selector => mergeGrid(selector))}
+
 var polygons = [];
 var manager = new google.maps.drawing.DrawingManager({
 	drawingControl: false,
@@ -64,7 +70,8 @@ var manager = new google.maps.drawing.DrawingManager({
 
 var react = domReady.then(() => {
 	return ReactDOM.render(
-		<MapSidebar onModeChange={swapMode} updateGrid={updateGrid}/>,
+		<MapSidebar onModeChange={swapMode} updateGrid={updateGrid}
+		            createGrid={merge}/>,
 		document.getElementById('map-edit-aside')
 	);
 })
@@ -75,7 +82,7 @@ var map = domReady.then(() => initMap()).then(map => {
 	return map; 
 });
 
-map.then(map => {
-	new Selector(map);
+var select = map.then(map => {
 	map.data.setStyle(styler);
+	return new Selector(map);
 });

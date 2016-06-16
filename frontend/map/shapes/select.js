@@ -54,4 +54,19 @@ export default class Selector {
 			}
 		}
 	}
+
+	/**
+	 * Get an array of selected cells
+	 * @returns {google.maps.Data.Polygon[]}
+	 */
+	selected() {
+		let cells = [];
+		this.map.data.forEach(cell => {
+			if (this.filter(cell) && cell.getProperty('selected')) cells.push(cell);
+		});
+		return cells;
+	}
+
+	/** Interator protocolor function */
+	[Symbol.iterator]() { return selected(); }
 }

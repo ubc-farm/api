@@ -63,7 +63,7 @@ export function setActive(polygon, gridOptions) {
  * @see module:workers/grid.js
  * @returns {Promise<Data.FeatureOptions>} grid as a feature
  */
-function buildGrid(path, gridSpec = defaultGrid, 
+export function buildGrid(path, gridSpec = defaultGrid, 
 worker = new ModuleWorker('workers/grid.js')) {
 	let name = JSON.stringify(path);
 
@@ -72,4 +72,14 @@ worker = new ModuleWorker('workers/grid.js')) {
 	return worker.postMessage({name, path, gridSpec})
 		.then(cells => convertCells(cells, name))
 		.then(features => createCollection(features))
+}
+
+/**
+ * Uses a web worker to merge the polygons in the iterable.
+ * @param {Iterable<google.maps.Polygon>} cells
+ * @returns {Promise<Data.FeatureOptions>} merged cell grid
+ */
+export function mergeGrid(cells) {
+	return new ModuleWorker('workers/subfield.js').postMessage(...cells)
+	.then(polygon => {})
 }
