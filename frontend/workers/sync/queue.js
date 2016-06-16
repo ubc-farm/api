@@ -70,10 +70,13 @@ export default class Queue {
 
 	/**
 	 * Returns the amount of items in the queue.
-	 * @returns {number} count
+	 * @returns {Promise<number>} count
 	 */
 	size() {
-
+		return dbRequest.then(db => {
+			return db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME)
+				.count();
+		})
 	}
 
 	/**
