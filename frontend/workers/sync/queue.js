@@ -1,3 +1,5 @@
+import idb from 'vendor/idb.js';
+
 /**
  * Represents a queue of taks
  * @module
@@ -7,9 +9,21 @@ export default class Queue {
 		
 	}
 	
+	static get DB_NAME() {return 'ubc-farm';}
 	static get DB_VERSION() {return 1;}
-	get DB_NAME() {return 'queue-db';}
-	get STORE_NAME() {return 'queue';}
+	static get STORE_NAME() {return 'queue';}
+
+	get db() {
+		return idb.open(Queue.DB_NAME, Queue.DB_VERSION, upgradeDB => {
+			switch (upgradeDB.oldVersion) {
+				case 0:
+					upgradeDB.createObjectStore(Queue.STORE_NAME, {
+						autoIncrement: true
+					});
+					break;
+			}
+		})
+	}
 	
 	/**
 	 * @callbacks Queue~promiseCallback
@@ -25,7 +39,7 @@ export default class Queue {
 	 * @param {boolean} [readonly] - set true to only read, not write
 	 * @returns {Promise}
 	 */
-	open(callbacks, readonly = false) {
+	oldOpen(callbacks, readonly = false) {
 		let mode = readonly ? 'readonly' : 'readwrite';
 		return new Promise((resolve, reject) => {
 			let request = indexedDB.open(this.DB_NAME, Queue.DB_VERSION);
@@ -59,7 +73,7 @@ export default class Queue {
 	 * @returns {Promise<number>} the new length of the queue
 	 */
 	enqueue(item) {
-		return this.open([objectStore => {
+		return this.oldOpen([objectStore => {
 			return new Promise((resolve, reject) => {
 				let request = objectStore.add(item);
 				request.onerror = e => {reject(request.error)};
@@ -78,7 +92,7 @@ export default class Queue {
 	 * @returns {Promise} the item
 	 */
 	dequeue(reverse = false) {
-		return this.open([objectStore => {
+		return this.oldOpen([objectStore => {
 			return new Promise((resolve, reject) => {
 				let request = objectStore.openCursor(null, reverse? 'prev': null);
 				request.onerror = e => {reject(request.error)};
@@ -100,7 +114,7 @@ export default class Queue {
 	 * @returns {Generator}
 	 */
 	* values(reverse = false) {
-		this.open([objectStore => {
+		this.oldOpen([objectStore => {
 			return new Promise((resolve, reject) => {
 				let request = objectStore.openCursor(null, reverse? 'prev': null);
 				request.onerror = e => {reject(request.error)};
