@@ -13,9 +13,25 @@ export default class Queue {
 	 */
 	constructor(STORE_NAME = 'queue', DB_NAME = 'ubc-farm') {
 		Object.assign(this, {STORE_NAME, DB_NAME});
-		this.keys = []; //keys are stored here for local reference
+
+		/**
+		 * Keys are stored in this Set for local reference.
+		 * @alias keys
+		 * @memberof Queue
+		 * @type {Set<number>}
+		 */
+		this.keys = new Set();
 	}
 	static get DB_VERSION() {return 1;}
+
+	/** 
+	 * Gets the first key of the Set 
+	 * @type {number}
+	 */
+	get topKey() {
+		for (var key of this.keys) break;
+		return key;
+	}
 
 	/** @const {Promise<DB>} */
 	get dbRequest() {
@@ -50,7 +66,9 @@ export default class Queue {
 		.then(results => { results.shift(); return results;	})
 		//push the keys from put() into the Queue.keys() array
 		.then(keys => {
-			this.keys = this.keys.concat(keys);
+			keys.reduce((keySet, value) => {
+				return keySet.add(value);
+			}, this.keys);
 		})
 	}
 	
@@ -68,13 +86,13 @@ export default class Queue {
 
 	/**
 	 * Retrives, but does not remove, the head of the queue.
+	 * @param {number} [key] - set the key manually
 	 * @returns {Promise<null>} if queue is empty
 	 * @returns {Promise<any>} the head item
 	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
-	peek() {
-		let key = this.keys[0];
-		if (this.keys.length === 0) return Promise.resolve(null);
+	peek(key = this.topKey) {
+		if (this.keys.size === 0) return Promise.resolve(null);
 		return dbRequest.then(db => {
 			return db.transaction(this.STORE_NAME)
 				.objectStore(this.STORE_NAME).get(key);
@@ -83,13 +101,14 @@ export default class Queue {
 
 	/**
 	 * Retrives and removes the head of the queue.
+	 * @param {number} [key] - set the key manually
 	 * @returns {Promise<null>} if the queue is empty.
 	 * @returns {Promise<any>} the head item
 	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
-	poll() {
-		let key = this.keys.shift();
-		if (key === undefined) return Promise.resolve(null);
+	poll(key = this.topKey) {
+		let deletion = this.keys.delete(key);
+		if (deletion === undefined) return Promise.resolve(null);
 		return dbRequest.then(db => {
 			let tx = db.transaction(this.STORE_NAME, 'readwrite');
 			let objStore = tx.objectStore(this.STORE_NAME);
@@ -112,7 +131,20 @@ export default class Queue {
 	}
 
 	/**
-	 * Gets the values of the queue as a generator
+	 * Rewrites the Queue.keys Set using the keys from the IndexedDB.
+	 * @returns {Set<number>} the updated set
+	 */
+	forceKeyUpdate() {
+		return dbRequest.then(db => {
+			return db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME)
+				.getAllKeys();
+		}).then(newKeys => {
+			this.keys.clear();
+			return newKeys.reduce((set, value) => {
+				return set.add(value);
+			}, this.keys)
+		})
+	}
 	 * @returns {Generator}
 	 */
 	*values() {
