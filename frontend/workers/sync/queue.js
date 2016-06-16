@@ -7,20 +7,21 @@ import idb from 'vendor/idb.js';
  * @module
  */
 export default class Queue {
-	constructor() {
-		
+	/**
+	 * @param {string} [STORE_NAME] - name of the queue objectStore
+	 * @param {string} [DB_NAME] - name of the queue IndexedDB
+	 */
+	constructor(STORE_NAME = 'queue', DB_NAME = 'ubc-farm') {
+		Object.assign(this, {STORE_NAME, DB_NAME});
 	}
-	
-	static get DB_NAME() {return 'ubc-farm';}
 	static get DB_VERSION() {return 1;}
-	static get STORE_NAME() {return 'queue';}
 
 	/** @const {Promise<DB>} */
 	get dbRequest() {
-		return idb.open(Queue.DB_NAME, Queue.DB_VERSION, upgradeDB => {
+		return idb.open(this.DB_NAME, Queue.DB_VERSION, upgradeDB => {
 			switch (upgradeDB.oldVersion) {
 				case 0:
-					upgradeDB.createObjectStore(Queue.STORE_NAME, {
+					upgradeDB.createObjectStore(this.STORE_NAME, {
 						autoIncrement: true
 					});
 					break;
