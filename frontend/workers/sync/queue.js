@@ -30,31 +30,19 @@ export default class Queue {
 	}
 
 	/**
-	 * Inserts the specified item into this queue if possible.
-	 * @param {any} item
-	 * @return {boolean} true upon success
+	 * Inserts all given values into the Queue. Objects are inserted in the order 
+	 * provided, so the final value will become the last element of the queue.
+	 * @param {...any} items
+	 * @return {Promise} resolves upon success
+	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
-	add(item) {
-
-	}
-
-	/** 
-	 * Inserts all values of an iterable object into the queue. Objects
-	 * are inserted in the order of the iterable, so the final value will become
-	 * the last element of the queue.
-	 * @param {Iterable} items
-	 * @returns {boolean} true upon success
-	 */
-	addAll(...items) {
-		let successful = true;
-		for (let item in items) {
-			if (this.add(item)) continue;
-			else {
-				successful = false;
-				break;
-			}
-		}
-		return successful;
+	add(...items) {
+		return dbRequest.then(db => {
+			let objStore = db.transaction(this.STORE_NAME, 'readwrite')
+				.objectStore(this.STORE_NAME);
+			let operations = items.map(item => objStore.put(item));
+			return Promise.all([tx.complete, ...operations]);
+		})
 	}
 
 	/** Removes all items in the Queue. */
