@@ -44,10 +44,17 @@ export default class Queue {
 			return Promise.all([tx.complete, ...operations]);
 		})
 	}
-
-	/** Removes all items in the Queue. */
+	
+	/** 
+	 * Removes all items in the Queue. Clearing is done on a seperate thread.
+	 * @returns {Promise} resolves once clearing is done
+	 * @throws {Promise<Error>} rejects if transaction aborts or errors
+	 */
 	clear() {
-
+		return dbRequest.then(db => {
+			return db.transaction(this.STORE_NAME, 'readwrite')
+				.objectStore(this.STORE_NAME).clear();
+		})
 	}
 
 	/**
