@@ -3,22 +3,24 @@ import {geom} from 'jsts';
 import {convertPolygon as convertCell} from 'geo/converter.js';
 
 /**
- * Generator function that wraps union from JSTS. 
- * Each value passed to the generator is united with
- * the previous result. 
+ * Generator function that wraps union from JSTS. Each value passed to the 
+ * generator is united with the previous result.  
  * @param {GeometryFactory} factory to build blank geometry with
  * @returns {Generator}
  * @yields {Geometry} the complete geometry
  */
-function* unite(factory = new geom.GeometryFactory()) {
+function* uniter(factory = new geom.GeometryFactory()) {
 	let creation = new geom.Geometry(factory);
-	yield null;
-	while (true) {
-		let input = yield creation;
-		if (input === false) break;
-		creation.union(input);
+	try {
+		while (true) {
+			let input = yield creation;
+			creation.union(input);
+		}
+	} finally {
+		// Because this is within a try/finally block, uniter.return() will return
+		// this value instead of whatever is passed into return.
+		return creation;
 	}
-	return creation;
 }
 
 /** 
@@ -28,8 +30,9 @@ function* unite(factory = new geom.GeometryFactory()) {
  * @returns {Promise<Array<Coordinate[]>>} the paths of the resulting polygon
  */
 register(function(cells) {
-	let factory = new geom.GeometryFactory();
-	let uniter = unite(factory); uniter.next();
-	for (let cell of cells) uniter.next(cell);
-	return uniter.next(false).value;
+	let co = uniter(factory); 
+	co.next() //first next call starts up the generator (runs to first yield)
+	
+	for (let cell of cells) co.next(convertCell(cell));
+	return co.return().value;
 });
