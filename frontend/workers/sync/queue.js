@@ -68,22 +68,35 @@ export default class Queue {
 
 	/**
 	 * Retrives, but does not remove, the head of the queue.
-	 * @returns {null} if queue is empty
-	 * @returns {any} the head item
+	 * @returns {Promise<null>} if queue is empty
+	 * @returns {Promise<any>} the head item
 	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
 	peek() {
-
+		let key = this.keys[0];
+		if (this.keys.length === 0) return Promise.resolve(null);
+		return dbRequest.then(db => {
+			return db.transaction(this.STORE_NAME)
+				.objectStore(this.STORE_NAME).get(key);
+		})
 	}
 
 	/**
 	 * Retrives and removes the head of the queue.
-	 * @returns {null} if the queue is empty.
-	 * @returns {any} the head item
+	 * @returns {Promise<null>} if the queue is empty.
+	 * @returns {Promise<any>} the head item
 	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
 	poll() {
-		this.peek();
+		let key = this.keys.shift();
+		if (key === undefined) return Promise.resolve(null);
+		return dbRequest.then(db => {
+			let tx = db.transaction(this.STORE_NAME, 'readwrite');
+			let objStore = tx.objectStore(this.STORE_NAME);
+			let value = objStore.get(key);
+			objStore.delete(key);
+			return tx.complete;
+		})
 	}
 
 	/**
