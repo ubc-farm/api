@@ -9,7 +9,7 @@ import {convertPolygon as convertCell} from 'geo/converter.js';
  * @returns {Generator}
  * @yields {Geometry} the complete geometry
  */
-function* uniter(factory = new geom.GeometryFactory()) {
+export default function* uniter(factory = new geom.GeometryFactory()) {
 	let creation = new geom.Geometry(factory);
 	try {
 		while (true) {

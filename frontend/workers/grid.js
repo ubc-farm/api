@@ -1,6 +1,6 @@
 import register from './promise/register.js';
 import {convertPolygon} from '../geo/converter.js';
-import Grid from '../geo/grid/grid.js';
+import Grid from '../geo/grid/index.js';
 import jsts from 'jsts';
 
 /**
