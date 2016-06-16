@@ -10,8 +10,10 @@ export default class Queue {
 	/**
 	 * @param {string} [STORE_NAME] - name of the queue objectStore
 	 * @param {string} [DB_NAME] - name of the queue IndexedDB
+	 * @param {boolean} [autoUpdate] automatically build key array from 
+	 * existing object store
 	 */
-	constructor(STORE_NAME = 'queue', DB_NAME = 'ubc-farm') {
+	constructor(STORE_NAME = 'queue', DB_NAME = 'ubc-farm', autoUpdate = true) {
 		Object.assign(this, {STORE_NAME, DB_NAME});
 
 		/**
@@ -21,6 +23,7 @@ export default class Queue {
 		 * @type {Set<number>}
 		 */
 		this.keys = new Set();
+		if (autoUpdate) this.forceKeyUpdate();
 	}
 	static get DB_VERSION() {return 1;}
 
@@ -171,7 +174,7 @@ export default class Queue {
 		}
 	}
 
-	/** Alias for Queue.values() to use with for...of */
+	/** Interator protocolor function */
 	[Symbol.iterator]() {
 		return this.values();
 	}
