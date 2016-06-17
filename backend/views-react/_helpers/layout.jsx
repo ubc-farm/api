@@ -5,11 +5,11 @@ import NavLink from '../../shared/elements/nav/nav-link.js';
 import Banner from '../../shared/elements/nav/Banner.js';
 
 function sidebarChildren(pages, prefix = '/') {
-	let links = [];
-	for (let key in pages) {
-		links.push(<NavLink href={prefix + pages[key]}>{key}</NavLink>)
-	}
-	return links;
+	return Object.keys(pages).map(key => {
+		let value = pages[key];
+		if (value === null) return <hr/>
+		else return <NavLink href={prefix + value}>{key}</NavLink>
+	})
 }
 
 export default function Layout(props) {
@@ -28,7 +28,8 @@ export default function Layout(props) {
 
 Layout.propTypes = {
 	active: PropTypes.string,
-	user: PropTypes.string
+	user: PropTypes.string,
+	sidebar: PropTypes.object
 }
 
 Layout.defaultTypes = {
