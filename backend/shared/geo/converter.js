@@ -2,6 +2,7 @@ import {geom} from 'jsts';
 
 /**
  * Converts the provided JSON cell into a JSTS Polygon
+ * @deprecated
  * @param {Coordinate[]} cell - the cell's path
  * @param {Coordinate} cell[] - a point on the path of the cell
  * @param {number} cell[].x

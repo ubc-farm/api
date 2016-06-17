@@ -2,6 +2,7 @@ import Feature from 'geo/geojson/feature.js';
 
 /**
  * Creates a feature collection from the given features
+ * @deprecated
  * @param {GeoJSON.Feature[]} features
  * @returns {GeoJSON.FeatureCollection}
  */
@@ -14,6 +15,7 @@ export function createCollection(features) {
 
 /**
  * Converts an array of cell JSON objects to GeoJSON features
+ * @deprecated
  * @param {Array<Object[]>} cells
  * @param {string} name
  * @returns {GeoJSON.Feature}

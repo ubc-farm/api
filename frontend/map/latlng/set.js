@@ -3,6 +3,7 @@ import {LatLng} from 'map/latlng/index.js';
 /**
  * Equivalent to set, but with different equality
  * checks so similar LatLngs are checked properly
+ * @deprecated
  * @module map/latlng/set.js
  */
 export class LatLngSet extends Map {

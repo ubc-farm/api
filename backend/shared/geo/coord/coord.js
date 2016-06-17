@@ -3,6 +3,7 @@ import jsts from 'jsts';
 /**
  * Adds some helper functionality to make conversion
  * between jsts Coordinates and Google Maps LatLngs easier.
+ * @deprecated use GeoJSON instead
  * @module geo/coord/coord.js
  */
 export default class Coordinate extends jsts.geom.Coordinate {

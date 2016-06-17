@@ -4,7 +4,7 @@ import jsts from 'jsts';
  * Represents a field of crops. This will either be extended with more 
  * functionality, or the logic will just be moved into the script that
  * calls this (currently the grid.js web worker) 
- * @depecated, use ../converter.js instead
+ * @depecated, use GeoJSON instead
  * @module geo/field/field.js
  */
 export default class Field extends jsts.geom.Polygon {
