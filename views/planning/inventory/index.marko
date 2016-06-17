@@ -1,0 +1,26 @@
+<layout-use("../_layouts/default.marko") name='Planning' sticky>
+<layout-put into="title">Inventory</layout-put>
+<layout-put into="head">		
+	<script>System.import('inventory/index.js')</script>
+	<link href="/css/modules/arrow.css" rel="stylesheet">
+</layout-put>
+
+<layout-put into="sidebar">
+		<nav-link name="Summary" href="/fields"/>
+		<nav-link name="Task planner" href="/fields/new-task"/>
+		<nav-link name="Edit fields layout" href="/fields/edit"/>
+		<hr>
+		<nav-link name="Log harvest" href="/fields/log/harvest"/>
+		<nav-link name="Log soils" href="/fields/log/soil"/>
+		<nav-link name="Log scouting" href="/fields/log/scouting"/>
+</layout-put>
+	
+<layout-put into="banner">
+		
+</layout-put>
+<layout-put into="content">
+	<div id='main'>
+		
+	</div>
+</layout-put>
+</layout-use>
