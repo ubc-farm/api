@@ -1,5 +1,6 @@
 /**
  * Button with some helper functions for generation
+ * @deprecated
  */
 
 export default function iconButton(iconName, label) {

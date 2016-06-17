@@ -55,6 +55,15 @@ export default class Equipment extends Model {
 					from: 'Equipment.location',
 					to: 'Location.id'
 				}
+			},
+			/** The type of item this equipment is */
+			item: {
+				relation: Model.OneToManyRelation,
+				modelClass: Equipment,
+				join: {
+					from: 'Equipment.product',
+					to: 'Item.id'
+				}
 			}
 		}
 	}
