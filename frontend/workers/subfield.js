@@ -1,6 +1,9 @@
 import register from './promise/register.js';
-import {geom} from 'jsts';
-import {convertPolygon as convertCell} from 'geo/converter.js';
+import {geom, io} from 'jsts';
+
+const factory = new geom.GeometryFactory();
+const reader = new io.GeoJSONReader(factory);
+const writer = reader.parser;
 
 /**
  * Generator function that wraps union from JSTS. Each value passed to the 
@@ -24,15 +27,15 @@ export default function* uniter(factory = new geom.GeometryFactory()) {
 }
 
 /** 
- * Unites all the given paths into a large polygon
- * @param {Array<Coordinate[]>} cells array
- * @param {Coordinate[]} cells[] - the path of a cell
- * @returns {Promise<Array<Coordinate[]>>} the paths of the resulting polygon
+ * Unites all the given polygons into a large polygon
+ * @param {Object} msg
+ * @param {GeoJSON.Polygon[]} msg.cells - array of cells
+ * @returns {Promise<GeoJSON.Polygon>} the resulting polygon
  */
-register(function(cells) {
+register(function({cells}) {
 	let co = uniter(factory); 
 	co.next() //first next call starts up the generator (runs to first yield)
 	
-	for (let cell of cells) co.next(convertCell(cell));
-	return co.return().value;
+	for (let cell of cells) co.next(reader.read(cell));
+	return writer.write(co.return().value);
 });
