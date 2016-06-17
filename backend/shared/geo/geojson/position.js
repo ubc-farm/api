@@ -2,6 +2,8 @@
  * Position used for GeoJSON. A position can have many keys.
  * If given an object instead of an array, the first and second
  * keys are set from the x and y properties.
+ * Position is an iterable object, and as a result can be turned into an array
+ * by using Array.from
  */
 export default class Position {
 	/**
@@ -27,7 +29,7 @@ export default class Position {
 
 	/** For JSON.stringify serialization */
 	toJSON() {
-		return [...this.values()]
+		return Array.from(this);
 	}
 
 	/** 
