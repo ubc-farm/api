@@ -4,9 +4,9 @@
 
 import * as style from 'map/shapes/style.js';
 import ModuleWorker from 'workers/promise/system.js';
-import {convertCells, createCollection} from 'map/shapes/draw.js';
-import 'geo/geojson/google-maps.js';
-import {Feature, Polygon} from 'geo/geojson/feature.js';
+import {Polygon} from 'geo/geojson/google-maps.js';
+import Feature from 'geo/geojson/feature.js';
+import FeatureCollection from 'geo/geojson/featurecollection.js';
 
 /** 
  * Default settings for the grid 
@@ -34,14 +34,10 @@ export function styler(feature) {
 export function setActive(polygon, gridOptions) {
 	let gridOpts = gridOptions;
 	polygon.gridOptions = gridOptions; //store the grid state with the polygon
-
-	/*let path = polygon.getPath().getArray().map(point => {
-		let {lng: x, lat: y} = point.toJSON();
-		return {x, y};
-	});
-	path.push(path[0]);*/
-
 	let map = polygon.getMap();
+
+	let path = Polygon.fromGoogle(polygon);
+
 	return buildGrid(path, gridOpts).then(grid => {
 		//Flush the previous grid
 		map.data.setMap(null);
@@ -70,20 +66,17 @@ worker = new ModuleWorker('workers/grid.js')) {
 	gridSpec = Object.assign({}, defaultGrid, gridSpec);
 
 	return worker.postMessage({path, gridSpec})
-		.then(cells => {
-			return cells.map(cell => {
-				return new Feature(cell, {isGrid: true})
-			})
-		})
-		.then(features => createCollection(features))
+		.then(cells => cells.map(c => new Feature(c, {isGrid: true})))
+		.then(features => new FeatureCollection(features));
 }
 
 /**
  * Uses a web worker to merge the polygons in the iterable.
- * @param {Iterable<google.maps.Polygon>} cells
+ * @param {Iterable<GeoJSON.Polygon>} cells
  * @returns {Promise<Data.FeatureOptions>} merged cell grid
  */
 export function mergeGrid(cells) {
-	return new ModuleWorker('workers/subfield.js').postMessage(...cells)
-	.then(polygon => {})
+	return new ModuleWorker('workers/subfield.js')
+		.postMessage({cells: [...cells]})
+		.then(polygon => {})
 }

@@ -1,8 +1,7 @@
-import CellSet from '../grid/set.js';
-import jsts from 'jsts';
+import CellSet from './set.js';
+import {geom} from 'jsts';
 import {computeHeading as getHeading} from '../spherical.js';
-import GridCell from '../grid/cell.js';
-const {geom} = jsts;
+import GridCell from './cell.js';
 
 /**
  * A map with a default value
@@ -20,6 +19,16 @@ class DefaultMap extends Map {
 		let value = super.get(index);
 		if (value === undefined) return this.base;
 		else return value;
+	}
+
+	/**
+	 * Uses an array of key, value pairs (i.e.: Map.entries()) to insert values
+	 * into this map at the provided keys.
+	 */
+	insert(entries) {
+		for (let [key, value] of entries) {
+			this.set(key, value);
+		}
 	}
 }
 
@@ -58,7 +67,7 @@ export default class Grid {
 		let cells = new CellSet();
 		let weakCells = new CellSet();
 		
-		while (queue.length !== 0) {
+		while (queue.length > 0) {
 			//if (cells.size > 100) break;
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
 			let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
