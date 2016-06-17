@@ -4,11 +4,12 @@
  * Calls the function passed whenever a message is posted to the web worker. 
  * @module workers/promise/register.js
  * @param {function} callback - handles the message
+ * @param {function} reviver - used by JSON.parse to prescribe transformations
  * @listens Worker~message 
  */
-export default function register(callback) {
+export default function register(callback, reviver) {
 	self.addEventListener('message', e => {
-		let [messageId, message] = JSON.parse(e.data);
+		let [messageId, message] = JSON.parse(e.data, reviver);
 		
 		if (typeof callback !== 'function') {
 			postOutgoingMessage(messageId, 'Please pass a function into register().');
