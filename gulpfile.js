@@ -142,6 +142,8 @@ gulp.task('watch', () => {
 	gulp.watch([
 		'./frontend/**/*.js',
 		'./frontend/**/*.jsx',
+		'./backend/shared/**/*.js', //shared JS with backend
+		'./backend/shared/**/*.jsx', //shared JS with backend
 		'!./frontend/vendor/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
