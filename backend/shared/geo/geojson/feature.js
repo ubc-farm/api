@@ -1,5 +1,5 @@
 export default class Feature {
-	static get type() {return 'Feature'}
+	get type() {return 'Feature'}
 	constructor(geometry, properties, id) {
 		Object.assign(this, {geometry, properties});
 		if (id) this.id = id;

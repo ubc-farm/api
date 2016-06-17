@@ -7,13 +7,13 @@ import LineString from './linestring.js';
  * exterior ring and the others will be holes in the polygon.
  */
 export default class Polygon extends Geometry {
-	static get type() {return 'Polygon';}
+	get type() {return 'Polygon';}
 
 	/** @param {...LineString} lines */
 	constructor(...lines) {
 		super();
 		/** @type {Position[][]} */
-		this.coordinates = lines.map(line => LineString.from(line).coordinates);
+		this.coordinates = lines.map(line => new LineString(line).coordinates);
 	}
 
 	/** Converts value to a Polygon */
