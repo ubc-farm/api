@@ -5,6 +5,9 @@ import TableActions from './actions.js';
 import TableHead from './th.js';
 import TableRow from './tr.js';
 
+/**
+ * Used to render an interactive table from the given Map
+ */
 export default class Table extends Component {
 	constructor(props) {
 		super(props);
@@ -17,6 +20,14 @@ export default class Table extends Component {
 		this.handleHeadingSelect = this.handleHeadingSelect.bind(this);
 	}
 
+	/**
+	 * @memberof Table
+	 * @name props
+	 * @property {Map} data for table, where the keys correspond to table headings
+	 * @property {any} initialSortKey - corresponds to a key in the table
+	 * @property {React.node[]} mainActions
+	 * @property {React.node[]} altActions
+	 */
 	static get propTypes() {
 		return {
 			initialSortKey: PropTypes.any.isRequired,
