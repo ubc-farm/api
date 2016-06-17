@@ -1,3 +1,5 @@
+import Feature from 'geo/geojson/feature.js';
+
 /**
  * Creates a feature collection from the given features
  * @param {GeoJSON.Feature[]} features

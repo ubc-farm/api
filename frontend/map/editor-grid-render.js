@@ -5,6 +5,8 @@
 import * as style from 'map/shapes/style.js';
 import ModuleWorker from 'workers/promise/system.js';
 import {convertCells, createCollection} from 'map/shapes/draw.js';
+import 'geo/geojson/google-maps.js';
+import {Feature, Polygon} from 'geo/geojson/feature.js';
 
 /** 
  * Default settings for the grid 
@@ -33,11 +35,11 @@ export function setActive(polygon, gridOptions) {
 	let gridOpts = gridOptions;
 	polygon.gridOptions = gridOptions; //store the grid state with the polygon
 
-	let path = polygon.getPath().getArray().map(point => {
+	/*let path = polygon.getPath().getArray().map(point => {
 		let {lng: x, lat: y} = point.toJSON();
 		return {x, y};
 	});
-	path.push(path[0]);
+	path.push(path[0]);*/
 
 	let map = polygon.getMap();
 	return buildGrid(path, gridOpts).then(grid => {
@@ -57,7 +59,7 @@ export function setActive(polygon, gridOptions) {
 /**
  * Sends grid data off to a web worker then
  * resolves with a new grid data feature for the map
- * @param {Coordinate[]} path - path of containing polygon
+ * @param {GeoJSON.Polygon} path - path of containing polygon
  * @param {Object} [gridSpec]
  * @param {ModuleWorker} [worker] - override the worker
  * @see module:workers/grid.js
@@ -65,12 +67,14 @@ export function setActive(polygon, gridOptions) {
  */
 export function buildGrid(path, gridSpec = defaultGrid, 
 worker = new ModuleWorker('workers/grid.js')) {
-	let name = JSON.stringify(path);
-
 	gridSpec = Object.assign({}, defaultGrid, gridSpec);
 
-	return worker.postMessage({name, path, gridSpec})
-		.then(cells => convertCells(cells, name))
+	return worker.postMessage({path, gridSpec})
+		.then(cells => {
+			return cells.map(cell => {
+				return new Feature(cell, {isGrid: true})
+			})
+		})
 		.then(features => createCollection(features))
 }
 

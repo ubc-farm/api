@@ -10,8 +10,7 @@ import jsts from 'jsts';
 
 /**
  * Build a field and return its grid
- * @param {Object} msg 
- * @param {string} msg.name
+ * @param {Object} msg
  * @param {Coordinate[]} msg.path of field
  * @param {Object} msg.gridSpec
  * @param {number} msg.gridSpec.width - base width of grid
