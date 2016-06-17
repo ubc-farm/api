@@ -6,7 +6,9 @@
 
 .rel {position: relative}
 
-.circle {border-radius: 50%}
+.circle.hover-light::before,
+.circle 
+{border-radius: 50%}
 
 @import 'utils/color.css';
 

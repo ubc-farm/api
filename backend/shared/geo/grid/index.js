@@ -1,8 +1,7 @@
-import CellSet from '../grid/set.js';
-import jsts from 'jsts';
+import CellSet from './set.js';
+import {geom} from 'jsts';
 import {computeHeading as getHeading} from '../spherical.js';
-import GridCell from '../grid/cell.js';
-const {geom} = jsts;
+import GridCell from './cell.js';
 
 /**
  * A map with a default value
@@ -21,6 +20,16 @@ class DefaultMap extends Map {
 		if (value === undefined) return this.base;
 		else return value;
 	}
+
+	/**
+	 * Uses an array of key, value pairs (i.e.: Map.entries()) to insert values
+	 * into this map at the provided keys.
+	 */
+	insert(entries) {
+		for (let [key, value] of entries) {
+			this.set(key, value);
+		}
+	}
 }
 
 export default class Grid {
@@ -28,12 +37,10 @@ export default class Grid {
 	 * @param {number} baseWidth
 	 * @param {number} baseHeight
 	 * @param {number} [angle] - angle of the grid
-	 * @param {Coordinate} corner - corner to start grid generation from
-	 * @param {Polygon} container - containing polygon
+	 * @param {geom.Polygon} container - containing polygon
 	 */
-	constructor(baseWidth = 1.0, baseHeight = 1.0, angle = 0, corner, container) {
+	constructor(baseWidth = 1.0, baseHeight = 1.0, angle = 0, container) {
 		this.angle = angle;
-		this.corner = corner;
 		this.container = container;
 		
 		this.width = new DefaultMap(baseWidth);
@@ -50,16 +57,17 @@ export default class Grid {
 	
 	/**
 	 * Using flood-fill algorithm, fill the container with grid squares
-	 * @yeilds {Polygon} grid cell
+	 * @returns {Generator}
+	 * @yields {Polygon} grid cell
 	 */
 	* generate() {
-		let queue = [];
-		queue.push({pos: this.corner, x: 0, y:0});
+		let queue = [], container = this.container;
+		queue.push({pos: container.getCoordinate(), x: 0, y:0});
 		
 		let cells = new CellSet();
 		let weakCells = new CellSet();
 		
-		while (queue.length !== 0) {
+		while (queue.length > 0) {
 			//if (cells.size > 100) break;
 			let {pos:nPos, x:nX, y:nY} = queue.shift();
 			let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
@@ -68,9 +76,9 @@ export default class Grid {
 			if (!cells.has(cell)) {
 				
 				let result;
-				if (!cell.within(this.container)) {
-					if (cell.intersects(this.container)) {
-						cell.weaken(this.container);
+				if (!cell.within(container)) {
+					if (cell.intersects(container)) {
+						cell.weaken(container);
 						weakCells.add(cell.weak);
 						cells.forceAdd(cell);	
 						result = cell.weak;
@@ -90,17 +98,5 @@ export default class Grid {
 				yield result;
 			}
 		}
-	}
-	
-	/**
-	 * Unite all the cells given into a single polygon
-	 */
-	static union(...cells) {
-		cells.reduce((previous, current) => {
-			return current.union(previous);
-		}, {
-			//this object pretends its an empty geometry
-			isEmpty: function() {return true}
-		});
 	}
 }
