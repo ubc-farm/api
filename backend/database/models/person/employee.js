@@ -6,6 +6,7 @@ import Task from '../task';
 /**
  * Extends Person with timetable information. Task assignments are also
  * joined to employees
+ * @module backend/database/models/person/employee
  * @extends Person
  * @property {boolean[]} [workingDays], where the index corresponds to a day
  * @property {number} [hourlyPay]

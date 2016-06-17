@@ -2,6 +2,10 @@ require('marko/node-require').install();
 const Promise = require('bluebird');
 
 /**
+ * @module backend/render/helper
+ */
+
+/**
  * Streams out template
  * @param {string} filename - path to file
  * @param {Object} [data={}] - passed to template

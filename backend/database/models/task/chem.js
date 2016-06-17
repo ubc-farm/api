@@ -5,6 +5,7 @@ import Chemical from '../ref/chemical.js';
 
 /**
  * Shared properties for chemical tasks
+ * @module backend/database/models/task/chem
  * @extends Task
  * @property {string} [product] used for this task
  * @property {number} [applicationRate] of the product

@@ -5,7 +5,7 @@ import jsts from 'jsts';
  * functionality, or the logic will just be moved into the script that
  * calls this (currently the grid.js web worker) 
  * @depecated, use GeoJSON instead
- * @module geo/field/field.js
+ * @module shared/geo/field/field
  */
 export default class Field extends jsts.geom.Polygon {
 	/**

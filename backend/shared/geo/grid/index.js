@@ -32,6 +32,9 @@ class DefaultMap extends Map {
 	}
 }
 
+/**
+ * @module shared/geo/grid
+ */
 export default class Grid {
 	/**
 	 * @param {number} baseWidth

@@ -5,7 +5,7 @@ import Polygon from 'geo/geojson/polygon.js';
 
 /**
  * @file Worker that generates a grid on a seperate thread
- * @module workers/grid.js
+ * @module frontend/workers/grid
  */
 
 const factory = new jsts.geom.GeometryFactory();

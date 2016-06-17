@@ -23,7 +23,7 @@ let configs = [
 /**
  * Helper module to return route Layers from this folder as a
  * single promise that resolves with a Layer array
- * @module
+ * @module backend/routes
  * @type {Promise<Layer[]>}
  */
 module.exports = Promise.all(configs).then(layers => [].concat(...layers));

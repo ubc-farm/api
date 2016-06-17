@@ -19,7 +19,7 @@ function buildPath(start, width, height, parallel, perpendicular) {
 
 /**
  * Represents a square cell of a grid.
- * @module geo/grid/cell.js
+ * @module shared/geo/grid/cell
  */
 export default class GridCell extends Polygon {
 	/**

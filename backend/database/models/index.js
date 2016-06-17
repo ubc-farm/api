@@ -1,7 +1,7 @@
 /**
  * Re-exports models, and aliases some models.
  * Helper tables aren't exported here.
- * @module
+ * @module @module backend/database/models
  */
 
 export {Person, Person as Company} from './person';

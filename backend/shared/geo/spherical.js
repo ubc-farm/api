@@ -1,6 +1,6 @@
 /**
  * Calculation helpers that match up with Google Maps API
- * @module geo/spherical.js
+ * @module shared/geo/spherical
  * @todo merge with spherical-geometry-js
  * @see https://github.com/NotWoods/spherical-geometry-js
  */

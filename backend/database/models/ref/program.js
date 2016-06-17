@@ -4,6 +4,7 @@ import Task from '../task';
 
 /**
  * Represents a program at the farm
+ * @module backend/database/models/ref/program
  * @property {string} name
  * @property {Object} [color] used to represent this program in the interface
  * @property {boolean} [darkText] - true if black text should be used instead 

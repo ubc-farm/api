@@ -8,6 +8,7 @@ import Location from './ref/location.js';
  * Represents an item in the inventory, with fields like the amount stored and 
  * its location. While the table is named Equipment, this can also represent
  * other stored items like harvested crops or seeds.
+ * @module backend/database/models/equipment
  * @property {string} product - the type of item this equipment is
  * @property {string} location - where this equipment is stored
  * @property {number} [quantity]

@@ -6,6 +6,7 @@ import Location from './ref/location.js';
 /**
  * A common format for sale information. This can be used for tickets,
  * things we sell, or logs of things we purchased.
+ * @module backend/database/models/sale
  * @property {Date} [orderDate]
  * @property {Date} [deliveryDate] - when the product was delivered/arrived
  * @property {string} [customerId] - the buyer (can be ourselves)

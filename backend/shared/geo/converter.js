@@ -1,5 +1,7 @@
 import {geom} from 'jsts';
 
+/** @module shared/geo/converter */
+
 /**
  * Converts the provided JSON cell into a JSTS Polygon
  * @deprecated

@@ -5,6 +5,7 @@ import {Crop} from '../field.js';
 
 /**
  * Shared properties for scouting tasks, mainly used for historical data
+ * @module backend/database/models/task/scouting
  * @extends Task
  * @property {string} cropId
  */

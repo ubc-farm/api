@@ -46,6 +46,7 @@ function sendSigned(ctx, next) {
  * Sets up routes that correspond to folders with static content:
  * /assets, /js, /css, and files in the root.
  * @type {Layer[]}
+ * @module backend/routes/static
  */
 module.exports = [
 	{

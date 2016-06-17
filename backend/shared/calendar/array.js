@@ -1,7 +1,8 @@
 /**
  * Creates a 2D array of the given month
+ * @module shared/calendar/array
  * @param {integer} value - date expressed in milliseconds
- * @returns {number[][]} 2D array resembling calendar (blank slots contain 0)
+ * @returns {number[][]} 2D array resembling calendar (blank slots contain null)
  */
 export default function calendarArray(value = Date.now()) {
 	const d = new Date(value);

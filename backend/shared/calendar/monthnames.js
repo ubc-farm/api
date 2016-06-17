@@ -1,3 +1,13 @@
+/** 
+ * Monthnames with keys corresponding to the number returned from 
+ * Date.getMonth()
+ * @module shared/calendar/monthnames 
+ */
+
+/** 
+ * Long month names, such as January
+ * @type {string[]}
+ */
 export const months = [
 	'January', 'February', 'March', 
 	'April', 'May', 'June', 
@@ -5,6 +15,10 @@ export const months = [
 	'October', 'November', 'December'
 ];
 
+/** 
+ * Short month names, such as Jan 
+ * @type {string[]}
+ */
 export const shortMonths = [
 	'Jan', 'Feb', 'Mar', 
 	'Apr', 'May', 'June', 

@@ -7,6 +7,7 @@ import {Equipment, EquipmentUsage} from '../equipment.js';
 
 /**
  * Common attributes for tasks that other tables inherit.
+ * @module backend/database/models/task
  * @property {Date[]} [time] - tsrange representing the task time
  * @property {Object} [hoursTaken] - interval showing how long the 
  * task actually took.

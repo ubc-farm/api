@@ -4,6 +4,9 @@ import Month from 'elements/time/month.js';
 import Filter from 'elements/form/filter.js';
 import EventCard from 'elements/info/event.js';
 
+/**
+ * @module frontend/events/main
+ */
 export default class EventMainPage extends Component {
 	constructor(props) {
 		super(props);

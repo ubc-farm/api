@@ -7,6 +7,7 @@ import {field as fieldStyle} from 'map/shapes/style.js';
 
 /**
  * Sidebar component for the map editor page.
+ * @module frontend/map/sidebar
  */
 export default class MapSidebar extends Component {
 	constructor(props) {

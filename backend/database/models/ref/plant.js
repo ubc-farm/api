@@ -5,6 +5,7 @@ import {Crop} from '../field.js';
 
 /**
  * Extends Item with Plant specific information for crops
+ * @module backend/database/models/ref/plant
  * @extends Item
  * @property {string} [latin] name of the plant
  */

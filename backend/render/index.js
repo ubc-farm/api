@@ -10,6 +10,7 @@ const viewDir = path.join(__dirname, '../../views');
 /**
  * Streams out a marko template as body if the path matches a view directory 
  * that contains a index.marko file.
+ * @module backend/render
  */
 module.exports = (ctx, next) => {
 	let dir = path.join(viewDir, ctx.path);

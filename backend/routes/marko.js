@@ -19,6 +19,7 @@ let render = require('../render');
  * that correspond to each folder. The route middleware
  * is in the render folder.
  * @type {Promise<Layer[]>}
+ * @module backend/routes/marko
  */
 module.exports = glob('**/index.marko', {
 	ignore: '**/_*/*',

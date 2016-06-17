@@ -3,6 +3,11 @@ const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 
 /**
+ * @module backend/render/folder
+ * @deprecated use node-glob instead
+ */
+
+/**
  * Checks if directory contains the file
  * @param {string} dir - path to directory
  * @param {string|string[]} filename - name of file, or array of possible files

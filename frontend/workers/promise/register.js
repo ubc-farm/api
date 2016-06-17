@@ -2,7 +2,7 @@
 
 /**
  * Calls the function passed whenever a message is posted to the web worker. 
- * @module workers/promise/register.js
+ * @module frontend/workers/promise/register
  * @param {function} callback - handles the message
  * @param {function} reviver - used by JSON.parse to prescribe transformations
  * @listens Worker~message 
