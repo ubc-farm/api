@@ -7,6 +7,7 @@
  * 
  * This initial file will do first-time setup, but future files will modify the
  * schema established here.
+ * @module backend/database/migrations
  */
 
 exports.up = function(knex) {

@@ -5,6 +5,7 @@ import GridCell from './cell.js';
 
 /**
  * A map with a default value
+ * @extends Map
  */
 class DefaultMap extends Map {
 	constructor(base) {

@@ -1,7 +1,7 @@
 /**
  * Functions for serializing PostgreSQL geometry
  * @see https://www.postgresql.org/docs/9.5/static/datatype-geometric.html
- * @module
+ * @module backend/database/pg-types/serialize/geometric
  */
 
 /**
