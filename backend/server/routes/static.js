@@ -19,8 +19,10 @@ const routes = [
 		method: 'GET',
 		path: '/{param}',
 		handler: {
-			path: 'root',
-			index: false
+			directory: {
+				path: 'root',
+				index: false
+			}
 		},
 		config
 	},
@@ -28,8 +30,10 @@ const routes = [
 		method: 'GET',
 		path: '/assets/{param*}',
 		handler: {
-			path: 'assets',
-			listing: true
+			directory: {
+				path: 'assets',
+				listing: true
+			}
 		},
 		config
 	},
@@ -37,9 +41,11 @@ const routes = [
 		method: 'GET',
 		path: '/js/{param*}',
 		handler: {
-			path: 'js',
-			listing: true,
-			defaultExtension: 'js'
+			directory: {
+				path: 'js',
+				listing: true,
+				defaultExtension: 'js'
+			}
 		},
 		config
 	},
@@ -47,9 +53,11 @@ const routes = [
 		method: 'GET',
 		path: '/css/{param*}',
 		handler: {
-			path: 'css',
-			listing: true,
-			defaultExtension: 'css'
+			directory: {
+				path: 'css',
+				listing: true,
+				defaultExtension: 'css'
+			}
 		},
 		config
 	}
