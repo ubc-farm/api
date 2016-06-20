@@ -8,7 +8,7 @@ require("babel-register")({
 });
 
 const Promise = require('bluebird');
-const server = require('./server.js');
+const server = require('./server');
 
 const port = process.env.NODE_PORT || 3000;
 

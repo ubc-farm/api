@@ -4,7 +4,7 @@ import Vision from 'vision';
 import path from 'path';
 
 import routes from './routes';
-import {engine as markoEngine} from './routes/marko.js';
+import markoEngine from './marko-engine.js';
 
 const server = new Server();
 server.connection({
