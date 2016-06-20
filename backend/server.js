@@ -4,6 +4,7 @@ import Vision from 'vision';
 import path from 'path';
 
 import routes from './routes';
+import {engine as markoEngine} from './routes/marko.js';
 
 const server = new Server();
 server.connection({
@@ -17,11 +18,9 @@ server.register(Vision, err => {
 	if (err) throw err;
 	server.views({
 		engines: {
-			marko: {
-				compile: function(src, options) {
-					const template = marko.load(options.filename, src);
-					return context => template.renderSync(context);
-				}
+			'marko': {
+				module: markoEngine,
+				compileMode: 'async'
 			}
 		},
 		path: path.join(__dirname, '../views');

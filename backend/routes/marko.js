@@ -28,4 +28,21 @@ export function compile(src, options, next) {
 
 export function prepare(config, next) {
 
+}/**
+ * Async view engine for Vision. 
+ */
+function compile(src, {filename, refresh}, next) {
+	let path = require.resolve(filename + '.js');
+	if (refresh) delete require.cache[path];
+
+	exists(filename).then(doesExist => {
+		if (doesExist) var template = require(path);
+		else var template = marko.load(filename, src);
+		return template;
+	}).then(template => {
+		next(err, (data, options, callback) => {
+			template.render(data, callback);
+		})
+	});
 }
+exports.engine = {compile};
