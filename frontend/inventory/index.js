@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import {domReady} from 'utils.js';
 import ReactDOM from 'react-dom';
 
-export default class EventMainPage extends Component {
+export default class InventoryScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -11,19 +11,6 @@ export default class EventMainPage extends Component {
 		}
 		this.changeView = this.changeView.bind(this);
 		this.onArrowClick = this.onArrowClick.bind(this);
-	}
-
-	changeView(day, month, year) {
-		if (!year) year = this.state.viewing.getFullYear();
-		if (!month && month !== 0) month = this.state.viewing.getMonth();
-		if (!day) day = this.state.viewing.getDay();
-		this.setState({viewing: new Date(year, month, day)})
-	}
-
-	onArrowClick(dir) {
-		console.log(dir);
-		console.log(this.state.viewing);
-		this.changeView(null, this.state.viewing.getMonth() + dir)
 	}
 
 	render() {
@@ -41,9 +28,7 @@ export default class EventMainPage extends Component {
 	}
 
 	static get defaultProps() {
-		return {
-			today: new Date()
-		}
+		
 	}
 }
 
