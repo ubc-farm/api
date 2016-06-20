@@ -23,7 +23,7 @@ server.register(Vision, err => {
 				compileMode: 'async'
 			}
 		},
-		path: path.join(__dirname, '../views')
+		path: path.join(__dirname, '../../views')
 	})
 })
 
