@@ -1,36 +1,31 @@
-const Promise = require('bluebird');
-const path = require('path');
-const glob = Promise.promisify(require('glob'));
+import {stat} from 'fs';
+import marko from 'marko';
 
-let render = require('../render');
+const routes = [];
+export default routes;
 
-/**
- * A route configuration similar to koa-route Layers
- * @typedef {Object} Layer
- * @property {string|string[]} method - methods that this route accepts
- * @property {string} path - path for the route, parsed through path-to-regexp
- * @property {function|function[]} middleware - middleware used for this route
- * @property {Object} [opts] - options passed to koa-router
- * @property {string} [opts.name] - name of the route
- */
+export function compile(src, options, next) {
+	const template = marko.load(options.filename, src);
+	return context => template.renderSync(context);
 
-/**
- * Gets list of marko folders as routes then creates Layer routes
- * that correspond to each folder. The route middleware
- * is in the render folder.
- * @type {Promise<Layer[]>}
- * @module backend/routes/marko
- */
-module.exports = glob('**/index.marko', {
-	ignore: '**/_*/*',
-	cwd: path.join(__dirname, '../../views')
-})
-.map(file => path.posix.join('/', path.parse(file).dir))
-.map(folder => {
-	return {
-		method: "GET",
-		path: folder,
-		middleware: render,
-		opts: {name: folder}
-	}
-})
+	stat(options.filename + '.js', err => {
+		if (err == null) {
+			let path = require.resolve(options.filename + '.js');
+			if (options.refresh) 
+				delete require.cache[path];
+			var template = require(path);
+		} else if (err.code == 'ENOENT') {
+			var template = marko.load(options.filename, src);
+		} else {
+			throw err;
+		}
+
+
+	})
+
+	next(err, function(content, options, function(err, rendered) {}) {})
+}
+
+export function prepare(config, next) {
+
+}
