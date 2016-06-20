@@ -8,7 +8,7 @@ const stat = Promise.promisify(fsStat);
  * @returns {Promise<boolean>} true if the file exists, false otherwise
  */
 export default function exists(path) {
-	stat(path)
+	return stat(path)
 		// Non-standard Bluebird promise catcher
 		// Equivalent code would be an if function that re-throws the error if it 
 		// isn't an ENOENT error.
