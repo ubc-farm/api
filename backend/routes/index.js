@@ -1,4 +1,5 @@
-import static from './static.js';
+import staticRoutes from './static.js';
+import markoRoutes from './marko.js';
 
 /**
  * Exports routes an an array of route configurations
@@ -6,6 +7,7 @@ import static from './static.js';
  * @type {Object[]}
  */
 const routes = [
-	...static
+	...staticRoutes,
+	...markoRoutes
 ];
 export default routes;

@@ -1,34 +1,48 @@
-import {stat} from 'fs';
-import marko from 'marko';
+const Promise = require('bluebird');
+const stat = Promise.promisify(require('fs').stat);
+const marko = require('marko');
+const path = require('path');
 
-const routes = [];
-export default routes;
-
-export function compile(src, options, next) {
-	const template = marko.load(options.filename, src);
-	return context => template.renderSync(context);
-
-	stat(options.filename + '.js', err => {
-		if (err == null) {
-			let path = require.resolve(options.filename + '.js');
-			if (options.refresh) 
-				delete require.cache[path];
-			var template = require(path);
-		} else if (err.code == 'ENOENT') {
-			var template = marko.load(options.filename, src);
-		} else {
-			throw err;
-		}
-
-
-	})
-
-	next(err, function(content, options, function(err, rendered) {}) {})
+/**
+ * Function to check if a file exists via fs.stat
+ * @returns {Promise<boolean>} true if the file exists, false otherwise
+ */
+function exists(path) {
+	stat(path)
+		// Non-standard Bluebird promise catcher
+		// Equivalent code would be an if function that re-throws the error if it 
+		// isn't an ENOENT error.
+		.catch({code: 'ENOENT'}, () => false) 
+		// Normally stat returns a fs.Stats object, but if the catch activated then
+		// it returns null instead
+		.then(stats => stats !== false) 
 }
 
-export function prepare(config, next) {
+function handler(request, reply) {
+	let {dir, name, ext} = path.posix.parse(request.path);
+	const filePath = path.format({dir, name, ext: '.marko'})
+	if (ext === '') { //path to a directory (no extension is specified)
+		//check if filename.marko exists, otherwise use filename/index.marko
+		exists(filePath).then(doesExist => {
+			if (doesExist) {
+				return reply.view(filePath);
+			} else {
+				return reply.view(path.join(dir, name, 'index.marko'));
+			}
+		})
+	} else return reply.view(filePath);
+}
 
-}/**
+/** Routes for marko views */
+exports.default = [
+	{
+		method: 'GET',
+		path: '/fields/edit/{clientParams*}',
+		handler
+	}
+];
+
+/**
  * Async view engine for Vision. 
  */
 function compile(src, {filename, refresh}, next) {
