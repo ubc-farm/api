@@ -25,6 +25,7 @@ module.exports = layers.map(config => {
 	//.catch(() => {app.listen(30000)});
 
 import {Server} from 'hapi';
+import Inert from 'inert';
 import routes from './routes';
 
 const server = new Server();
@@ -32,5 +33,6 @@ server.connection({
 	host: 'localhost',
 	port: 3000
 })
+server.register(Inert, () => {})
 server.route(routes);
 server.start(err => {})
