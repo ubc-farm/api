@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
-import Month from 'elements/time/month.js';
-import Filter from 'elements/form/filter.js';
-import EventCard from 'elements/info/event.js';
+import Month from '_components/time/month.js';
+import Filter from '_components/form/filter.js';
+import EventCard from '_components/info/event.js';
 
 /**
  * @module frontend/events/main

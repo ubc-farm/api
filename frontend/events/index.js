@@ -4,7 +4,7 @@
 
 import {domReady} from 'utils.js';
 import EventMainPage from './main.js';
-import EventCard from 'elements/info/event.js';
+import EventCard from '_components/info/event.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
