@@ -6,6 +6,7 @@ import {Scouting} from './task/scouting.js';
 /**
  * Represents a field or sub-field in the farm with crops. If parentField is 
  * specified, the field is a sub-field. 
+ * @module backend/database/models/field
  * @property {float[][]} path - [x,y] coordinates of the field's path
  * @property {float[]} [gridWidths]
  * @property {float[]} [gridHeights]

@@ -1,81 +1,78 @@
 import React, { Component, PropTypes } from 'react';
-import calendarArray from 'shared/calendar/array.js';
-import {months} from 'shared/calendar/monthnames.js';
+import calendarArray from 'calendar/array.js';
+import {months} from 'calendar/monthnames.js';
 import _ from '../classnames.js';
 import ArrowButton from '../form/arrow-button.js';
+import DateIcon from './month-icon.js';
 
 /**
  * A single month view. Multiple can be combined to pageinate
  * or display in a row.
  */
 export default function Month(props) {
-	let today = new Date(), todayDate;
+	let today = props.today, todayDate;
 	if ((today.getFullYear() === props.month.getFullYear()) 
 	&& (today.getMonth() === props.month.getMonth())) {
 		todayDate = today.getDate();
 	}
 
+	function onDayClick(day) {
+		props.onClick(day);
+	}
+
+	function onArrowClick(dir) {
+		props.onArrowClick(dir);
+	}
+	
+	let rows = calendarArray(props.month).map((week, i) => {
+		let blankKeys = 100;
+		return (
+			<tr className='cal-week' key={'calendar-week-' + i}>
+				{week.map(day => {
+					return <DateIcon 
+						onClick={onDayClick.bind(null, day)} 
+					  key={day > 0 ? 'calendar-day-' + day : blankKeys++}
+						viewing={props.month.getDate() === day}
+					  isToday={todayDate === day}>
+						{day}
+					</DateIcon>;
+				})}
+			</tr>
+		);
+	})
+
 	return (
 		<table className='small-calendar'>
 			<caption className='month-heading'>
-				<ArrowButton dir='left'/>
+				<ArrowButton dir='left' onClick={onArrowClick.bind(null, -1)}/>
 				{months[props.month.getMonth()]}
-				<ArrowButton dir='right'/>
+				{props.today.getFullYear() === props.month.getFullYear() 
+					? props.month.getFullYear : null}
+				<ArrowButton dir='right' onClick={onArrowClick.bind(null, 1)}/>
 			</caption>
-			<tr className='week-title'>
-				<th scope="col">S</th>
-				<th scope="col">M</th>
-				<th scope="col">T</th>
-				<th scope="col">W</th>
-				<th scope="col">T</th>
-				<th scope="col">F</th>
-				<th scope="col">S</th>
-			</tr>
-			{calendarArray(props.month).map(week => {
-				return (<tr className='cal-week'>{week.map(day => {
-					return <DateIcon date={day} today={todayDate === day}/>;
-				})}</tr>);
-			})}
+			<thead>
+				<tr className='week-title'>
+					<th scope="col">S</th>
+					<th scope="col">M</th>
+					<th scope="col">T</th>
+					<th scope="col">W</th>
+					<th scope="col">T</th>
+					<th scope="col">F</th>
+					<th scope="col">S</th>
+				</tr>
+			</thead>
+			<tbody>
+				{rows}
+			</tbody>
 		</table>
 	);
 }
 Month.propTypes = {
-	month: PropTypes.instanceOf(Date).isRequired
+	month: PropTypes.instanceOf(Date).isRequired,
+	onClick: PropTypes.func,
+	today: PropTypes.instanceOf(Date)
 }
-
-/**
- * Represents a number representing the date inside the month table
- */
-export class DateIcon extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {viewing: false}
-	}
-
-	render() {
-		return (
-			<td className={_(
-				'circle hover-light',
-				{
-					'cal-day': this.props.date !== 0,
-					'cal-event': this.props.hasEvent,
-					'cal-viewing' : this.state.viewing,
-					'cal-today': this.props.today
-				}
-			)}>
-			{this.props.date !== 0 ? this.props.date : ''}
-			</td>
-		);
-	}
-
-	static get propTypes() {
-		return {
-			date: PropTypes.number,
-			hasEvent: PropTypes.bool,
-			today: PropTypes.bool
-		}
-	}
-	static get defaultProps() {
-		return {date: 0}
-	}
+Month.defaultProps = {
+	onClick: day => {},
+	today: new Date()
 }

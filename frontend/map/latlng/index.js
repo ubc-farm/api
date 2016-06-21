@@ -1,6 +1,7 @@
 /**
  * Represents latitude and longitude
- * @module map/latlng/index.js
+ * @deprecated
+ * @module @module frontend/map/latlng
  */
 export class LatLng {
 	

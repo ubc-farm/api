@@ -19,6 +19,15 @@
 	border-color: var(--dark-secondary);
 }
 
+.cal-viewing {
+	background: var(--very-light);
+}
+
+.cal-today {
+	background: var(--primary-color);
+	color: var(--white-primary);
+}
+
 .agenda {
 	margin: 0 3em 0 27em;
 	background: var(--white-primary);

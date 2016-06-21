@@ -1,6 +1,6 @@
 /**
  * Utility functions
- * @module utils.js
+ * @module frontend/utils
  */
 
 /**

@@ -6,6 +6,7 @@ import Item from '../ref/item.js';
 /**
  * Used to represent a person or company, such as employees and customers. Can
  * be linked to a user account.
+ * @module backend/database/models/person
  * @property {string} name
  * @property {string} [role] of the person
  * @property {string} [email] - email address

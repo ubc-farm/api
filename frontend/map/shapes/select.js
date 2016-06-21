@@ -1,6 +1,7 @@
 /**
  * Adds functionality to 'select' polygons when mousing over them
  * while the mouse button is down. 
+ * @module frontend/map/shapes/select
  */
 export default class Selector {
 	/**
@@ -54,4 +55,19 @@ export default class Selector {
 			}
 		}
 	}
+
+	/**
+	 * Get an array of selected cells
+	 * @returns {google.maps.Data.Polygon[]}
+	 */
+	selected() {
+		let cells = [];
+		this.map.data.forEach(cell => {
+			if (this.filter(cell) && cell.getProperty('selected')) cells.push(cell);
+		});
+		return cells;
+	}
+
+	/** Interator protocolor function */
+	[Symbol.iterator]() { return selected(); }
 }

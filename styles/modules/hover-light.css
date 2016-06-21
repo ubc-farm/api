@@ -1,4 +1,7 @@
-.hover-light, .raised {position: relative}
+.hover-light, .raised {
+	position: relative;
+	cursor: pointer;
+}
 .hover-light::before,
 .raised::after {
 	display: block;

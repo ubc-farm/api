@@ -1,5 +1,6 @@
 /**
  * Initializes a map at the specified node
+ * @module frontend/map/config
  * @param {string|Element} [node='google-map] - element, or an element's id
  * @returns {google.maps.Map}
  */

@@ -7,6 +7,7 @@ import Item from '../ref/item.js';
 
 /**
  * Task for seeding and transplating
+ * @module backend/database/models/task/seeding
  * @extends Task
  * @property {string} crop affected/created by this task
  * @property {string} [variety] of plant

@@ -1,7 +1,8 @@
 /**
  * Creates a 2D array of the given month
+ * @module shared/calendar/array
  * @param {integer} value - date expressed in milliseconds
- * @returns {number[][]} 2D array resembling calendar (blank slots contain 0)
+ * @returns {number[][]} 2D array resembling calendar (blank slots contain null)
  */
 export default function calendarArray(value = Date.now()) {
 	const d = new Date(value);
@@ -9,12 +10,12 @@ export default function calendarArray(value = Date.now()) {
 	const maxDays = dateObj.getDate();
 	
 	let calendar = [
-		Array(7).fill(0),
-		Array(7).fill(0),
-		Array(7).fill(0),
-		Array(7).fill(0),
-		Array(7).fill(0),
-		Array(7).fill(0)
+		Array(7).fill(null), 
+		Array(7).fill(null),
+		Array(7).fill(null),
+		Array(7).fill(null),
+		Array(7).fill(null),
+		Array(7).fill(null)
 	]
 	
 	let week = 0;

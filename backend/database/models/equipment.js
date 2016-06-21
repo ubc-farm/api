@@ -8,6 +8,7 @@ import Location from './ref/location.js';
  * Represents an item in the inventory, with fields like the amount stored and 
  * its location. While the table is named Equipment, this can also represent
  * other stored items like harvested crops or seeds.
+ * @module backend/database/models/equipment
  * @property {string} product - the type of item this equipment is
  * @property {string} location - where this equipment is stored
  * @property {number} [quantity]
@@ -54,6 +55,15 @@ export default class Equipment extends Model {
 				join: {
 					from: 'Equipment.location',
 					to: 'Location.id'
+				}
+			},
+			/** The type of item this equipment is */
+			item: {
+				relation: Model.OneToManyRelation,
+				modelClass: Equipment,
+				join: {
+					from: 'Equipment.product',
+					to: 'Item.id'
 				}
 			}
 		}

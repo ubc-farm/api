@@ -4,6 +4,7 @@ import Person from './';
 /**
  * Represents a researcher working at the farm. Extends person with extra
  * faculty data, and links to ResearchProjects.
+ * @module backend/database/models/person/research
  * @extends Person
  * @property {string} [position]
  * @property {string} [faculty] such as 'Land and Food Systems' or 'Science'

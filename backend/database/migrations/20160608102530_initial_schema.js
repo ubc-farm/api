@@ -7,6 +7,7 @@
  * 
  * This initial file will do first-time setup, but future files will modify the
  * schema established here.
+ * @module backend/database/migrations
  */
 
 exports.up = function(knex) {
@@ -199,7 +200,7 @@ exports.up = function(knex) {
 	// Fields and Crops
 	.createTable('Field', table => {
 		table.bigIncrements('id');
-		table.specificType('path', 'polygon').index(, 'GiST');
+		table.specificType('path', 'polygon').index(null, 'GiST');
 
 		table.specificType('gridWidths', 'real[]');
 		table.specificType('gridHeights', 'real[]');

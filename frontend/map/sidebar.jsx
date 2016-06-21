@@ -7,6 +7,7 @@ import {field as fieldStyle} from 'map/shapes/style.js';
 
 /**
  * Sidebar component for the map editor page.
+ * @module frontend/map/sidebar
  */
 export default class MapSidebar extends Component {
 	constructor(props) {
@@ -57,6 +58,7 @@ export default class MapSidebar extends Component {
 		//Promise.resolve() ensures the callback acts like a promise.
 		Promise.resolve(this.props.updateGrid(payload)) 
 		.then(() => this.setState({loading: false}))
+		/** @todo show user there's an error rather than 'loading' forever */
 		.catch(err => console.error(err));
 	}
 
