@@ -34,5 +34,6 @@ Configuration is stored in different enviornment variables.
 ## Configuration
 * `NODE_PORT`, the port the koa server runs on
 * `PG_CONNECTION`, connection string for PostgreSQl
+* `FIREBASE_DATABASE`, connection url for Firebase Database
 * `WWW_STATIC`, the directory to output static files
 * `REV_MANIFEST`, the full path to assest manifest json
