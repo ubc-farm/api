@@ -15,9 +15,7 @@ server.connection({
 	port: process.env.NODE_PORT || 3000
 })
 
-server.register(Inert, () => {})
-
-server.register(Vision, err => {
+server.register([Inert, Vision], err => {
 	if (err) throw err;
 	server.views({
 		engines: {
@@ -36,9 +34,9 @@ server.register(Vision, err => {
 		},
 		path: viewPath
 	})
-})
 
-server.route(routes);
-server.start(err => {})
+	server.route(routes);
+	server.start(err => {})
+})
 
 export default server;
