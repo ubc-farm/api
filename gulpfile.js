@@ -38,7 +38,7 @@ gulp.task('main-js', () => {
 		'./frontend/**/*.js',
 		'./frontend/**/*.jsx',
 		'./backend/shared/**/*.js', //shared JS with backend,
-		'./views/**/*.jsx', //shared React components
+		'./views/**/_*/**/*.jsx', //shared React components
 		'!./views/_layouts/html.jsx',
 		'!./frontend/vendor/**',
 		'!./frontend/vendor-es6/**',
