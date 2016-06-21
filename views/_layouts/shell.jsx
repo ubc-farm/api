@@ -28,7 +28,8 @@ export default function Shell(props) {
 Shell.propTypes = {
 	active: PropTypes.string,
 	user: PropTypes.string,
-	sidebar: PropTypes.object
+	sidebar: PropTypes.object,
+	banner: PropTypes.node
 }
 
 Shell.defaultTypes = {
