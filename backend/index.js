@@ -1,17 +1,11 @@
 require("babel-register")({
 	plugins: [
 		'transform-strict-mode',
-		'transform-react-jsx',
+		//'transform-react-jsx',
 		'transform-es2015-modules-commonjs'
 	],
 	babelrc: false
 });
+require('marko/node-require').install();
 
-const Promise = require('bluebird');
-const server = require('./server.js');
-
-const port = process.env.NODE_PORT || 3000;
-
-server.then(app => {
-	app.listen(port);
-})
+const server = require('./server');
