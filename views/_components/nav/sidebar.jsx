@@ -6,8 +6,8 @@ import NavLink from './nav-link.js';
  * @param {string} props.active - specify the current page category
  */
 export default function Sidebar(props) {
-	let {active} = props;
-	let l = active.toLowerCase();
+	const {active} = props;
+	const l = active.toLowerCase();
 	return (
 		<aside class='nav-list' role='navigation'>
 			<NavLink name={active} active hide={active}/>

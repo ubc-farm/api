@@ -36,23 +36,23 @@ const dayTime = new RegExp(pgInterval + pgDayTime);
  * @returns {Object} 
  */
 export function interval(value) {
-	let result = {};
+	let [years, months, days, hours, minutes, seconds] = Array(6).fill(null);
 	if (value.includes('mons') && value.includes('days')) {
-		var [, years, months, days, hours, minutes, seconds] = mixed.exec(value);
+		[, years, months, days, hours, minutes, seconds] = mixed.exec(value);
 	} else if (value.includes('mons')) {
-		var [, years, months] = yearMonth.exec(value);
+		[, years, months] = yearMonth.exec(value);
 	} else if (value.includes('days')) {
-		var [, days, hours, minutes, seconds] = dayTime.exec(value);
+		[, days, hours, minutes, seconds] = dayTime.exec(value);
 	} else {
 		throw TypeError();
 	}
 
 	return {
-		years: parseInt(years), 
-		months: parseInt(months), 
-		days: parseInt(days), 
-		hours: parseInt(hours), 
-		minutes: parseInt(minutes), 
-		seconds: parseInt(seconds)
+		years: parseInt(years) || null, 
+		months: parseInt(months) || null, 
+		days: parseInt(days) || null, 
+		hours: parseInt(hours) || null, 
+		minutes: parseInt(minutes) || null, 
+		seconds: parseInt(seconds) || null
 	};
 }

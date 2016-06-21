@@ -6,7 +6,7 @@ import Checkbox from '../form/checkbox.js';
  * Creates a row from the map given
  */
 export default function TableRow(props) {
-	let handler = this.callSelect.bind(this, props);
+	const handler = this.callSelect.bind(this, props);
 	return (
 		<tr onClick={handler}
 		    className={_('table-row', props.selected && 'table-row-selected')}>

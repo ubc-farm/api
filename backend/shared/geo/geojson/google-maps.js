@@ -12,13 +12,13 @@ Position.fromGoogle = function(latlng) {
 
 /** @param {google.maps.Polygon} */
 Polygon.fromGoogle = function(polygon) {
-	let paths = polygon.getPaths().getArray()
-	.map(path => {
-		let p = path.getArray().map(Position.fromGoogle);
-		p.push(p[0]);
-		return p;
-	});
-	return new Polygon(...paths);
+	return new Polygon(
+		...polygon.getPaths().getArray().map(path => {
+			let p = path.getArray().map(Position.fromGoogle);
+			p.push(p[0]);
+			return p;
+		})
+	)
 }
 
 export {Polygon, Position};

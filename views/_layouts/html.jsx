@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 function CSS(props) {
-	let href = props.href || `/css/${props.file}.css`;
+	const href = props.href || `/css/${props.file}.css`;
 	return <link href={href} rel='stylesheet'/>
 }
 

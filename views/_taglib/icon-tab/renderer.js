@@ -12,26 +12,25 @@ const template = require('./template.marko');
  * @param {boolean} radio - generate radio tabs instead of links
  */
 exports.renderer = (input, out) => {
-	let {text, icon, href, active, local, radio, name} = input;
+	const {text, active, local, radio, name} = input;
+	let {icon, href} = input;
 	
-	icon = icon? icon : text.toLowerCase();
-	let pre = local? '#' : '/';
-	if (!href) {
+	const pre = local ? '#' : '/';
+	if (!href) 
 		href = pre + text.toLowerCase();
-	} else if (local && !href.startsWith(pre)) {
+	else if (local && !href.startsWith(pre)) 
 		href = pre + href;
-	}
 	
 	template.render({
 		text: text,
-		icon: iconHelper.format(icon),
+		icon: iconHelper.format(icon || text.toLowerCase()),
 		href: href,
-		name: name ? name : 'icon-tab',
+		name: name || 'icon-tab',
 		className: {
 			"inline icon-text i-tab": true, 
 			"this": active,
 			"i-radio-label": radio
 		},
-		radio: radio
+		radio
 	}, out);
 }

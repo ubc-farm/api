@@ -7,7 +7,7 @@ importScripts('../vendor/system.js', '../vendor/sys-config.js');
 
 function init(e) {
 	e.stopPropagation();
-	let [, message] = JSON.parse(e.data);
+	const [, message] = JSON.parse(e.data);
 
 	System.import(message) //open the module
 		.then(() => {

@@ -19,8 +19,7 @@ export default class Expando extends Component {
 	}
 
 	render() {
-		let classList = _('expando', {'expando-open': this.state.expanded});
-
+		const classList = _('expando', {'expando-open': this.state.expanded});
 		return (
 			<div className={classList} aria-expanded={this.state.expanded}>
 				{this.props.children}

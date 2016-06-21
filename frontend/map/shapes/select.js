@@ -47,7 +47,7 @@ export default class Selector {
 	onMouseOver(e) {
 		let feature = e.feature;
 		if (this.active && this.filter(feature)) {
-			let selected = feature.getProperty('selected');
+			const selected = feature.getProperty('selected');
 			if (this.ctrlKey && selected) {
 				feature.setProperty('selected', false);
 			}	else if (!this.ctrlKey && !selected) {
@@ -69,5 +69,5 @@ export default class Selector {
 	}
 
 	/** Interator protocolor function */
-	[Symbol.iterator]() { return selected(); }
+	[Symbol.iterator]() { return selected()[Symbol.iterator]; }
 }

@@ -11,7 +11,7 @@ const template = require('./template.marko');
  * @param {string} [input.class] - addtional classes for the button
  */
 exports.renderer = (input, out) => {
-	let {icon, label, size = '24', id, class: cname} = input;
+	const {icon, label, size = '24', id, class: cname} = input;
 	
 	template.render({
 		id: id,

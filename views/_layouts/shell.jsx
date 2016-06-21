@@ -5,7 +5,7 @@ import Banner from '../_components/nav/Banner.js';
 
 function sidebarChildren(pages, prefix = '/') {
 	return Object.keys(pages).map(key => {
-		let value = pages[key];
+		const value = pages[key];
 		if (value === null) return <hr/>
 		else return <NavLink href={prefix + value}>{key}</NavLink>
 	})

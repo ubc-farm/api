@@ -28,7 +28,7 @@ export default class CellSet extends Map {
 	 * @returns {string} key
 	 */
 	static toKey(value) {
-		let center = value.getCentroid();
+		const center = value.getCentroid();
 		return `x:${center.getX()},y:${center.getY()}`;
 	}
 	

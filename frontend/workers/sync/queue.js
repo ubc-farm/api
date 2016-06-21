@@ -62,7 +62,7 @@ export default class Queue {
 			let objStore = tx.objectStore(this.STORE_NAME);
 			//put is used because it returns the new key of the object.
 			//as far as I can tell from documentation, add does not return the key.
-			let operations = items.map(item => objStore.put(item));
+			const operations = items.map(item => objStore.put(item));
 			return Promise.all([tx.complete, ...operations]);
 		})
 		//get rid of the tx.complete value
@@ -110,15 +110,14 @@ export default class Queue {
 	 * @throws {Promise<Error>} rejects if transaction aborts or errors
 	 */
 	poll(key = this.topKey) {
-		let deletion = this.keys.delete(key);
-		if (deletion === undefined) return Promise.resolve(null);
+		if (this.keys.delete(key) === undefined) return Promise.resolve(null);
 		return dbRequest.then(db => {
 			let tx = db.transaction(this.STORE_NAME, 'readwrite');
 			let objStore = tx.objectStore(this.STORE_NAME);
-			let value = objStore.get(key);
+			const value = objStore.get(key);
 			objStore.delete(key);
-			return tx.complete;
-		})
+			return Promise.all([value, tx.complete]);
+		}).then(arr => arr[0]);
 	}
 
 	/**

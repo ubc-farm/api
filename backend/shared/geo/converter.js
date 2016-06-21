@@ -13,6 +13,6 @@ import {geom} from 'jsts';
  * @returns {geom.Polygon}
  */
 export function convertPolygon(cell, factory=new geom.GeometryFactory()) {
-	let path = cell.map(point => new geom.Coordinate(point.x, point.y));
+	const path = cell.map(point => new geom.Coordinate(point.x, point.y));
 	return new geom.Polygon(factory.createLinearRing(path), [], factory);
 }

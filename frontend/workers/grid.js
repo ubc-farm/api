@@ -29,10 +29,10 @@ const writer = reader.parser; //GeoJSONWriter seems to be broken;
  * @return {Promise<GeoJSON.Polygon[]>} array of cell polygons
  */
 register(function(msg) {
-	let path = reader.read(msg.path);
+	const path = reader.read(msg.path);
 
-	let {width, height, angle} = msg.gridSpec;
-	let grid = new Grid(width, height, angle, path);
+	const {width, height, angle} = msg.gridSpec;
+	const grid = new Grid(width, height, angle, path);
 	grid.width.insert(msg.gridSpec.widthSpecific);
 	grid.height.insert(msg.gridSpec.heightSpecific);
 	

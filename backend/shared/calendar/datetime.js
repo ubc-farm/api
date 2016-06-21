@@ -14,7 +14,7 @@ import {months, shortMonths} from './monthnames.js';
  */
 export function timeString({date, amPm=true,trailing=false,twelve=true}) {
 	if (typeof date === 'string') {
-		let time = date.toString();
+		const time = date.toString();
 		let hr = 0, min = parseInt(time.slice(-2));
 		if (time.length > 2) hr = parseInt(time.slice(0, -2));
 
@@ -62,6 +62,8 @@ export function dateString({date, showYear = false, shortMonth = true}) {
 	let yearString = '';
 	if (showYear) yearString = ' ' + date.getFullYear().toString(); 
 
-	let month = shortMonth? shortMonths[date.getMonth()] : months[date.getMonth()]
+	const month = shortMonth 
+	 ? shortMonths[date.getMonth()] 
+	 : months[date.getMonth()];
 	return date.getDate().toString() + ' ' + month + yearString;
 }

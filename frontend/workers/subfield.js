@@ -37,7 +37,7 @@ export default function* uniter(factory = new geom.GeometryFactory()) {
  * @returns {Promise<GeoJSON.Polygon>} the resulting polygon
  */
 register(function({cells}) {
-	let co = uniter(factory); 
+	const co = uniter(factory); 
 	co.next() //first next call starts up the generator (runs to first yield)
 	
 	for (let cell of cells) co.next(reader.read(cell));

@@ -9,7 +9,7 @@ export default function classList(...classes) {
 	for (let classname of classes) {
 		if (!classname) continue; //skip falsy values
 		
-		let type = typeof classname;
+		const type = typeof classname;
 		if (type === 'string' || type === 'number') {
 			list.push(classname);
 		} else if (Array.isArray(classname)) {

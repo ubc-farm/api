@@ -41,7 +41,7 @@ class RadCoord extends Coordinate {
  * @returns {number} distance in meters
  */
 export function distanceBetween(x, y) {
-	let [one, two] = [x, y].map(RadCoord.parse);
+	const [one, two] = [x, y].map(RadCoord.parse);
 	return 2 * Math.asin(Math.sqrt(
 		Math.pow(Math.sin((one.lat - two.lat) / 2), 2) 
 		+ Math.cos(one.lat) * Math.cos(two.lat) * 
@@ -57,8 +57,8 @@ export function distanceBetween(x, y) {
  * @returns {number} heading
  */
 export function computeHeading(x, y) {
-	let [one, two] = [x, y].map(RadCoord.parse);
-	let delta = two.lng - one.lng;
+	const [one, two] = [x, y].map(RadCoord.parse);
+	const delta = two.lng - one.lng;
 	
 	return Angle.toDegrees(Angle.normalizePositive(
 		Math.atan2(
@@ -89,7 +89,7 @@ export function offset(start, distance, heading) {
 	var f = Math.sin(e)
 	  , e = Math.cos(e)
 	  , g = d * f + b * e * Math.cos(heading);
-	let result = {
+	const result = {
 		lat: Angle.toDegrees(Math.asin(g)),
 		lng: Angle.toDegrees(a + Math.atan2(b * e * Math.sin(heading), d - f * g))
 	}
@@ -104,20 +104,19 @@ export function offset(start, distance, heading) {
  * @param {number} fraction from 0 to 1
  */
 export function interpolate(_from, to, fraction) {
-	let [start, end] = [x, y].map(RadCoord.parse);
-	startCos = Math.cos(start.lat)
-	endCos = Math.cos(end.lat)
+	const [start, end] = [x, y].map(RadCoord.parse),
+		startCos = Math.cos(start.lat),
+		endCos = Math.cos(end.lat)
 	
-	let b = distanceBetween(_from, to) / radius;
-	let n = Math.sin(to);
-	if (1e-6 > n) {
+	const b = distanceBetween(_from, to) / radius;
+	const n = Math.sin(to);
+	if (1e-6 > n) 
 		return _from; //didn't move at all
-	}
-	let a = Math.sin((1 - fraction) * b) / n;
-	let c = Math.sin(fraction * b) / n
-	let b2 = a * startCos * Math.cos(start.lng) 
+	const a = Math.sin((1 - fraction) * b) / n;
+	const c = Math.sin(fraction * b) / n
+	const b2 = a * startCos * Math.cos(start.lng) 
 	       + fraction * endCos * Math.cos(end.lng);
-	let e2 = a * startCos * Math.sin(start.lng) 
+	const e2 = a * startCos * Math.sin(start.lng) 
 	       + fraction * endCos * Math.sin(end.lng);
 				 
 	return new Coordinate(
@@ -138,6 +137,6 @@ export function interpolate(_from, to, fraction) {
  * @param {number} length in meters
  */
 export function interpolateBy(_from, to, length) {
-	let fraction = length / distanceBetween(_from, to);
+	const fraction = length / distanceBetween(_from, to);
 	return interpolate(_from, to, fraction);
 }

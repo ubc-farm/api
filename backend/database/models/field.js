@@ -16,8 +16,8 @@ export class Field extends Model {
 	static get tableName() {return 'Field'}
 
 	get grid() {
-		let [baseWidth, ...specificWidths] = this.gridWidths;
-		let [baseHeight, ...specificHeights] = this.gridHeights;
+		const [baseWidth, ...specificWidths] = this.gridWidths;
+		const [baseHeight, ...specificHeights] = this.gridHeights;
 		return {
 			baseWidth, baseHeight,
 			specificWidths, specificHeights

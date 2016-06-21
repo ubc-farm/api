@@ -1,4 +1,4 @@
-let googleMeta = {
+const googleMeta = {
 	scriptLoad: true,
 	format: 'global',
 	exports: 'google'

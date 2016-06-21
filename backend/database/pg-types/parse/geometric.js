@@ -11,7 +11,7 @@ const pointRE = /^\( ([0-9.]+) , ([0-9.]+) \)$/;
  * @returns {float[]} point in format [x, y]
  */
 export function point(value) {
-	let [, x, y] = pointRE.exec(value);
+	const [, x, y] = pointRE.exec(value);
 	return [x, y];
 }
 
@@ -26,7 +26,7 @@ const pathRE = new RegExp('^[\[\(](?: \( ([0-9.]+) , ([0-9.]+) \) ,)+'
 export function path(value) {
 	let newArr = [];
 	if (value.startsWith('[') && value.endsWith(']')) newArr.open = true;
-	let result = pathRE.exec(value);
+	const result = pathRE.exec(value);
 	for (let i = 1; i < result.length; i+=2) {
 		newArr.push([ parseFloat(result[i]), parseFloat(result[i+1]) ]);
 	}
@@ -40,7 +40,7 @@ const circleRE = /^< \( ([0-9.]+) , ([0-9.]+) \) , ([0-9.]+) >$/;
  * @returns {Object} where center is a point and radius is a float
  */
 export function circle(value) {
-	let [, x, y, r] = circleRE.exec(value);
+	const [, x, y, r] = circleRE.exec(value);
 	return {
 		center: [parseFloat(x), parseFloat(y)], 
 		radius: parseFloat(r)

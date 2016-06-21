@@ -30,7 +30,7 @@ export default class Coordinate extends jsts.geom.Coordinate {
 		} else if (x.hasOwnProperty('x') && x.hasOwnProperty('y')) {
 			super(x.x, x.y);
 		} else if (x.hasOwnProperty('toJSON')) {
-			let json = x.toJSON(); //Google Maps LatLng -> LatLngLiteral
+			const json = x.toJSON(); //Google Maps LatLng -> LatLngLiteral
 			super(json.lng, json.lat);
 		} else if (x.hasOwnProperty('lat')
 		           && (lat.hasOwnProperty('lng') || lat.hasOwnProperty('long'))) {
