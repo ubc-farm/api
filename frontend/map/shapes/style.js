@@ -1,6 +1,6 @@
 /**
  * @file preset styles for map objects
- * @module map/shapes/style.js
+ * @module frontend/map/shapes/style
  */
 
 export const color = {

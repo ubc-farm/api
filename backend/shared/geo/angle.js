@@ -2,7 +2,7 @@
  * Replaces jsts.algorithm.Angle since it seems to be missing right now.
  * Utility functions for working with angles. Unless otherwise noted, 
  * methods in this class express angles in radians.
- * @module geo/angle.js
+ * @module shared/geo/angle
  * @see http://bjornharrtell.github.io/jsts/doc/api/jsts.algorithm.Angle.html
  */
 

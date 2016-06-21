@@ -7,6 +7,8 @@ const gulp = require('gulp'),
 	babel = require('gulp-babel'),
 	uglify = require('gulp-uglify'),
 	sourcemaps = require('gulp-sourcemaps'),
+	jsdoc2md = require('gulp-jsdoc-to-markdown'),
+	rename = require('gulp-rename'),
 	shell = require('gulp-shell');
 	
 const path = require('path');
@@ -35,8 +37,9 @@ gulp.task('main-js', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
 		'./frontend/**/*.jsx',
-		'./backend/shared/**/*.js', //shared JS with backend
-		'./backend/shared/**/*.jsx', //shared JS with backend
+		'./backend/shared/**/*.js', //shared JS with backend,
+		'./views/**/_*/**/*.jsx', //shared React components
+		'!./views/_layouts/html.jsx',
 		'!./frontend/vendor/**',
 		'!./frontend/vendor-es6/**',
 		'!./frontend/typings/**',
@@ -89,15 +92,17 @@ gulp.task('sw', () => {
 		.pipe(gulp.dest(path.join(outputPath, 'root')))
 })
 
-gulp.task('jsdoc-backend', () => {
-	return gulp.src('./backend/**/*.js', {read:false})
-		.pipe(shell([
-			'jsdoc2md ./backend/<%= file.path %> > ./docs/JSDoc/Node/<%= m(file.path) %>'
-		], {
-			templateData: {
-				m: s => s.replace(/$/, '.md')
-			}
-		}))
+gulp.task('docs', () => {
+	return gulp.src([
+		'./frontend/**/*.js',
+		'./backend/**/*.js',
+		'!./frontend/vendor/**',
+		'!./frontend/vendor-es6/**',
+		'!./**/typings/**'
+	], {base: './'})
+	.pipe(jsdoc2md({'example-lang': 'js'}))
+	.pipe(rename(path => {path.extname = '.md'}))
+	.pipe(gulp.dest('./docs/JSDoc'))
 })
 
 /** Run all frontend script related tasks */

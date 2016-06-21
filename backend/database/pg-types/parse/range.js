@@ -1,7 +1,7 @@
 /**
  * Functions for parsing PostgreSQL datetime
  * @see https://www.postgresql.org/docs/9.5/static/rangetypes.html
- * @module
+ * @module backend/database/pg-types/parse/range
  */
 
 /**

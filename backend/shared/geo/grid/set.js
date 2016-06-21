@@ -3,7 +3,7 @@ import jsts from 'jsts';
 /**
  * Equivalent to set, but with different equality
  * checks so similar GridCells are checked properly
- * @module geo/grid/set.js
+ * @module shared/geo/grid/set
  */
 export default class CellSet extends Map {
 	constructor(iterable) {

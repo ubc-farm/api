@@ -6,7 +6,7 @@ var messageIds = 0; //incrementor for IDs
  * A Web Worker that returns a promise when calling postMessage.
  * Additionally stringifies messages for performance.
  * @see https://github.com/NotWoods/promise-worker
- * @module workers/promise/main.js
+ * @module frontend/workers/promise/main
  */
 export default class PromiseWorker {
   /**

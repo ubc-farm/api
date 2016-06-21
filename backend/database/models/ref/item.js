@@ -8,6 +8,7 @@ import Equipment from '../equipment.js';
  * like the quantity and storage location, is found in the Equipment table.
  * Items are meant to be reference information about any type of item rather
  * than a specific tractor or single apple.
+ * @module backend/database/models/ref/item
  * @property {string} [name]
  * @property {string} [sku]
  * @property {string} [barcode]

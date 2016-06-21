@@ -5,6 +5,7 @@ import {Person as Company} from '../person';
 
 /**
  * A soil sampling task
+ * @module backend/database/models/soilsample
  * @extends Task
  * @property {number} [depth]
  * @property {string} [methodUsed]

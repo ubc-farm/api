@@ -4,7 +4,7 @@ import idb from 'vendor/idb.js';
  * Represents a queue of tasks. Some methods as based on the Java Queue object,
  * and the JavaScript Set object. The tasks are stored in IndexedDB, and this
  * queue is designed to be used to store HTTP requests for background syncing.
- * @module
+ * @module frontend/workers/sync/queue
  */
 export default class Queue {
 	/**

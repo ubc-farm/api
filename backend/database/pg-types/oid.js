@@ -2,8 +2,8 @@
  * List of OID values used by PostgreSQL for its data types.
  * @see https://www.postgresql.org/docs/9.4/static/datatype.html
  * @see https://godoc.org/github.com/lib/pq/oid
+ * @module backend/database/pg-types/oid
  */
-
 export const oid = {
 	bool             : 16,
 	bytea            : 17,
@@ -162,4 +162,4 @@ export const oid = {
 	_int8range       : 3927
 }
 
-export default function() {return oid}
+export default oid;

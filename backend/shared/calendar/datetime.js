@@ -1,5 +1,7 @@
 import {months, shortMonths} from './monthnames.js';
 
+/** @module shared/calendar/datetime */
+
 /**
  * Used to render a time. You can either pass in a date object or pass in
  * a time string in format HHMM (such as 1300 for 13 o'clock / 1 pm).
@@ -45,9 +47,9 @@ export function timeString({date, amPm=true,trailing=false,twelve=true}) {
  * Used to render a date. You can pass a Date object or an object with the 
  * correct properties.
  * @param {Date|Object} date object or json object
- * @param {number} time.date
- * @param {number} time.month
- * @param {number} time.year
+ * @param {number} date.date
+ * @param {number} date.month
+ * @param {number} date.year
  * @param {boolean} [showYear=false] - wheter or not to display the year
  * @param {boolean} [shortMonth=true] - wheter or not to shorten the month
  * @returns {string}

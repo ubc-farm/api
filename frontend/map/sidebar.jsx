@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import IconButton from 'elements/icon/button.js';
-import NumberField from 'elements/form/number-field.js';
-import AngleIndicator from 'elements/info/angle-indicator.js';
-import LoadingIndicator from 'elements/info/loading.js';
+import IconButton from '_components/icon/button.js';
+import NumberField from '_components/form/number-field.js';
+import AngleIndicator from '_components/info/angle-indicator.js';
+import LoadingIndicator from '_components/info/loading.js';
 import {field as fieldStyle} from 'map/shapes/style.js';
 
 /**
  * Sidebar component for the map editor page.
+ * @module frontend/map/sidebar
  */
 export default class MapSidebar extends Component {
 	constructor(props) {

@@ -6,6 +6,7 @@ import Person from '../person';
 
 /**
  * Represents an event held at the farm
+ * @module backend/database/models/task/event
  * @extends Task
  * @property {string} [type]
  * @property {string} name of the event

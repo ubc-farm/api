@@ -4,6 +4,7 @@ import ChemicalTask from '../task/chem.js';
 
 /**
  * A chemical product, such as fertilizer or herbicide.
+ * @module backend/database/models/ref/chemical
  * @property {string} [type]
  * @property {string} [productName]
  * @property {Object} [composition]

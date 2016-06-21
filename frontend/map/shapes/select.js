@@ -1,6 +1,7 @@
 /**
  * Adds functionality to 'select' polygons when mousing over them
  * while the mouse button is down. 
+ * @module frontend/map/shapes/select
  */
 export default class Selector {
 	/**

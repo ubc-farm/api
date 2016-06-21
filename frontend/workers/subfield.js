@@ -6,6 +6,10 @@ const reader = new io.GeoJSONReader(factory);
 const writer = reader.parser;
 
 /**
+ * @module frontend/workers/subfield
+ */
+
+/**
  * Generator function that wraps union from JSTS. Each value passed to the 
  * generator is united with the previous result.  
  * @param {GeometryFactory} factory to build blank geometry with

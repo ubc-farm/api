@@ -5,6 +5,7 @@ import GridCell from './cell.js';
 
 /**
  * A map with a default value
+ * @extends Map
  */
 class DefaultMap extends Map {
 	constructor(base) {
@@ -32,6 +33,9 @@ class DefaultMap extends Map {
 	}
 }
 
+/**
+ * @module shared/geo/grid
+ */
 export default class Grid {
 	/**
 	 * @param {number} baseWidth

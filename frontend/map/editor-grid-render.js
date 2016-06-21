@@ -8,9 +8,13 @@ import {Polygon} from 'geo/geojson/google-maps.js';
 import Feature from 'geo/geojson/feature.js';
 import FeatureCollection from 'geo/geojson/featurecollection.js';
 
+/**
+ * @module frontend/map/editor-grid-render
+ */
+
 /** 
  * Default settings for the grid 
- * @see module:workers/grid.js
+ * @see module:frontend/workers/grid
  */
 const defaultGrid = {
 	width: 2, height: 2,
