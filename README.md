@@ -29,6 +29,7 @@ Configuration is stored in different enviornment variables.
 
 ## Api Endpoints
 * `GOOGLE_TOKEN`, the key for Google APIs
+* `FIREBASE_CREDENTIALS`, the path to the Firebase credential .json file
 
 ## Configuration
 * `NODE_PORT`, the port the koa server runs on
