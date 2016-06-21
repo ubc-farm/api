@@ -37,3 +37,4 @@ docs
 frontend/demo
 static
 UBC*.json
+frontend/vendor-es6/firebase-config.js
