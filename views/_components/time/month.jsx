@@ -10,7 +10,7 @@ import DateIcon from './month-icon.js';
  * or display in a row.
  */
 export default function Month(props) {
-	let today = props.today, todayDate;
+	const today = props.today; let todayDate;
 	if ((today.getFullYear() === props.month.getFullYear()) 
 	&& (today.getMonth() === props.month.getMonth())) {
 		todayDate = today.getDate();
@@ -24,8 +24,8 @@ export default function Month(props) {
 		props.onArrowClick(dir);
 	}
 	
-	let rows = calendarArray(props.month).map((week, i) => {
-		let blankKeys = 100;
+	let blankKeys = 100;
+	const rows = calendarArray(props.month).map((week, i) => {
 		return (
 			<tr className='cal-week' key={'calendar-week-' + i}>
 				{week.map(day => {

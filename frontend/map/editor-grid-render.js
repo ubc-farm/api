@@ -36,13 +36,13 @@ export function styler(feature) {
  * @param {Object} gridOptions
  */
 export function setActive(polygon, gridOptions) {
-	let gridOpts = gridOptions;
 	polygon.gridOptions = gridOptions; //store the grid state with the polygon
+	
 	let map = polygon.getMap();
-
-	let path = Polygon.fromGoogle(polygon);
-
-	return buildGrid(path, gridOpts).then(grid => {
+	return buildGrid(
+		Polygon.fromGoogle(polygon), 
+		gridOptions
+	).then(grid => {
 		//Flush the previous grid
 		map.data.setMap(null);
 		map.data = new google.maps.Data({map});

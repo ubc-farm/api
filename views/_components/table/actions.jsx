@@ -6,12 +6,11 @@ import _ from '../classnames.js';
  * as a header for the table.
  */
 export default function TableActions(props) {
-	let {count, whenSelected} = props;
+	const {count, whenSelected} = props;
 
-	let counter = null;
-	if (whenSelected) {
-		counter = <span>{count} item{count !== 1 && 's'} selected</span>;
-	}
+	const counter = whenSelected 
+		&& <span>{count} item{count !== 1 && 's'} selected</span>;
+	
 	return (
 		<div hidden={(count === 0) !== whenSelected} className={_(
 			'table-actions', {'table-actions-select': whenSelected}

@@ -25,7 +25,7 @@ export function path(value, open = false) {
 	if (open || path.hasOwnProperty('open')) start = '['; end = ']';
 
 	return start + value.map(val => {
-		let [x, y] = val;
+		const [x, y] = val;
 		return ` ( ${x} , ${y} ) `;
 	}).join() + end;
 }
@@ -36,6 +36,6 @@ export function path(value, open = false) {
  * @returns {Object} circle in format < ( x , y ) , r >
  */
 export function circle({center, radius: r}) {
-	let [x, y] = center;
+	const [x, y] = center;
 	return `< ( ${x} , ${y} ) , ${r} >`;
 }

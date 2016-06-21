@@ -10,9 +10,9 @@ const {geom: {Polygon, GeometryFactory}} = jsts;
  */
 function buildPath(start, width, height, parallel, perpendicular) {
 	//Build path clockwise
-	let north = offset(start, height, perpendicular); //Draw up
-	let point2 = offset(north, width, parallel); //Draw right
-	let west = offset(point2, height, (perpendicular + 180) % 360);//Draw down
+	const north = offset(start, height, perpendicular); //Draw up
+	const point2 = offset(north, width, parallel); //Draw right
+	const west = offset(point2, height, (perpendicular + 180) % 360);//Draw down
 	
 	return [start, north, point2, west, start];
 }
@@ -29,13 +29,14 @@ export default class GridCell extends Polygon {
 	 * @param {number} angle of baseline, in degrees
 	 */
 	constructor(start, width, height, angle) {
-		let perpendicular = Angle.toDegrees(Angle.normalize(
-				Angle.toRadians(angle) - (Angle.PI_OVER_2 * -1) ));
+		const perpendicular = Angle.toDegrees(Angle.normalize(
+			Angle.toRadians(angle) - (Angle.PI_OVER_2 * -1) 
+		));
 		
-		let path = buildPath(start, width, height, angle, perpendicular);
+		const path = buildPath(start, width, height, angle, perpendicular);
 	
 		/** Initiate geom.Polygon */
-		let factory = new GeometryFactory();
+		const factory = new GeometryFactory();
 		super(factory.createLinearRing(path), [], factory);
 		
 		this.start = start;

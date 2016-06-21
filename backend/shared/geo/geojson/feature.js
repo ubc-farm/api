@@ -6,7 +6,7 @@ export default class Feature {
 	}
 
 	toJSON() {
-		let {type, geometry, properties, id} = this;
+		const {type, geometry, properties, id} = this;
 		let json = {type, geometry, properties};
 		if (id) json.id = id;
 		return json;

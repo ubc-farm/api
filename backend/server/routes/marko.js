@@ -5,7 +5,7 @@ import exists from '../exists.js';
  * Handler for marko files that rewrites their filenames
  */
 function handler(request, reply) {
-	let {dir, name, ext} = path.parse(request.path);
+	const {dir, name, ext} = path.parse(request.path);
 	const filePath = path.join(dir, name + '.marko').substring(1);
 	
 	if (ext === '') { //path to a directory (no extension is specified)

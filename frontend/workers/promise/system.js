@@ -16,7 +16,7 @@ export default class ModuleWorker extends PromiseWorker {
 		super('/js/vendor/system-worker.js');
 
 		this.readyState = new Promise((resolve, reject) => {
-			let worker = this._worker;
+			const worker = this._worker;
 			function moduleReady(event) {
 				event.stopPropagation(); resolve();
 				worker.removeEventListener('message', moduleReady, true);

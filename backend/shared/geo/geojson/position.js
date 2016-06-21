@@ -16,7 +16,7 @@ export default class Position {
 		if (Array.isArray(value))
 			for (let key in value) this[key] = value[key];
 		else {
-			let {x, y} = value;
+			const {x, y} = value;
 			Object.assign(this, {0: x, 1: y});
 		}
 	}

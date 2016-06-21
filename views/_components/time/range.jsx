@@ -10,8 +10,7 @@ import {dateString, timeString} from 'calendar/datetime.js';
  * @param {boolean} [twelve=true]
  */
 export default function TimeRange(props) {
-	let {start, end} = props;
-
+	const {start, end} = props;
 	if (start == null && end == null) return null;
 
 	let sameHalf = true;

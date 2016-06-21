@@ -17,7 +17,7 @@ function getIdb() {
 }
 
 self.onmessage = msg => {
-	let respondKey = msg.data.id || null;
+	const respondKey = msg.data.id || null;
 	getIdb().then(db => {
 		let tx = db.transaction('outbox', 'readwrite');
 		tx.objectStore('outbox').add(msg.data);

@@ -17,7 +17,7 @@ class DefaultMap extends Map {
 	 * If the index does not exist, return the default instead
 	 */
 	get(index) {
-		let value = super.get(index);
+		const value = super.get(index);
 		if (value === undefined) return this.base;
 		else return value;
 	}
@@ -65,17 +65,22 @@ export default class Grid {
 	 * @yields {Polygon} grid cell
 	 */
 	* generate() {
-		let queue = [], container = this.container;
-		queue.push({pos: container.getCoordinate(), x: 0, y:0});
-		
+		const container = this.container;
+
 		let cells = new CellSet();
 		let weakCells = new CellSet();
+		let queue = [];
+		queue.push({pos: container.getCoordinate(), x: 0, y:0});
 		
 		while (queue.length > 0) {
 			//if (cells.size > 100) break;
-			let {pos:nPos, x:nX, y:nY} = queue.shift();
-			let cell = new GridCell(nPos, this.width.get(nX), this.height.get(nY), 
-					this.angle);
+			const {pos:nPos, x:nX, y:nY} = queue.shift();
+			const cell = new GridCell(
+				nPos, 
+				this.width.get(nX), 
+				this.height.get(nY), 
+				this.angle
+			);
 			
 			if (!cells.has(cell)) {
 				

@@ -25,7 +25,7 @@ export class LatLng {
 			this.lat = parseFloat(lat);
 			this.lng = parseFloat(lng);
 		} else if (Array.isArray(lat)) {
-			let [_lat, _lng] = lat;
+			const [_lat, _lng] = lat;
 			this.lat = parseFloat(_lat);
 			this.lng = parseFloat(_lng);
 		} else if (lat.hasOwnProperty('lat') 

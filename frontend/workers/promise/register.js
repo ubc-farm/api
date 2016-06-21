@@ -9,7 +9,7 @@
  */
 export default function register(callback, reviver) {
 	self.addEventListener('message', e => {
-		let [messageId, message] = JSON.parse(e.data, reviver);
+		const [messageId, message] = JSON.parse(e.data, reviver);
 		
 		if (typeof callback !== 'function') {
 			postOutgoingMessage(messageId, 'Please pass a function into register().');

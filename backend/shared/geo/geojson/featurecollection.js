@@ -5,7 +5,7 @@ export default class FeatureCollection {
 	}
 
 	toJSON() {
-		let {type, features} = this;
+		const {type, features} = this;
 		return {type, features}
 	}
 } 

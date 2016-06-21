@@ -59,9 +59,9 @@ export default class Table extends Component {
 	}
 
 	sort() {
-		let {sortColumn: key, sortDir: dir} = this.state;
+		const {sortColumn: key, sortDir: dir} = this.state;
 		return this.props.data.sort((aMap, bMap) => {
-			let a = aMap.get(key), b = bMap.get(key);
+			const a = aMap.get(key), b = bMap.get(key);
 			return a.toString().localeCompare(b) * dir;
 		})
 	}

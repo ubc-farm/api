@@ -18,37 +18,37 @@ export function normalize(angle) {
 
 export function angle() {
 	if (arguments.length === 1) {
-		let p = arguments[0];
+		const p = arguments[0];
 		return Math.atan2(p.y, p.x);
 	} else if (arguments.length === 2) {
-		let p0 = arguments[0], p1 = arguments[1];
-		var dx = p1.x - p0.x;
-		var dy = p1.y - p0.y;
+		const p0 = arguments[0], p1 = arguments[1];
+		const dx = p1.x - p0.x;
+		const dy = p1.y - p0.y;
 		return Math.atan2(dy, dx);
 	}
 };
 
 export function isAcute(p0, p1, p2) {
-	var dx0 = p0.x - p1.x;
-	var dy0 = p0.y - p1.y;
-	var dx1 = p2.x - p1.x;
-	var dy1 = p2.y - p1.y;
-	var dotprod = dx0 * dx1 + dy0 * dy1;
+	const dx0 = p0.x - p1.x;
+	const dy0 = p0.y - p1.y;
+	const dx1 = p2.x - p1.x;
+	const dy1 = p2.y - p1.y;
+	const dotprod = dx0 * dx1 + dy0 * dy1;
 	return dotprod > 0;
 };
 
 export function isObtuse(p0, p1, p2) {
-	var dx0 = p0.x - p1.x;
-	var dy0 = p0.y - p1.y;
-	var dx1 = p2.x - p1.x;
-	var dy1 = p2.y - p1.y;
-	var dotprod = dx0 * dx1 + dy0 * dy1;
+	const dx0 = p0.x - p1.x;
+	const dy0 = p0.y - p1.y;
+	const dx1 = p2.x - p1.x;
+	const dy1 = p2.y - p1.y;
+	const dotprod = dx0 * dx1 + dy0 * dy1;
 	return dotprod < 0;
 };
 
 export function interiorAngle(p0, p1, p2) {
-	var anglePrev = angle(p1, p0);
-	var angleNext = angle(p1, p2);
+	const anglePrev = angle(p1, p0);
+	const angleNext = angle(p1, p2);
 	return Math.abs(angleNext - anglePrev);
 };
 
@@ -64,13 +64,13 @@ export function normalizePositive(angle) {
 };
 
 export function angleBetween(tip1, tail, tip2) {
-	var a1 = angle(tail, tip1);
-	var a2 = angle(tail, tip2);
+	const a1 = angle(tail, tip1);
+	const a2 = angle(tail, tip2);
 	return diff(a1, a2);
 };
 
 export function diff(ang1, ang2) {
-	var delAngle = null;
+	let delAngle = null;
 	if (ang1 < ang2) {
 		delAngle = ang2 - ang1;
 	} else {
@@ -87,7 +87,7 @@ export function toRadians(angleDegrees) {
 };
 
 export function getTurn(ang1, ang2) {
-	var crossproduct = Math.sin(ang2 - ang1);
+	const crossproduct = Math.sin(ang2 - ang1);
 	if (crossproduct > 0) {
 		return COUNTERCLOCKWISE;
 	}
@@ -98,12 +98,12 @@ export function getTurn(ang1, ang2) {
 };
 
 export function angleBetweenOriented(tip1, tail, tip2) {
-	var a1 = angle(tail, tip1);
-	var a2 = angle(tail, tip2);
-	var angDel = a2 - a1;
+	const a1 = angle(tail, tip1);
+	const a2 = angle(tail, tip2);
+	const angDel = a2 - a1;
 	if (angDel <= -Math.PI) return angDel + PI_TIMES_2;
-	if (angDel > Math.PI) return angDel - PI_TIMES_2;
-	return angDel;
+	else if (angDel > Math.PI) return angDel - PI_TIMES_2;
+	else return angDel;
 };
 
 export const PI_TIMES_2 = 2.0 * Math.PI;

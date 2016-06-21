@@ -35,9 +35,9 @@ export default class TextField extends Component {
 	}
 
 	render() {
-		let {value, focused} = this.state;
-		let props = Object.assign({}, this.props);
-		let {hint: placeholder, maxLength: maxlength} = props; 
+		const {value, focused} = this.state;
+		let props = Object.assign({}, this.props); //clone 
+		const {hint: placeholder, maxLength: maxlength} = props; 
 		let extraProps = {
 			placeholder, maxlength,
 			value, name: props.name || props.id,
@@ -46,7 +46,7 @@ export default class TextField extends Component {
 		}
 		delete props.hint; delete props.maxLength;
 		delete props.children; delete props.suffix;
-		let classList = _('text-field', props.className, {
+		const classList = _('text-field', props.className, {
 			'text-field-force-helper': this.props.persistHelper,
 			'text-field-floating': props.float,
 			'text-field-disabled': props.disabled

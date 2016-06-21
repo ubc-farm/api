@@ -12,7 +12,7 @@ import _ from '../classnames.js';
  */
 export default function NavLink(props) {
 	if (hide) return null;
-	let href = props.href || prefix + props.children.toLowerCase();
+	const href = props.href || prefix + props.children.toLowerCase();
 	return (
 		<a className={_(
 			'nav-link', 'hover-light',

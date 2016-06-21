@@ -8,10 +8,10 @@ const exists = require('./exists.js').default;
  * @param {function} next - callback for async view engines
  */
 function compile(src, {filename, removeCache}, next) {
-	let path = require.resolve(filename);
+	const path = require.resolve(filename);
 	if (removeCache) delete require.cache[path];
 	
-	let template = require(path);
+	const template = require(path);
 	next(null, (data, options, callback) => {
 		template.render(data, callback);
 	})
