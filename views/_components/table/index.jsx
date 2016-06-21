@@ -11,6 +11,10 @@ import TableRow from './tr.js';
 export default class Table extends Component {
 	constructor(props) {
 		super(props);
+		this.tableData = props.data.map(row => {
+			if (row instanceof Map) return row;
+			else return new Map(row);
+		})
 		this.state = {
 			selected: new Set(),
 			sortDir: 1,
@@ -23,7 +27,9 @@ export default class Table extends Component {
 	/**
 	 * @memberof Table
 	 * @name props
-	 * @property {Map} data for table, where the keys correspond to table headings
+	 * @property {Array<Map|Iterable<K, V>>} data for table, where the keys
+	 * correspond to table headings. Either a map or a 
+	 * Key, Value iterable can be used as the array children.
 	 * @property {any} initialSortKey - corresponds to a key in the table
 	 * @property {React.node[]} mainActions
 	 * @property {React.node[]} altActions
@@ -31,9 +37,12 @@ export default class Table extends Component {
 	static get propTypes() {
 		return {
 			initialSortKey: PropTypes.any.isRequired,
-			data: PropTypes.arrayOf(PropTypes.instanceOf(Map)).isRequired,
 			mainActions: PropTypes.arrayOf(PropTypes.node),
-			altActions: PropTypes.arrayOf(PropTypes.node)
+			altActions: PropTypes.arrayOf(PropTypes.node),
+			data: PropTypes.arrayOf(PropTypes.oneOf(
+				PropTypes.instanceOf(Map),
+				PropTypes.arrayOf(PropTypes.array)
+			)).isRequired,
 		}
 	}
 
@@ -54,7 +63,7 @@ export default class Table extends Component {
 			// Select all rows if the heading checkbox is clicked
 			this.setState((prevState, props) => {
 				let selected = prevState.selected;
-				for (let rowData in props.data) {
+				for (let rowData in this.tableData) {
 					selected.add(Table.id(rowData));
 				}
 				return { selected };
@@ -69,9 +78,12 @@ export default class Table extends Component {
 		}
 	}
 
+	/**
+	 * Sorts the table data and updates the tableData property
+	 */
 	sort() {
-		let {sortColumn: key, sortDir: dir} = this.state;
-		return this.props.data.sort((aMap, bMap) => {
+		let {sortColumn: key, sortDir: dir, data} = this.state;
+		return this.tableData.sort((aMap, bMap) => {
 			let a = aMap.get(key), b = bMap.get(key);
 			return a.toString().localeCompare(b) * dir;
 		})
@@ -82,7 +94,7 @@ export default class Table extends Component {
 	}
 
 	renderHeadings() {
-		return Array.from(this.props.data[0].keys(), key => {
+		return Array.from(this.state.data[0].keys(), key => {
 			let check = false;
 			if (key.type === Checkbox) check = true; 
 			let handler = this.handleHeadingSelect.bind(this, key, false)
@@ -97,7 +109,8 @@ export default class Table extends Component {
 	}
 
 	renderBody() {
-		return this.sort().map((rowData, index) => {
+		this.sort();
+		return this.tableData.map((rowData, index) => {
 			let id = Table.id(rowData); 
 			return (
 				<TableRow key={id} selected={selected.has(id)}
