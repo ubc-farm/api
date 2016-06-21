@@ -1,5 +1,4 @@
-import React, { PropTypes } from 'react';
-import {CSS, default as loadCSS} from './css.js';
+import React, {PropTypes} from 'react';
 import Sidebar from '../_components/nav/sidebar.js';
 import NavLink from '../_components/nav/nav-link.js';
 import Banner from '../_components/nav/Banner.js';
@@ -12,7 +11,7 @@ function sidebarChildren(pages, prefix = '/') {
 	})
 }
 
-export default function Layout(props) {
+export default function Shell(props) {
 	return (
 		<div>
 			<Sidebar active={props.active}>
@@ -26,12 +25,12 @@ export default function Layout(props) {
 	)
 }
 
-Layout.propTypes = {
+Shell.propTypes = {
 	active: PropTypes.string,
 	user: PropTypes.string,
 	sidebar: PropTypes.object
 }
 
-Layout.defaultTypes = {
+Shell.defaultTypes = {
 	user: 'John Smith'
 }
