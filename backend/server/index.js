@@ -23,7 +23,10 @@ server.register(Vision, err => {
 				compileMode: 'async'
 			},
 			'jsx': {
-				module: reactEngine
+				module: reactEngine,
+				compileOptions: {
+					renderMethod: 'renderToString',
+				}
 			}
 		},
 		relativeTo: __dirname,
