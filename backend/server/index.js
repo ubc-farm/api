@@ -1,10 +1,13 @@
 import {Server} from 'hapi';
 import Inert from 'inert';
 import Vision from 'vision';
+import path from 'path';
 
 import routes from './routes';
 import markoEngine from './marko-engine.js';
 import reactEngine from 'hapi-react-views';
+
+const viewPath = path.join(__dirname, '../../views');
 
 const server = new Server();
 server.connection({
@@ -26,11 +29,12 @@ server.register(Vision, err => {
 				module: reactEngine,
 				compileOptions: {
 					renderMethod: 'renderToString',
+					layoutPath: path.join(viewPath, '_layouts'),
+					layout: 'html.jsx'
 				}
 			}
 		},
-		relativeTo: __dirname,
-		path: '../../views'
+		path: viewPath
 	})
 })
 
