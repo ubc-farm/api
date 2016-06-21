@@ -4,10 +4,12 @@ const exists = require('./exists.js').default;
 
 /**
  * Async view engine for Vision. 
+ * @param {string} src - template text (currently not used)
+ * @param {function} next - callback for async view engines
  */
-function compile(src, {filename, refresh}, next) {
+function compile(src, {filename, removeCache}, next) {
 	let path = require.resolve(filename);
-	if (refresh) delete require.cache[path];
+	if (removeCache) delete require.cache[path];
 	
 	let template = require(path);
 	next(null, (data, options, callback) => {

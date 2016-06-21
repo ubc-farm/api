@@ -3,18 +3,20 @@ import NavLink from './nav-link.js';
 
 /**
  * The sidebar of the site.
+ * @param {string} props.active - specify the current page category
  */
 export default function Sidebar(props) {
 	let {active} = props;
+	let l = active.toLowerCase();
 	return (
 		<aside class='nav-list' role='navigation'>
 			<NavLink name={active} active hide={active}/>
 			<nav className='nav-list-primary'>
-				<NavLink name='Fields' hide={active === 'Fields'} color/>
-				<NavLink name='Planning' hide={active === 'Planning'} color/>
-				<NavLink name='Finances' hide={active === 'Finances'} color/>
-				<NavLink name='Events' hide={active === 'Events'} color/>
-				<NavLink name='Logging' hide={active === 'Logging'} color/>
+				<NavLink hide={l === 'fields'} color>Fields</NavLink>
+				<NavLink hide={l === 'planning'} color>Planning</NavLink>
+				<NavLink hide={l === 'finances'} color>Finances</NavLink>
+				<NavLink hide={l === 'events'} color>Events</NavLink>
+				<NavLink hide={l === 'logging'} color>Logging</NavLink>
 			</nav>
 			<nav class='nav-list-secondary'>
 				{props.children}
