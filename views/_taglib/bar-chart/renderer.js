@@ -1,4 +1,5 @@
-const template = require('./template.marko');
+const marko = require('marko');
+const template = marko.load('./template.marko');
 
 /**
  * @typedef {Object} ChartRow

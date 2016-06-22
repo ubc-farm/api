@@ -1,6 +1,7 @@
 const iconHelper = require('../../_helpers/icon.js');
 
-const template = require('./template.marko');
+const marko = require('marko');
+const template = marko.load('./template.marko');
 
 /**
  * @param {Object} input
