@@ -2,11 +2,11 @@ import React, {PropTypes} from 'react';
 
 function CSS(props) {
 	const href = props.href || `/css/${props.file}.css`;
-	return <link href={href} rel='stylesheet'/>
+	return <link href={href} rel='stylesheet' key={props.file}/>
 }
 
 function JS(props) {
-	return <script>{`System.import('${props.src}')`}</script>
+	return <script key={props.src}>{`System.import('${props.src}')`}</script>
 }
 
 export default function Component(props) {

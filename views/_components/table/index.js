@@ -111,7 +111,7 @@ export default class Table extends Component {
 			const handler = this.handleHeadingSelect.bind(this, key, check)
 			
 			return (
-				<TableHead onClick={handler}
+				<TableHead onClick={handler} key={key}
 				           sort={this.state.sortColumn === key && this.state.sortDir}>
 					{key}
 				</TableHead>
