@@ -1,26 +1,10 @@
-import {posix as path} from 'path';
-import exists from '../exists.js';
+import search from './search.js';
 
 /**
  * Handler for marko files that rewrites their filenames
  */
 function handler(request, reply) {
-	const {dir, name, ext} = path.parse(request.path);
-	const filePath = path.join(dir, name + '.marko').substring(1);
-	
-	if (ext === '') { //path to a directory (no extension is specified)
-		//check if filename.marko exists, otherwise use filename/index.marko
-		exists(filePath).then(doesExist => {
-			if (doesExist) {
-				return reply.view(filePath, request.params);
-			} else {
-				return reply.view(
-					path.join(dir, name, 'index.marko').substring(1), 
-					request.params
-				);
-			}
-		})
-	} else return reply.view(filePath, request.params);
+	search(request, reply, '.marko');
 }
 
 /** Routes for marko views */
