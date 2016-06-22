@@ -40,11 +40,10 @@ gulp.task('main-js', () => {
 		'./backend/shared/**/*.js', //shared JS with backend,
 		'./views/**/_*/**/*.jsx', //shared React components
 		'!./views/_layouts/html.jsx',
-		'!./frontend/vendor/**',
-		'!./frontend/vendor-es6/**',
+		'!./frontend/no-transform/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
-		'!./frontend/workers/sw.js'
+		'!./frontend/**/*.src.js'
 	])
 		.pipe(sourcemaps.init())
 		.pipe(babel({
@@ -61,28 +60,12 @@ gulp.task('main-js', () => {
 })
 
 /** Copy vendor files */
-gulp.task('vendor', ['vendor-es6'], () => {
+gulp.task('no-transform', () => {
 	return gulp.src([
-		'./frontend/vendor/**',
-		'!./frontend/vendor/**/*.src.js'
-	], {base: './frontend'})
-		.pipe(gulp.dest(path.join(outputPath, 'js')))
-})
-
-gulp.task('vendor-es6', () => {
-	return gulp.src([
-		'./frontend/vendor-es6/**',
-		'!./frontend/vendor-es6/**/*.src.js'
+		'./frontend/no-transform/**/*',
+		'!./frontend/no-transform/**/*.src.js'
 	])
-		.pipe(sourcemaps.init())
-		.pipe(babel({
-			plugins: [
-				'transform-es2015-modules-systemjs'
-			],
-			babelrc: false
-		}))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(path.join(outputPath, 'js/vendor')))
+		.pipe(gulp.dest(path.join(outputPath, 'js')))
 })
 
 /** Minify sw.js and put it in root */
@@ -96,8 +79,7 @@ gulp.task('docs', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
 		'./backend/**/*.js',
-		'!./frontend/vendor/**',
-		'!./frontend/vendor-es6/**',
+		'!./frontend/**/vendor/**',
 		'!./**/typings/**'
 	], {base: './'})
 	.pipe(jsdoc2md({'example-lang': 'js'}))
@@ -106,7 +88,7 @@ gulp.task('docs', () => {
 })
 
 /** Run all frontend script related tasks */
-gulp.task('scripts', ['main-js', 'vendor', 'sw']);
+gulp.task('scripts', ['main-js', 'no-transform', 'sw']);
 	
 /** Minify images and copy to static */
 gulp.task('images', () => {

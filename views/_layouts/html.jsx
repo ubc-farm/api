@@ -18,7 +18,7 @@ export default function Component(props) {
 				<title>{props.title}</title>
 				<script async src="/js/vendor/analytics.js"></script>
 				<script src="/js/vendor/system.js"></script>
-				<script src="/js/vendor/sys-config.js"></script>
+				<script src="/js/sys-config.js"></script>
 				<script id='react-state' 
 					dangerouslySetInnerHTML={{__html: this.props.state}}></script>
 				<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' 

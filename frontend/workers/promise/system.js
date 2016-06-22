@@ -13,7 +13,7 @@ export default class ModuleWorker extends PromiseWorker {
 	 * @param {string} url to file 
 	 */
 	constructor(file) {
-		super('/js/vendor/system-worker.js');
+		super('/js/workers/system-worker.js');
 
 		this.readyState = new Promise((resolve, reject) => {
 			const worker = this._worker;
