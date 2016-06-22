@@ -11,8 +11,8 @@ import _ from '../classnames.js';
  * @param {boolean} [props.hide] hides if true 
  */
 export default function NavLink(props) {
-	if (hide) return null;
-	const href = props.href || prefix + props.children.toLowerCase();
+	if (props.hide) return null;
+	const href = props.href || props.prefix + props.children.toLowerCase();
 	return (
 		<a className={_(
 			'nav-link', 'hover-light',
