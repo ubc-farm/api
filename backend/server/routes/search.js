@@ -20,7 +20,6 @@ export default function search(request, reply, extension = '.html', data = {}) {
 	
 	if (req.ext === '') { //path to a directory (no extension is specified)
 		//check if filename.ext exists, otherwise use filename/index.ext
-		console.log(file); console.log(__dirname);
 		return exists(normalize(__dirname + '/../../../views/' + file))
 		.then(doesExist => {
 			if (doesExist) {
