@@ -121,6 +121,25 @@ gulp.task('marko', shell.task([
 	'markoc views/'
 ]))
 
+gulp.task('backend', () => {
+	return gulp.src([
+		'./backend/**/*.js',
+		'./backend/**/*.jsx',
+		'./views/**/*.js', 
+		'./views/**/*.jsx'
+	], {base: './'})
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			plugins: [
+				'transform-es2015-modules-commonjs',
+				'transform-react-jsx'
+			],
+			babelrc: false
+		}))
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest('./bin'))
+})
+
 /** Do everything */
 gulp.task('build', ['marko', 'assets', 'scripts', 'styles']);
 
