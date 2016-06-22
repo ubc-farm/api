@@ -3,7 +3,7 @@
  * context.
  */
 
-importScripts('../vendor/system.js', '../vendor/sys-config.js');
+importScripts('../vendor/system.js', '../sys-config.js');
 
 function init(e) {
 	e.stopPropagation();
