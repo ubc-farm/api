@@ -20,7 +20,6 @@
     "babel-plugin-transform-strict-mode": "^6.8.0",
     "babel-register": "^6.9.0",
     "bluebird": "^3.4.1",
-    "firebase": "^3.0.5",
     "glob": "^7.0.5",
     "hapi": "^13.4.1",
     "hapi-react-views": "^9.0.0",
