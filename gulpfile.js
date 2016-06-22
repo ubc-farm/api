@@ -33,7 +33,7 @@ gulp.task('styles', () => {
 /**
  * Build main JS files, creating sourcemaps, to js folder
  */
-gulp.task('main-js', () => {
+gulp.task('frontend', ['no-transform'], () => {
 	return gulp.src([
 		'./frontend/**/*.js',
 		'./frontend/**/*.jsx',
@@ -148,26 +148,24 @@ gulp.task('watch', () => {
 	gulp.watch([
 		'./frontend/**/*.js',
 		'./frontend/**/*.jsx',
-		'./backend/shared/**/*.js', //shared JS with backend
-		'./backend/shared/**/*.jsx', //shared JS with backend
-		'!./frontend/vendor/**',
+		'./backend/shared/**/*.js', //shared JS with backend,
+		'./views/**/_components/**', //shared React components
+		'./views/**/_layouts/shell.js', 
+		'./views/**/*.jsx',
+		'!./views/**/_*/**/*.jsx',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
-		'!./frontend/workers/sw.js'
+		'!./frontend/**/*.src.js'
 	], ['main-js']);
-	gulp.watch([
-		'./frontend/vendor/**',
-		'!./frontend/vendor/**/*.src.js'
-	], ['vendor']);
 	gulp.watch('./frontend/workers/sw.js', ['sw']);
-	gulp.watch('./assets/images/**', ['images']);
-	gulp.watch('./assets/misc/**', ['misc-assets']);
-	gulp.watch([
-		'./assets/**',
-		'!./assets/images/**',
-		'!./assets/misc/**'
-	], ['other-assets']);
+	gulp.watch('./assets/**', ['assets']);
 	gulp.watch('./views/**/*.marko', ['marko']);
+	gulp.watch([
+		'./backend/**/*.js',
+		'./backend/**/*.jsx',
+		'./views/**/*.js', 
+		'./views/**/*.jsx'
+	], ['backend'])
 })
 
 gulp.task('test', shell.task(['mocha']))
