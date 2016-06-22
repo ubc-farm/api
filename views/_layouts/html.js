@@ -13,14 +13,14 @@ export default function Component(props) {
 	return (
 		<html>
 			<head>
-				<meta charset="utf-8"/>
+				<meta charSet="utf-8"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<title>{props.title}</title>
 				<script async src="/js/vendor/analytics.js"></script>
 				<script src="/js/vendor/system.js"></script>
 				<script src="/js/sys-config.js"></script>
 				<script id='react-state' 
-					dangerouslySetInnerHTML={{__html: this.props.state}}></script>
+					dangerouslySetInnerHTML={{__html: props.state}}></script>
 				<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' 
 					rel='stylesheet'/>
 				{props.css.map(name => <CSS file={name}/>)}

@@ -88,7 +88,7 @@ gulp.task('docs', () => {
 })
 
 /** Run all frontend script related tasks */
-gulp.task('scripts', ['main-js', 'no-transform', 'sw']);
+gulp.task('scripts', ['frontend', 'sw']);
 	
 /** Minify images and copy to static */
 gulp.task('images', () => {
@@ -141,7 +141,7 @@ gulp.task('backend', () => {
 })
 
 /** Do everything */
-gulp.task('build', ['marko', 'assets', 'scripts', 'styles']);
+gulp.task('build', ['marko', 'assets', 'frontend', 'styles', 'backend']);
 
 gulp.task('watch', () => {
 	gulp.watch('./styles/**/*.css', ['styles'])

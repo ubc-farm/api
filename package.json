@@ -1,9 +1,10 @@
 {
   "name": "ubc-farm",
   "version": "1.2.0",
-  "main": "backend/index.js",
+  "main": "bin/backend/index.js",
   "directories": {
     "lib": "backend",
+    "bin": "bin",
     "test": "test",
     "doc": "docs"
   },

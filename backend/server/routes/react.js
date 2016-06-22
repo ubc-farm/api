@@ -4,7 +4,7 @@ import search from './search.js';
  * Handler for marko files that rewrites their filenames
  */
 function handler(request, reply) {
-	search(request, reply, '.jsx');
+	search(request, reply, '.js');
 }
 
 /** Routes for marko views */
