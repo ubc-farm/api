@@ -3,7 +3,7 @@ import Sidebar from '../_components/nav/sidebar.js';
 import NavLink from '../_components/nav/nav-link.js';
 import Banner from '../_components/nav/Banner.js';
 
-function sidebarChildren(pages, prefix = '/') {
+function sidebarChildren(pages ={}, prefix = '/') {
 	return Object.keys(pages).map(key => {
 		const value = pages[key];
 		if (value === null) return <hr/>
