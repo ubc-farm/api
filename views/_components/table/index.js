@@ -40,10 +40,10 @@ export default class Table extends Component {
 			initialSortKey: PropTypes.any.isRequired,
 			mainActions: PropTypes.arrayOf(PropTypes.node),
 			altActions: PropTypes.arrayOf(PropTypes.node),
-			data: PropTypes.arrayOf(PropTypes.oneOf(
+			data: PropTypes.arrayOf(PropTypes.oneOfType([
 				PropTypes.instanceOf(Map),
 				PropTypes.arrayOf(PropTypes.array)
-			)).isRequired,
+			])).isRequired,
 		}
 	}
 
@@ -85,7 +85,7 @@ export default class Table extends Component {
 				this.setState({sortColumn: key}, this.sort);
 			}
 		}
-	}
+	} 
 
 	/**
 	 * Sorts the table data and updates the tableData property, 
@@ -97,7 +97,6 @@ export default class Table extends Component {
 			const a = aMap.get(key), b = bMap.get(key);
 			return a.toString().localeCompare(b) * dir;
 		});
-		this.forceUpdate();
 	}
 
 	static id(map) {
@@ -123,7 +122,7 @@ export default class Table extends Component {
 			const id = Table.id(rowData); 
 			return (
 				<TableRow key={id} selected={selected.has(id)}
-				          onSelect={this.handleRowSelect}>
+				          onSelect={this.handleRowSelect} id={id}>
 					{[...rowData.values()]}
 				</TableRow>
 			);
@@ -139,7 +138,7 @@ export default class Table extends Component {
 						{this.props.altActions}
 					</TableActions>
 				</caption>
-				<thead>{headings}</thead>
+				<thead><tr>{headings}</tr></thead>
 				<tbody>{body}</tbody>
 			</table>
 		);

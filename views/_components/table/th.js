@@ -5,6 +5,7 @@ import _ from '../classnames.js';
  * Column headings for the table.
  */
 export default function TableHead(props) {
+	const {sort} = props;
 	return (
 		<th className={_(
 			'table-th', {
@@ -17,5 +18,5 @@ export default function TableHead(props) {
 	);
 }
 TableHead.propTypes = {
-	sort: PropTypes.oneOf([-1, 0, 1])
+	sort: PropTypes.oneOf([-1, false, 1])
 }
