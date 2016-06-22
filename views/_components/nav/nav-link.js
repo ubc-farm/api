@@ -20,7 +20,7 @@ export default function NavLink(props) {
 				'nav-active': props.active,
 				'nav-color': props.color
 			}
-		)} data-color={props.color && props.children} href={href}>
+		)} data-name={props.color && props.children} href={href}>
 			{props.children}
 		</a>
 	);

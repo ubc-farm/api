@@ -10,13 +10,13 @@ export default function Sidebar(props) {
 	const l = active.toLowerCase();
 	return (
 		<aside className='nav-list' role='navigation'>
-			<NavLink active>{active}</NavLink>
+			<NavLink active color>{active}</NavLink>
 			<nav className='nav-list-primary'>
-				<NavLink hide={l === 'fields'} color>Fields</NavLink>
-				<NavLink hide={l === 'planning'} color>Planning</NavLink>
-				<NavLink hide={l === 'finances'} color>Finances</NavLink>
-				<NavLink hide={l === 'events'} color>Events</NavLink>
-				<NavLink hide={l === 'logging'} color>Logging</NavLink>
+				<NavLink hide={l === 'fields'}>Fields</NavLink>
+				<NavLink hide={l === 'planning'}>Planning</NavLink>
+				<NavLink hide={l === 'finances'}>Finances</NavLink>
+				<NavLink hide={l === 'events'}>Events</NavLink>
+				<NavLink hide={l === 'logging'}>Logging</NavLink>
 			</nav>
 			<nav className='nav-list-secondary'>
 				{props.children}
