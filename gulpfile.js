@@ -13,7 +13,7 @@ const gulp = require('gulp'),
 	
 const path = require('path');
 const outputPath = process.env.WWW_STATIC;
-require('marko/node-require').install();
+//require('marko/node-require').install();
 //const manifestPath = process.env.REV_MANIFEST;
 //const manifestFolder = path.dirname(manifestPath);
 
@@ -33,18 +33,18 @@ gulp.task('styles', () => {
 /**
  * Build main JS files, creating sourcemaps, to js folder
  */
-gulp.task('main-js', () => {
+gulp.task('frontend', ['no-transform'], () => {
 	return gulp.src([
 		'./frontend/**/*.js',
-		'./frontend/**/*.jsx',
 		'./backend/shared/**/*.js', //shared JS with backend,
-		'./views/**/_*/**/*.jsx', //shared React components
-		'!./views/_layouts/html.jsx',
-		'!./frontend/vendor/**',
-		'!./frontend/vendor-es6/**',
+		'./views/**/_*/**/*.js', 
+		'!./views/_helpers/**/*', 
+		'!./views/_layouts/html.js',
+		'!./views/**/**.marko.js',
+		'!./frontend/no-transform/**',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
-		'!./frontend/workers/sw.js'
+		'!./frontend/**/*.src.js'
 	])
 		.pipe(sourcemaps.init())
 		.pipe(babel({
@@ -61,28 +61,12 @@ gulp.task('main-js', () => {
 })
 
 /** Copy vendor files */
-gulp.task('vendor', ['vendor-es6'], () => {
+gulp.task('no-transform', () => {
 	return gulp.src([
-		'./frontend/vendor/**',
-		'!./frontend/vendor/**/*.src.js'
-	], {base: './frontend'})
-		.pipe(gulp.dest(path.join(outputPath, 'js')))
-})
-
-gulp.task('vendor-es6', () => {
-	return gulp.src([
-		'./frontend/vendor-es6/**',
-		'!./frontend/vendor-es6/**/*.src.js'
+		'./frontend/no-transform/**/*',
+		'!./frontend/no-transform/**/*.src.js'
 	])
-		.pipe(sourcemaps.init())
-		.pipe(babel({
-			plugins: [
-				'transform-es2015-modules-systemjs'
-			],
-			babelrc: false
-		}))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(path.join(outputPath, 'js/vendor')))
+		.pipe(gulp.dest(path.join(outputPath, 'js')))
 })
 
 /** Minify sw.js and put it in root */
@@ -96,8 +80,7 @@ gulp.task('docs', () => {
 	return gulp.src([
 		'./frontend/**/*.js',
 		'./backend/**/*.js',
-		'!./frontend/vendor/**',
-		'!./frontend/vendor-es6/**',
+		'!./frontend/**/vendor/**',
 		'!./**/typings/**'
 	], {base: './'})
 	.pipe(jsdoc2md({'example-lang': 'js'}))
@@ -106,7 +89,7 @@ gulp.task('docs', () => {
 })
 
 /** Run all frontend script related tasks */
-gulp.task('scripts', ['main-js', 'vendor', 'sw']);
+gulp.task('scripts', ['frontend', 'sw']);
 	
 /** Minify images and copy to static */
 gulp.task('images', () => {
@@ -139,34 +122,56 @@ gulp.task('marko', shell.task([
 	'markoc views/'
 ]))
 
+gulp.task('marko-views', () => {
+	return gulp.src('./views/**/*.marko')
+		.pipe(gulp.dest('./bin/views'))
+})
+
+gulp.task('backend', ['marko-views'], () => {
+	return gulp.src([
+		'./backend/**/*.js',
+		'./backend/**/*.jsx',
+		'./views/**/*.js', 
+		'./views/**/*.jsx'
+	], {base: './'})
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			plugins: [
+				'transform-es2015-modules-commonjs',
+				'transform-react-jsx'
+			],
+			babelrc: false
+		}))
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest('./bin'))
+})
+
 /** Do everything */
-gulp.task('build', ['marko', 'assets', 'scripts', 'styles']);
+gulp.task('build', ['marko', 'assets', 'frontend', 'styles', 'backend']);
 
 gulp.task('watch', () => {
 	gulp.watch('./styles/**/*.css', ['styles'])
 	gulp.watch([
 		'./frontend/**/*.js',
 		'./frontend/**/*.jsx',
-		'./backend/shared/**/*.js', //shared JS with backend
-		'./backend/shared/**/*.jsx', //shared JS with backend
-		'!./frontend/vendor/**',
+		'./backend/shared/**/*.js', //shared JS with backend,
+		'./views/**/_components/**', //shared React components
+		'./views/**/_layouts/shell.js', 
+		'./views/**/*.jsx',
+		'!./views/**/_*/**/*.jsx',
 		'!./frontend/typings/**',
 		'!./frontend/demo/**',
-		'!./frontend/workers/sw.js'
-	], ['main-js']);
-	gulp.watch([
-		'./frontend/vendor/**',
-		'!./frontend/vendor/**/*.src.js'
-	], ['vendor']);
+		'!./frontend/**/*.src.js'
+	], ['frontend']);
 	gulp.watch('./frontend/workers/sw.js', ['sw']);
-	gulp.watch('./assets/images/**', ['images']);
-	gulp.watch('./assets/misc/**', ['misc-assets']);
-	gulp.watch([
-		'./assets/**',
-		'!./assets/images/**',
-		'!./assets/misc/**'
-	], ['other-assets']);
+	gulp.watch('./assets/**', ['assets']);
 	gulp.watch('./views/**/*.marko', ['marko']);
+	gulp.watch([
+		'./backend/**/*.js',
+		'./backend/**/*.jsx',
+		'./views/**/*.js', 
+		'./views/**/*.jsx'
+	], ['backend'])
 })
 
 gulp.task('test', shell.task(['mocha']))

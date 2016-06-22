@@ -1,5 +1,4 @@
 const marko = require('marko');
-const path = require('path');
 const exists = require('./exists.js').default;
 
 /**
@@ -8,23 +7,9 @@ const exists = require('./exists.js').default;
  * @param {function} next - callback for async view engines
  */
 function compile(src, {filename, removeCache}, next) {
-	const path = require.resolve(filename);
-	if (removeCache) delete require.cache[path];
-	
-	const template = require(path);
+	let template = marko.load(filename, src);
 	next(null, (data, options, callback) => {
 		template.render(data, callback);
 	})
-	
-	/*exists(path).then(doesExist => {
-		if (doesExist) var template = require(path);
-		else var template = marko.load(filename, src);
-		return template;
-	}).then(template => {
-		next(err, (data, options, callback) => {
-			template.render(data, callback);
-		})
-	});*/
-
 }
 module.exports = {compile};

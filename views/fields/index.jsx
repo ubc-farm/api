@@ -9,7 +9,7 @@ export default renderPage(
 		'Log harvest': 'log/harvest',
 		'Log soils': 'log/soil',
 		'Log scouting': 'log/scouting'
-	}} prefix='/fields/' banner={/* Filter element */}>
+	}} prefix='/fields/'>
 		<div id="google-map" class="google-map"/>
 		<aside className='map-aside'>
 

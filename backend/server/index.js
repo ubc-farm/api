@@ -23,12 +23,12 @@ server.register([Inert, Vision], err => {
 				module: markoEngine,
 				compileMode: 'async'
 			},
-			'jsx': {
+			'js': {
 				module: reactEngine,
 				compileOptions: {
 					renderMethod: 'renderToString',
 					layoutPath: path.join(viewPath, '_layouts'),
-					layout: 'html.jsx'
+					layout: 'html.js'
 				}
 			}
 		},

@@ -8,8 +8,8 @@
  * @param {string|boolean} [input.hideIf] hides if true or matches name
  */
 exports.render = (input, out) => {
-	const {name, href, prefix = '/', color} = input;
-	let {active = false, hideIf = false} = input;
+	const {name, prefix = '/', color} = input;
+	let {active = false, hideIf = false, href} = input;
 	
 	if (!href) {href = prefix + name.toLowerCase()}
 	if (typeof active === 'string') {

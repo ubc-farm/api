@@ -10,20 +10,27 @@ function JS(props) {
 }
 
 export default function Component(props) {
+	const css = [
+		'base',	'modules/hover-light', 
+		'layout/header', 'modules/sidebar',
+		//'modules/icon', 'modules/icon-button',
+		//'modules/text-field', 
+		...props.css 
+	]; 
 	return (
 		<html>
 			<head>
-				<meta charset="utf-8"/>
+				<meta charSet="utf-8"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<title>{props.title}</title>
 				<script async src="/js/vendor/analytics.js"></script>
 				<script src="/js/vendor/system.js"></script>
-				<script src="/js/vendor/sys-config.js"></script>
+				<script src="/js/sys-config.js"></script>
 				<script id='react-state' 
-					dangerouslySetInnerHTML={{__html: this.props.state}}></script>
+					dangerouslySetInnerHTML={{__html: props.state}}></script>
 				<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' 
 					rel='stylesheet'/>
-				{props.css.map(name => <CSS file={name}/>)}
+				{css.map(name => <CSS file={name}/>)}
 				{props.js.map(src => <JS src={src}/>)}
 			</head>
 			<body>
