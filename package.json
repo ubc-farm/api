@@ -1,7 +1,7 @@
 {
   "name": "ubc-farm",
   "version": "1.2.0",
-  "main": "bin/backend/index.js",
+  "main": "app/server/index.js",
   "directories": {
     "lib": "backend",
     "bin": "bin",
@@ -9,7 +9,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "node backend/index.js",
+    "start": "node dist/app/server/index.js",
     "test": "tape '**/*.test.js'",
     "precompile": "./node_modules/.bin/babel lib -w -D -d dist/lib --plugins transform-es2015-modules-commonjs",
     "compile": "./node_modules/.bin/babel app -w -D -d dist/app --plugins transform-es2015-modules-commonjs"
