@@ -5,6 +5,8 @@ import _ from '../classnames.js';
 import ArrowButton from '../form/arrow-button.js';
 import DateIcon from './month-icon.js';
 
+/** @todo rewrite references */
+
 /**
  * A single month view. Multiple can be combined to pageinate
  * or display in a row.

@@ -8,6 +8,8 @@ import {Polygon} from 'geo/geojson/google-maps.js';
 import Feature from 'geo/geojson/feature.js';
 import FeatureCollection from 'geo/geojson/featurecollection.js';
 
+/** @todo rewrite references */
+
 /**
  * @module frontend/map/editor-grid-render
  */

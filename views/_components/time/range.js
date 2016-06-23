@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import {dateString, timeString} from 'calendar/datetime.js';
 
+/** @todo rewrite datestring reference */
+
 /**
  * 
  * @param {Object} props

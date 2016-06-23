@@ -1,7 +1,6 @@
 import register from './promise/register.js';
 import Grid from '../geo/grid/index.js';
 import jsts from 'jsts';
-import Polygon from 'geo/geojson/polygon.js';
 
 /**
  * @file Worker that generates a grid on a seperate thread
