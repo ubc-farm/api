@@ -11,6 +11,8 @@
   "scripts": {
     "start": "node backend/index.js",
     "test": "tape '**/*.test.js'",
+    "precompile": "./node_modules/.bin/babel lib -w -D -d dist/lib --plugins transform-es2015-modules-commonjs",
+    "compile": "./node_modules/.bin/babel app -w -D -d dist/app --plugins transform-es2015-modules-commonjs"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
@@ -37,6 +39,7 @@
     "vision": "^4.1.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.9.0",
     "blue-tape": "^0.2.0",
     "gulp": "^3.9.1",
@@ -50,9 +53,16 @@
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
-    "mocha": "^2.5.3",
     "postcss": "^5.0.21",
     "postcss-css-variables": "^0.5.1",
     "postcss-import": "^8.1.2"
+  },
+  "babel": {
+    "plugins": [
+      "transform-react-jsx",
+      "transform-strict-mode"
+    ],
+    "ignore": "**/no-transform/**",
+    "sourceMaps": true
   }
 }

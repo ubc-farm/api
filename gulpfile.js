@@ -132,7 +132,9 @@ gulp.task('backend', ['marko-views'], () => {
 		'./backend/**/*.js',
 		'./backend/**/*.jsx',
 		'./views/**/*.js', 
-		'./views/**/*.jsx'
+		'./views/**/*.jsx',
+		'**/app/**/*.js',
+		'**/lib/**/*.js'
 	], {base: './'})
 		.pipe(sourcemaps.init())
 		.pipe(babel({
@@ -143,7 +145,7 @@ gulp.task('backend', ['marko-views'], () => {
 			babelrc: false
 		}))
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./bin'))
+		.pipe(gulp.dest('./dist'))
 })
 
 /** Do everything */
