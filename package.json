@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node backend/index.js",
-    "test": "mocha"
+    "test": "tape '**/*.test.js'",
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
@@ -38,9 +38,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-systemjs": "^6.9.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
-    "chai-http": "^3.0.0",
+    "blue-tape": "^0.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
