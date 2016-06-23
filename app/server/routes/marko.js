@@ -1,10 +1,10 @@
-import search from './search.js';
+import {search} from '../../lib/folder';
 
 /**
  * Handler for marko files that rewrites their filenames
  */
 function handler(request, reply) {
-	search(request, reply, '.marko');
+	search(request.path, '.marko').then(path => reply.view(path))
 }
 
 /** Routes for marko views */
