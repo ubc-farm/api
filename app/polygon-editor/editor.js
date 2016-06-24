@@ -1,4 +1,5 @@
 import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
+import Map from './map.js';
 import * as style from './style.js';
 
 /** @enum */
@@ -14,10 +15,10 @@ const defaultGrid = {
 	widthSpecific: [], heightSpecific: []
 };
 
-export default class PolygonEditor {
-	constructor(Map) {
+export default class PolygonEditor extends Map {
+	constructor(node) {
+		super(node);
 		this.worker = new ModuleWorker('lib/autogrid/worker');
-		this.map = Map;
 	}
 
 	mode(newMode) {
@@ -53,9 +54,9 @@ export default class PolygonEditor {
 			.then(cells => new FeatureCollection(cells.map(cell => new Feature(cell, 
 				{isGrid: true}))))
 			.then(grid => {
-				this.map.clearDetails(); /** @todo */
+				this.clearDetails(); 
 				_activatePolygon(polygon); 
-				this.map.addData(grid); /** @todo */
+				this.addDetail(grid);
 			})
 	}
 

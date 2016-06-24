@@ -1,6 +1,5 @@
 /**
  * @file preset styles for map objects
- * @module frontend/map/shapes/style
  */
 
 export const color = {
@@ -41,4 +40,14 @@ export const field = {
 	selected: {
 		fillOpacity: 0.1
 	}
+}
+
+export const map = {
+	center: {lat: 49.249568, lng: -123.237155},
+	zoom: 17,
+	mapTypeId: google.maps.MapTypeId.SATELLITE,
+	fullscreenControl: true,
+  scaleControl: true,
+	mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+	tilt: 0
 }
