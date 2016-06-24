@@ -1,13 +1,13 @@
-import React, { PropTypes } from 'react';
+import { createElement as r, PropTypes } from 'react';
 
 /**
  * Element used to display an angle via CSS transforms
  */
-export default function AngleIndicator(props) {
-	const style = {transform: `rotate(${props.angle}deg)`};
-	return (
-		<span className='circle angle-indicator'>
-			<div style={style} className='angle-indicator-dial'/>
-		</span>
+export default function AngleIndicator({angle}) {
+	return r('span', {className: 'circle angle-indicator'},
+		r('div', {
+			className: 'angle-indicator-dial',
+			style: {transform: `rotate(${angle}deg)`}
+		})
 	);
 }

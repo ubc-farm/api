@@ -14,7 +14,7 @@ const defaultGrid = {
 	widthSpecific: [], heightSpecific: []
 };
 
-export class PolygonEditor {
+export default class PolygonEditor {
 	constructor(Map) {
 		this.worker = new ModuleWorker('lib/autogrid/worker');
 		this.map = Map;

@@ -1,14 +1,18 @@
 import React, { PropTypes } from 'react';
 import _ from '../classnames.js';
 
-export default function LoadingIndicator(props) {
-	return (
-		<div className={_('folding-cube', props.className)} 
-		     aria-role='progressbar' hidden={props.hidden}>
-			<div className='f-cube1 f-cube'/>
-			<div className='f-cube2 f-cube'/>
-			<div className='f-cube4 f-cube'/>
-			<div className='f-cube3 f-cube'/>
-		</div>
-	);
+/**
+ * Element used to indicate loading
+ */
+export default function LoadingIndicator({className, hidden}) {
+	return r(
+		'div', 
+		{
+			className: _('folding-cube', className),
+			'aria-role': 'progressbar', hidden
+		}, 
+		[1, 2, 4, 3].map(i => {
+			return r('div', {className: `f-cube f-cube${i}`});
+		})
+	)
 }
