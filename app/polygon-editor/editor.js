@@ -1,4 +1,5 @@
 import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
+import ModuleWorker from 'lib/module-worker';
 import GoogleMap from 'app/google-map';
 import * as style from './style.js';
 import Selector from './selector.js'
