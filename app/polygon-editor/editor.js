@@ -1,6 +1,7 @@
 import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
 import GoogleMap from 'app/google-map';
 import * as style from './style.js';
+import Selector from './selector.js'
 
 /** @enum */
 const mode = {
@@ -24,6 +25,7 @@ export default class PolygonEditor extends GoogleMap {
 			drawingControl: false,
 			polygonOptions: style.field.normal
 		});
+		this.selector = new Selector(this._map);
 		google.maps.event.addListener(this.drawManager, 
 			'polygoncomplete', poly => this.add(poly))
 		
@@ -97,6 +99,9 @@ export default class PolygonEditor extends GoogleMap {
 }
 
 function _activatePolygon(polygon) {
-	polygon.active = true;
+	if (this._focused && this._focused != polygon)
+		this._focused.setOptions(style.field.normal);
+	this._focused = polygon;
 	polygon.setOptions(style.field.selected);
+	this.mode('select');
 }

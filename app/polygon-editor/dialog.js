@@ -100,6 +100,7 @@ export default class EditorDialog extends Component {
 
 	get id() {return this.state.id}
 	set id(value) {this.setState({id: value})}
+	set mode(value) {this.setState({mode: value})}
 
 	constructor(props) {
 		super(props);
