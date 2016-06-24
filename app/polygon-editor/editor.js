@@ -6,7 +6,7 @@ const mode = {
 }
 
 export class PolygonEditor {
-	constructor(node) {
+	constructor(Map) {
 		this.worker = new ModuleWorker('lib/autogrid/worker');
 	}
 
