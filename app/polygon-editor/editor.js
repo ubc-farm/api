@@ -1,5 +1,5 @@
 import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
-import Map from './map.js';
+import Map from 'app/google-map';
 import * as style from './style.js';
 
 /** @enum */
