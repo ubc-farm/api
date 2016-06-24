@@ -9,7 +9,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "node dist/app/server/index.js",
+    "start": "scripts/start.js",
     "test": "tape '**/*.test.js'",
     "precompile": "./node_modules/.bin/babel lib -w -D -d dist/lib --plugins transform-es2015-modules-commonjs",
     "compile": "./node_modules/.bin/babel app -w -D -d dist/app --plugins transform-es2015-modules-commonjs"
