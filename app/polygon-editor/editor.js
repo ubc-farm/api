@@ -1,3 +1,6 @@
+import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
+import * as style from './style.js';
+
 /** @enum */
 const mode = {
 	ADD: 'add',
@@ -5,9 +8,16 @@ const mode = {
 	RESIZE: 'resize'
 }
 
+const defaultGrid = {
+	width: 2, height: 2,
+	angle: 25,
+	widthSpecific: [], heightSpecific: []
+};
+
 export class PolygonEditor {
 	constructor(Map) {
 		this.worker = new ModuleWorker('lib/autogrid/worker');
+		this.map = Map;
 	}
 
 	mode(newMode) {
@@ -24,11 +34,45 @@ export class PolygonEditor {
 		}
 	}
 
-	focus(polygon, newSettings) {
+	/**
+	 * Focuses on a polygon and displays a grid based on the given settings
+	 * @param {google.maps.Polygon} polygon
+	 * @param {Object} [gridOptions] 
+	 * @returns {Promise<null>}
+	 */
+	focus(polygon, gridOptions = {}) {
+		const gridSpec = Object.assign({}, 
+			defaultGrid, polygon.gridOptions || {}, gridOptions);
+		polygon.gridOptions = gridSpec;
+		_activatePolygon(polygon);
 
+		return this.worker
+			.postMessage({path: Polygon.fromGoogle(polygon), gridSpec})
+			.then(cells => cells.map(c => new Feature(c, {isGrid: true})))
+			.then(features => new FeatureCollection(features))
+			.then(cells => new FeatureCollection(cells.map(cell => new Feature(cell, 
+				{isGrid: true}))))
+			.then(grid => {
+				this.map.clearDetails(); /** @todo */
+				_activatePolygon(polygon); 
+				this.map.addData(grid); /** @todo */
+			})
 	}
 
+	/** 
+	 * Uses a web worker to merge the polygons together into a single one
+	 * @todo
+	 * @param {google.maps.Polygon[]} cells
+	 * @returns {Promise<Data.FeatureOptions>} merged cell grid
+	 */
 	merge(cells) {
-
+		return this.worker
+			.postMessage({cells: cells.map(Polygon.fromGoogle)})
+			.then(polygon => {})
 	}
+}
+
+function _activatePolygon(polygon) {
+	polygon.active = true;
+	polygon.setOptions(style.field.selected);
 }
