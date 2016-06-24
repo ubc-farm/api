@@ -1,4 +1,4 @@
-import {search} from '../../lib/folder';
+import {search} from 'lib/folder';
 
 /**
  * Handler for marko files that rewrites their filenames
