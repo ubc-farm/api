@@ -1,8 +1,10 @@
 import Polygon from 'lib/geojson/polygon';
 import * as style from './style.js';
+import {id} from 'lib/utils';
 
-export default class Map {
+export default class GoogleMap {
 	constructor(node) {
+		this.polygons = new Map(); //the collection kind of map
 		if (typeof node == "string") node = document.getElementById(node);
 		this._map = new google.maps.Map(node, style.map);
 	}
@@ -22,9 +24,16 @@ export default class Map {
 	 * @param {GeoJSON.Polygon}
 	 */
 	add(polygon) {
-		let poly = new google.maps.Polygon(style.field.normal);
-		poly.setPaths(Polygon.from(polygon).coordinates);
-		poly.setMap(this._map);
+		let poly; const id = id();
+		if (polygon.getMap() == this._map) {
+			poly = polygon;
+		} else {
+			poly = new google.maps.Polygon(style.field.normal);
+			poly.setPaths(Polygon.from(polygon).coordinates);
+			poly.setMap(this._map);
+		}
+		poly.id = id;
+		this.polygons.set(id, poly);
 		return poly;
 	}
 }

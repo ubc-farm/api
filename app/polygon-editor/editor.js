@@ -1,5 +1,5 @@
 import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
-import Map from 'app/google-map';
+import GoogleMap from 'app/google-map';
 import * as style from './style.js';
 
 /** @enum */
@@ -9,24 +9,37 @@ const mode = {
 	RESIZE: 'resize'
 }
 
-const defaultGrid = {
+export const defaultGrid = {
 	width: 2, height: 2,
 	angle: 25,
 	widthSpecific: [], heightSpecific: []
 };
 
-export default class PolygonEditor extends Map {
-	constructor(node) {
+export default class PolygonEditor extends GoogleMap {
+	constructor(node, dialogNode) {
 		super(node);
+		this.gridSpecs = new Map();
 		this.worker = new ModuleWorker('lib/autogrid/worker');
+		this.drawManager = new google.maps.drawing.DrawingManager({
+			drawingControl: false,
+			polygonOptions: style.field.normal
+		});
+		google.maps.event.addListener(this.drawManager, 
+			'polygoncomplete', poly => this.add(poly))
+		
+		if (dialogNode) {
+			this.dialog = ReactDOM.render(r(EditorDialog, {
+				onSubmit: this.focus,
+				onSwitch: this.mode
+			}), dialogNode);
+		}
 	}
 
 	mode(newMode) {
 		if (this._mode === newMode) return;
 		else if (newMode === mode.ADD) {
 			// let user draw on map
-			this.drawManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON 
-				|| 'polygon');
+			this.drawManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
 		} else if (newMode === mode.SELECT) {
 			// let user click on map
 			this.drawManager.setDrawingMode(null);
@@ -37,14 +50,18 @@ export default class PolygonEditor extends Map {
 
 	/**
 	 * Focuses on a polygon and displays a grid based on the given settings
-	 * @param {google.maps.Polygon} polygon
-	 * @param {Object} [gridOptions] 
+	 * @param {string} id
+	 * @param {Object} [gridOptions] - override existing settings
 	 * @returns {Promise<null>}
 	 */
-	focus(polygon, gridOptions = {}) {
-		const gridSpec = Object.assign({}, 
-			defaultGrid, polygon.gridOptions || {}, gridOptions);
-		polygon.gridOptions = gridSpec;
+	focus(id, gridOptions = {}) {
+		const gridSpec = Object.assign({}, defaultGrid, 
+			this.gridSpecs.get(id) || {}, gridOptions);
+		this.gridSpecs.set(id, gridSpec);
+
+		if (this.dialog) Object.assign(this.dialog, {id, gridSpec});
+
+		const polygon = this.polygons.get(id);
 		_activatePolygon(polygon);
 
 		return this.worker
@@ -58,6 +75,12 @@ export default class PolygonEditor extends Map {
 				_activatePolygon(polygon); 
 				this.addDetail(grid);
 			})
+	}
+
+	add(polygon) {
+		super.add(polygon);
+		google.maps.event.addListener(polygon, 'click', 
+			function() {focus(this.id)});
 	}
 
 	/** 
