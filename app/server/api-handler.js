@@ -27,20 +27,6 @@ function silentTransform(request) {
 }
 
 /**
- * Called by knex.modify
- * @param {QueryBuilder} queryBuilder
- * @param {string} tableName - table to get results from
- * @param {Object} params
- * @param {string} [params.id]
- * @param {string} [params.property]
- */
-function withParams(queryBuilder, tableName, {id, property}) {
-	queryBuilder.table(tableName);
-	if (id) queryBuilder.where({id});
-	if (property) queryBuilder.columns(property);
-}
-
-/**
  * @param {Object} route public interface object
  * @param {Object} options configuration object
  */
