@@ -11,8 +11,19 @@
   "scripts": {
     "start": "scripts/start.js",
     "test": "tape '**/*.test.js'",
+    "docs": "gulp docs",
+    "assets": "gulp assets",
+    "marko": "gulp marko-views",
     "precompile": "./node_modules/.bin/babel lib -w -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
-    "compile": "./node_modules/.bin/babel app -w -D -d dist/node/app --plugins transform-es2015-modules-commonjs"
+    "compile": "./node_modules/.bin/babel app -w -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
+    "build:react": "copy node_modules/react/dist/react.js dist/browser/node_modules/react/dist && copy node_modules/react-dom/dist/react-dom.js dist/browser/node_modules/react-dom/dist",
+    "build:jsts": "copy node_modules/react/dist/jsts.min.js dist/browser/node_modules/jsts/dist",
+    "build:redux": "./node_modules/.bin/babel node_modules/redux/src dist/browser/node_modules/redux/src",
+    "build:react-redux": "./node_modules/.bin/babel node_modules/react-redux/src dist/browser/node_modules/react-redux/src",
+    "prebuild": "./node_modules/.bin/babel lib -w -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
+    "build": "./node_modules/.bin/babel app -w -D -d dist/browser/app --plugins transform-es2015-modules-systemjs",
+    "postbuild": "npm run build:react && npm run build:jsts && npm run build:redux && npm run build:react-redux",
+    "build-fullstack": "npm run build && npm run compile"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
