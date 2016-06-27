@@ -1,60 +1,29 @@
 import knex from 'knex';
+import {objectArrayToObject} from 'lib/utils';
+
+//EXAMPLE_PATH = '/api/{tableName}/{id?}/{property?}'
 
 /**
- * @param {string} tableName
- * @param {function} modifier
- * @returns {function}
+ * Transform non-primitive keys in the object to 'true'
+ * @param {Object} json
+ * @returns {Object}
  */
-function databaseHandler(tableName, modifier = (q, rq) => { q.select() }) {
-	return function(request, reply) {
-		const {params: {id, property}, query: {print, shallow}} = request;
-		const query = knex(tableName);
-		if (id) query.where({id});
-		if (property) query.columns(property);
-		query.modify(modifier);
-		query.reduce((obj, row) => {
-			obj[row.id] = row;
-			return obj;
-		}, {})
-		
-		// if flagged as shallow, transform non-primitive keys into 'true'
-		.then(json => { 
-			if (query.shallow) {
-				json = json.map(data => {
-					for (let key in data) {
-						const value = data[key];
-						if (typeof value !== 'string' && typeof value !== 'undefined'
-						&& typeof value !== 'number' && typeof value !== 'boolean') {
-							data[key] = true;
-						}
-					}
-					return data;
-				})
-			}
-			return json;
-		})
-		
-		// if an ID is specified, return just that single object.
-		// if a property is also specified, return the value of that property
-		.then(json => {
-			if (id) {
-				const single = json[id];
-				if (property) return single[property];
-				else return single;
-			} 
-			else return json;
-		})
+function shallowTransform(json) {
+	for (let key in json) {
+		const value = json[key];
+		if (typeof value !== 'string' && typeof value !== 'undefined'
+		&& typeof value !== 'number' && typeof value !== 'boolean') {
+			json[key] = true;
+		}
+	}
+	return json;
+}
 
-		// Return a 204 response if flagged to print silent
-		.then(data => {
-			if (print === 'silent') return request.generateResponse().code(204);
-			else return data;
-		});
-
-		let response = reply(query);
-		if (print === 'pretty') response.spaces(2);
-		return response;
-	};
+/**
+ * Returns a 204 response
+ */
+function silentTransform(request) {
+	return request.generateResponse().code(204);
 }
 
 /**
@@ -79,35 +48,105 @@ export default function handler(route, options) {
 	const {table} = options;
 
 	switch(route.method.toLowerCase()) {
-		//get api json (read data)
 		case 'get': 
-			return databaseHandler(table);
-			break;
-		case 'post' //FOR API: add object without a set id (push data)
-		case 'put' //add a api json without touching the rest (write data)
-		case 'delete' //delete an api json without touching the rest (remove data)
-		case 'options'
-		case 'patch' //update data
-	}
+			return function(request, reply) {
+				const {params: {id, property}, query: {print, shallow}} = request;
+				let query = knex(table).select(property);
+				if (id) query.where({id});
 
-	return function(request, reply) {
-		const {id, columns} - request.params;
+				query.then(objectArrayToObject)
+				.then(json => shallow ? shallowTransform(json) : json)
+				.then(obj => {
+					if (id) {
+						if (property) return obj[id][property];
+						else return obj[id];
+					}
+					else return obj;
+				})
+				.then(data => print === 'silent' ? silentTransform(request) : data)
 
-		let query = knex.clone();
-		if (id) query = query.where({id});
-		query = query.select(...properties);
-		
+				let response = reply(query);
+				if (print === 'pretty') response.spaces(2);
+				return response;
+			};
+		case 'post':
+			return function(request, reply) {
+				const {payload, query: {print}} = request;
+				const query = knex(table).insert(payload, 'id')
+				.then(id => ({ id }))
+				.then(data => print === 'silent' ? silentTransform(request) : data)
 
-		return reply('new handler: ' + options.msg);
-	}
-}
+				let response = reply(query);
+				if (print === 'pretty') response.spaces(2);
+				return response;
+			};
+		case 'put':
+			return function(request, reply) {
+				const {payload, params: {id, property}, query: {print, shallow}} =
+					request;
+				let query = knex(table);
 
-{
-	method: 'GET',
-	path: '/api/{tableName}/{id?}/{property?}',
-	handler: {
-		api: {
+				if (property) {
+					query.where({id})
+						.returning(property)
+						.update({ [property]: payload })
+						.then(data => {
+							if (data.length === 1) return { [property]: data[0] };
+							else throw Error();
+						});
+				} else {
+					payload.id = id;
+					query.insert(payload).then(() => payload);
+				}
+				
+				.then(json => shallow ? shallowTransform(json) : json)
+				.then(data => print === 'silent' ? silentTransform(request) : data)
 
-		}
+				let response = reply(query);
+				if (print === 'pretty') response.spaces(2);
+				return response;
+			};
+		case 'delete':
+			return function(request, reply) {
+				const {params: {id, property}} = request;
+				let query = knex(table);
+
+				if (property) {
+					query.where({id}).update({ [property]: null });
+				} else {
+					query.where({id}).del();
+				}
+				query.then(() => null);
+
+				return reply(query);
+			};
+		case 'patch':
+		//TODO: simplify since the only difference between patch and put is using
+		//update instead of insert/replace
+			return function(request, reply) {
+				const {payload, params: {id, property}, query: {print, shallow}} =
+					request;
+				let query = knex(table);
+
+				if (property) {
+					query.where({id})
+						.returning(property)
+						.update({ [property]: payload })
+						.then(data => {
+							if (data.length === 1) return { [property]: data[0] };
+							else throw Error();
+						});
+				} else {
+					payload.id = id;
+					query.update(payload).then(() => payload);
+				}
+				
+				.then(json => shallow ? shallowTransform(json) : json)
+				.then(data => print === 'silent' ? silentTransform(request) : data)
+
+				let response = reply(query);
+				if (print === 'pretty') response.spaces(2);
+				return response;
+			};
 	}
 }
