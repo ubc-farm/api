@@ -3,6 +3,7 @@ import Inert from 'inert';
 import Vision from 'vision';
 import path from 'path';
 
+import apiHandler from './api-handler.js';
 import routes from './routes';
 import markoEngine from './marko-engine.js';
 import reactEngine from 'hapi-react-views';
@@ -14,6 +15,7 @@ server.connection({
 	host: 'localhost',
 	port: process.env.NODE_PORT || 3000
 })
+server.handler('api', apiHandler);
 
 server.register([Inert, Vision], err => {
 	if (err) throw err;
