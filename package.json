@@ -1,24 +1,34 @@
 {
   "name": "ubc-farm",
   "version": "1.2.0",
-  "main": "backend/index.js",
+  "main": "app/server/index.js",
   "directories": {
     "lib": "backend",
+    "bin": "bin",
     "test": "test",
     "doc": "docs"
   },
   "scripts": {
-    "start": "node backend/index.js",
-    "test": "mocha"
+    "start": "scripts/start.js",
+    "test": "tape '**/*.test.js'",
+    "docs": "gulp docs",
+    "assets": "gulp assets",
+    "marko": "gulp marko-views",
+    "precompile": "./node_modules/.bin/babel lib -w -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
+    "compile": "./node_modules/.bin/babel app -w -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
+    "build:react": "copy node_modules/react/dist/react.js dist/browser/node_modules/react/dist && copy node_modules/react-dom/dist/react-dom.js dist/browser/node_modules/react-dom/dist",
+    "build:jsts": "copy node_modules/react/dist/jsts.min.js dist/browser/node_modules/jsts/dist",
+    "build:redux": "./node_modules/.bin/babel node_modules/redux/src dist/browser/node_modules/redux/src",
+    "build:react-redux": "./node_modules/.bin/babel node_modules/react-redux/src dist/browser/node_modules/react-redux/src",
+    "prebuild": "./node_modules/.bin/babel lib -w -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
+    "build": "./node_modules/.bin/babel app -w -D -d dist/browser/app --plugins transform-es2015-modules-systemjs",
+    "postbuild": "npm run build:react && npm run build:jsts && npm run build:redux && npm run build:react-redux",
+    "build-fullstack": "npm run build && npm run compile"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
-    "babel-plugin-transform-strict-mode": "^6.8.0",
-    "babel-register": "^6.9.0",
     "bluebird": "^3.4.1",
     "glob": "^7.0.5",
     "hapi": "^13.4.1",
@@ -32,13 +42,17 @@
     "pg-query-stream": "^1.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
     "vision": "^4.1.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.9.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
-    "chai-http": "^3.0.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-plugin-transform-strict-mode": "^6.8.0",
+    "blue-tape": "^0.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
@@ -50,9 +64,16 @@
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
-    "mocha": "^2.5.3",
     "postcss": "^5.0.21",
     "postcss-css-variables": "^0.5.1",
     "postcss-import": "^8.1.2"
+  },
+  "babel": {
+    "plugins": [
+      "transform-react-jsx",
+      "transform-strict-mode"
+    ],
+    "ignore": "**/no-transform/**",
+    "sourceMaps": true
   }
 }

@@ -2,6 +2,8 @@
 {
 	"files.exclude": {
 		"static/**": true,
+		"bin/**": true,
+		"dist/**": true,
 		"**/typings/**": true,
 		"**/*.marko.js": true
 	}

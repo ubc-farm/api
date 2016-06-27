@@ -1,0 +1,23 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "people": {
+      ".validate": "newData.child('name').exists()",
+      "name": {},
+      "role": {},
+      "email": {},
+      "phone": {},
+      "mailingAddress": {},
+      "physicalAddress": {},
+
+      "emergencyContact": {}
+    },
+    "item": {
+      "name": {},
+      "sku": {},
+      "barcode": {},
+      "supplier": {}
+    }
+  }
+}
