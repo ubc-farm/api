@@ -1,6 +1,7 @@
 import staticRoutes from './static.js';
 import markoRoutes from './marko.js';
 import reactRoutes from './react.js';
+import apiRoutes from './api.js';
 
 /**
  * Exports routes an an array of route configurations
@@ -10,6 +11,7 @@ import reactRoutes from './react.js';
 const routes = [
 	...staticRoutes,
 	...markoRoutes,
-	...reactRoutes
+	...reactRoutes,
+	...apiRoutes
 ];
 export default routes;
