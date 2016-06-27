@@ -1,13 +1,18 @@
 import knex from 'knex';
 
-function databaseHandler(tableName, method = 'select', modifier = (query)=>{}) {
+/**
+ * @param {string} tableName
+ * @param {function} modifier
+ * @returns {function}
+ */
+function databaseHandler(tableName, modifier = (q, rq) => { q.select() }) {
 	return function(request, reply) {
 		const {params: {id, property}, query: {print, shallow}} = request;
-		const query = knex(tableName).modify(modifier)
-			.modify(withParams, table, {id, property})
+		const query = knex(tableName);
 		if (id) query.where({id});
 		if (property) query.columns(property);
-		query[method]().reduce((obj, row) => {
+		query.modify(modifier);
+		query.reduce((obj, row) => {
 			obj[row.id] = row;
 			return obj;
 		}, {})
