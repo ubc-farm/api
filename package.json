@@ -11,8 +11,8 @@
   "scripts": {
     "start": "scripts/start.js",
     "test": "tape '**/*.test.js'",
-    "precompile": "./node_modules/.bin/babel lib -w -D -d dist/lib --plugins transform-es2015-modules-commonjs",
-    "compile": "./node_modules/.bin/babel app -w -D -d dist/app --plugins transform-es2015-modules-commonjs"
+    "precompile": "./node_modules/.bin/babel lib -w -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
+    "compile": "./node_modules/.bin/babel app -w -D -d dist/node/app --plugins transform-es2015-modules-commonjs"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,

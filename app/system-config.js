@@ -1,52 +1,38 @@
 (function(System) {
-	const google_map_url = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU';
-
+	const googleMapsUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU';
 	const metaForGoogleMapsModules = {
 		scriptLoad: true,
 		format: 'global',
 		exports: 'google'
 	}
 
-	const googleMapsMap = {
-		'google/maps': google_map_url,
-		'google/maps/edit': google_map_url + '&libraries=geometry,drawing',
-		'google/maps/drawing': google_map_url + '&libraries=drawing',
-	}
-
-	const reactMap = {
-		react: 'https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js',
-		'react-dom': 
-			'https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js',
-		'react-router': '/js/vendor/react-router'
-	}
-
-	const firebaseMap = (function generateFirebaseMap(...features) {
-		let map = {};
-		for (let feature of features) {
-			map['firebase/'+feature] = `https://www.gstatic.com/firebasejs/3.0.5/firebase-${feature}.js`;
-		}
-		return map;
-	})('app', 'database', 'storage', 'auth');
-
-	const otherModulesMap = {
-		jsts: '/js/vendor/jsts.js'
-	}
+	const modules = ['react', 'react-dom', 'jsts', 'react-redux', 'redux'];
+	const moduleMap = modules.reduce((obj, moduleName) => {
+		obj[moduleName] = 'node_modules/' + moduleName; return obj;
+	}, {})
 
 	System.config({
 		baseURL: '/js',
-		map: Object.assign({}, 
-			googleMapsMap, 
-			reactMap, 
-			firebaseMap, 
-			otherModulesMap
-		),
+		defaultExtension: 'js',
+		map: Object.assign({
+			'google/maps': googleMapsUrl,
+			'google/maps/edit': googleMapsUrl + '&libraries=geometry,drawing',
+			'google/maps/drawing': googleMapsUrl + '&libraries=drawing'
+		}, moduleMap),
 		meta: {
 			'google/maps': metaForGoogleMapsModules,
 			'google/maps/edit': metaForGoogleMapsModules,
-			'google/maps/drawing': metaForGoogleMapsModules,
-			'firebase/*': { 
-				format: 'global'
-			}
+			'google/maps/drawing': metaForGoogleMapsModules
+		},
+		packages: {
+			'react': {main: 'dist/react.js'},
+			'react-dom': {main: 'dist/react-dom.js'},
+			'jsts': {main: 'dist/jsts.min.js'},
+			'react-redux': {main: 'src/index.js'},
+			'redux': {main: 'src/index.js'}
+		},
+		paths: {
+			'firebase/*': 'https://www.gstatic.com/firebasejs/3.0.5/firebase-*.js'
 		}
 	})
 })(System)
