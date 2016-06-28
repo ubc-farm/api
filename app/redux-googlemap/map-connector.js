@@ -14,7 +14,8 @@ export default class GoogleMapConnector {
 		this.receiver = receiver;
 		this.lastState = {};
 		subscribe(() => {
-			const state, {mode, polygons, geojson, focus} = getState();
+			const state = getState();
+			const {mode, polygons, geojson, focus} = state;
 			if (state === this.lastState) return;
 			if (polygons !== this.lastState.polygons)
 				updatePolygons(polygons, this.polygons);
