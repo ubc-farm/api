@@ -1,6 +1,7 @@
 import Polygon from 'lib/geojson/polygon';
 
 export const ADD_POLYGON = 'ADD_POLYGON';
+export const REMOVE_POLYGON = 'REMOVE_POLYGON';
 export const FOCUS_POLYGON = 'FOCUS_POLYGON';
 export const ADD_POLYGON_GRID = 'ADD_POLYGON_GRID';
 export const MERGE_POLYGON_GRID = 'MERGE_POLYGON_GRID';
@@ -24,6 +25,10 @@ export function addPolygon(polygon, id) {
 		polygon,
 		id
 	}
+}
+
+export function removePolygon(id) {
+	return { type: REMOVE_POLYGON, id }
 }
 
 export function focusPolygon(id) {

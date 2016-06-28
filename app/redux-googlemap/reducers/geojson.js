@@ -1,4 +1,4 @@
-import {ADD_GEOJSON, CLEAR_GEOJSON, REMOVE_GEOJSON} from './base-actions.js';
+import {ADD_GEOJSON, CLEAR_GEOJSON, REMOVE_GEOJSON} from '../base-actions.js';
 
 export default function geojson(keyList = {}, action) {
 	switch (action.type) {

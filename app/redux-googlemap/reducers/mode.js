@@ -1,4 +1,4 @@
-import {CHANGE_MAP_MODE, Mode} from './base-actions.js';
+import {CHANGE_MAP_MODE, Mode} from '../base-actions.js';
 
 export default function mode(mode = '', action) {
 	switch (action.type) {
