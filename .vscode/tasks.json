@@ -33,7 +33,7 @@
 			"args": ["run", "build"]
 		},
 		{
-			"taskName": "build-fullstack",
+			"taskName": "fullstack",
 			"args": ["run", "fullstack"],
 			"isBuildCommand": true
 		},
