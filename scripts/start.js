@@ -9,7 +9,7 @@ const args = [
 ];
 
 const opt = {
-  cwd: __dirname,
+  cwd: __dirname + '../',
   env: (function() {
     process.env.NODE_PATH = '.'; // Enables require() calls relative to the cwd
     return process.env;
