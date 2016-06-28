@@ -7,47 +7,29 @@
 	"showOutput": "always",
 	"suppressTaskName": true,
 	"tasks": [
-		{
-			"taskName": "install",
-			"suppressTaskName": false
-		},
-		{
-			"taskName": "update",
-			"suppressTaskName": false
-		},
-		{
-			"taskName": "start",
-			"suppressTaskName": false
-		},
+		{"taskName": "install",	"suppressTaskName": false},
+		{"taskName": "update", "suppressTaskName": false},
+		{"taskName": "start",	"suppressTaskName": false},
 		{
 			"taskName": "test",
 			"suppressTaskName": false,
 			"isTestCommand": true
 		},
 		{
-			"taskName": "compile",
-			"args": ["run", "compile"]
-		},
-		{
-			"taskName": "build",
-			"args": ["run", "build"]
-		},
-		{
 			"taskName": "fullstack",
 			"args": ["run", "fullstack"],
 			"isBuildCommand": true
 		},
-		{
-			"taskName": "docs",
-			"args": ["run", "docs"]
-		},
-		{
-			"taskName": "assets",
-			"args": ["run", "assets"]
-		},
-		{
-			"taskName": "marko",
-			"args": ["run", "marko"]
-		}
+		{"taskName": "node:app", "args": ["run", "node:app"]},
+		{"taskName": "node:lib", "args": ["run", "node:lib"]},
+		{"taskName": "node", "args": ["run", "node"]},
+
+		{"taskName": "browser:app", "args": ["run", "browser:app"]},
+		{"taskName": "browser:lib", "args": ["run", "browser:lib"]},
+		{"taskName": "browser", "args": ["run", "browser"]},
+
+		{"taskName": "docs", "args": ["run", "docs"]},
+		{"taskName": "assets", "args": ["run", "assets"]},
+		{"taskName": "marko", "args": ["run", "marko"]}
 	]
 }

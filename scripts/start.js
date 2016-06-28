@@ -12,7 +12,7 @@ const args = [
 const opt = {
   cwd: path.resolve(__dirname, '../'),
   env: (function() {
-    process.env.NODE_PATH = '.'; // Enables require() calls relative to the cwd
+    process.env.NODE_PATH = './dist/node'; // Enables require() calls relative to the cwd
     return process.env;
   }()),
   stdio: [process.stdin, process.stdout, process.stderr]
