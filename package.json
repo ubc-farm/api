@@ -14,13 +14,13 @@
     "docs": "gulp docs",
     "assets": "gulp assets",
     "marko": "gulp marko-views",
-    "precompile": "./node_modules/.bin/babel lib -w -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
-    "compile": "./node_modules/.bin/babel app -w -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
-    "build:copy": "copy node_modules/@(react?(-dom)|jsts)/dist/@(react?(-dom)|jsts).js dist/browser/node_modules",
-    "build:redux": "./node_modules/.bin/babel node_modules --only ?(*-)redux?(-*)/src/** -d dist/browser/node_modules --plugins transform-es2015-modules-systemjs",
-    "prebuild": "./node_modules/.bin/babel lib -w -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
-    "build": "./node_modules/.bin/babel app -w -D -d dist/browser/app --plugins transform-es2015-modules-systemjs",
-    "postbuild": "npm run build:copy && npm run build:redux",
+    "precompile": "./node_modules/.bin/babel lib -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
+    "compile": "./node_modules/.bin/babel app -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
+    "build:copy": "./node_modules/.bin/babel node_modules node_modules --only \"node_modules/@(react?(-dom)|jsts)/dist/@(react?(-dom)|jsts.min).js\" -d dist/browser/node_modules --no-babelrc",
+    "build:redux": "./node_modules/.bin/babel node_modules --only \"?(*-)redux?(-*)/lib/**/*.js\" -d dist/browser/node_modules",
+    "prebuild": "./node_modules/.bin/babel lib -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
+    "postbuild": "./node_modules/.bin/babel app -D -d dist/browser/app --plugins transform-es2015-modules-systemjs",
+    "build": "npm run build:copy && npm run build:redux",
     "fullstack": "npm run build && npm run compile"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
@@ -67,5 +67,19 @@
     "postcss": "^5.0.21",
     "postcss-css-variables": "^0.5.1",
     "postcss-import": "^8.1.2"
+  },
+  "babel": {
+    "plugins": [
+      "transform-react-jsx",
+      "transform-strict-mode",
+      "transform-es2015-modules-commonjs"
+    ],
+    "sourceMaps": true,
+    "only": [
+			"lib/**", "app/**",
+			"!lib/@(postgres*|folder)/**",
+			"!app/@(server|models|api-handler)/**",
+			"node_modules/?(*-)redux?(-*)/src/**"
+		]
   }
 }

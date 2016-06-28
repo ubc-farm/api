@@ -36,6 +36,6 @@ Thumbs.db
 docs
 frontend/demo
 static
-bin
+dist
 UBC*.json
 frontend/vendor-es6/firebase-config.js
