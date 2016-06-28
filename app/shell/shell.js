@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react';
+import {Provider} from 'react-redux';
+
 import Sidebar from '../_components/nav/sidebar.js';
 import NavLink from '../_components/nav/nav-link.js';
 import Banner from '../_components/nav/Banner.js';
@@ -13,7 +15,7 @@ function sidebarChildren(pages ={}, prefix = '/') {
 
 export default function Shell(props) {
 	return (
-		<div>
+		<Provider store={props.store}>
 			<Sidebar active={props.active}>
 				{sidebarChildren(props.sidebar, props.prefix)}
 			</Sidebar>
@@ -21,7 +23,7 @@ export default function Shell(props) {
 			<main className='main'>
 				{props.children}
 			</main>
-		</div>
+		</Provider>
 	)
 }
 
