@@ -67,13 +67,5 @@
     "postcss": "^5.0.21",
     "postcss-css-variables": "^0.5.1",
     "postcss-import": "^8.1.2"
-  },
-  "babel": {
-    "plugins": [
-      "transform-react-jsx",
-      "transform-strict-mode"
-    ],
-    "ignore": "**/no-transform/**",
-    "sourceMaps": true
   }
 }

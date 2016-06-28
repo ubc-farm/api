@@ -1,0 +1,24 @@
+{
+	"plugins": [
+    "transform-react-jsx",
+    "transform-strict-mode"
+  ],
+	"only": [
+		"lib/**", "app/**"
+	],
+  "sourceMaps": true,
+	"env": {
+		"browser": {
+			"plugins": ["transform-es2015-modules-systemjs"],
+			"only": [
+				"lib/**", "app/**",
+				"!lib/@(postgres*|folder)/**",
+				"!app/@(server|models|api-handler)/**",
+				"node_modules/?(*-)redux?(-*)/src/**"
+			]
+		},
+		"node": {
+			"plugins": ["transform-es2015-modules-commonjs"]
+		}
+	}
+}
