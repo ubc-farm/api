@@ -8,6 +8,13 @@ export const ADD_GEOJSON = Symbol('ADD_GEOJSON');
 export const CLEAR_GEOJSON = Symbol('CLEAR_GEOJSON');
 export const CHANGE_MAP_MODE = Symbol('CHANGE_MAP_MODE');
 
+/** @enum */
+export const Mode = {
+	ADD: 'add',
+	SELECT: 'select',
+	RESIZE: 'resize'
+}
+
 export function addPolygon(polygon, id) {
 	return {
 		type: ADD_POLYGON,
@@ -17,42 +24,25 @@ export function addPolygon(polygon, id) {
 }
 
 export function focusPolygon(id) {
-	return {
-		type: FOCUS_POLYGON,
-		id
-	}
+	return { type: FOCUS_POLYGON,	id }
 }
 
 export function addPolygonGrid(id) {
-	return {
-		type: ADD_POLYGON_GRID,
-		id
-	}
+	return { type: ADD_POLYGON_GRID, id	}
 }
 
 export function mergePolygonGrid(gridCellIds) {
-	return {
-		type: MERGE_POLYGONS,
-		ids: gridCellIds
-	}
+	return { type: MERGE_POLYGONS, ids: gridCellIds	}
 }
 
 export function addGeoJson(geojson) {
-	return {
-		type: ADD_GEOJSON,
-		payload: geojson
-	}
+	return { type: ADD_GEOJSON,	payload: geojson }
 }
 
 export function clearGeoJson() {
-	return {
-		type: CLEAR_GEOJSON
-	}
+	return { type: CLEAR_GEOJSON }
 }
 
 export function changeMapMode(mode) {
-	return {
-		type: CHANGE_MAP_MODE,
-		mode
-	}
+	return { type: CHANGE_MAP_MODE,	mode }
 }
