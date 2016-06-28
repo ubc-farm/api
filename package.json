@@ -20,6 +20,7 @@
     "build:jsts": "copy node_modules/react/dist/jsts.min.js dist/browser/node_modules/jsts/dist",
     "build:redux": "./node_modules/.bin/babel node_modules/redux/src dist/browser/node_modules/redux/src",
     "build:react-redux": "./node_modules/.bin/babel node_modules/react-redux/src dist/browser/node_modules/react-redux/src",
+    "build:redux-thunk": "./node_modules/.bin/babel node_modules/redux-thunk/src dist/browser/node_modules/redux-thunk/src",
     "prebuild": "./node_modules/.bin/babel lib -w -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
     "build": "./node_modules/.bin/babel app -w -D -d dist/browser/app --plugins transform-es2015-modules-systemjs",
     "postbuild": "npm run build:react && npm run build:jsts && npm run build:redux && npm run build:react-redux",
@@ -44,6 +45,7 @@
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
     "vision": "^4.1.0"
   },
   "devDependencies": {
