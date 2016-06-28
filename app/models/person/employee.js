@@ -21,6 +21,7 @@ import Task from '../task';
  */
 export default class Employee extends Person {
 	static get tableName() {return 'Employee'}
+	static get label() {return 'employees'}
 
 	static get relationMappings() {
 		return Object.assign({

@@ -12,6 +12,7 @@ import Chemical from '../ref/chemical.js';
  */
 export default class ChemicalTask extends Task {
 	static get tableName() {return 'ChemicalTask'}
+	static get label() {return 'chemical-tasks'}
 
 	static get relationMappings() {
 		return Object.assign({

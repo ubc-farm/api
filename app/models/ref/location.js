@@ -12,6 +12,7 @@ import {Field} from '../field.js'
  */
 export default class Location extends Model {
 	static get tableName() {return 'Location'}
+	static get label() {return 'locations'}
 
 	static get relationMappings() {
 		return {

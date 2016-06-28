@@ -14,6 +14,7 @@ import {Scouting} from './task/scouting.js';
  */
 export class Field extends Model {
 	static get tableName() {return 'Field'}
+	static get label() {return 'fields'}
 
 	get grid() {
 		const [baseWidth, ...specificWidths] = this.gridWidths;

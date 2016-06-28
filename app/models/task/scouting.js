@@ -11,6 +11,7 @@ import {Crop} from '../field.js';
  */
 export default class Scouting extends Task {
 	static get tableName() {return 'Scouting'}
+	static get label() {return 'scouting'}
 
 	static get relationMappings() {
 		return Object.assign({

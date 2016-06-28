@@ -11,6 +11,7 @@ import {Crop} from '../field.js';
  */
 export default class Plant extends Item {
 	static get tableName() {return 'Plant'}
+	static get label() {return 'plants'}
 
 	static get relationMappings() {
 		return {

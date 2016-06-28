@@ -16,6 +16,7 @@ import Item from '../ref/item.js';
  */
 export default class Person extends Model {
 	static get tableName() {return 'Person'}
+	static get label() {return 'people'}
 
 	static get relationMappings() {
 		return {

@@ -13,6 +13,7 @@ import Task from '../task';
  */
 export default class Program extends Model {
 	static get tableName() {return 'Program'}
+	static get label() {return 'program'}
 
 	static get relationMappings() {
 		return {

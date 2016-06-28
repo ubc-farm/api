@@ -23,7 +23,10 @@ function* methodRoutes(table, alias) {
 		yield {
 			method, path,
 			handler: {
-				api: {table}
+				api: {
+					table, 
+					model: table
+				}
 			}
 		}
 	}
@@ -32,6 +35,13 @@ function* methodRoutes(table, alias) {
 function* tableRoutes() {
 	for (let i = 0; i < tables.length; i++) {
 		yield methodRoutes(tables[i], labels[i]);
+	}
+}
+
+function* modelRoutes() {
+	for (let model in models) {
+		if (!model.label) model.label = model.tableName.toLowerCase() + 's';
+		yield methodRoutes(model, model.label);
 	}
 }
 

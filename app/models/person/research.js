@@ -16,6 +16,7 @@ import Person from './';
  */
 export class Researcher extends Person {
 	static get tableName() {return 'Researcher'}
+	static get label() {return 'researchers'}
 
 	static get relationMappings() {
 		return Object.assign({

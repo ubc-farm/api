@@ -15,6 +15,7 @@ import {Person as Company} from '../person';
  */
 export default class SoilSampling extends Task {
 	static get tableName() {return 'SoilSampling'}
+	static get label() {return 'soil-samples'}
 
 	static get relationMappings() {
 		return Object.assign({

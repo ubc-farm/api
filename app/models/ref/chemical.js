@@ -11,6 +11,7 @@ import ChemicalTask from '../task/chem.js';
  */
 export class Chemical extends Model {
 	static get tableName() {return 'Chemical'}
+	static get label() {return 'chemicals'}
 
 	static get relationMappings() {
 		return {

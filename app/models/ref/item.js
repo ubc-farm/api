@@ -19,6 +19,7 @@ import Equipment from '../equipment.js';
  */
 export default class Item extends Model {
 	static get tableName() {return 'Item'}
+	static get label() {return 'items'}
 
 	static get relationMappings() {
 		return {

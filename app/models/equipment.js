@@ -17,6 +17,7 @@ import Location from './ref/location.js';
  */
 export default class Equipment extends Model {
 	static get tableName() {return 'Equipment'}
+	static get label() {return 'equipment'}
 
 	static get relationMappings() {
 		return {

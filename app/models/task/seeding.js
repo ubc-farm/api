@@ -23,6 +23,7 @@ import Item from '../ref/item.js';
  */
 export default class Seeding extends Task {
 	static get tableName() {return 'Seeding'}
+	static get label() {return 'seeding'}
 
 	static get relationMappings() {
 		return Object.assign({

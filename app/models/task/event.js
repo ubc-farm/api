@@ -17,6 +17,7 @@ import Person from '../person';
  */
 export default class Event extends Task {
 	static get tableName() {return 'Event'}
+	static get label() {return 'events'}
 
 	static get relationMappings() {
 		return Object.assign({
