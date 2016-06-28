@@ -1,8 +1,8 @@
-{
+/*{
 	method: 'GET',
 	path: '/api/items/{id?}/{property?}',
 	handler: {api: {table: 'Item'}}
-}
+}*/
 //Quick and dirty route generators for the API
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];

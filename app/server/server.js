@@ -3,7 +3,7 @@ import Inert from 'inert';
 import Vision from 'vision';
 import path from 'path';
 
-import apiHandler from './api-handler.js';
+import apiHandler from '../api-handler';
 import routes from './routes';
 import markoEngine from './marko-engine.js';
 import reactEngine from 'hapi-react-views';
