@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Provider} from 'react-redux';
 
-import Sidebar from '../_components/nav/sidebar.js';
-import NavLink from '../_components/nav/nav-link.js';
-import Banner from '../_components/nav/Banner.js';
+import Sidebar from './sidebar.js';
+import NavLink from './nav-link.js';
+import Banner from './banner.js';
 
 function sidebarChildren(pages ={}, prefix = '/') {
 	return Object.keys(pages).map(key => {

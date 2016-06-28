@@ -1,5 +1,5 @@
 import { createElement as r, PropTypes } from 'react';
-import _ from '../classnames.js';
+import _ from 'lib/utils/classlist';
 
 /**
  * @param {Object} props

@@ -3,13 +3,14 @@
 'use strict';
 
 const spawn = require('child_process').spawn;
+const path = require('path');
 
 const args = [
   'dist/app/server/index.js'
 ];
 
 const opt = {
-  cwd: __dirname + '../',
+  cwd: path.resolve(__dirname, '../'),
   env: (function() {
     process.env.NODE_PATH = '.'; // Enables require() calls relative to the cwd
     return process.env;

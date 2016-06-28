@@ -3,6 +3,7 @@
 'use strict';
 
 const spawn = require('child_process').spawn;
+const path = require('path');
 
 const args = [
   '.', '--out-dir dist/browser',
@@ -11,7 +12,7 @@ const args = [
 ];
 
 const opt = {
-  cwd: __dirname + '../',
+  cwd: path.resolve(__dirname, '../'),
   env: (function() {
     process.env.BABEL_ENV = 'browser'; 
     return process.env;
