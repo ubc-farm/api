@@ -29,7 +29,8 @@
 			'react-dom': {main: 'dist/react-dom.js'},
 			'jsts': {main: 'dist/jsts.min.js'},
 			'react-redux': {main: 'src/index.js'},
-			'redux': {main: 'src/index.js'}
+			'redux': {main: 'src/index.js'},
+			'redux-form': {main: 'src/index.js'},
 		},
 		paths: {
 			'firebase/*': 'https://www.gstatic.com/firebasejs/3.0.5/firebase-*.js'
