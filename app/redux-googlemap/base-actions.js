@@ -1,12 +1,13 @@
 import Polygon from 'lib/geojson/polygon';
 
-export const ADD_POLYGON = Symbol('ADD_POLYGON');
-export const FOCUS_POLYGON = Symbol('FOCUS_POLYGON');
-export const ADD_POLYGON_GRID = Symbol('ADD_POLYGON_GRID');
-export const MERGE_POLYGON_GRID = Symbol('MERGE_POLYGON_GRID');
-export const ADD_GEOJSON = Symbol('ADD_GEOJSON');
-export const CLEAR_GEOJSON = Symbol('CLEAR_GEOJSON');
-export const CHANGE_MAP_MODE = Symbol('CHANGE_MAP_MODE');
+export const ADD_POLYGON = 'ADD_POLYGON';
+export const FOCUS_POLYGON = 'FOCUS_POLYGON';
+export const ADD_POLYGON_GRID = 'ADD_POLYGON_GRID';
+export const MERGE_POLYGON_GRID = 'MERGE_POLYGON_GRID';
+export const ADD_GEOJSON = 'ADD_GEOJSON';
+export const REMOVE_GEOJSON = 'REMOVE_GEOJSON';
+export const CLEAR_GEOJSON = 'CLEAR_GEOJSON';
+export const CHANGE_MAP_MODE = 'CHANGE_MAP_MODE';
 
 /** @enum */
 export const Mode = {
@@ -37,8 +38,12 @@ export function mergePolygonGrid(gridCellIds) {
 	return { type: MERGE_POLYGONS, ids: gridCellIds	}
 }
 
-export function addGeoJson(geojson) {
-	return { type: ADD_GEOJSON,	payload: geojson }
+export function addGeoJsonWithoutCheck(geojson, timestamp) {
+	return { type: ADD_GEOJSON, geojson, timestamp }
+}
+
+export function removeGeoJson(timestampId) {
+	return { type: REMOVE_GEOJSON, timestamp: timestampId }
 }
 
 export function clearGeoJson() {
@@ -46,5 +51,5 @@ export function clearGeoJson() {
 }
 
 export function changeMapMode(mode) {
-	return { type: CHANGE_MAP_MODE,	mode }
+	return { type: CHANGE_MAP_MODE,	payload: mode }
 }
