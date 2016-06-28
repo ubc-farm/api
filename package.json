@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "scripts/start.js",
-    "test": "tape '@(lib|app)/**/*.test.js'",
+    "test": "tape '@(lib|app)/**/*.@(test|spec).js'",
     "docs": "gulp docs",
     "assets": "gulp assets",
     "marko": "gulp marko-views",

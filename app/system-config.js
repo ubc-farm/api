@@ -15,7 +15,8 @@
 			'google/maps/drawing': googleMapsUrl + '&libraries=drawing'
 		}, {
 			'lib': '/js/lib',
-			'app': '/js/app'
+			'app': '/js/app',
+			'idb': 'app/vendor/idb.js'
 		}),
 		meta: {
 			'google/maps': metaForGoogleMapsModules,
