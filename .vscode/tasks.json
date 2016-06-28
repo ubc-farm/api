@@ -2,22 +2,52 @@
 	// See https://go.microsoft.com/fwlink/?LinkId=733558
 	// for the documentation about the tasks.json format
 	"version": "0.1.0",
-	"command": "gulp",
+	"command": "npm",
 	"isShellCommand": true,
-	"args": ["--no-color"],
 	"showOutput": "always",
+	"suppressTaskName": true,
 	"tasks": [
 		{
-			"taskName": "build",
-			"isBuildCommand": true
+			"taskName": "install",
+			"suppressTaskName": false
 		},
 		{
-			"taskName": "watch",
-			"isWatching": true
+			"taskName": "update",
+			"suppressTaskName": false
+		},
+		{
+			"taskName": "start",
+			"suppressTaskName": false
 		},
 		{
 			"taskName": "test",
+			"suppressTaskName": false,
 			"isTestCommand": true
+		},
+		{
+			"taskName": "compile",
+			"args": ["run", "compile"]
+		},
+		{
+			"taskName": "build",
+			"args": ["run", "build"]
+		},
+		{
+			"taskName": "fullstack",
+			"args": ["run", "fullstack"],
+			"isBuildCommand": true
+		},
+		{
+			"taskName": "docs",
+			"args": ["run", "docs"]
+		},
+		{
+			"taskName": "assets",
+			"args": ["run", "assets"]
+		},
+		{
+			"taskName": "marko",
+			"args": ["run", "marko"]
 		}
 	]
 }

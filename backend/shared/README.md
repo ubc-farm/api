@@ -1,1 +1,0 @@
-JavaScript files that are used by both the server and client. These scripts will be transformed by Babel to either SystemJS or CommonJS format, depending on if they are run by the client or server.
