@@ -16,6 +16,8 @@ export const Mode = {
 }
 
 export function addPolygon(polygon, id) {
+	if (!polygon instanceof Polygon)
+		polygon = Polygon.fromGoogle(polygon);
 	return {
 		type: ADD_POLYGON,
 		polygon,
