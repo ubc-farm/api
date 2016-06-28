@@ -6,7 +6,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 const args = [
-  'dist/app/server/index.js'
+  'dist/node/app/server/index.js'
 ];
 
 const opt = {

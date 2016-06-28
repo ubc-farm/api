@@ -9,7 +9,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "scripts/start.js",
+    "start": "node scripts/start.js",
     "test": "tape '@(lib|app)/**/*.@(test|spec).js'",
     "docs": "gulp docs",
     "assets": "gulp assets",
