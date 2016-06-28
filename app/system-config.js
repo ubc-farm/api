@@ -6,19 +6,17 @@
 		exports: 'google'
 	}
 
-	const modules = ['react', 'react-dom', 'jsts', 'react-redux', 'redux'];
-	const moduleMap = modules.reduce((obj, moduleName) => {
-		obj[moduleName] = 'node_modules/' + moduleName; return obj;
-	}, {})
-
 	System.config({
-		baseURL: '/js',
+		baseURL: '/js/node_modules',
 		defaultExtension: 'js',
 		map: Object.assign({
 			'google/maps': googleMapsUrl,
 			'google/maps/edit': googleMapsUrl + '&libraries=geometry,drawing',
 			'google/maps/drawing': googleMapsUrl + '&libraries=drawing'
-		}, moduleMap),
+		}, {
+			'lib': '/js/lib',
+			'app': '/js/app'
+		}),
 		meta: {
 			'google/maps': metaForGoogleMapsModules,
 			'google/maps/edit': metaForGoogleMapsModules,
