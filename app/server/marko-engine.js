@@ -1,5 +1,5 @@
 const marko = require('marko');
-const {exists} = require('folder');
+const {exists} = require('lib/folder');
 
 /**
  * Async view engine for Vision. 

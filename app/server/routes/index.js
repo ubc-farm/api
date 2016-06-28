@@ -12,6 +12,6 @@ const routes = [
 	...staticRoutes,
 	...markoRoutes,
 	...reactRoutes,
-	...apiRoutes
+	//...apiRoutes
 ];
 export default routes;
