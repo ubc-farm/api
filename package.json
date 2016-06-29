@@ -36,7 +36,8 @@
     "docs:postgres-types": "jsdoc2md \"lib/postgres-types/*.js\" > docs/lib/postgres-types.md",
     "docs:promise-worker": "jsdoc2md \"lib/promise-worker/*.js\" > docs/lib/promise-worker.md",
     "docs:utils": "jsdoc2md \"lib/utils/*.js\" > docs/lib/utils.md",
-    "docs": "npm run docs:autogrid && npm run docs:calendar && npm run docs:collection && npm run docs:folder && npm run docs:geojson && npm run docs:geometry && npm run docs:googlemaps-collection && npm run docs:map-table && npm run docs:module-worker && npm run docs:network && npm run docs:postgres-types && npm run docs:promise-worker && npm run docs:utils"
+    "docs": "npm run docs:autogrid && npm run docs:calendar && npm run docs:collection && npm run docs:folder && npm run docs:geojson && npm run docs:geometry && npm run docs:googlemaps-collection && npm run docs:map-table && npm run docs:module-worker && npm run docs:network && npm run docs:postgres-types && npm run docs:promise-worker && npm run docs:utils",
+    "knex": "knex migrate:latest"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,

@@ -1,9 +1,9 @@
 import {
 	shallowTransform, 
 	silentTransform, 
-	arrayToObjectMap,
 	prettyPrint
 } from './utils.js';
+import {arrayToObjectMap} from 'lib/utils';
 
 export default function getter(route, options) {
 	const Model = options.model;
