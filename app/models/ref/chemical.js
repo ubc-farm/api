@@ -8,7 +8,7 @@ import {ChemicalTask} from '../';
  * @property {string} [productName]
  * @property {Object} [composition]
  */
-export class Chemical extends Model {
+export default class Chemical extends Model {
 	static get tableName() {return 'Chemical'}
 	static get label() {return 'chemicals'}
 

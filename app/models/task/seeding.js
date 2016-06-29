@@ -1,5 +1,6 @@
 import {Model} from 'objection';
-import {Task, Crop, Plant, Item} from '../';
+import Task from './task.js';
+import {Crop, Plant, Item} from '../';
 
 /**
  * Task for seeding and transplating

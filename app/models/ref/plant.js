@@ -1,5 +1,6 @@
 import {Model} from 'objection';
-import {Item, Crop} from '../';
+import {Item} from './';
+import {Crop} from '../';
 
 /**
  * Extends Item with Plant specific information for crops

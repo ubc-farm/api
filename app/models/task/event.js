@@ -1,5 +1,6 @@
 import {Model} from 'objection';
-import {Task, Sale, Person} from '../';
+import Task from './task.js';
+import {Sale, Person} from '../';
 
 /**
  * Represents an event held at the farm

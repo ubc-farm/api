@@ -1,5 +1,6 @@
 import {Model} from 'objection';
-import {Task, Person as Company} from '../';
+import Task from './task.js';
+import {Person as Company} from '../';
 
 /**
  * A soil sampling task

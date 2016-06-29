@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import {Person} from '../';
+import Person from './person.js';
 
 /**
  * Represents a researcher working at the farm. Extends person with extra
@@ -14,7 +14,7 @@ import {Person} from '../';
  * @property {string[]} [coursesTaught]
  * @property {string} [projects]
  */
-export class Researcher extends Person {
+export default class Researcher extends Person {
 	static get tableName() {return 'Researcher'}
 	static get label() {return 'researchers'}
 

@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import {Task} from '../';
+import Task from './task.js';
 
 /**
  * An irrigation task
