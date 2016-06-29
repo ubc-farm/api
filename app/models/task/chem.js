@@ -34,6 +34,7 @@ export default class ChemicalTask extends Task {
  */
 export class Fertilizing extends ChemicalTask {
 	static get tableName() {return 'Fertilizing'}
+	static get label() {return 'fertilizing'}
 }
 
 /**
@@ -46,4 +47,5 @@ export class Fertilizing extends ChemicalTask {
  */
 export class PestControl extends ChemicalTask {
 	static get tableName() {return 'PestControl'}
+	static get label() {return 'pest-control'}
 }

@@ -35,6 +35,7 @@ export default class Scouting extends Task {
  */
 export class ScoutHarvest extends Scouting {
 	static get tableName() {return 'ScoutHarvest'}
+	static get label() {return 'scouting-harvest'}
 }
 
 /**
@@ -50,4 +51,5 @@ export class ScoutHarvest extends Scouting {
  */
 export class ScoutPest extends Scouting {
 	static get tableName() {return 'ScoutPest'}
+	static get label() {return 'scouting-pests'}
 }

@@ -17,18 +17,22 @@ const labels = ['people', 'employees', 'researchers', 'assignments',
 import * as models from 'app/models';
 
 function* methodRoutes(table, alias) {
-	for (let method in methods) {
-		let path = `/api/${alias}/{id?}/{property?}`;
-		if (method == 'POST') path = `/api/${alias}`;
-
-		yield {
-			method, path,
-			handler: {
-				api: {
-					table, 
-					model: table
-				}
+	for (let method of methods) {
+		const handler = {api: {table, model: table}};
+		if (method == 'POST') {
+			yield {
+				method, handler,
+				path: `/api/${alias}`
 			}
+		} else {
+			yield {
+				method, handler,
+				path: `/api/${alias}/{id?}`
+			};
+			yield {
+				method, handler,
+				path: `/api/${alias}/{id}/{property}`
+			};
 		}
 	}
 }
@@ -40,11 +44,16 @@ function* tableRoutes() {
 }
 
 function* modelRoutes() {
+	let completed = [];
 	for (let modelName in models) {
 		const model = models[modelName];
-		console.log(modelName);
 		if (!model.label) model.label = model.tableName.toLowerCase() + 's';
+		if (completed.indexOf(model.label) > -1) {
+			console.warn(model.label, 'from', modelName, 'already processed');
+			continue;
+		}
 		yield* methodRoutes(model, model.label);
+		completed.push(model.label);
 	}
 }
 

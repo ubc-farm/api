@@ -23,7 +23,6 @@
     "postbrowser": "npm run browser:redux && npm run browser:node_modules",
     "browser": "npm run browser:lib && npm run browser:app",
     "fullstack": "npm run node && npm run browser",
-
     "docs:autogrid": "jsdoc2md \"lib/autogrid/*.js\" > docs/lib/autogrid.md",
     "docs:calendar": "jsdoc2md \"lib/calendar/*.js\" > docs/lib/calendar.md",
     "docs:collection": "jsdoc2md \"lib/collection/*.js\" > docs/lib/collection.md",
@@ -69,6 +68,7 @@
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-plugin-transform-strict-mode": "^6.8.0",
     "blue-tape": "^0.2.0",
+    "enzyme": "^2.3.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-imagemin": "^3.0.1",
@@ -88,10 +88,11 @@
     ],
     "sourceMaps": true,
     "only": [
-			"lib/**", "app/**",
-			"!lib/@(postgres*|folder)/**",
-			"!app/@(server|models|api-handler)/**",
-			"node_modules/?(*-)redux?(-*)/src/**"
-		]
+      "lib/**",
+      "app/**",
+      "!lib/@(postgres*|folder)/**",
+      "!app/@(server|models|api-handler)/**",
+      "node_modules/?(*-)redux?(-*)/src/**"
+    ]
   }
 }

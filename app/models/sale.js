@@ -57,4 +57,5 @@ export default class Sale extends Model {
  */
 export class Grant extends Sale {
 	static get tableName() {return 'Grant'}
+	static get label() {return 'grants'}
 }
