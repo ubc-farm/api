@@ -12,11 +12,11 @@ export default function Sidebar(props) {
 		<aside className='nav-list' role='navigation'>
 			<NavLink active color>{active}</NavLink>
 			<nav className='nav-list-primary'>
-				<NavLink hide={l === 'fields'}>Fields</NavLink>
-				<NavLink hide={l === 'planning'}>Planning</NavLink>
-				<NavLink hide={l === 'finances'}>Finances</NavLink>
-				<NavLink hide={l === 'events'}>Events</NavLink>
-				<NavLink hide={l === 'logging'}>Logging</NavLink>
+				<NavLink color hide={l === 'fields'}>Fields</NavLink>
+				<NavLink color hide={l === 'planning'}>Planning</NavLink>
+				<NavLink color hide={l === 'finances'}>Finances</NavLink>
+				<NavLink color hide={l === 'events'}>Events</NavLink>
+				<NavLink color hide={l === 'logging'}>Logging</NavLink>
 			</nav>
 			<nav className='nav-list-secondary'>
 				{props.children}

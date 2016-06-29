@@ -17,7 +17,7 @@ export default function NavLink({hide, href, prefix, children, active, color}) {
 	});
 	href = href || prefix + children.toLowerCase();
 
-	return r('a', {className, href, 'data-name': color && children})
+	return r('a', {className, href, 'data-name': color && children}, children)
 }
 NavLink.propTypes = {
 	children: PropTypes.string.isRequired,
