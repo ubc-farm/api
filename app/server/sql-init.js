@@ -1,6 +1,10 @@
 import knexFactory from 'knex';
 import {Model} from 'objection';
-import knexfile from 'knexfile.js';
 
-const knex = knexFactory(knexfile.development);
+const knex = knexFactory({
+    client: 'sqlite3',
+    connection: {
+      filename: './dev.sqlite3'
+    }
+  });
 Model.knex(knex);
