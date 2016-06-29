@@ -15,7 +15,7 @@ const opt = {
     process.env.NODE_PATH = './dist/node'; // Enables require() calls relative to the cwd
     return process.env;
   }()),
-  stdio: [process.stdin, process.stdout, process.stderr]
+  stdio: 'inherit'
 };
 
 var app = spawn(process.execPath, args, opt);

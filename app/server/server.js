@@ -29,7 +29,7 @@ server.register([Inert, Vision], err => {
 				module: reactEngine,
 				compileOptions: {
 					renderMethod: 'renderToString',
-					layoutPath: path.join(viewPath, '_layouts'),
+					layoutPath: path.join(__dirname, '../shell'),
 					layout: 'html.js'
 				}
 			}

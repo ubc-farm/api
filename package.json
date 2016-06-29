@@ -11,7 +11,6 @@
   "scripts": {
     "start": "node scripts/start.js",
     "test": "tape '@(lib|app)/**/*.spec.js'",
-    "docs": "gulp docs",
     "assets": "gulp assets",
     "marko": "gulp marko-views",
     "node:lib": "./node_modules/.bin/babel lib -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
@@ -23,7 +22,22 @@
     "browser:app": "./node_modules/.bin/babel app -D -d dist/browser/app --plugins transform-es2015-modules-systemjs",
     "postbrowser": "npm run browser:redux && npm run browser:node_modules",
     "browser": "npm run browser:lib && npm run browser:app",
-    "fullstack": "npm run node && npm run browser"
+    "fullstack": "npm run node && npm run browser",
+
+    "docs:autogrid": "jsdoc2md \"lib/autogrid/*.js\" > docs/lib/autogrid.md",
+    "docs:calendar": "jsdoc2md \"lib/calendar/*.js\" > docs/lib/calendar.md",
+    "docs:collection": "jsdoc2md \"lib/collection/*.js\" > docs/lib/collection.md",
+    "docs:folder": "jsdoc2md \"lib/folder/*.js\" > docs/lib/folder.md",
+    "docs:geojson": "jsdoc2md \"lib/geojson/*.js\" > docs/lib/geojson.md",
+    "docs:geometry": "jsdoc2md \"lib/geometry/*.js\" > docs/lib/geometry.md",
+    "docs:googlemaps-collection": "jsdoc2md \"lib/googlemaps-collection/*.js\" > docs/lib/googlemaps-collection.md",
+    "docs:map-table": "jsdoc2md \"lib/map-table/*.js\" > docs/lib/map-table.md",
+    "docs:module-worker": "jsdoc2md \"lib/module-worker/*.js\" > docs/lib/module-worker.md",
+    "docs:network": "jsdoc2md \"lib/network/*.js\" > docs/lib/network.md",
+    "docs:postgres-types": "jsdoc2md \"lib/postgres-types/*.js\" > docs/lib/postgres-types.md",
+    "docs:promise-worker": "jsdoc2md \"lib/promise-worker/*.js\" > docs/lib/promise-worker.md",
+    "docs:utils": "jsdoc2md \"lib/utils/*.js\" > docs/lib/utils.md",
+    "docs": "npm run docs:autogrid && npm run docs:calendar && npm run docs:collection && npm run docs:folder && npm run docs:geojson && npm run docs:geometry && npm run docs:googlemaps-collection && npm run docs:map-table && npm run docs:module-worker && npm run docs:network && npm run docs:postgres-types && npm run docs:promise-worker && npm run docs:utils"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
