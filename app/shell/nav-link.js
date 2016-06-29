@@ -11,7 +11,7 @@ import _ from 'lib/utils/classlist';
  * @param {boolean} [props.hide] hides if true 
  */
 export default function NavLink({hide, href, prefix, children, active, color}) {
-	if (props.hide) return null;
+	if (hide) return null;
 	const className = _('nav-link', 'hover-light', {
 		'nav-active': active, 'nav-color': color
 	});

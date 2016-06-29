@@ -15,7 +15,7 @@ function sidebarChildren(pages ={}, prefix = '/') {
 
 export default function Shell(props) {
 	return (
-		<Provider store={props.store}>
+		<Provider><div>
 			<Sidebar active={props.active}>
 				{sidebarChildren(props.sidebar, props.prefix)}
 			</Sidebar>
@@ -23,7 +23,7 @@ export default function Shell(props) {
 			<main className='main'>
 				{props.children}
 			</main>
-		</Provider>
+		</div></Provider>
 	)
 }
 
