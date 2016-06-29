@@ -1,11 +1,10 @@
 import {search} from 'lib/folder';
 
-/**
- * Handler for marko files that rewrites their filenames
- */
-function handler(request, reply) {
-	search(request.path, '.marko', process.env.WORKSPACE_ROOT + '/views')
-		.then(path => reply.view(path))
+const handler = {
+	template: {
+		type: 'marko',
+		relativeTo: process.env.WORKSPACE_ROOT + '/views'
+	}
 }
 
 /** Routes for marko views */

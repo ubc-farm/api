@@ -5,7 +5,8 @@ import Inert from 'inert';
 import Vision from 'vision';
 import path from 'path';
 
-import apiHandler from '../api-handler';
+import apiHandler from 'lib/api-handler';
+import templateHandler from 'lib/template-handler';
 import routes from './routes';
 import markoEngine from './marko-engine.js';
 import reactEngine from 'hapi-react-views';
@@ -18,6 +19,7 @@ server.connection({
 	port: process.env.NODE_PORT || 3000
 })
 server.handler('api', apiHandler);
+server.handler('template', templateHandler);
 
 server.register([Inert, Vision], err => {
 	if (err) throw err;
@@ -36,7 +38,7 @@ server.register([Inert, Vision], err => {
 				}
 			}
 		},
-		path: viewPath
+		path: path.resolve(__dirname, '../../')
 	})
 
 	server.route(routes);
