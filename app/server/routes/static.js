@@ -8,7 +8,6 @@ const config = {
 	},
 	auth: false,
 }
-
 /**
  * The static route configuration, which is parsed through Inert.
  * @module backend/routes/static
