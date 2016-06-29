@@ -1,3 +1,5 @@
+require('./sql-init.js')
+
 import {Server} from 'hapi';
 import Inert from 'inert';
 import Vision from 'vision';

@@ -39,3 +39,4 @@ static
 dist
 UBC*.json
 frontend/vendor-es6/firebase-config.js
+*.sqlite3

@@ -48,7 +48,7 @@ exports.up = function(knex) {
 		table.text('department');
 		table.text('labWebsite');
 		table.text('expertise');
-		table.specificType('coursesTaught', 'text[]');
+		table.text('coursesTaught');
 		table.text('projects');
 	})
 	.createTable('Assignment', table => {
@@ -70,7 +70,7 @@ exports.up = function(knex) {
 		
 		table.text('description');
 		table.integer('quantity');
-		table.specificType('purchaseDate', 'date');
+		table.date('purchaseDate');
 		
 		table.bigInteger('location').index()
 			.references('id').inTable('Location');
@@ -170,7 +170,7 @@ exports.up = function(knex) {
 	})
 	.createTable('ScoutHarvest', table => {
 		table.inherits('Scouting');
-		table.specificType('newExpectedHarvest', 'date');
+		table.date('newExpectedHarvest');
 		table.float('newPredictedYield');
 	})
 	.createTable('ScoutPest', table => {
@@ -219,7 +219,7 @@ exports.up = function(knex) {
 			.references('id').inTable('Field');
 		table.integer('quantity')
 		table.text('predictedNutrientReq');
-		table.specificType('expectedHarvest', 'date');
+		table.date('expectedHarvest');
 	})
 	// Information tables
 	.createTable('Item', table => {
@@ -282,8 +282,8 @@ exports.up = function(knex) {
 	.createTable('Sale', table => {
 		table.bigIncrements('id');
 
-		table.specificType('orderDate', 'timestamp');
-		table.specificType('deliveryDate', 'timestamp');
+		table.timestamp('orderDate');
+		table.timestamp('deliveryDate');
 
 		table.bigInteger('customerId')
 			.unsigned().index()
@@ -323,7 +323,7 @@ exports.up = function(knex) {
 
 		table.specificType('grantValue', 'money');
 		table.text('grantSource');
-		table.specificType('publications', 'text[]');
+		table.text('publications');
 	})
 	.createTable('ResearchPartner', table => {
 		table.bigIncrements('id');
@@ -338,11 +338,11 @@ exports.up = function(knex) {
 	.createTable('Mix', table => {
 		table.bigIncrements('id');
 
-		table.bigIncrements('forId')
+		table.bigInteger('forId')
 			.unsigned().notNullable()
 			.references('id').inTable('Plant');
 
-		table.bigIncrements('subId')
+		table.bigInteger('subId')
 			.unsigned().notNullable()
 			.references('id').inTable('Plant');
 	})
