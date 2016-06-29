@@ -1,3 +1,4 @@
+/// <reference path="globals/blue-tape/index.d.ts" />
 /// <reference path="globals/bluebird/index.d.ts" />
 /// <reference path="globals/google.maps/index.d.ts" />
 /// <reference path="globals/hapi/index.d.ts" />
