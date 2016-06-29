@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-import Person from './';
-
-import Task from '../task';
+import {Person, Task} from '../';
 
 /**
  * Extends Person with timetable information. Task assignments are also

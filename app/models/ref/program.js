@@ -1,6 +1,5 @@
 import {Model} from 'objection';
-
-import Task from '../task';
+import {Task} from '../';
 
 /**
  * Represents a program at the farm

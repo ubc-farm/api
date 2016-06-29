@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-
-import {Person as Company} from '../person';
-import Equipment from '../equipment.js';
+import {Person as Company, Equipment} from '../';
 
 /**
  * Stores data about a type of item, such as its worth. More specific data,

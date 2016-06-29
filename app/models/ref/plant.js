@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-import Item from './item.js';
-
-import {Crop} from '../field.js';
+import {Item, Crop} from '../';
 
 /**
  * Extends Item with Plant specific information for crops

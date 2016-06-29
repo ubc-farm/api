@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-import Task from './';
-
-import Chemical from '../ref/chemical.js';
+import {Task, Chemical} from '../';
 
 /**
  * Shared properties for chemical tasks

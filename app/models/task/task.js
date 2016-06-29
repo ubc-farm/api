@@ -1,9 +1,6 @@
 import {Model} from 'objection';
-
-import Location from '../ref/location.js';
-import Program from '../ref/program.js';
-import {Employee, Assignment} from '../person/employee.js';
-import {Equipment, EquipmentUsage} from '../equipment.js';
+import {Location, Program, Employee, Equipment} from '../';
+import {Assignment, EquipmentUsage} from '../joins';
 
 /**
  * Common attributes for tasks that other tables inherit.

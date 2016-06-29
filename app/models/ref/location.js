@@ -1,6 +1,5 @@
 import {Model} from 'objection';
-
-import {Field} from '../field.js'
+import {Field} from '../';
 
 /**
  * Represents a location. If field is specified, this location represents that

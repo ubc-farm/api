@@ -1,8 +1,5 @@
 import {Model} from 'objection';
-import Item from './ref/item.js';
-
-import Sale from './sale.js';
-import Location from './ref/location.js';
+import {Item, Sale, Location} from './';
 
 /**
  * Represents an item in the inventory, with fields like the amount stored and 

@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-
-import Person from './person';
-import Location from './ref/location.js';
+import {Person, Location} from './';
 
 /**
  * A common format for sale information. This can be used for tickets,

@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import Person from './';
+import {Person} from '../';
 
 /**
  * Represents a researcher working at the farm. Extends person with extra

@@ -8,6 +8,6 @@ export * from './person';
 export * from './ref';
 export * from './task'
 
-export {Equipment} from './equipment.js';
-export {Field, Crop} from './field.js';
-export {Sale, Grant} from './sale.js';
+export {default as Equipment} from './equipment.js';
+export {default as Field, Crop} from './field.js';
+export {default as Sale, Grant} from './sale.js';

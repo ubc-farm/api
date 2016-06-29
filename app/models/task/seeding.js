@@ -1,9 +1,5 @@
 import {Model} from 'objection';
-import Task from './';
-
-import {Crop} from '../field.js';
-import Plant from '../ref/plant.js';
-import Item from '../ref/item.js';
+import {Task, Crop, Plant, Item} from '../';
 
 /**
  * Task for seeding and transplating

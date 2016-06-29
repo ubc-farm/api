@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-import Task from './';
-
-import {Crop} from '../field.js';
+import {Task, Crop} from '../';
 
 /**
  * Shared properties for scouting tasks, mainly used for historical data

@@ -1,6 +1,5 @@
 import {Model} from 'objection';
-
-import ChemicalTask from '../task/chem.js';
+import {ChemicalTask} from '../';
 
 /**
  * A chemical product, such as fertilizer or herbicide.

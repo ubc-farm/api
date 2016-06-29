@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-
-import Plant from './ref/plant.js';
-import {Scouting} from './task/scouting.js';
+import {Plant, Scouting} from './';
 
 /**
  * Represents a field or sub-field in the farm with crops. If parentField is 
@@ -12,7 +10,7 @@ import {Scouting} from './task/scouting.js';
  * @property {float[]} [gridHeights]
  * @property {string} [parent] field id
  */
-export class Field extends Model {
+export default class Field extends Model {
 	static get tableName() {return 'Field'}
 	static get label() {return 'fields'}
 

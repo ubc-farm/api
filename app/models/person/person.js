@@ -1,7 +1,5 @@
 import {Model} from 'objection';
-
-import Sale from '../sale.js';
-import Item from '../ref/item.js';
+import {Sale, Item} from '../';
 
 /**
  * Used to represent a person or company, such as employees and customers. Can
