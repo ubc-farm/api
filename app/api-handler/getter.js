@@ -5,6 +5,8 @@ import {
 } from './utils.js';
 import {arrayToObjectMap} from 'lib/utils';
 
+import {Person} from 'app/models';
+
 export default function getter(route, options) {
 	const Model = options.model;
 	return function(request, reply) {

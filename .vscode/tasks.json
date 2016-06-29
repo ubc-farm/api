@@ -31,5 +31,6 @@
 		{"taskName": "docs", "args": ["run", "docs"]},
 		{"taskName": "assets", "args": ["run", "assets"]},
 		{"taskName": "marko", "args": ["run", "marko"]}
+		{"taskName": "css", "args": ["run", "css"]}
 	]
 }

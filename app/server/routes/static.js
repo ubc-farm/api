@@ -4,7 +4,7 @@
  */
 const config = {
 	files: {
-		relativeTo: process.env.WWW_STATIC
+		relativeTo: process.env.WORKSPACE_ROOT //process.env.WWW_STATIC
 	},
 	auth: false,
 }
@@ -42,8 +42,44 @@ const routes = [
 		path: '/js/{param*}',
 		handler: {
 			directory: {
-				path: 'js',
+				path: 'dist/browser',
 				listing: true,
+				defaultExtension: 'js'
+			}
+		},
+		config
+	},
+	{
+		method: 'GET',
+		path: '/app/{param*}',
+		handler: {
+			directory: {
+				path: 'dist/browser/app',
+				listing: false,
+				defaultExtension: 'js'
+			}
+		},
+		config
+	},
+	{
+		method: 'GET',
+		path: '/lib/{param*}',
+		handler: {
+			directory: {
+				path: 'dist/browser/lib',
+				listing: true,
+				defaultExtension: 'js'
+			}
+		},
+		config
+	},
+	{
+		method: 'GET',
+		path: '/modules/{param*}',
+		handler: {
+			directory: {
+				path: 'dist/browser/node_modules',
+				listing: false,
 				defaultExtension: 'js'
 			}
 		},
@@ -54,7 +90,7 @@ const routes = [
 		path: '/css/{param*}',
 		handler: {
 			directory: {
-				path: 'css',
+				path: 'styles',
 				listing: true,
 				defaultExtension: 'css'
 			}

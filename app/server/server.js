@@ -10,7 +10,7 @@ import routes from './routes';
 import markoEngine from './marko-engine.js';
 import reactEngine from 'hapi-react-views';
 
-const viewPath = path.join(__dirname, '../../views');
+const viewPath = path.join(__dirname, '../../../../views');
 
 const server = new Server();
 server.connection({

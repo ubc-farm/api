@@ -7,15 +7,15 @@
 	}
 
 	System.config({
-		baseURL: '/js/node_modules',
+		baseURL: '/modules',
 		defaultExtension: 'js',
 		map: Object.assign({
 			'google/maps': googleMapsUrl,
 			'google/maps/edit': googleMapsUrl + '&libraries=geometry,drawing',
 			'google/maps/drawing': googleMapsUrl + '&libraries=drawing'
 		}, {
-			'lib': '/js/lib',
-			'app': '/js/app',
+			'lib': '/lib',
+			'app': '/app',
 			'idb': 'app/vendor/idb.js'
 		}),
 		meta: {
