@@ -1,9 +1,10 @@
 import {search} from 'lib/folder';
+import {join} from 'path';
 
 const handler = {
 	template: {
 		type: 'marko',
-		relativeTo: process.env.WORKSPACE_ROOT + '/views'
+		relativeTo: join(process.env.WORKSPACE_ROOT, 'views')
 	}
 }
 

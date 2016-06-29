@@ -6,7 +6,7 @@ import Vision from 'vision';
 import path from 'path';
 
 import apiHandler from 'lib/api-handler';
-import templateHandler from 'lib/template-handler';
+import templateHandler from 'app/template-handler';
 import routes from './routes';
 import markoEngine from './marko-engine.js';
 import reactEngine from 'hapi-react-views';
@@ -27,7 +27,8 @@ server.register([Inert, Vision], err => {
 		engines: {
 			'marko': {
 				module: markoEngine,
-				compileMode: 'async'
+				compileMode: 'async',
+				path: path.join(process.env.WORKSPACE_ROOT, 'views')
 			},
 			'js': {
 				module: reactEngine,
@@ -35,10 +36,10 @@ server.register([Inert, Vision], err => {
 					renderMethod: 'renderToString',
 					layoutPath: path.join(__dirname, '../shell'),
 					layout: 'html.js'
-				}
+				},
+				path: path.resolve(__dirname, '../../')
 			}
-		},
-		path: path.resolve(__dirname, '../../')
+		}
 	})
 
 	server.route(routes);
