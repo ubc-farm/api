@@ -8,8 +8,10 @@ import Banner from './banner.js';
 function sidebarChildren(pages ={}, prefix = '/') {
 	return Object.keys(pages).map(key => {
 		const value = pages[key];
-		if (value === null) return <hr/>
-		else return <NavLink href={prefix + value}>{key}</NavLink>
+		if (value === null) 
+			return <hr/>
+		else 
+			return <NavLink key={prefix + value} href={prefix + value}>{key}</NavLink>
 	})
 }
 

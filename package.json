@@ -11,16 +11,17 @@
   "scripts": {
     "start": "node scripts/start.js",
     "test": "tape '@(lib|app)/**/*.spec.js'",
+    "watch": "npm-watch",
     "assets": "gulp assets",
     "marko": "gulp marko-views",
     "css": "copyfiles -u 1 styles/**/*.css dist/browser/css",
-    "node:lib": "./node_modules/.bin/babel lib -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
-    "node:app": "./node_modules/.bin/babel app -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
+    "node:lib": "babel lib -s -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
+    "node:app": "babel app -s -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
     "node": "npm run node:lib && npm run node:app",
     "browser:node_modules": "copyfiles \"node_modules/@(react?(-dom)|jsts)/dist/@(react?(-dom)|jsts.min).js\" dist/browser",
-    "browser:redux": "./node_modules/.bin/babel node_modules --only \"?(*-)redux?(-*)/lib/**/*.js\" -d dist/browser/node_modules",
-    "browser:lib": "./node_modules/.bin/babel lib -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
-    "browser:app": "./node_modules/.bin/babel app -D -d dist/browser/app --plugins transform-es2015-modules-systemjs --ignore app/vendor/** app/system-config.js",
+    "browser:redux": "babel node_modules --only \"?(*-)redux?(-*)/lib/**/*.js\" -d dist/browser/node_modules",
+    "browser:lib": "babel lib -s -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
+    "browser:app": "babel app -s -D -d dist/browser/app --plugins transform-es2015-modules-systemjs --ignore app/vendor/** app/system-config.js",
     "browser:vendor": "copyfiles app/vendor/** app/system-config.js dist/browser",
     "postbrowser": "npm run browser:vendor && npm run browser:redux && npm run browser:node_modules",
     "browser": "npm run browser:lib && npm run browser:app",
@@ -40,6 +41,16 @@
     "docs:utils": "jsdoc2md \"lib/utils/*.js\" > docs/lib/utils.md",
     "docs": "npm run docs:autogrid && npm run docs:calendar && npm run docs:collection && npm run docs:folder && npm run docs:geojson && npm run docs:geometry && npm run docs:googlemaps-collection && npm run docs:map-table && npm run docs:module-worker && npm run docs:network && npm run docs:postgres-types && npm run docs:promise-worker && npm run docs:utils",
     "knex": "knex migrate:latest"
+  },
+  "watch": {
+    "node:lib": {
+      "patterns": ["lib"],
+      "ignore": "*.spec.js"
+    },
+    "node:app": {
+      "patterns": ["app"],
+      "ignore": "*.spec.js"
+    }
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
@@ -86,11 +97,9 @@
   },
   "babel": {
     "plugins": [
-      "transform-react-jsx",
-      "transform-strict-mode",
-      "transform-es2015-modules-commonjs"
+      "transform-react-jsx"
     ],
-    "sourceMaps": true,
+    "sourceMaps": "both",
     "only": [
       "lib/**",
       "app/**",

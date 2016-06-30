@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/scripts/start.js",
+			"program": "${workspaceRoot}/app/server/index.js",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
@@ -15,11 +15,13 @@
 				"--nolazy"
 			],
 			"env": {
-				"NODE_ENV": "development"
+				"NODE_ENV": "development",
+				"NODE_PATH": "${workspaceRoot}/dist/node",
+				"WORKSPACE_ROOT": "${workspaceRoot}"
 			},
 			"externalConsole": false,
-			"sourceMaps": false,
-			"outDir": null
+			"sourceMaps": true,
+			"outDir": "${workspaceRoot}/dist/node"
 		},
 		{
 			"name": "Attach",
@@ -28,8 +30,6 @@
 			"port": 5858,
 			"address": "localhost",
 			"restart": false,
-			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/bin",
 			"localRoot": "${workspaceRoot}",
 			"remoteRoot": null
 		}

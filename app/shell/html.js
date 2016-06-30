@@ -9,7 +9,7 @@ function JS({src}) {
 	return <script key={src}>{`System.import('${src}')`}</script>
 }
 
-export default function Component(props) {
+export default function HTML(props) {
 	const css = [
 		'base',	'modules/hover-light', 
 		'layout/header', 'modules/sidebar',

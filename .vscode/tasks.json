@@ -20,6 +20,11 @@
 			"args": ["run", "fullstack"],
 			"isBuildCommand": true
 		},
+		{
+			"taskName": "watch",
+			"args": ["run", "watch"],
+			"isWatching": true
+		},
 		{"taskName": "node:app", "args": ["run", "node:app"]},
 		{"taskName": "node:lib", "args": ["run", "node:lib"]},
 		{"taskName": "node", "args": ["run", "node"]},
@@ -30,7 +35,7 @@
 
 		{"taskName": "docs", "args": ["run", "docs"]},
 		{"taskName": "assets", "args": ["run", "assets"]},
-		{"taskName": "marko", "args": ["run", "marko"]}
+		{"taskName": "marko", "args": ["run", "marko"]},
 		{"taskName": "css", "args": ["run", "css"]}
 	]
 }
