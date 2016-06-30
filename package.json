@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "test": "tape '@(lib|app)/**/*.spec.js'",
+    "test": "tape dist/node/lib/**/*.spec.js",
+    "posttest": "tape dist/node/app/**/*.spec.js",
     "watch": "npm-watch",
     "assets": "gulp assets",
     "marko": "gulp marko-views",
@@ -44,11 +45,15 @@
   },
   "watch": {
     "node:lib": {
-      "patterns": ["lib"],
+      "patterns": [
+        "lib"
+      ],
       "ignore": "*.spec.js"
     },
     "node:app": {
-      "patterns": ["app"],
+      "patterns": [
+        "app"
+      ],
       "ignore": "*.spec.js"
     }
   },
@@ -81,7 +86,6 @@
     "babel-plugin-transform-es2015-modules-systemjs": "^6.9.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-plugin-transform-strict-mode": "^6.8.0",
-    "blue-tape": "^0.2.0",
     "enzyme": "^2.3.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
@@ -90,10 +94,12 @@
     "gulp-postcss": "^6.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.0.0",
+    "npm-watch": "^0.1.4",
     "postcss": "^5.0.21",
     "postcss-css-variables": "^0.5.1",
     "postcss-import": "^8.1.2",
-    "sqlite3": "^3.1.4"
+    "sqlite3": "^3.1.4",
+    "tape": "^4.6.0"
   },
   "babel": {
     "plugins": [
