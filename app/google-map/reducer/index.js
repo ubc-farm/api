@@ -1,4 +1,4 @@
-import combineReducers from 'reduce/combineReducers';
+import combineReducers from 'redux/combineReducers';
 import mode from './mode.js';
 import polygons from './polygons.js';
 import focus from './focus.js';

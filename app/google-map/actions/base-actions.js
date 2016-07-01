@@ -1,4 +1,5 @@
 import Polygon from 'lib/geojson/polygon';
+import Mode from '../mode.js'
 
 export const ADD_POLYGON = 'ADD_POLYGON';
 export const REMOVE_POLYGON = 'REMOVE_POLYGON';
@@ -9,13 +10,6 @@ export const ADD_GEOJSON = 'ADD_GEOJSON';
 export const REMOVE_GEOJSON = 'REMOVE_GEOJSON';
 export const CLEAR_GEOJSON = 'CLEAR_GEOJSON';
 export const CHANGE_MAP_MODE = 'CHANGE_MAP_MODE';
-
-/** @enum */
-export const Mode = {
-	ADD: 'add',
-	SELECT: 'select',
-	RESIZE: 'resize'
-}
 
 export function addPolygon(polygon, id) {
 	if (!polygon instanceof Polygon)

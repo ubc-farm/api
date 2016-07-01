@@ -1,4 +1,4 @@
-import {ADD_POLYGON, REMOVE_POLYGON} from '../base-actions.js';
+import {ADD_POLYGON, REMOVE_POLYGON} from '../actions/base-actions.js'
 
 export default function polygons(polygonState = {}, action) {
 	switch (action.type) {
