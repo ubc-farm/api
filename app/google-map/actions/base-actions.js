@@ -4,6 +4,7 @@ import Mode from '../mode.js'
 export const ADD_POLYGON = 'ADD_POLYGON';
 export const REMOVE_POLYGON = 'REMOVE_POLYGON';
 export const FOCUS_POLYGON = 'FOCUS_POLYGON';
+export const EDIT_POLYGON = 'EDIT_POLYGON';
 export const ADD_POLYGON_GRID = 'ADD_POLYGON_GRID';
 export const MERGE_POLYGON_GRID = 'MERGE_POLYGON_GRID';
 export const ADD_GEOJSON = 'ADD_GEOJSON';
@@ -16,17 +17,22 @@ export function addPolygon(polygon, id) {
 		polygon = Polygon.fromGoogle(polygon);
 	return {
 		type: ADD_POLYGON,
-		polygon,
-		id
+		payload: {
+			id, polygon
+		}
 	}
 }
 
 export function removePolygon(id) {
-	return { type: REMOVE_POLYGON, id }
+	return { type: REMOVE_POLYGON, payload: id }
 }
 
-export function focusPolygon(id) {
-	return { type: FOCUS_POLYGON,	id }
+export function focusPolygonByIds(id, oldId) {
+	return { type: FOCUS_POLYGON,	payload: {id, oldId} }
+}
+
+export function editPolygonById(id, editable = true) {
+	return { type: EDIT_POLYGON, payload: {id, editable} }
 }
 
 export function addPolygonGrid(id) {

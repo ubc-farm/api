@@ -37,26 +37,20 @@ export default class GoogleMap {
 	 * @param {Object} newState
 	 * @returns {Object} newState
 	 */
-	updateState(
-		oldState = {mode:null, polygons:null, geojson:null, focus:null}, 
-		newState
-	) {
+	updateState(oldState = {polygons:null, geojson:null}, newState) {
 		if (oldState === newState) return;
-
-		if (diff(oldState.mode, newState.mode) !== undefined) {
-			this.setMode(newState.mode);
-		}
 
 		const polygonDiff = diff(oldState.polygons, newState.polygons);
 		if (polygonDiff !== undefined) {
 			for (let polygonId in polygonDiff) {
-				const polygonSpec = polygonDiff[polygon];
+				const polySpec = polygonDiff[polygon];
 
-				if (polygonSpec === undefined) continue;
-				else if (polygonSpec === REMOVED) {
+				if (polySpec === undefined) continue;
+				else if (polySpec === REMOVED) {
 					this.removePolygon(polygonId);
 				} else {
-					this._addPolygon(polygonSpec.polygon, polygonId);
+					//TODO: edit polygon details
+					if (polySpec.polygon) this._addPolygon(polySpec.polygon, polygonId);
 				}
 			}
 		}
@@ -67,15 +61,6 @@ export default class GoogleMap {
 			if (oldTimestamp !== newTimestamp) 
 				this.updateData(newState.geojson[newTimestamp]);
 		} 
-		
-		const focusDiff = diff(oldState.focus, newState.focus);
-		if (focusDiff !== undefined) {
-			if (focusDiff.polygon) 
-				this.focusPolygon(oldState.focus.polygon, focusDiff.polygon);
-			if (typeof focusDiff.resizing !== undefined) {
-				this.resizePolygon(polygonId, focusDiff.resizing);
-			}
-		}
 
 		return newState;
 	}
@@ -147,17 +132,19 @@ export default class GoogleMap {
 	 * @protected
 	 * @param {string} [oldId] - ID of previously focused polygon
 	 * @param {string} id - id of polygon to focus
+	 * @param {Object} details
 	 * @returns {google.maps.Polygon}
 	 */
-	focusPolygon(oldId, id =req()) {return this.polygons.get(id);}
+	focusPolygon(oldId, id =req(), details) {return this.polygons.get(id);}
 
 	/**
 	 * Set the mode of the map
 	 * @abstract
 	 * @protected
 	 * @param {string} newMode
+	 * @returns {string} newMode
 	 */
-	setMode(newMode =req()) {}
+	setMode(newMode =req()) {return newMode}
 
 	/** Used by google.maps.Data to style features */
 	static styler(feature) {

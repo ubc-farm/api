@@ -1,15 +1,9 @@
 import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
 import ModuleWorker from 'lib/module-worker';
-import GoogleMap from 'app/google-map';
+import GoogleMap, {Mode, actions} from 'app/google-map';
 import * as style from './style.js';
 import Selector from './selector.js'
-
-/** @enum */
-const mode = {
-	ADD: 'add',
-	SELECT: 'select',
-	RESIZE: 'resize'
-}
+import store from 'app/store';
 
 export const defaultGrid = {
 	width: 2, height: 2,
@@ -18,9 +12,8 @@ export const defaultGrid = {
 };
 
 export default class PolygonEditor extends GoogleMap {
-	constructor(node, dialogNode) {
-		super(node);
-		this.gridSpecs = new Map();
+	constructor(element) {
+		super(element, store);
 		this.worker = new ModuleWorker('lib/autogrid/worker');
 		this.drawManager = new google.maps.drawing.DrawingManager({
 			drawingControl: false,
@@ -28,60 +21,44 @@ export default class PolygonEditor extends GoogleMap {
 		});
 		this.selector = new Selector(this._map);
 		google.maps.event.addListener(this.drawManager, 
-			'polygoncomplete', poly => this.add(poly))
-		
-		if (dialogNode) {
-			this.dialog = ReactDOM.render(r(EditorDialog, {
-				onSubmit: this.focus,
-				onSwitch: this.mode
-			}), dialogNode);
-		}
+			'polygoncomplete', poly => this.initPolygon(poly));
 	}
 
-	mode(newMode) {
-		if (this._mode === newMode) return;
-		else if (newMode === mode.ADD) {
-			// let user draw on map
-			this.drawManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-		} else if (newMode === mode.SELECT) {
-			// let user click on map
-			this.drawManager.setDrawingMode(null);
-		} else if (newMode === mode.RESIZE) {
-			// make polygon resizable
+	/**
+	 * Set the mode of the map
+	 * @protected
+	 * @param {string} newMode
+	 */
+	setMode(newMode) {
+		const setDrawingMode = mode => this.drawManager.setDrawingMode(mode);
+		switch (super(newMode)) {
+			case Mode.ADD: 
+				setDrawingMode(google.maps.drawing.OverlayType.POLYGON); 
+				break;
+			case Mode.SELECT:
+				setDrawingMode(null); 
+				break;
 		}
 	}
 
 	/**
 	 * Focuses on a polygon and displays a grid based on the given settings
-	 * @param {string} id
-	 * @param {Object} [gridOptions] - override existing settings
+	 * @param {string} [oldId] - ID of previously focused polygon
+	 * @param {string} id - id of polygon to focus
+	 * @param {Object} gridSpec settings
 	 * @returns {Promise<null>}
 	 */
-	focus(id, gridOptions = {}) {
-		const gridSpec = Object.assign({}, defaultGrid, 
-			this.gridSpecs.get(id) || {}, gridOptions);
-		this.gridSpecs.set(id, gridSpec);
+	focusPolygon(oldId, id) {
+		this.polygons.get(oldId).setOptions(style.field.normal);
 
-		if (this.dialog) Object.assign(this.dialog, {id, gridSpec});
+		const poly = this.polygons.get(id);
+		poly.setOptions(style.field.selected);
 
-		const polygon = this.polygons.get(id);
-		_activatePolygon(polygon);
-
-		return this.worker
-			.postMessage({path: Polygon.fromGoogle(polygon), gridSpec})
-			.then(cells => cells.map(c => new Feature(c, {isGrid: true})))
-			.then(features => new FeatureCollection(features))
-			.then(cells => new FeatureCollection(cells.map(cell => new Feature(cell, 
-				{isGrid: true}))))
-			.then(grid => {
-				this.clearDetails(); 
-				_activatePolygon(polygon); 
-				this.addDetail(grid);
-			})
+		store.dispatch( buildGrid(id, Date.now()) )
+			.then(() => poly.setOptions(style.field.selected));
 	}
 
-	add(polygon) {
-		super.add(polygon);
+	initPolygon(polygon) {
 		google.maps.event.addListener(polygon, 'click', 
 			function() {focus(this.id)});
 	}

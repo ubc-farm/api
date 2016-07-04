@@ -2,6 +2,8 @@ import {
 	addGeoJsonWithoutCheck,
 	removeGeoJson
 } from './base-actions.js';
+import {Feature, FeatureCollection} from 'lib/geojson';
+import ModuleWorker from 'lib/module-worker';
 
 export function addGeoJson(geojson, timestamp) {
 	return (dispatch, getState) => {
@@ -13,5 +15,19 @@ export function addGeoJson(geojson, timestamp) {
 		}
 
 		dispatch(addGeoJsonWithoutCheck(geojson, timestamp));
+	}
+}
+
+const gridWorker = new ModuleWorker('lib/autogrid/worker');
+export function buildGrid(id, timestamp) {
+	return (dispatch, getState) => {
+		const {polygon, gridSpec} = getState().polygons[id];
+		return gridWorker
+			.postMessage({polygon, gridSpec})
+			.then(cells => new FeatureCollection(
+				cells.map(c => new Feature(c, {isGrid: true}))
+			)).then(grid => {
+				dispatch(addGeoJson(grid, timestamp));
+			});
 	}
 }

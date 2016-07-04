@@ -11,7 +11,7 @@ export default function geojson(keyList = {}, action) {
 		
 		case REMOVE_GEOJSON:
 			delete keyList[action.timestamp];
-			return keyList;
+			return Object.assign({}, keyList);
 
 		case CLEAR_GEOJSON:
 			return {};
