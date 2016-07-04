@@ -1,4 +1,6 @@
-import {ADD_GEOJSON, CLEAR_GEOJSON, REMOVE_GEOJSON} from '../base-actions.js';
+import {
+	ADD_GEOJSON, CLEAR_GEOJSON, REMOVE_GEOJSON
+} from '../actions/base-actions.js'
 
 export default function geojson(keyList = {}, action) {
 	switch (action.type) {
@@ -9,7 +11,7 @@ export default function geojson(keyList = {}, action) {
 		
 		case REMOVE_GEOJSON:
 			delete keyList[action.timestamp];
-			return keyList;
+			return Object.assign({}, keyList);
 
 		case CLEAR_GEOJSON:
 			return {};

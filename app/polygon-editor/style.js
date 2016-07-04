@@ -1,4 +1,4 @@
-export {field, map, color} from 'app/google-map/style';
+export * from 'app/google-map/style';
 
 export const grid = {
 	normal: {
