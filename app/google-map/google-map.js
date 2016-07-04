@@ -113,12 +113,12 @@ export default class GoogleMap {
 	 * Sets the editable property of the polygon
 	 * @protected
 	 * @param {string} id
-	 * @param {Object} props
+	 * @param {Object} diff of the polygon state
 	 * @returns {google.maps.Polygon}
 	 */
-	updatePolygon(id =req(), props = {}) {
+	updatePolygon(id =req(), diff = {}) {
 		const poly = this.polygons.get(id);
-		const {editable, style: styleName, polygon: geoPoly} = props;
+		const {editable, style: styleName, polygon: geoPoly} = diff;
 		if (poly === undefined) return this.addPolygon(id, geoPoly);
 
 		if (typeof editable !== 'undefined') poly.setEditable(editable);

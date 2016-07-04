@@ -19,9 +19,22 @@ export default class PolygonEditor extends GoogleMap {
 			drawingControl: false,
 			polygonOptions: style.field.normal
 		});
+		this.listeners = new Map();
 		this.selector = new Selector(this._map);
-		google.maps.event.addListener(this.drawManager, 
-			'polygoncomplete', poly => this.initPolygon(poly));
+		google.maps.event.addListener(
+			this.drawManager, 'polygoncomplete', 
+			poly => store.dispatch(
+				actions.addPolygon(polygon, Symbol('Polygon Identifier'))
+			)
+		);
+	}
+
+	updateState(
+		oldState = {polygons:null, geojson:null, mode:null}, 
+		newState
+	) {
+		super(oldState, newState);
+		if (oldState.mode !== newState.mode) applyMode(newMode);
 	}
 
 	/**
@@ -42,17 +55,43 @@ export default class PolygonEditor extends GoogleMap {
 	}
 
 	/**
-	 * Add polygons to state after they have been created by the user
-	 * @protected
-	 * @param {google.maps.Polygon} polygon
+	 * Adds the given polygon to the map and attaches event listeners
+	 * for editing the path and clicking on the polygon
+	 * @param {GeoJSON.Polygon|google.maps.Polygon} polygon
+	 * @param {string} id
+	 * @returns {google.maps.Polygon} added polygon
 	 */
-	initPolygon(polygon) {
-		store.dispatch(actions.addPolygon(polygon, Symbol('Polygon Identifier')))
-		google.maps.event.addListener(polygon, 'click', 
-			function() {
-				store.dispatch(actions.buildGrid(this.id, Date.now()));
-			}
+	addPolygon(id, polygon) {
+		let poly = super(id, polygon);
+
+		const existingListeners = this.listeners.get(id) || [];
+		for (let listener in existingListeners) listener.remove();
+
+		let newListeners = [];
+		poly.getPaths().forEach((path, pathIndex) => {
+			const insertListener = google.maps.event.addListener(
+				path, 'insert_at', 
+				insertIndex => updatePath('add', insertIndex, pathIndex, poly)
+			);
+			const removalListener = google.maps.event.addListener(
+				path, 'remove_at',
+				removedIndex => updatePath('remove', removedIndex, pathIndex, poly)
+			);
+			const adjustmentListener = google.maps.event.addListener(
+				path, 'set_at',
+				adjustedIndex => updatePath('edit', adjustedIndex, pathIndex, poly)
+			);
+			newListeners.push(insertListener, removalListener, adjustmentListener);
+		});
+
+		const clickListener = google.maps.event.addListener(
+			poly, 'click',
+			function() { store.dispatch(actions.buildGrid(this.id, Date.now())) }
 		);
+		newListeners.push(clickListener);
+
+		this.listener.set(id, newListeners);
+		return poly;
 	}
 
 	/** 
