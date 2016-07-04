@@ -2,7 +2,8 @@ import {
 	addGeoJsonWithoutCheck,
 	removeGeoJson
 } from './base-actions.js';
-import {Feature, FeatureCollection} from 'lib/geojson';
+import {focusPolygon} from './focus-actions.js';
+import {Polygon, Feature, FeatureCollection} from 'lib/geojson';
 import ModuleWorker from 'lib/module-worker';
 
 export function addGeoJson(geojson, timestamp) {
@@ -28,6 +29,18 @@ export function buildGrid(id, timestamp) {
 				cells.map(c => new Feature(c, {isGrid: true}))
 			)).then(grid => {
 				dispatch(addGeoJson(grid, timestamp));
+				dispatch(focusPolygon(id))
 			});
+	}
+}
+
+export function mergeGrid(cells, timestamp) {
+	return (dispatch, getState) => {
+		return gridWorker
+			.postMessage({cells: cells.map(Polygon.fromGoogle)})
+			.then(merged => {
+				//remove old cells
+				//add new merged cell
+			})
 	}
 }

@@ -29,9 +29,9 @@ export default class PolygonEditor extends GoogleMap {
 	 * @protected
 	 * @param {string} newMode
 	 */
-	setMode(newMode) {
+	applyMode(newMode) {
 		const setDrawingMode = mode => this.drawManager.setDrawingMode(mode);
-		switch (super(newMode)) {
+		switch (newMode) {
 			case Mode.ADD: 
 				setDrawingMode(google.maps.drawing.OverlayType.POLYGON); 
 				break;
@@ -42,25 +42,17 @@ export default class PolygonEditor extends GoogleMap {
 	}
 
 	/**
-	 * Focuses on a polygon and displays a grid based on the given settings
-	 * @param {string} [oldId] - ID of previously focused polygon
-	 * @param {string} id - id of polygon to focus
-	 * @param {Object} gridSpec settings
-	 * @returns {Promise<null>}
+	 * Add polygons to state after they have been created by the user
+	 * @protected
+	 * @param {google.maps.Polygon} polygon
 	 */
-	focusPolygon(oldId, id) {
-		this.polygons.get(oldId).setOptions(style.field.normal);
-
-		const poly = this.polygons.get(id);
-		poly.setOptions(style.field.selected);
-
-		store.dispatch( buildGrid(id, Date.now()) )
-			.then(() => poly.setOptions(style.field.selected));
-	}
-
 	initPolygon(polygon) {
+		store.dispatch(actions.addPolygon(polygon, Symbol('Polygon Identifier')))
 		google.maps.event.addListener(polygon, 'click', 
-			function() {focus(this.id)});
+			function() {
+				store.dispatch(actions.buildGrid(this.id, Date.now()));
+			}
+		);
 	}
 
 	/** 
@@ -74,12 +66,4 @@ export default class PolygonEditor extends GoogleMap {
 			.postMessage({cells: cells.map(Polygon.fromGoogle)})
 			.then(polygon => {})
 	}
-}
-
-function _activatePolygon(polygon) {
-	if (this._focused && this._focused != polygon)
-		this._focused.setOptions(style.field.normal);
-	this._focused = polygon;
-	polygon.setOptions(style.field.selected);
-	this.mode('select');
 }

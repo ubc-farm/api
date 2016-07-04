@@ -49,8 +49,7 @@ export default class GoogleMap {
 				else if (polySpec === REMOVED) {
 					this.removePolygon(polygonId);
 				} else {
-					//TODO: edit polygon details
-					if (polySpec.polygon) this._addPolygon(polySpec.polygon, polygonId);
+					this.updatePolygon(polygonId, polySpec);
 				}
 			}
 		}
@@ -86,7 +85,7 @@ export default class GoogleMap {
 	 * @param {string} id
 	 * @returns {google.maps.Polygon} added polygon
 	 */
-	addPolygon(polygon =req(), id =req()) {
+	addPolygon(id =req(), polygon =req()) {
 		let poly; 
 		if (polygon instanceof google.maps.Polygon) {
 			poly = polygon;
@@ -117,34 +116,19 @@ export default class GoogleMap {
 	 * Sets the editable property of the polygon
 	 * @protected
 	 * @param {string} id
-	 * @param {boolean} [editable=true] editable flag to use
+	 * @param {Object} props
 	 * @returns {google.maps.Polygon}
 	 */
-	resizePolygon(id =req(), editable = true) {
+	updatePolygon(id =req(), props = {}) {
 		const poly = this.polygons.get(id);
-		poly.setEditable(editable);
+		const {editable, style: styleName, polygon: geoPoly} = props;
+		if (poly === undefined) return this.addPolygon(id, geoPoly);
+
+		if (typeof editable !== 'undefined') poly.setEditable(editable);
+		if (styleName) poly.setOptions(style.field[styleName]);
+		if (geoPoly) poly.setPaths(Polygon.from(geoPoly).coordinates);
 		return poly;
 	}
-
-	/**
-	 * Focus on the polygon by ID
-	 * @abstract
-	 * @protected
-	 * @param {string} [oldId] - ID of previously focused polygon
-	 * @param {string} id - id of polygon to focus
-	 * @param {Object} details
-	 * @returns {google.maps.Polygon}
-	 */
-	focusPolygon(oldId, id =req(), details) {return this.polygons.get(id);}
-
-	/**
-	 * Set the mode of the map
-	 * @abstract
-	 * @protected
-	 * @param {string} newMode
-	 * @returns {string} newMode
-	 */
-	setMode(newMode =req()) {return newMode}
 
 	/** Used by google.maps.Data to style features */
 	static styler(feature) {

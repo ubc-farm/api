@@ -14,7 +14,12 @@ const initialPolygonState = {
 	style: 'normal'
 };
 
-const initPolygon = polygon => Object.assign({}, initialPolygonState, {polygon})
+function initPolygon(polygon) {
+	return Object.assign({}, initialPolygonState, {
+		polygon
+	})
+}
+
 function modify(map, key, modification) {
 	return map.set(
 		key, 
