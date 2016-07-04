@@ -46,11 +46,8 @@ export default class GoogleMap {
 				const polySpec = polygonDiff[polygon];
 
 				if (polySpec === undefined) continue;
-				else if (polySpec === REMOVED) {
-					this.removePolygon(polygonId);
-				} else {
-					this.updatePolygon(polygonId, polySpec);
-				}
+				else if (polySpec === REMOVED) this.removePolygon(polygonId);
+				else this.updatePolygon(polygonId, polySpec);
 			}
 		}
 
