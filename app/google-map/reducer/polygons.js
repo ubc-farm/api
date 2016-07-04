@@ -49,9 +49,7 @@ export default function polygons(polygonState = new Map(), action) {
 
 		case EDIT_POLYGON: 	
 			newMap = new Map(polygonState);
-			return modify(newMap, payload.id, {
-				editable: payload.editable
-			});
+			return modify(newMap, payload.id, {	editable: payload.editable });
 
 		default: return polygonState;
 	}

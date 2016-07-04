@@ -94,6 +94,10 @@ export default class PolygonEditor extends GoogleMap {
 		return poly;
 	}
 
+	updatePath(action, index, pathIndex, polygon) {
+		
+	}
+
 	/** 
 	 * Uses a web worker to merge the polygons together into a single one
 	 * @todo

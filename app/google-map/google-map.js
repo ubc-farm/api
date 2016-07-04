@@ -47,7 +47,15 @@ export default class GoogleMap {
 
 				if (polySpec === undefined) continue;
 				else if (polySpec === REMOVED) this.removePolygon(polygonId);
-				else this.updatePolygon(polygonId, polySpec);
+				else {
+					if (!this.polygons.has(polygonId)) 
+						this.addPolygon(polygonId, polySpec)
+					else {
+						this.updatePolygonProps(polygonId, polySpec);
+						this.updatePolygonPath(polygonId, 
+							polySpec.polygon, newState.polygons[polygonId]);
+					}
+				}
 			}
 		}
 
@@ -116,15 +124,47 @@ export default class GoogleMap {
 	 * @param {Object} diff of the polygon state
 	 * @returns {google.maps.Polygon}
 	 */
-	updatePolygon(id =req(), diff = {}) {
+	updatePolygonProps(id =req(), diff = {}) {
 		const poly = this.polygons.get(id);
-		const {editable, style: styleName, polygon: geoPoly} = diff;
-		if (poly === undefined) return this.addPolygon(id, geoPoly);
+		const {editable, style: styleName} = diff;
 
 		if (typeof editable !== 'undefined') poly.setEditable(editable);
 		if (styleName) poly.setOptions(style.field[styleName]);
-		if (geoPoly) poly.setPaths(Polygon.from(geoPoly).coordinates);
 		return poly;
+	}
+
+	/**
+	 * Edits the polygon path as nessecary
+	 * @protected
+	 * @param {string} id
+	 * @param {Object} diff of the polygon geojson
+	 * @param {Object} newGeoJson state
+	 * @returns {google.maps.Polygon}
+	 */
+	updatePolygonPath(id = req(), geojsonDiff, newGeoJson) {
+		const poly = this.poylgons.get(id); 
+		const paths = poly.getPaths().getArray();
+		if (geojsonDiff === undefined || geojsonDiff.coordinates === undefined) 
+			return poly;
+		else {
+			for (let [index, diffPath] of geojsonDiff.coordinates.entries()) {
+				if (diffPath === undefined) continue;
+				
+				let polyCounter = -1;
+				for (let [posIndex, position] of diffPath.entries()) {
+					polyCounter++;
+					const polyPath = paths[polyCounter];
+					if (position === undefined) continue;
+					else if (position === REMOVED) {
+						polyPath.splice(polyCounter, 1);
+						polyCounter--;
+					} else {
+						polyPath[polyCounter] = newGeoJson.coordinates[index][posIndex];
+					}
+				}
+				
+			}
+		}
 	}
 
 	/** Used by google.maps.Data to style features */
