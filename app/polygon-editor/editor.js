@@ -33,7 +33,7 @@ export default class PolygonEditor extends GoogleMap {
 		oldState = {polygons:null, geojson:null, mode:null}, 
 		newState
 	) {
-		super(oldState, newState);
+		super.updateState(oldState, newState);
 		if (oldState.mode !== newState.mode) applyMode(newMode);
 	}
 
@@ -62,7 +62,7 @@ export default class PolygonEditor extends GoogleMap {
 	 * @returns {google.maps.Polygon} added polygon
 	 */
 	addPolygon(id, polygon) {
-		let poly = super(id, polygon);
+		let poly = super.addPolygon(id, polygon);
 
 		const existingListeners = this.listeners.get(id) || [];
 		for (let listener in existingListeners) listener.remove();
