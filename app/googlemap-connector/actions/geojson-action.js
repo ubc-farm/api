@@ -8,7 +8,7 @@ import ModuleWorker from 'lib/module-worker';
 
 export function addGeoJson(geojson, timestamp) {
 	return (dispatch, getState) => {
-		const keys = Object.keys(getState().geojson).sort((a, b) => b - a);
+		const keys = Object.keys(getState().map.geojson).sort((a, b) => b - a);
 		if (keys.length > 1) {
 			for (let i = 1; i < keys.length; i++) {
 				dispatch( removeGeoJson(keys[i]) );
@@ -22,7 +22,7 @@ export function addGeoJson(geojson, timestamp) {
 const gridWorker = new ModuleWorker('lib/autogrid/worker');
 export function buildGrid(id, timestamp) {
 	return (dispatch, getState) => {
-		const {polygon, gridSpec} = getState().polygons[id];
+		const {polygon, gridSpec} = getState().map.polygons[id];
 		return gridWorker
 			.postMessage({polygon, gridSpec})
 			.then(cells => new FeatureCollection(

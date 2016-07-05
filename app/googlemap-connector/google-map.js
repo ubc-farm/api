@@ -26,7 +26,7 @@ export default class GoogleMap {
 		if (typeof element == "string") element = document.getElementById(element);
 		this.map = new google.maps.Map(element, style.map);
 		store.subscribe(() => {
-			this.lastState = this.updateState(this.lastState, store.getState());
+			this.lastState = this.updateState(this.lastState, store.getState().map);
 		});
 		this.dispatch = store.dispath;
 	}

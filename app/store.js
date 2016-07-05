@@ -1,10 +1,16 @@
-import {combineReducers, createStore} from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
+import map from 'app/googlemap-connector/reducer';
 //import subreducer from '';
 
-export const reducer = combineReducers({
-	//subreducer
+export const rootReducer = combineReducers({
+	map
 })
 
-export let store = createStore(reducer);
+let store = createStore(
+	rootReducer,
+	applyMiddleware(thunk)
+);
+
 export default store;
