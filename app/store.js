@@ -10,7 +10,9 @@ export const rootReducer = combineReducers({
 	map,
 	navigation,
 	tables,
-	routing
+	routing,
+	agenda: {},
+	today: new Date(Date.now())
 })
 
 let store = createStore(
