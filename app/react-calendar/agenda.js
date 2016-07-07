@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import {label} from 'lib/calendar'
 import {classlist} from 'lib/utils';
+import RangeElement from './rangestring.js';
 
 function* AgendaItems({date, events}) {
 	for (let event in events.get(date)) {
-		const {subject, description} = event;
+		const {subject, description, start, end} = event;
 		yield (
 			<li>
 				<div className='event-buttons'>
@@ -14,6 +15,10 @@ function* AgendaItems({date, events}) {
 				<article>
 					<h1>{subject}</h1>
 					<p>{description}</p>
+					
+					<hr/>
+					
+					<RangeElement {...event}/>
 				</article>
 			</li>
 		)
