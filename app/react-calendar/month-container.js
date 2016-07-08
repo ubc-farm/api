@@ -7,8 +7,8 @@ const CurrentMonth = connect(
 		calendar: asArray(viewingDate),
 		name: label.long.months[viewingDate.getMonth()],
 		events,
-		today: equal(viewingDate, today, 2) ? today.getDate(),
-		viewing: equal(viewingDate, today, 2) ? viewingDate.getDate(),
+		today: equal(viewingDate, today, 2) ? today.getDate() : undefined,
+		viewing: equal(viewingDate, today, 2) ? viewingDate.getDate() : undefined,
 		year: viewingDate.getFullYear(),
 		month: viewingDate.getMonth()
 	}),

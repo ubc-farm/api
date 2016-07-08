@@ -28,7 +28,6 @@ export default class GoogleMap {
 		store.subscribe(() => {
 			this.lastState = this.updateState(this.lastState, store.getState().map);
 		});
-		this.dispatch = store.dispath;
 	}
 
 	/**
