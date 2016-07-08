@@ -1,7 +1,12 @@
 import React, {PropTypes} from 'react';
 
-const CSS = ({file, href = `/css/${file}.css`}) => (
+const Css = ({file, href = `/css/${file}.css`}) => (
 	<link href={href} rel='stylesheet' key={file}/>
+)
+
+const CssAsync = ({file, href = `/css/${file}.css`}) => (
+	`<link rel='preload' href='${href}' as='style' onload="this.rel='stylesheet'">
+	<noscript><link rel='stylesheet' href='${href}'></noscript>`
 )
 
 const JS = ({src}) => (
@@ -26,7 +31,7 @@ const HTML = ({title, css, js, children}) => (
 				dangerouslySetInnerHTML={{__html: props.state}}></script>
 			<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' 
 				rel='stylesheet'/>
-			{[...defaultCss, ...css].map(name => <CSS file={name}/>)}
+			{[...defaultCss, ...css].map(name => <Css file={name}/>)}
 			{js.map(src => <JS src={src}/>)}
 		</head>
 		<body>
