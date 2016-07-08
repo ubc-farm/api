@@ -46,9 +46,11 @@ const TextField = (props) => {
 			})}>
 				{children}
 			</label>
-			<input {...props} name={name} className='text-field-input'
-						 onFocus={e => onFocus(true)} onBlur={e => onFocus(false)}
-			       onChange={e => onChange(e.target.value)}/>
+			<input {...props} name={name} 
+				className='text-field-input'
+				onFocus={e => onFocus(true)} onBlur={e => onFocus(false)}
+				onChange={e => onChange(e.target.value)}
+			/>
 			<span className='text-field-border'/>
 
 			{suffix ? 
@@ -77,6 +79,7 @@ TextField.propTypes = {
 	onChange: PropTypes.func,
 	onFocus: PropTypes.func,
 	id: PropTypes.string.isRequired, 
+	name: PropTypes.string,
 	focused: PropTypes.bool,
 
 	suffix: PropTypes.string, 
@@ -88,6 +91,9 @@ TextField.propTypes = {
 	persistHelper: PropTypes.bool, 
 	disabled: PropTypes.bool,
 
+	value: PropTypes.string,
+	children: PropTypes.string,
+	className: PropTypes.string,
 	type: PropTypes.oneOf(['email', 'text', 'url', 'tel', 'number'])
 }
 

@@ -1,4 +1,4 @@
-import React, { PropTypes, Children } from 'react';
+import React, { PropTypes } from 'react';
 import {Link, navigateTo} from 'app/navigation'
 import {connect} from 'react-redux';
 
@@ -13,9 +13,9 @@ export const SidebarComponent = ({secondary = {}, active, onLinkClick}) => {
 		if (active.toLowerCase() === page.toLowerCase()) return null;
 		else return (
 			<Link className='nav-color' 
-			      onClick={onLinkClick} 
-			      href={'/' + page.toLowerCase()}
-				>
+				onClick={onLinkClick} 
+				href={'/' + page.toLowerCase()}
+			>
 				{page}
 			</Link>
 		) 
@@ -30,8 +30,8 @@ export const SidebarComponent = ({secondary = {}, active, onLinkClick}) => {
 	return (
 		<aside className='nav-list' aria-role='navigation'>
 			<Link className='nav-action nav-color' 
-			      onClick={onLinkClick} 
-			      href={'/' + active.toLowerCase()}
+				onClick={onLinkClick} 
+				href={'/' + active.toLowerCase()}
 			>
 				{active}
 			</Link>

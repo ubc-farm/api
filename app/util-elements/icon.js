@@ -3,8 +3,9 @@ import {classlist} from 'lib/utils';
 
 const Icon = ({name, size = 24, className}) => (
 	<img className={classlist('icon-image', className)} alt=''
-		   width={size} height={size}
-			 src={`/assets/images/icons/${name}.svg`} />
+		width={size} height={size}
+		src={`/assets/images/icons/${name}.svg`} 
+	/>
 )
 
 Icon.propTypes = {

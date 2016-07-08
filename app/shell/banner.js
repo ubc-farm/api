@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import {connect} from 'react-redux';
 import {Link, navigateTo} from 'app/navigation'
 
 /**
@@ -10,8 +11,8 @@ export const BannerComponent = ({children, user, onUserClick}) => (
 		{children}
 
 		<Link className='user-button' 
-		      onClick={onUserClick}
-		      href='/user/account'
+			onClick={onUserClick}
+			href='/user/account'
 		>
 			{user}
 		</Link>
@@ -19,7 +20,9 @@ export const BannerComponent = ({children, user, onUserClick}) => (
 )
 
 BannerComponent.propTypes = {
-	user: PropTypes.string
+	user: PropTypes.string,
+	children: PropTypes.node,
+	onUserClick: PropTypes.func
 }
 
 BannerComponent.defaultProps = {

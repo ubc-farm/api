@@ -14,8 +14,8 @@ const Link = ({href, onClick, children, className}) => {
 
 	return (
 		<a href={href}
-		   className={className}
-		   onClick={onClickHandler}
+			className={className}
+			onClick={onClickHandler}
 		>
 			{children}
 		</a>
@@ -25,7 +25,8 @@ const Link = ({href, onClick, children, className}) => {
 Link.propTypes = {
 	href: PropTypes.string,
 	onClick: PropTypes.func,
-	className: PropTypes.string
+	className: PropTypes.string,
+	children: PropTypes.node
 }
 
 export default Link

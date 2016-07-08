@@ -43,11 +43,11 @@
             "ignoreRefs": true
         }],
         "react/jsx-no-target-blank": "error",
+        "react/jsx-closing-bracket-location": "error",
         "no-case-declarations": "error",
         "no-empty-pattern": "error",
         "arrow-body-style": "warn",
         "arrow-parens": ["warn", "as-needed"],
-        "no-confusing-arrow": "error",
         "no-duplicate-imports": "error",
         "no-useless-computed-key": "error",
         "no-useless-constructor": "warn",
@@ -56,7 +56,6 @@
             "avoidQuotes": true
         }],
         "prefer-arrow-callback": "error",
-        "prefer-const": "error",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
         "rest-spread-spacing": "warn",
@@ -66,6 +65,8 @@
         "no-process-exit": "error",
         "no-sync": "error",
         "no-shadow-restricted-names": "error",
-        "no-undef-init": "error"
+        "no-undef-init": "error",
+        "no-constant-condition": ["error", {"checkLoops": false}],
+        "no-unsafe-finally": "off"
     }
 }
