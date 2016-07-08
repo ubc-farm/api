@@ -1,7 +1,6 @@
 import Polygon from 'lib/geojson/polygon';
 import * as style from './style.js';
-import {id, diff, REMOVED, required as req} from 'lib/utils';
-import Mode from './mode.js';
+import {diff, REMOVED, required as req} from 'lib/utils';
 
 /**
  * Returns the largest number string in an array of number strings

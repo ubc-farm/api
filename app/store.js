@@ -15,7 +15,7 @@ export const rootReducer = combineReducers({
 	today: new Date(Date.now())
 })
 
-let store = createStore(
+const store = createStore(
 	rootReducer,
 	applyMiddleware(thunk)
 );

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {classlist} from 'lib/utils';
 import Checkbox from './checkbox.js'
 

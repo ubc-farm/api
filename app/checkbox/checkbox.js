@@ -20,7 +20,8 @@ Checkbox.propTypes = {
 	checked: PropTypes.bool,
 	required: PropTypes.bool,
 	disabled: PropTypes.bool,
-	onChange: PropTypes.func
+	onChange: PropTypes.func,
+	children: PropTypes.node
 }
 
 export default Checkbox;

@@ -11,3 +11,7 @@ export default function AngleIndicator({angle}) {
 		})
 	);
 }
+
+AngleIndicator.propTypes = {
+	angle: PropTypes.number
+}

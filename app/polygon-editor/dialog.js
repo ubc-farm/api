@@ -28,7 +28,7 @@ export default class EditorDialog extends Component {
 				</header> 
 				<form ref={f => this._form = f} className='form-divided'>
 					<IconButton {...buttonProps('resize')} icon='transform'
-					  className='colored' disabled={this.state.id}>
+						className='colored' disabled={this.state.id}>
 						Resize Outline
 					</IconButton>
 					<section id='grid-config' className='footer-button'>
@@ -51,14 +51,14 @@ export default class EditorDialog extends Component {
 							</NumberField>
 
 							<NumberField min={0} id='grid-config-height' suffix='m'
-							  value={this.state.height} onChange={this.changed.height}>
+								value={this.state.height} onChange={this.changed.height}>
 								Grid Height
 							</NumberField>
 						</section>
 
 						<LoadingIndicator hidden={!this.state.loading} className='left'/>
 						<IconButton type='submit' icon='done' className='right colored'
-						  disabled={this.state.gridUpdated}>Update grid</IconButton>
+							disabled={this.state.gridUpdated}>Update grid</IconButton>
 					</section>
 				</form>
 			</div>
