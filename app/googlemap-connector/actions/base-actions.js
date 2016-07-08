@@ -1,5 +1,4 @@
 import Polygon from 'lib/geojson/polygon';
-import Mode from '../mode.js'
 
 export const ADD_POLYGON = 'ADD_POLYGON';
 export const REMOVE_POLYGON = 'REMOVE_POLYGON';
@@ -41,7 +40,7 @@ export function addPolygonGrid(id) {
 }
 
 export function mergePolygonGrid(gridCellIds) {
-	return { type: MERGE_POLYGONS, ids: gridCellIds	}
+	return { type: MERGE_POLYGON_GRID, ids: gridCellIds	}
 }
 
 export function addGeoJsonWithoutCheck(geojson, timestamp) {

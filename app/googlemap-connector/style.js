@@ -1,6 +1,7 @@
 /**
  * @file preset styles for map objects
  */
+/*global google*/
 
 export const color = {
 	primary: 'rgb(59, 166, 72)',
@@ -27,7 +28,7 @@ export const map = {
 	zoom: 17,
 	mapTypeId: google.maps.MapTypeId.SATELLITE,
 	fullscreenControl: true,
-  scaleControl: true,
+	scaleControl: true,
 	mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
 	tilt: 0
 }
