@@ -67,6 +67,7 @@
         "no-shadow-restricted-names": "error",
         "no-undef-init": "error",
         "no-constant-condition": ["error", {"checkLoops": false}],
-        "no-unsafe-finally": "off"
+        "no-unsafe-finally": "off",
+        "no-console": "warn"
     }
 }

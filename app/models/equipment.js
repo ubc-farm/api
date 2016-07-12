@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import {Item, Sale, Location} from './';
+import {Task, Sale, Location} from './';
 
 /**
  * Represents an item in the inventory, with fields like the amount stored and 
