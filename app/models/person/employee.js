@@ -22,6 +22,23 @@ export default class Employee extends Person {
 	static get tableName() {return 'Employee'}
 	static get label() {return 'employees'}
 
+	static get jsonSchema() {
+		return Object.assign({
+			workingDays: {
+				type: 'array',
+				items: [
+					{type: 'boolean', default: false},
+					...Array(5).fill({type: 'boolean', default: true}),
+					{type: 'boolean', default: false}
+				],
+				minItems: 7, maxItems: 7
+			},
+			hourlyPay: {
+				type: 'integer'
+			}
+		})
+	}
+
 	static get relationMappings() {
 		return Object.assign({
 			assignments: {
