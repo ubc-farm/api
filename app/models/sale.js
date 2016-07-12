@@ -14,6 +14,7 @@ import {Person, Location} from './';
  * @property {number} [discount], as set value (not a percentage)
  * @property {number} [tax], as set value (not a percentage)
  * @property {string} [notes]
+ * @property {number} [budgetLineNumber]
  */
 export default class Sale extends Model {
 	static get tableName() {return 'Sale'}
