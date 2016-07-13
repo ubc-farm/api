@@ -28,20 +28,19 @@
     "postbrowser": "npm run browser:vendor && npm run browser:redux && npm run browser:node_modules && npm run browser:router-reselect",
     "browser": "npm run browser:lib && npm run browser:app",
     "fullstack": "npm run node && npm run browser",
-    "docs:autogrid": "jsdoc2md \"lib/autogrid/*.js\" > docs/lib/autogrid.md",
-    "docs:calendar": "jsdoc2md \"lib/calendar/*.js\" > docs/lib/calendar.md",
-    "docs:collection": "jsdoc2md \"lib/collection/*.js\" > docs/lib/collection.md",
-    "docs:folder": "jsdoc2md \"lib/folder/*.js\" > docs/lib/folder.md",
-    "docs:geojson": "jsdoc2md \"lib/geojson/*.js\" > docs/lib/geojson.md",
-    "docs:geometry": "jsdoc2md \"lib/geometry/*.js\" > docs/lib/geometry.md",
-    "docs:googlemaps-collection": "jsdoc2md \"lib/googlemaps-collection/*.js\" > docs/lib/googlemaps-collection.md",
-    "docs:map-table": "jsdoc2md \"lib/map-table/*.js\" > docs/lib/map-table.md",
-    "docs:module-worker": "jsdoc2md \"lib/module-worker/*.js\" > docs/lib/module-worker.md",
-    "docs:network": "jsdoc2md \"lib/network/*.js\" > docs/lib/network.md",
-    "docs:postgres-types": "jsdoc2md \"lib/postgres-types/*.js\" > docs/lib/postgres-types.md",
-    "docs:promise-worker": "jsdoc2md \"lib/promise-worker/*.js\" > docs/lib/promise-worker.md",
-    "docs:utils": "jsdoc2md \"lib/utils/*.js\" > docs/lib/utils.md",
-    "docs": "npm run docs:autogrid && npm run docs:calendar && npm run docs:collection && npm run docs:folder && npm run docs:geojson && npm run docs:geometry && npm run docs:googlemaps-collection && npm run docs:map-table && npm run docs:module-worker && npm run docs:network && npm run docs:postgres-types && npm run docs:promise-worker && npm run docs:utils",
+    "docs:api-handler": "rollup -i lib/api-handler/index.js --intro \"/** @module lib/api-handler */\" | jsdoc2md > docs/lib/api-handler.md",
+    "docs:autogrid": "rollup -i lib/autogrid/index.js --intro \"/** @module lib/autogrid */\" | jsdoc2md > docs/lib/autogrid.md",
+    "docs:calendar": "rollup -i lib/calendar/index.js --intro \"/** @module lib/calendar */\" | jsdoc2md > docs/lib/calendar.md",
+    "docs:folder": "rollup -i lib/folder/index.js --intro \"/** @module lib/folder */\" | jsdoc2md > docs/lib/folder.md",
+    "docs:geojson": "rollup -i lib/geojson/index.js --intro \"/** @module lib/geojson */\" | jsdoc2md > docs/lib/geojson.md",
+    "docs:angle": "rollup -i lib/geometry/angle.js --intro \"/** @module lib/geometry/angle */\" | jsdoc2md > docs/lib/angle.md",
+    "docs:module-worker": "rollup -i lib/module-worker/index.js --intro \"/** @module lib/module-worker */\" | jsdoc2md > docs/lib/module-worker.md",
+    "docs:money": "rollup -i lib/money/index.js --intro \"/** @module lib/money */\" | jsdoc2md > docs/lib/money.md",
+    "docs:network": "rollup -i lib/network/index.js --intro \"/** @module lib/network */\" | jsdoc2md > docs/lib/network.md",
+    "docs:postgres-types": "rollup -i lib/postgres-types/index.js --intro \"/** @module lib/postgres-types */\" | jsdoc2md > docs/lib/postgres-types.md",
+    "docs:react-table": "rollup -i lib/react-table/index.js --intro \"/** @module lib/react-table */\" | jsdoc2md > docs/lib/react-table.md",
+    "docs:utils": "rollup -i lib/utils/index.js --intro \"/** @module lib/utils */\" | jsdoc2md > docs/lib/utils.md",
+    "docs": "npm run docs:api-handler && npm run docs:autogrid && npm run docs:calendar && npm run docs:folder && npm run docs:geojson && npm run docs:angle && npm run docs:module-worker && npm run docs:money && npm run docs:network && npm run docs:postgres-types && npm run docs:react-table && npm run docs:utils",
     "knex": "knex migrate:latest"
   },
   "watch": {
@@ -106,7 +105,8 @@
     "postcss-import": "^8.1.2",
     "react-addons-test-utils": "^15.2.1",
     "sqlite3": "^3.1.4",
-    "tape": "^4.6.0"
+    "tape": "^4.6.0",
+    "rollup": "^0.34.1"
   },
   "babel": {
     "plugins": [
