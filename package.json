@@ -33,7 +33,7 @@
     "docs:calendar": "rollup -i lib/calendar/index.js --intro \"/** @module lib/calendar */\" | jsdoc2md > docs/lib/calendar.md",
     "docs:folder": "rollup -i lib/folder/index.js --intro \"/** @module lib/folder */\" | jsdoc2md > docs/lib/folder.md",
     "docs:geojson": "rollup -i lib/geojson/index.js --intro \"/** @module lib/geojson */\" | jsdoc2md > docs/lib/geojson.md",
-    "docs:angle": "rollup -i lib/geometry/angle.js --intro \"/** @module lib/geometry/angle */\" | jsdoc2md > docs/lib/angle.md",
+    "docs:angle": "rollup -i lib/angle/index.js --intro \"/** @module lib/angle */\" | jsdoc2md > docs/lib/angle.md",
     "docs:module-worker": "rollup -i lib/module-worker/index.js --intro \"/** @module lib/module-worker */\" | jsdoc2md > docs/lib/module-worker.md",
     "docs:money": "rollup -i lib/money/index.js --intro \"/** @module lib/money */\" | jsdoc2md > docs/lib/money.md",
     "docs:network": "rollup -i lib/network/index.js --intro \"/** @module lib/network */\" | jsdoc2md > docs/lib/network.md",
