@@ -33,8 +33,20 @@ export default class Employee extends Person {
 				],
 				minItems: 7, maxItems: 7
 			},
-			hourlyPay: {
-				type: 'integer'
+			hourlyPay: {type: 'integer'},
+			fullOrPartTime: {type: 'boolean'},
+			holidayDays: {type: 'array', unqiueItems: true},
+			sickDays: {type: 'array', unqiueItems: true},
+			paidLeaveDays: {type: 'array', unqiueItems: true},
+			inLieuHours: {type: 'array', unqiueItems: true},
+			medicalLeaveTime: {type: 'array', unqiueItems: true},
+			emergencyContactName: {
+				type: 'string'
+			},
+			emergencyContactNumber: {
+				type: 'string',
+				minLength: 15,
+				maxLength: 15
 			}
 		})
 	}
