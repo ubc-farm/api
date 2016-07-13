@@ -29,6 +29,7 @@
 			'jsts': {main: 'dist/jsts.min.js'},
 			'react-router': {main: 'lib/index.js'},
 			'react-router-redux': {main: 'lib/index.js'},
+			'reselect': {main: 'lib/index.js'},
 			'react-redux': {main: 'src/index.js'},
 			'redux': {main: 'src/index.js'},
 			'redux-thunk': {main: 'src/index.js'},
