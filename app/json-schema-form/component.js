@@ -13,9 +13,10 @@ const FormItem = ({name, schema, required}) => {
 			)
 		case 'integer': 
 		case 'number': {
-			const {multipleOf = 'any', maximum, minimum} = schema;
+			const {multipleOf, maximum, minimum} = schema;
 			return (
-				<Input type='number'
+				<Input {...schema}
+					type='number'
 					step={multipleOf}
 					max={maximum}
 					min={minimum}
@@ -34,28 +35,30 @@ const FormItem = ({name, schema, required}) => {
 							: null
 					}
 					{
-						Object.keys(properties).map(key => (
-							<FormItem name={key} key={key}
-								schema={properties[key]}
-								required={required.includes(key)}
+						Object.keys(properties).map(k => (
+							<FormItem name={k} key={k}
+								schema={properties[k]}
+								required={required.includes(k)}
 							/>
 						))}
 				</fieldset>
 			);
 		}
 		case 'string': {
-			const {maxLength, minLength, pattern} = schema;
+			const {maxLength, minLength, pattern, inputType} = schema;
 			return (
 				<Input
 					{...schema}
+					type={inputType || 'text'}
 					pattern={pattern}
 					maxlength={maxLength}
-					minLength={minLength}
+					minlength={minLength}
 					value={schema.default}
 					required={required}
 				/>
 			);
 		}
+		default: return null;
 	}
 }
 
