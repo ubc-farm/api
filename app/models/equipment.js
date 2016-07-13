@@ -16,6 +16,18 @@ export default class Equipment extends Model {
 	static get tableName() {return 'Equipment'}
 	static get label() {return 'equipment'}
 
+	static get jsonSchema() {return {
+		type: 'object',
+		properties: {
+			id: {type: 'integer'},
+			product: {type: 'integer'},
+			description: {type: 'string'},
+			quantity: {type: 'integer'},
+			purchaseDate: {type: 'number'}, //milliseconds from enoch
+			location: {type: 'integer'}
+		}
+	}}
+
 	static get relationMappings() {
 		return {
 			/** Sale data related to this equipment */
