@@ -30,7 +30,8 @@
         ],
         "quotes": [
             "error",
-            "single"
+            "single",
+            {"allowTemplateLiterals": true}
         ],
         "semi": "off",
         "react/no-danger": "off",
@@ -55,6 +56,7 @@
         "object-shorthand": ["warn", "always", {
             "avoidQuotes": true
         }],
+        "no-sparse-arrays": "off",
         "prefer-arrow-callback": "error",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
