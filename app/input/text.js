@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {classlist as _} from 'lib/utils';
+import {classlist as _} from '../../lib/utils';
 
 /**
  * A text field with a single line of text
@@ -26,7 +26,7 @@ import {classlist as _} from 'lib/utils';
  * such as a unit like kg or °.
  * @param {boolean} [props.disabled] - disabled the input
  */
-const TextField = (props) => {
+const TextField = props => {
 	const {onChange, onFocus, children, focused} = props;
 	const {suffix, helper, error, maxlength = -1} = props;
 	const {float, persistHelper, disabled} = props;

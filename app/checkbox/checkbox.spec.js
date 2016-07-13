@@ -11,7 +11,8 @@ test('Checkbox', t => {
 		'Checkbox has a label element'
 	);
 	t.assert(
-		basic.find('input[type=checkbox]'),
+		basic.find('input[type="checkbox"]'),
 		'Checkbox has checkbox input'
 	);
+	t.end();
 })

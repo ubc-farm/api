@@ -1,13 +1,19 @@
 import React, {PropTypes} from 'react';
-import Checkbox from 'app/checbox';
-import Input from 'app/input';
+import Checkbox from '../../app/checkbox';
+import Input from '../../app/input/text';
 
 const FormItem = ({name, schema, required}) => {
+	if (!schema || !schema.type) return null;
+
+	const {default: defaultValue} = schema;
+	schema = Object.assign({}, schema);
+	delete schema.default;
+
 	switch (schema.type) {
 		case 'boolean': 
 			return (
 				<Checkbox {...schema} 
-					value={schema.default} 
+					value={defaultValue}
 					required={required}
 				/>
 			)
@@ -15,12 +21,12 @@ const FormItem = ({name, schema, required}) => {
 		case 'number': {
 			const {multipleOf, maximum, minimum} = schema;
 			return (
-				<Input {...schema}
+				<Input id={name} {...schema}
 					type='number'
 					step={multipleOf}
 					max={maximum}
 					min={minimum}
-					value={schema.default}
+					value={defaultValue ? defaultValue.toString() : undefined}
 					required={required}
 				/>
 			);
@@ -47,13 +53,13 @@ const FormItem = ({name, schema, required}) => {
 		case 'string': {
 			const {maxLength, minLength, pattern, inputType} = schema;
 			return (
-				<Input
+				<Input id={name}
 					{...schema}
 					type={inputType || 'text'}
 					pattern={pattern}
 					maxlength={maxLength}
 					minlength={minLength}
-					value={schema.default}
+					value={defaultValue}
 					required={required}
 				/>
 			);
