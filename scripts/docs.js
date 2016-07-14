@@ -1,6 +1,6 @@
 const {rollup} = require('rollup');
 const jsdoc2md = require('jsdoc-to-markdown');
-const {join} = require('path');
+const {resolve} = require('path');
 const {Readable} = require('stream');
 const {createWriteStream} = require('fs');
 
@@ -23,7 +23,7 @@ class StringStream extends Readable {
 
 function moduleToDocs(module) {
 	return rollup({
-		entry: join(__dirname, `../lib/${module}/index.js`)
+		entry: resolve(__dirname, `../lib/${module}/index.js`)
 	}).then(({generate}) => generate({
 		intro: `/** @module lib/${module} */`
 	})).then(({code}) => {
@@ -32,12 +32,12 @@ function moduleToDocs(module) {
 				'heading-depth': 1
 			}))
 			.pipe(createWriteStream(
-				join(__dirname, `../docs/lib/${module}.md`)
+				resolve(__dirname, `../docs/lib/${module}.md`)
 			));
 	})
 }
 
-[
+const list = [
 	'api-handler',
 	'autogrid',
 	'calendar',
@@ -50,7 +50,10 @@ function moduleToDocs(module) {
 	'postgres-types',
 	'react-table',
 	'utils'
-]
-.forEach(moduleToDocs);
+];
 
-exports.default = moduleToDocs;
+module.exports = {
+	default: moduleToDocs,
+	list,
+	promises: list.map(moduleToDocs)
+}
