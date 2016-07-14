@@ -6,7 +6,7 @@ import {Task} from '../index.js';
  * Extends Person with timetable information. Task assignments are also
  * joined to employees
  * @alias module:app/models.Employee
- * @extends Person
+ * @extends module:app/models.Person
  * @property {boolean[]} [workingDays], where the index corresponds to a day
  * @property {number} [hourlyPay]
  * @property {boolean} [fullOrPartTime] true if full time, false if part time

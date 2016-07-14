@@ -57,7 +57,7 @@ export default class Sale extends Model {
 
 /**
  * A Grant uses sale data to represent the monentary values.
- * @extends Sale
+ * @extends module:app/models.Sale
  * @property {string} grantName
  */
 export class Grant extends Sale {

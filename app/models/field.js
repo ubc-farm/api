@@ -80,6 +80,7 @@ export default class Field extends Model {
 /**
  * Data for a crop growing in a field, including the type of plant it it and
  * historical data like scouting.
+ * @alias module:app/models.Crop
  * @property {string} type of plant growing in this field.
  * @property {string} fieldId of the field this crop grows in
  * @property {number} quantity of this crop growing in the field

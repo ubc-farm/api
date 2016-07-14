@@ -4,8 +4,8 @@ import {Chemical} from '../index.js';
 
 /**
  * Shared properties for chemical tasks
- * @alias module:app/models.Chem
- * @extends Task
+ * @alias module:app/models.ChemicalTask
+ * @extends module:app/models.Task
  * @property {string} [product] used for this task
  * @property {number} [applicationRate] of the product
  */
@@ -29,7 +29,8 @@ export default class ChemicalTask extends Task {
 
 /**
  * Task for fertilizing a field
- * @extends ChemicalTask
+ * @alias module:app/models.Fertilizing
+ * @extends module:app/models.ChemicalTask
  * @property {string} [plantLocation] - i.e.: spot, broadcast
  */
 export class Fertilizing extends ChemicalTask {
@@ -39,7 +40,8 @@ export class Fertilizing extends ChemicalTask {
 
 /**
  * Task for pest control for a field
- * @extends ChemicalTask
+ * @alias module:app/models.PestControl
+ * @extends module:app/models.ChemicalTask
  * @property {float[]} [waterToMixRatio] - where water:mix maps to [water, mix]
  * @property {string} [plantLocation] - i.e.: foliar, root
  * @property {Object} [entryInterval]

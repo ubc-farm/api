@@ -5,7 +5,7 @@ import {Crop, Plant, Item} from '../index.js';
 /**
  * Task for seeding and transplating
  * @alias module:app/models.Seeding
- * @extends Task
+ * @extends module:app/models.Task
  * @property {string} crop affected/created by this task
  * @property {string} [variety] of plant
  * @property {string} [product]

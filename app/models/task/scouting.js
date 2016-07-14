@@ -40,7 +40,7 @@ export default class Scouting extends Task {
 /**
  * Data for scouting a harvest
  * @alias module:app/models.ScoutHarvest
- * @extends Scouting
+ * @extends module:app/models.Scouting
  * @property {Date} [newExpectedHarvest]
  * @property {number} [newPredictedYield]
  */
@@ -59,7 +59,7 @@ export class ScoutHarvest extends Scouting {
 /**
  * Data for scouting pests in the crop
  * @alias module:app/models.ScoutPest
- * @extends Scouting
+ * @extends module:app/models.Scouting
  * @property {string} [pestType]
  * @property {string} [affectedSpot]
  * @property {string} [pestName]

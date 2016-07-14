@@ -5,7 +5,7 @@ import Person from './person.js';
  * Represents a researcher working at the farm. Extends person with extra
  * faculty data, and links to ResearchProjects.
  * @alias module:app/models.Researcher
- * @extends Person
+ * @extends module:app/models.Person
  * @property {string} [position]
  * @property {string} [faculty] such as 'Land and Food Systems' or 'Science'
  * @property {string} [department] such as 'Applied Biology' or 'Mathematics'

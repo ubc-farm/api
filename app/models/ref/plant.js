@@ -5,7 +5,7 @@ import {Crop} from '../index.js';
 /**
  * Extends Item with Plant specific information for crops
  * @alias module:app/models.Plant
- * @extends Item
+ * @extends module:app/models.Item
  * @property {string} [latin] name of the plant
  */
 export default class Plant extends Item {
