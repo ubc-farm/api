@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {classlist} from '../../lib/utils';
+import {classlist} from '../../lib/utils/index.js';
 
 /**
  * Checkbox element. The input is hidden with CSS and replaced by the i element,

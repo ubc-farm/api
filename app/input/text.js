@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {classlist as _} from '../../lib/utils';
+import {classlist as _, omit} from '../../lib/utils/index.js';
 
 /**
  * A text field with a single line of text
@@ -10,7 +10,7 @@ import {classlist as _} from '../../lib/utils';
  * passed the value
  * @param {string} [props.type=text] - type for the input.
  * Only a few types, related to text, are allowed.
- * @param {number} [props.maxlength] - sets a maxiumum length for the input,
+ * @param {number} [props.maxLength] - sets a maxiumum length for the input,
  * which will also cause a character counter to be rendered.
  * @param {string} [props.placeholder] text displayed as a placeholder 
  * inside the input. Should be unimportant example text due 
@@ -28,7 +28,7 @@ import {classlist as _} from '../../lib/utils';
  */
 const TextField = props => {
 	const {onChange, onFocus, children, focused} = props;
-	const {suffix, helper, error, maxlength = -1} = props;
+	const {suffix, helper, error, maxLength = -1, type} = props;
 	const {float, persistHelper, disabled} = props;
 	const {name = props.id} = props;
 
@@ -46,7 +46,11 @@ const TextField = props => {
 			})}>
 				{children}
 			</label>
-			<input {...props} name={name} 
+			<input 
+				{...omit(props, 'children', 'focused', 'suffix', 'helper', 'error',
+					'float', 'persistHelper')} 
+				type={type}
+				name={name} 
 				className='text-field-input'
 				onFocus={e => onFocus(true)} onBlur={e => onFocus(false)}
 				onChange={e => onChange(e.target.value)}
@@ -66,9 +70,9 @@ const TextField = props => {
 				</span>
 			: null}
 
-			{maxlength > -1 ? 
+			{maxLength > -1 ? 
 				<span className='text-field-counter'>
-					{props.value.length} / {maxlength}
+					{props.value.length} / {maxLength}
 				</span>
 			: null}
 		</div>
@@ -85,7 +89,7 @@ TextField.propTypes = {
 	suffix: PropTypes.string, 
 	helper: PropTypes.string, 
 	error: PropTypes.string, 
-	maxlength: PropTypes.number, 
+	maxLength: PropTypes.number, 
 
 	float: PropTypes.bool, 
 	persistHelper: PropTypes.bool, 

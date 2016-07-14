@@ -1,5 +1,5 @@
 import React from 'react';
-import {classlist} from '../../lib/utils';
+import {classlist} from '../../lib/utils/index.js';
 import Checkbox from './checkbox.js'
 
 /**
