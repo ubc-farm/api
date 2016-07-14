@@ -20,7 +20,11 @@ export default class Scouting extends Task {
 
 	static get relationMappings() {
 		return Object.assign({
-			/** The crop that the scouting is related to */
+			/** 
+			 * The crop that the scouting is related to
+			 * @memberof! module:app/models.Scouting# 
+			 * @type {module:app/models.Crop}
+			 */
 			crop: {
 				relation: Model.OneToOneRelation,
 				modelClass: Crop,
@@ -35,6 +39,7 @@ export default class Scouting extends Task {
 
 /**
  * Data for scouting a harvest
+ * @alias module:app/models.ScoutHarvest
  * @extends Scouting
  * @property {Date} [newExpectedHarvest]
  * @property {number} [newPredictedYield]
@@ -53,6 +58,7 @@ export class ScoutHarvest extends Scouting {
 
 /**
  * Data for scouting pests in the crop
+ * @alias module:app/models.ScoutPest
  * @extends Scouting
  * @property {string} [pestType]
  * @property {string} [affectedSpot]

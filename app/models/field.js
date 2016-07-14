@@ -15,6 +15,7 @@ export default class Field extends Model {
 	static get tableName() {return 'Field'}
 	static get label() {return 'fields'}
 
+	/** @type {module:lib/geojson.Polygon} */
 	get polygon() {
 		return new Polygon(this.path);
 	}
@@ -33,7 +34,11 @@ export default class Field extends Model {
 
 	static get relationMappings() {
 		return {
-			/** Crops growing in this field */
+			/** 
+			 * Crops growing in this field
+			 * @memberof! module:app/models.Field# 
+			 * @type {module:app/models.Crop}
+			 */
 			crops: {
 				relation: Model.OneToManyRelation,
 				modelClass: Crop,
@@ -42,7 +47,11 @@ export default class Field extends Model {
 					to: 'Crop.fieldId'
 				}
 			},
-			/** The containing field, if applicable */
+			/** 
+			 * The containing field, if applicable 
+			 * @memberof! module:app/models.Field#
+			 * @type {module:app/models.Field}
+			 */
 			parentField: {
 				relation: Model.OneToOneRelation,
 				modelClass: Field,
@@ -51,7 +60,11 @@ export default class Field extends Model {
 					to: 'Field.id'
 				}
 			},
-			/** Fields within this one, if applicable */
+			/** 
+			 * Fields within this one, if applicable
+			 * @memberof! module:app/models.Field#
+			 * @type {module:app/models.Field[]} 
+			 */
 			childFields: {
 				relation: Model.OneToManyRelation,
 				modelClass: Field,
@@ -87,7 +100,11 @@ export class Crop extends Model {
 
 	static get relationMappings() {
 		return {
-			/** The type of plant */
+			/** 
+			 * The type of plant
+			 * @memberof! module:app/models.Crop#
+			 * @type {module:app/models.Plant} 
+			 */
 			variety: {
 				relation: Model.OneToOneRelation,
 				modelClass: Plant,
@@ -96,7 +113,10 @@ export class Crop extends Model {
 					to: 'Plant.id'
 				}
 			},
-			/** The field this crop grows in */
+			/** 
+			 * The field this crop grows in
+			 * @memberof! module:app/models.Crop#
+			 */
 			field: {
 				relation: Model.OneToOneRelation,
 				modelClass: Field,
@@ -105,7 +125,10 @@ export class Crop extends Model {
 					to: 'Field.id'
 				}
 			},
-			/** Scouting logs */
+			/** 
+			 * Scouting logs
+			 * @memberof! module:app/models.Crop# 
+			 */
 			scouting: {
 				relation: Model.OneToManyRelation,
 				modelClass: Scouting,

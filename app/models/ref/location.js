@@ -1,5 +1,6 @@
 import {Model} from 'objection';
 import {Field} from '../index.js';
+import {Position} from '../../../lib/geojson/index.js';
 
 /**
  * Represents a location. If field is specified, this location represents that
@@ -13,6 +14,10 @@ export default class Location extends Model {
 	static get tableName() {return 'Location'}
 	static get label() {return 'locations'}
 
+	/** @type {module:lib/geojson.Position} */
+	get coord() {return Position.from(this.position);}
+	set coord(value) {this.position = value.toJSON();}
+
 	static get relationMappings() {
 		return {
 			field: {
@@ -24,14 +29,5 @@ export default class Location extends Model {
 				}
 			}
 		}
-	}
-
-	parseDatabaseJson(json) {
-		json = super.parseDatabaseJson(json);
-
-		if (json.position) {
-
-		}
-		return json;
 	}
 }

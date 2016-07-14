@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 import {Location, Program, Employee, Equipment} from '../index.js';
-import {Assignment, EquipmentUsage} from '../joins';
+import {Assignment, EquipmentUsage, ProgramUsage} from '../joins';
 
 /**
  * Common attributes for tasks that other tables inherit.
@@ -35,7 +35,11 @@ export default class Task extends Model {
 
 	static get relationMappings() {
 		return {
-			/** Location for this task */
+			/** 
+			 * Location for this task
+			 * @memberof! module:app/models.Task#
+			 * @type {module:app/models.Location} 
+			 */
 			location: {
 				relation: Model.OneToOneRelation,
 				modelClass: Location,
@@ -44,7 +48,11 @@ export default class Task extends Model {
 					to: 'Location.id'
 				}
 			},
-			/** Programs that this task is linked to */
+			/** 
+			 * Programs that this task is linked to 
+			 * @memberof! module:app/models.Task#
+			 * @type {module:app/models.Program[]}
+			 */
 			program: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Program,
@@ -58,7 +66,11 @@ export default class Task extends Model {
 					to: 'Program.id'
 				}
 			},
-			/** Employees assigned to this task */
+			/** 
+			 * Employees assigned to this task
+			 * @memberof! module:app/models.Task#
+			 * @type {module:app/models.Employee[]} 
+			 */
 			labour: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Employee,
@@ -72,7 +84,11 @@ export default class Task extends Model {
 					to: 'Employee.id'
 				}
 			},
-			/** Equipment used by this task */
+			/** 
+			 * Equipment used by this task
+			 * @memberof! module:app/models.Task#
+			 * @type {module:app/models.Equipment[]} 
+			 */
 			equipment: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Equipment,

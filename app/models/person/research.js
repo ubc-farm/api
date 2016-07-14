@@ -20,7 +20,11 @@ export default class Researcher extends Person {
 
 	static get relationMappings() {
 		return Object.assign({
-			/** Projects where this researcher is a lead */
+			/** 
+			 * Projects where this researcher is a lead 
+			 * @memberof! module:app/models.Researcher#
+			 * @type {module:app/models.ResearchProject[]}
+			 */
 			projects: {
 				relation: Model.OneToManyRelation,
 				modelClass: ResearchProject,
@@ -29,7 +33,11 @@ export default class Researcher extends Person {
 					to: 'ResearchProject.researcher'
 				}
 			},
-			/** Projects where this researcher is a partner */
+			/** 
+			 * Projects where this researcher is a partner
+			 * @memberof! module:app/models.Researcher# 
+			 * @type {module:app/models.ResearchProject[]}
+			 */
 			partnerProjects: {
 				relation: Model.ManyToManyRelation,
 				modelClass: ResearchProject,
@@ -50,6 +58,7 @@ export default class Researcher extends Person {
 /**
  * Represents a research project at the farm, with a lead researcher and 
  * possible partner researchers and members.
+ * @alias module:app/models.ResearchProject
  * @property {string} researcher - id of the lead researcher
  * @property {string} [title] of the project
  * @property {Date[]} [date] - range indicating start and end date of project
@@ -66,7 +75,7 @@ export class ResearchProject extends Model {
 	static get tableName() {return 'ResearchProject'}
 
 	/**
-	 * Returns the total number of members working on the project
+	 * @returns {number} the total number of members working on the project
 	 */
 	memberCount() {
 		return this.postDocs + this.phds 
@@ -76,7 +85,11 @@ export class ResearchProject extends Model {
 
 	static get relationMappings() {
 		return {
-			/** Link to the lead researcher */
+			/** 
+			 * Link to the lead researcher
+			 * @type {module:app/models.Researcher}
+			 * @memberof! module:app/models.ResearchProject#
+			 */
 			lead: {
 				relation: Model.OneToOneRelation,
 				modelClass: Researcher,
@@ -85,7 +98,11 @@ export class ResearchProject extends Model {
 					to: 'Researcher.id'
 				}
 			},
-			/** Links to the partner researchers */
+			/** 
+			 * Links to the partner researchers
+			 * @type {module:app/models.Researcher}
+			 * @memberof! module:app/models.ResearchProject# 
+			 */
 			partners: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Researcher,

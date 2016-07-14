@@ -30,7 +30,11 @@ export default class Equipment extends Model {
 
 	static get relationMappings() {
 		return {
-			/** Sale data related to this equipment */
+			/** 
+			 * Sale data related to this equipment
+			 * @memberof! module:app/models.Equipment#
+			 * @type {module:app/models.Sale[]} 
+			 */
 			sales: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Sale,
@@ -44,7 +48,11 @@ export default class Equipment extends Model {
 					to: 'Sale.id'
 				}
 			},
-			/** Tasks this equipment is being used for */
+			/** 
+			 * Tasks this equipment is being used for
+			 * @memberof! module:app/models.Equipment#
+			 * @type {module:app/models.Task[]} 
+			 */
 			tasks: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Task,
@@ -58,7 +66,11 @@ export default class Equipment extends Model {
 					to: 'Task.id'
 				}
 			},
-			/** The location where this equipment is stored */
+			/** 
+			 * The location where this equipment is stored
+			 * @memberof! module:app/models.Equipment#
+			 * @type {module:app/models.Location} 
+			 */
 			loc: {
 				relation: Model.OneToOneRelation,
 				modelClass: Location,
@@ -67,7 +79,11 @@ export default class Equipment extends Model {
 					to: 'Location.id'
 				}
 			},
-			/** The type of item this equipment is */
+			/** 
+			 * The type of item this equipment is 
+			 * @memberof! module:app/models.Equipment#
+			 * @type {module:app/models.Item}
+			 */
 			item: {
 				relation: Model.OneToManyRelation,
 				modelClass: Equipment,

@@ -16,7 +16,10 @@ export default class Program extends Model {
 
 	static get relationMappings() {
 		return {
-			/** An Account linked to this program */
+			/** 
+			 * An Account linked to this program
+			 * @memberof! module:app/models.Program# 
+			 */
 			link: {
 				relation: Model.OneToOneRelation,
 				modelClass: Account,
@@ -25,7 +28,11 @@ export default class Program extends Model {
 					to: 'Account.id'
 				}
 			},
-			/** Tasks and events classified under this program */
+			/** 
+			 * Tasks and events classified under this program
+			 * @memberof! module:app/models.Program#
+			 * @type {module:app/models.Task[]} 
+			 */
 			tasks: {
 				relation: Model.ManyToManyRelation,
 				modelClass: Task,
@@ -62,6 +69,7 @@ export class Account extends Model {
 
 /**
  * Helper table to join Programs with Tasks
+ * @alias module:app/models~ProgramUsage
  */
 export class ProgramUsage extends Model {
 	static get tableName() {return 'ProgramUsage'}

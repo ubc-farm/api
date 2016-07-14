@@ -26,6 +26,8 @@ export default class Sale extends Model {
 			 * Refers to the customer who purchased an item in this sale. 
 			 * A possible buyer is ourself, in which case this sale is a purchase
 			 * rather than a sale to someone else. 
+			 * @memberof! module:app/models.Sale#
+			 * @type {module:app/models.Person}
 			 */
 			customer: {
 				relation: Model.OneToOneRelation,
@@ -38,6 +40,8 @@ export default class Sale extends Model {
 			/**
 			 * Represents the location this item was delivered to. 
 			 * @todo find a way to allow for custom locations
+			 * @memberof! module:app/models.Sale#
+			 * @type {module:app/models.Location}
 			 */
 			deliveryLoc: {
 				relation: Model.OneToOneRelation,

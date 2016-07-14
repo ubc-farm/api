@@ -21,7 +21,11 @@ export default class Item extends Model {
 
 	static get relationMappings() {
 		return {
-			/** Info about the supplier */
+			/** 
+			 * Info about the supplier
+			 * @type {module:app/models.Person}
+			 * @memberof! module:app/models.Item# 
+			 */
 			supplier: {
 				relation: Model.OneToOneRelation,
 				modelClass: Company,
@@ -30,7 +34,11 @@ export default class Item extends Model {
 					to: 'Person.id'
 				}
 			},
-			/** Equipment instances of this Item */
+			/** 
+			 * Equipment instances of this Item
+			 * @type {module:app/models.Equipment[]}
+			 * @memberof! module:app/models.Item# 
+			 */
 			equipment: {
 				relation: Model.OneToManyRelation,
 				modelClass: Equipment,

@@ -19,7 +19,11 @@ export default class Event extends Task {
 
 	static get relationMappings() {
 		return Object.assign({
-			/** Contains ticket sale data for this event */
+			/** 
+			 * Contains ticket sale data for this event
+			 * @memberof! module:app/models.Event#
+			 * @type {module:app/models.Sale} 
+			 */
 			ticket: {
 				relation: Model.OneToOneRelation,
 				modelClass: Sale,
@@ -28,7 +32,11 @@ export default class Event extends Task {
 					to: 'Sale.id'
 				}
 			},
-			/** Represents a person to contact about this event */
+			/** 
+			 * Represents a person to contact about this event
+			 * @memberof! module:app/models.Event#
+			 * @type {module:app/models.Person} 
+			 */
 			contact: {
 				relation: Model.OneToOneRelation,
 				modelClass: Person,

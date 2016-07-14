@@ -14,7 +14,11 @@ export default class Chemical extends Model {
 
 	static get relationMappings() {
 		return {
-			/** Tasks where the chemical is used */
+			/** 
+			 * Tasks where the chemical is used
+			 * @memberof! module:app/models.Chemical#
+			 * @type {module:app/models.ChemicalTask[]} 
+			 */
 			usage: {
 				relation: Model.OneToManyRelation,
 				modelClass: ChemicalTask,

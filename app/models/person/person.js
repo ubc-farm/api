@@ -64,6 +64,7 @@ export default class Person extends Model {
 
 /**
  * Schema for objects used to represent an address.
+ * @alias module:app/models.Person~addressSchema
  */
 const addressSchema = {
 	type: 'object',
