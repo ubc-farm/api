@@ -3,7 +3,7 @@ import Task from './task.js';
 
 /**
  * An irrigation task
- * @module backend/database/models/task/irrigate
+ * @alias module:app/models.Irrigate
  * @extends Task
  * @property {number} [flowRate]
  * @property {string} [type]

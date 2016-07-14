@@ -1,7 +1,6 @@
 /**
  * These modules represent reference data for other modules to use, such as info
  * about a species of plant or the chemical composition of a fertilizer. 
- * @module backend/database/models/ref
  */
 
 export {default as Chemical} from './chemical.js';

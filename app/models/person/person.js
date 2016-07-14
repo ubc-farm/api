@@ -1,10 +1,10 @@
 import {Model} from 'objection';
-import {Sale, Item} from '../';
+import {Sale, Item} from '../index.js';
 
 /**
  * Used to represent a person or company, such as employees and customers. Can
  * be linked to a user account.
- * @module backend/database/models/person
+ * @alias module:app/models.Person
  * @property {string} name
  * @property {string} [role] of the person
  * @property {string} [email] - email address

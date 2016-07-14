@@ -1,16 +1,22 @@
 import {Model} from 'objection';
 import Task from './task.js';
-import {Crop} from '../';
+import {Crop} from '../index.js';
 
 /**
  * Shared properties for scouting tasks, mainly used for historical data
- * @module backend/database/models/task/scouting
+ * @alias module:app/models.Scouting
  * @extends Task
  * @property {string} cropId
  */
 export default class Scouting extends Task {
 	static get tableName() {return 'Scouting'}
 	static get label() {return 'scouting'}
+
+	static get jsonSchema() {
+		return Object.assign(super.jsonSchema, {
+			cropId: {type: 'integer'}
+		})
+	}
 
 	static get relationMappings() {
 		return Object.assign({
@@ -36,6 +42,13 @@ export default class Scouting extends Task {
 export class ScoutHarvest extends Scouting {
 	static get tableName() {return 'ScoutHarvest'}
 	static get label() {return 'scouting-harvest'}
+
+	static get jsonSchema() {
+		return Object.assign(super.jsonSchema, {
+			newExpectedHarvest: {type: 'integer'},
+			newPredictedYield: {type: 'integer'}
+		})
+	}
 }
 
 /**

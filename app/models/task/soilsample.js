@@ -1,10 +1,10 @@
 import {Model} from 'objection';
 import Task from './task.js';
-import {Person as Company} from '../';
+import {Person as Company} from '../index.js';
 
 /**
  * A soil sampling task
- * @module backend/database/models/soilsample
+ * @alias module:app/models.SoilSample
  * @extends Task
  * @property {number} [depth]
  * @property {string} [methodUsed]

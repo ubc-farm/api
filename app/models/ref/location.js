@@ -1,10 +1,10 @@
 import {Model} from 'objection';
-import {Field} from '../';
+import {Field} from '../index.js';
 
 /**
  * Represents a location. If field is specified, this location represents that
  * field.
- * @module backend/database/models/ref/location
+ * @alias module:app/models.Location
  * @property {string} [name]
  * @property {float[]} [position] - a coordinate expressed as [x, y]
  * @property {string} [fieldId]

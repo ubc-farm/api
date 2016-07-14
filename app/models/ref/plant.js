@@ -1,10 +1,10 @@
 import {Model} from 'objection';
-import {Item} from './';
-import {Crop} from '../';
+import {Item} from './index.js';
+import {Crop} from '../index.js';
 
 /**
  * Extends Item with Plant specific information for crops
- * @module backend/database/models/ref/plant
+ * @alias module:app/models.Plant
  * @extends Item
  * @property {string} [latin] name of the plant
  */

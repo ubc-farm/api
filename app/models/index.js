@@ -4,9 +4,9 @@
  * @module app/models
  */
 
-export * from './person';
-export * from './ref';
-export * from './task'
+export * from './person/index.js';
+export * from './ref/index.js';
+export * from './task/index.js'
 
 export {default as Equipment} from './equipment.js';
 export {default as Field, Crop} from './field.js';

@@ -1,10 +1,10 @@
 import {Model} from 'objection';
-import {Location, Program, Employee, Equipment} from '../';
+import {Location, Program, Employee, Equipment} from '../index.js';
 import {Assignment, EquipmentUsage} from '../joins';
 
 /**
  * Common attributes for tasks that other tables inherit.
- * @module backend/database/models/task
+ * @alias module:app/models.Task
  * @property {Date[]} [time] - tsrange representing the task time
  * @property {Object} [hoursTaken] - interval showing how long the 
  * task actually took.
@@ -12,6 +12,26 @@ import {Assignment, EquipmentUsage} from '../joins';
  */
 export default class Task extends Model {
 	static get tableName() {return 'Task'}
+
+	static get jsonSchema() {return {
+		type: 'object',
+		properties: {
+			time: {
+				type: 'array',
+				items: [
+					{type: 'integer'},
+					{type: 'integer'}
+				],
+				minItems: 1, maxItems: 2
+			},
+			locationId: {type: 'integer'}
+		}
+	}}
+
+	get hoursTaken() {
+		const [start, end] = this.time;
+		return end - start;
+	}
 
 	static get relationMappings() {
 		return {

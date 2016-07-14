@@ -1,11 +1,11 @@
 import {Model} from 'objection';
 import Person from './person.js';
-import {Task} from '../';
+import {Task} from '../index.js';
 
 /**
  * Extends Person with timetable information. Task assignments are also
  * joined to employees
- * @module backend/database/models/person/employee
+ * @alias module:app/models.Employee
  * @extends Person
  * @property {boolean[]} [workingDays], where the index corresponds to a day
  * @property {number} [hourlyPay]
@@ -23,7 +23,7 @@ export default class Employee extends Person {
 	static get label() {return 'employees'}
 
 	static get jsonSchema() {
-		return Object.assign({
+		return Object.assign(super.jsonSchema, {
 			workingDays: {
 				type: 'array',
 				items: [

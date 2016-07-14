@@ -1,9 +1,9 @@
 import {Model} from 'objection';
-import {Task} from '../';
+import {Task} from '../index.js';
 
 /**
  * Represents a program at the farm
- * @module backend/database/models/ref/program
+ * @alias module:app/models.Program
  * @property {string} name
  * @property {Object} [color] used to represent this program in the interface
  * @property {boolean} [darkText] - true if black text should be used instead 

@@ -1,10 +1,10 @@
 import {Model} from 'objection';
 import Task from './task.js';
-import {Chemical} from '../';
+import {Chemical} from '../index.js';
 
 /**
  * Shared properties for chemical tasks
- * @module backend/database/models/task/chem
+ * @alias module:app/models.Chem
  * @extends Task
  * @property {string} [product] used for this task
  * @property {number} [applicationRate] of the product

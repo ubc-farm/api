@@ -1,12 +1,12 @@
 import {Model} from 'objection';
-import {Person as Company, Equipment} from '../';
+import {Person as Company, Equipment} from '../index.js';
 
 /**
  * Stores data about a type of item, such as its worth. More specific data,
  * like the quantity and storage location, is found in the Equipment table.
  * Items are meant to be reference information about any type of item rather
  * than a specific tractor or single apple.
- * @module backend/database/models/ref/item
+ * @alias module:app/models.Item
  * @property {string} [name]
  * @property {string} [sku]
  * @property {string} [barcode]

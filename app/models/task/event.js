@@ -1,10 +1,10 @@
 import {Model} from 'objection';
 import Task from './task.js';
-import {Sale, Person} from '../';
+import {Sale, Person} from '../index.js';
 
 /**
  * Represents an event held at the farm
- * @module backend/database/models/task/event
+ * @alias module:app/models.Event
  * @extends Task
  * @property {string} [type]
  * @property {string} name of the event

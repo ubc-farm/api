@@ -1,10 +1,10 @@
 import {Model} from 'objection';
 import Task from './task.js';
-import {Crop, Plant, Item} from '../';
+import {Crop, Plant, Item} from '../index.js';
 
 /**
  * Task for seeding and transplating
- * @module backend/database/models/task/seeding
+ * @alias module:app/models.Seeding
  * @extends Task
  * @property {string} crop affected/created by this task
  * @property {string} [variety] of plant

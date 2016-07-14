@@ -1,10 +1,11 @@
 import {Model} from 'objection';
-import {Plant, Scouting} from './';
+import {Plant, Scouting} from './index.js';
+import {Polygon} from '../../lib/geojson/index.js';
 
 /**
  * Represents a field or sub-field in the farm with crops. If parentField is 
  * specified, the field is a sub-field. 
- * @module backend/database/models/field
+ * @alias module:app/models.Field
  * @property {float[][]} path - [x,y] coordinates of the field's path
  * @property {float[]} [gridWidths]
  * @property {float[]} [gridHeights]
@@ -13,6 +14,13 @@ import {Plant, Scouting} from './';
 export default class Field extends Model {
 	static get tableName() {return 'Field'}
 	static get label() {return 'fields'}
+
+	get polygon() {
+		return new Polygon(this.path);
+	}
+	set polygon(value) {
+		this.path = value.toJSON().coordinates;
+	}
 
 	get grid() {
 		const [baseWidth, ...specificWidths] = this.gridWidths;
@@ -67,6 +75,15 @@ export default class Field extends Model {
  */
 export class Crop extends Model {
 	static get tableName() {return 'Crop'}
+
+	static get jsonSchema() {return {
+		type: 'object',
+		properties: {
+			type: {type: 'string'},
+			fieldId: {type: 'integer'},
+			quantity: {type: 'integer'}
+		}
+	}}
 
 	static get relationMappings() {
 		return {

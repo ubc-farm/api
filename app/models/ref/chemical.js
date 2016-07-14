@@ -1,9 +1,9 @@
 import {Model} from 'objection';
-import {ChemicalTask} from '../';
+import {ChemicalTask} from '../index.js';
 
 /**
  * A chemical product, such as fertilizer or herbicide.
- * @module backend/database/models/ref/chemical
+ * @alias module:app/models.Chemical
  * @property {string} [type]
  * @property {string} [productName]
  * @property {Object} [composition]
