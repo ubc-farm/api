@@ -16,12 +16,8 @@ export default class Field extends Model {
 	static get label() {return 'fields'}
 
 	/** @type {module:lib/geojson.Polygon} */
-	get polygon() {
-		return new Polygon(this.path);
-	}
-	set polygon(value) {
-		this.path = value.toJSON().coordinates;
-	}
+	get polygon() {return new Polygon(this.path);}
+	set polygon(value) {this.path = value.toJSON().coordinates;}
 
 	get grid() {
 		const [baseWidth, ...specificWidths] = this.gridWidths;

@@ -282,8 +282,8 @@ exports.up = function(knex) {
 	.createTable('Sale', table => {
 		table.bigIncrements('id');
 
-		table.timestamp('orderDate');
-		table.timestamp('deliveryDate');
+		table.timestamp('order_date');
+		table.timestamp('delivery_date');
 
 		table.integer('budgetLineNumber');
 

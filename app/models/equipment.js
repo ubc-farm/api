@@ -16,6 +16,10 @@ export default class Equipment extends Model {
 	static get tableName() {return 'Equipment'}
 	static get label() {return 'equipment'}
 
+	/** @type {Date} this equipment's date of purchase */
+	get purchase() {return new Date(this.purchaseDate);}
+	set purchase(date) {this.purchaseDate = date.getTime();}
+
 	static get jsonSchema() {return {
 		type: 'object',
 		properties: {
