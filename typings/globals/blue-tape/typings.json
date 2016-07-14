@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/56295f5058cac7ae458540423c50ac2dcf9fc711/blue-tape/blue-tape.d.ts",
-    "raw": "registry:dt/blue-tape#0.1.11+20160316155526",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/56295f5058cac7ae458540423c50ac2dcf9fc711/blue-tape/blue-tape.d.ts"
-  }
-}
