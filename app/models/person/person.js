@@ -16,6 +16,30 @@ export default class Person extends Model {
 	static get tableName() {return 'Person'}
 	static get label() {return 'people'}
 
+	static get jsonSchema() {return {
+		type: 'object',
+		required: ['name'],
+		properties: {
+			id: {type: 'integer'},
+			name: {type: 'string'},
+			role: {
+				type: 'string'
+			},
+			email: {
+				type: 'string',
+				pattern: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b',
+				format: 'email'
+			},
+			phoneNumber: {
+				type: 'string',
+				minLength: 15,
+				maxLength: 15
+			},
+			addressMailing: addressSchema,
+			addressPhysical: addressSchema
+		}
+	}}
+
 	static get relationMappings() {
 		return {
 			purchases: {

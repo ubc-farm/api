@@ -1,7 +1,7 @@
 import Polygon from 'lib/geojson/polygon';
 import * as style from './style.js';
-import {id, diff, REMOVED, required as req} from 'lib/utils';
-import Mode from './mode.js';
+import {diff, REMOVED, required as req} from 'lib/utils';
+/*global google */
 
 /**
  * Returns the largest number string in an array of number strings
@@ -23,12 +23,11 @@ export default class GoogleMap {
 	 */
 	constructor(element, store) {
 		this.polygons = new Map(); //the collection kind of map
-		if (typeof element == "string") element = document.getElementById(element);
+		if (typeof element == 'string') element = document.getElementById(element);
 		this.map = new google.maps.Map(element, style.map);
 		store.subscribe(() => {
 			this.lastState = this.updateState(this.lastState, store.getState().map);
 		});
-		this.dispatch = store.dispath;
 	}
 
 	/**
@@ -42,8 +41,8 @@ export default class GoogleMap {
 
 		const polygonDiff = diff(oldState.polygons, newState.polygons);
 		if (polygonDiff !== undefined) {
-			for (let polygonId in polygonDiff) {
-				const polySpec = polygonDiff[polygon];
+			for (const polygonId in polygonDiff) {
+				const polySpec = polygonDiff[polygonId];
 
 				if (polySpec === undefined) continue;
 				else if (polySpec === REMOVED) this.removePolygon(polygonId);
@@ -147,11 +146,11 @@ export default class GoogleMap {
 		if (geojsonDiff === undefined || geojsonDiff.coordinates === undefined) 
 			return poly;
 		else {
-			for (let [index, diffPath] of geojsonDiff.coordinates.entries()) {
+			for (const [index, diffPath] of geojsonDiff.coordinates.entries()) {
 				if (diffPath === undefined) continue;
 				
 				let polyCounter = -1;
-				for (let [posIndex, position] of diffPath.entries()) {
+				for (const [posIndex, position] of diffPath.entries()) {
 					polyCounter++;
 					const polyPath = paths[polyCounter];
 					if (position === undefined) continue;

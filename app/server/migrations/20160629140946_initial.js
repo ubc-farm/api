@@ -285,6 +285,8 @@ exports.up = function(knex) {
 		table.timestamp('orderDate');
 		table.timestamp('deliveryDate');
 
+		table.integer('budgetLineNumber');
+
 		table.bigInteger('customerId')
 			.unsigned().index()
 			.references('id').inTable('Person');

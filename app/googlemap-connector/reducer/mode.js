@@ -5,7 +5,7 @@ export default function mode(mode = '', action) {
 	switch (action.type) {
 		case CHANGE_MAP_MODE:
 			if (action.payload !== Mode.RESIZE) return action.payload;
-			//else flow to default
+			//else fall through to default
 		default: return mode;
 	}
 }

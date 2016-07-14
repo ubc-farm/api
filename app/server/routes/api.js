@@ -18,7 +18,7 @@ import * as models from 'app/models';
 
 function* methodRoutes(table, alias) {
 	for (let method of methods) {
-		const handler = {api: {table, model: table}};
+		const handler = {api: {model: table}};
 		if (method == 'POST') {
 			yield {
 				method, handler,
@@ -34,12 +34,6 @@ function* methodRoutes(table, alias) {
 				path: `/api/${alias}/{id}/{property}`
 			};
 		}
-	}
-}
-
-function* tableRoutes() {
-	for (let i = 0; i < tables.length; i++) {
-		yield* methodRoutes(tables[i], labels[i]);
 	}
 }
 

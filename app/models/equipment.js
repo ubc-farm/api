@@ -1,5 +1,5 @@
 import {Model} from 'objection';
-import {Item, Sale, Location} from './';
+import {Task, Sale, Location} from './';
 
 /**
  * Represents an item in the inventory, with fields like the amount stored and 
@@ -15,6 +15,18 @@ import {Item, Sale, Location} from './';
 export default class Equipment extends Model {
 	static get tableName() {return 'Equipment'}
 	static get label() {return 'equipment'}
+
+	static get jsonSchema() {return {
+		type: 'object',
+		properties: {
+			id: {type: 'integer'},
+			product: {type: 'integer'},
+			description: {type: 'string'},
+			quantity: {type: 'integer'},
+			purchaseDate: {type: 'number'}, //milliseconds from enoch
+			location: {type: 'integer'}
+		}
+	}}
 
 	static get relationMappings() {
 		return {

@@ -1,7 +1,7 @@
 const gulp = require('gulp'),
-	postcss = require('gulp-postcss'),
-	cssimport = require('postcss-import'),
-	cssvars = require('postcss-css-variables'),
+//	postcss = require('gulp-postcss'),
+//	cssimport = require('postcss-import'),
+//	cssvars = require('postcss-css-variables'),
 	imagemin = require('gulp-imagemin'),
 	jsdoc2md = require('gulp-jsdoc-to-markdown'),
 	rename = require('gulp-rename')
