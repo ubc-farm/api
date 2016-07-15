@@ -26,7 +26,6 @@ exports.up = function(knex) {
 	.createTable('Employee', table => {
 		table.inherits('Person');
 
-		table.specificType('workingDays', 'boolean[7]').index();
 		table.specificType('hourlyPay', 'money');
 		table.boolean('fullOrPartTime').index();
 
@@ -36,6 +35,14 @@ exports.up = function(knex) {
 		table.specificType('paidLeaveDays', 'date[]');
 		table.specificType('inLieuHours', 'interval');
 		table.specificType('medicalLeaveTime', 'tsrange[]');
+
+		table.boolean('working_sunday').index();
+		table.boolean('working_monday').index();
+		table.boolean('working_tuesday').index();
+		table.boolean('working_wednesday').index();
+		table.boolean('working_thursday').index();
+		table.boolean('working_friday').index();
+		table.boolean('working_saturday').index();
 
 		table.text('emergencyContactName');
 		table.string('emergencyContactNumber', 15);
