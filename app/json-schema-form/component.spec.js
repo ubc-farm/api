@@ -78,7 +78,7 @@ test('Inputs for string schemas', t => {
 	const expectedProps = {
 		id: 'bar', type: 'text',
 		pattern: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b',
-		maxlength: 100, minlength: 6,
+		maxLength: 100, minLength: 6,
 		value: 'foo@hello.world.com'
 	}
 	t.comment('passes props to input as text input attributes');
