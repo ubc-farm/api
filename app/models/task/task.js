@@ -5,7 +5,7 @@ import {Assignment, EquipmentUsage, ProgramUsage} from '../joins';
 /**
  * Common attributes for tasks that other tables inherit.
  * @alias module:app/models.Task
- * @property {Date[]} [time] - tsrange representing the task time
+ * @property {number[]} [time] - tsrange representing the task time
  * @property {Object} [hoursTaken] - interval showing how long the 
  * task actually took.
  * @property {string} [locationId]
@@ -28,6 +28,14 @@ export default class Task extends Model {
 		}
 	}}
 
+	/** @type {Date} */
+	get start() {return new Date(this.time[0]);}
+	set start(date) {this.time[0] = date.getTime();}
+	/** @type {Date} */
+	get end() {return new Date(this.time[1]);}
+	set end(date) {this.time[1] = date.getTime();}
+
+	/** @type {integer} different between start and end in milliseconds */
 	get hoursTaken() {
 		const [start, end] = this.time;
 		return end - start;
