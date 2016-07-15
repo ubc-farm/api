@@ -108,7 +108,8 @@ exports.up = function(knex) {
 	.createTable('Task', table => {
 		table.bigIncrements('id');
 
-		table.specificType('time', 'tsrange');
+		table.timestamp('start_time');
+		table.timestamp('end_time');
 		table.specificType('hoursTaken', 'interval');
 
 		table.bigInteger('locationId').unsigned()

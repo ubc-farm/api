@@ -5,7 +5,8 @@ import {Assignment, EquipmentUsage, ProgramUsage} from '../joins';
 /**
  * Common attributes for tasks that other tables inherit.
  * @alias module:app/models.Task
- * @property {number[]} [time] - tsrange representing the task time
+ * @property {number} [start_time] - tsrange representing the task time
+ * @property {number} [end_time] - tsrange representing the task time
  * @property {Object} [hoursTaken] - interval showing how long the 
  * task actually took.
  * @property {string} [locationId]
@@ -16,24 +17,18 @@ export default class Task extends Model {
 	static get jsonSchema() {return {
 		type: 'object',
 		properties: {
-			time: {
-				type: 'array',
-				items: [
-					{type: 'integer'},
-					{type: 'integer'}
-				],
-				minItems: 1, maxItems: 2
-			},
+			start_time: {type: 'integer'},
+			end_time: {type: 'integer'},
 			locationId: {type: 'integer'}
 		}
 	}}
 
 	/** @type {Date} */
-	get start() {return new Date(this.time[0]);}
-	set start(date) {this.time[0] = date.getTime();}
+	get start() {return new Date(this.start_time);}
+	set start(date) {this.start_time = date.getTime();}
 	/** @type {Date} */
-	get end() {return new Date(this.time[1]);}
-	set end(date) {this.time[1] = date.getTime();}
+	get end() {return new Date(this.end_time);}
+	set end(date) {this.end_time = date.getTime();}
 
 	/** @type {integer} different between start and end in milliseconds */
 	get hoursTaken() {

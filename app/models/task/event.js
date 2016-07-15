@@ -17,6 +17,21 @@ export default class Event extends Task {
 	static get tableName() {return 'Event'}
 	static get label() {return 'events'}
 
+	static get jsonSchema() {
+		return {
+			type: 'object',
+			required: ['start_time', 'end_time'],
+			properties: Object.assign(super.jsonSchema.properties, {
+				type: {type: 'string'},
+				name: {type: 'string'},
+				estimatedAttendeeAmount: {type: 'integer'},
+				targetAgeGroup: {type: 'array'},
+				ticketId: {type: 'integer'},
+				contactId: {type: 'integer'}
+			})
+		}
+	}
+
 	static get relationMappings() {
 		return Object.assign({
 			/** 
