@@ -22,7 +22,7 @@ export function calendarCollection(request, reply) {
 	if (month !== undefined && isNaN(month)) {
 		if (month.length > 3) month = longMonthNames.indexOf(month);
 		else month = shortMonthNames.indexOf(month);
-	} else if (month !== undefined) month = parseInt(month);
+	} else if (month !== undefined) month = parseInt(month) - 1;
 
 	if (date !== undefined) date = parseInt(date);
 
