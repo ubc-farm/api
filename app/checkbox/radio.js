@@ -5,6 +5,7 @@ import Checkbox from './checkbox.js'
 /**
  * Radio button based on the Checkbox code. Takes the same props as Checkbox.
  * @param {Object} props
+ * module:app/checkbox.Radio
  */
 const Radio = props => (
 	<label className={classlist(

@@ -4,6 +4,7 @@ import GoogleMap, {Mode, actions} from 'app/google-map';
 import * as style from './style.js';
 import Selector from './selector.js'
 import store from 'app/store';
+/* global google */
 
 export const defaultGrid = {
 	width: 2, height: 2,
@@ -24,7 +25,7 @@ export default class PolygonEditor extends GoogleMap {
 		google.maps.event.addListener(
 			this.drawManager, 'polygoncomplete', 
 			poly => store.dispatch(
-				actions.addPolygon(polygon, Symbol('Polygon Identifier'))
+				actions.addPolygon(poly, Symbol('Polygon Identifier'))
 			)
 		);
 	}
@@ -34,7 +35,7 @@ export default class PolygonEditor extends GoogleMap {
 		newState
 	) {
 		super.updateState(oldState, newState);
-		if (oldState.mode !== newState.mode) applyMode(newMode);
+		if (oldState.mode !== newState.mode) this.applyMode(newState.mode);
 	}
 
 	/**
@@ -71,15 +72,15 @@ export default class PolygonEditor extends GoogleMap {
 		poly.getPaths().forEach((path, pathIndex) => {
 			const insertListener = google.maps.event.addListener(
 				path, 'insert_at', 
-				insertIndex => updatePath('add', insertIndex, pathIndex, poly)
+				insertIndex => this.updatePath('add', insertIndex, pathIndex, poly)
 			);
 			const removalListener = google.maps.event.addListener(
 				path, 'remove_at',
-				removedIndex => updatePath('remove', removedIndex, pathIndex, poly)
+				removedIndex => this.updatePath('remove', removedIndex, pathIndex, poly)
 			);
 			const adjustmentListener = google.maps.event.addListener(
 				path, 'set_at',
-				adjustedIndex => updatePath('edit', adjustedIndex, pathIndex, poly)
+				adjustedIndex => this.updatePath('edit', adjustedIndex, pathIndex, poly)
 			);
 			newListeners.push(insertListener, removalListener, adjustmentListener);
 		});

@@ -6,6 +6,8 @@ import {classlist} from '../../lib/utils/index.js';
  * which uses :checked to show the correct state. Most of the logic is done with
  * CSS as a result.
  * @param {Object} props
+ * @alias module:app/checkbox.default
+ * @typicalname checkbox
  */
 const Checkbox = props => (
 	<label className={classlist('check-hack-label', props.className)}>
