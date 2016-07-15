@@ -2,22 +2,40 @@
 	// See https://go.microsoft.com/fwlink/?LinkId=733558
 	// for the documentation about the tasks.json format
 	"version": "0.1.0",
-	"command": "gulp",
+	"command": "npm",
 	"isShellCommand": true,
-	"args": ["--no-color"],
 	"showOutput": "always",
+	"suppressTaskName": true,
 	"tasks": [
+		{"taskName": "install",	"suppressTaskName": false},
+		{"taskName": "update", "suppressTaskName": false},
+		{"taskName": "start",	"suppressTaskName": false},
 		{
-			"taskName": "build",
+			"taskName": "test",
+			"suppressTaskName": false,
+			"isTestCommand": true
+		},
+		{
+			"taskName": "fullstack",
+			"args": ["run", "fullstack"],
 			"isBuildCommand": true
 		},
 		{
 			"taskName": "watch",
+			"args": ["run", "watch"],
 			"isWatching": true
 		},
-		{
-			"taskName": "test",
-			"isTestCommand": true
-		}
+		{"taskName": "node:app", "args": ["run", "node:app"]},
+		{"taskName": "node:lib", "args": ["run", "node:lib"]},
+		{"taskName": "node", "args": ["run", "node"]},
+
+		{"taskName": "browser:app", "args": ["run", "browser:app"]},
+		{"taskName": "browser:lib", "args": ["run", "browser:lib"]},
+		{"taskName": "browser", "args": ["run", "browser"]},
+
+		{"taskName": "docs", "args": ["run", "docs"]},
+		{"taskName": "assets", "args": ["run", "assets"]},
+		{"taskName": "marko", "args": ["run", "marko"]},
+		{"taskName": "css", "args": ["run", "css"]}
 	]
 }

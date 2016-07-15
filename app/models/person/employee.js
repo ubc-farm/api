@@ -1,0 +1,99 @@
+import {Model} from 'objection';
+import Person from './person.js';
+import {Task} from '../index.js';
+
+/**
+ * Extends Person with timetable information. Task assignments are also
+ * joined to employees
+ * @alias module:app/models.Employee
+ * @extends module:app/models.Person
+ * @property {boolean[]} [workingDays], where the index corresponds to a day
+ * @property {number} [hourlyPay]
+ * @property {boolean} [fullOrPartTime] true if full time, false if part time
+ * @property {Date[]} [holidayDays=[]]
+ * @property {Date[]} [sickDays=[]]
+ * @property {Date[]} [paidLeaveDays=[]]
+ * @property {Object} [inLieuHours] - an interval object
+ * @property {Date[][]} [medicalLeaveTime] - an array of tsrange values
+ * @property {string} [emergencyContactName]
+ * @property {string} [emergencyContactNumber]
+ */
+export default class Employee extends Person {
+	static get tableName() {return 'Employee'}
+	static get label() {return 'employees'}
+
+	static get jsonSchema() {
+		return Object.assign(super.jsonSchema, {
+			workingDays: {
+				type: 'array',
+				items: [
+					{type: 'boolean', default: false},
+					...Array(5).fill({type: 'boolean', default: true}),
+					{type: 'boolean', default: false}
+				],
+				minItems: 7, maxItems: 7
+			},
+			hourlyPay: {type: 'integer'},
+			fullOrPartTime: {type: 'boolean'},
+			holidayDays: {type: 'array', unqiueItems: true},
+			sickDays: {type: 'array', unqiueItems: true},
+			paidLeaveDays: {type: 'array', unqiueItems: true},
+			inLieuHours: {type: 'array', unqiueItems: true},
+			medicalLeaveTime: {type: 'array', unqiueItems: true},
+			emergencyContactName: {
+				type: 'string'
+			},
+			emergencyContactNumber: {
+				type: 'string',
+				minLength: 15,
+				maxLength: 15
+			}
+		})
+	}
+
+	static get relationMappings() {
+		return Object.assign({
+			assignments: {
+				relation: Model.ManyToManyRelation,
+				modelClass: Task,
+				join: {
+					from: 'Employee.id',
+					through: {
+						modelClass: Assignment,
+						from: 'Assignment.assigned_employee',
+						to: 'Assignment.assigned_task'
+					},
+					to: 'Task.id'
+				}
+			}
+		}, super.relationMappings);
+	}
+}
+
+/**
+ * Helper table to join Employees with their assigned Tasks
+ */
+export class Assignment extends Model {
+	static get tableName() {return 'Assignment'}
+
+	static get relationMappings() {
+		return {
+			assignedEmployee: {
+				relation: Model.OneToManyRelation,
+				modelClass: Employee,
+				join: {
+					from: 'Assignment.assigned_employee',
+					to: 'Employee.id'
+				}
+			},
+			assignedTask: {
+				relation: Model.OneToManyRelation,
+				modelClass: Task,
+				join: {
+					from: 'Assignment.assigned_task',
+					to: 'Task.id'
+				}
+			}
+		}
+	}
+}

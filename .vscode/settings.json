@@ -1,8 +1,11 @@
 // Place your settings in this file to overwrite default and user settings.
 {
 	"files.exclude": {
-		"static/**": true,
+		"dist/**": true,
 		"**/typings/**": true,
-		"**/*.marko.js": true
+		"**/*.marko.js": true,
+		"dev.sqlite3": true,
+		"LICENSE": true,
+		"UBC Farm-c*.json": true
 	}
 }

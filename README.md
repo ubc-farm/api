@@ -3,11 +3,12 @@ Program for the [Centre for Sustainable Food Systems at UBC Farm](http://ubcfarm
 
 ## Application Structure ##
 
-### Backend
-[backend](backend) scripts for node.js are contained here, including the server code. [koa v2](https://github.com/koajs/koa/tree/v2.x) is used as the server framework, but with Promises instead of the async function sugar. Keep server JavaScript files within this folder. All files are run in strict mode and transformed with babel, which allows ES6 import syntax in the node.js files. Some files, in the shared folder, are complied to the browser as well.
+### Lib and App
+The [lib](lib) and [app](app) folders contain JavaScript for the program to run. The folder structure is similar to node_modules in that each folder is its own module for the program. Babel compiles the files into either CommonJS format
+for Node.JS, or to SystemJS format to run in the browser.
 
-### Frontend
-[frontend](frontend) contains JavaScript run in the browser, and is consequently designed to run in different potential enviornments. [src](frontend/src) contains code to be included through `<script>` tags while [workers](frontend/workers) contains Web, Shared, and Service Worker scripts. [vendor](frontend/vendor) has vendor scripts like Google Analytics and polyfills. These files are compiled into the build subfolder with content hashes and a manifest. 
+#### Server
+[Hapi](http://hapijs.com/) is used as the server framework, and its routes live in the [app/server](app/server) folder. Migration and seed files for [Knex](knexjs.org) currently also live in this folder.
 
 ### Assets
 The [assets](assets) directory contains static files like images, fonts, robots.txt, etc. Built files are put into the static folder and should have content hash signs for better cache control, and am asset manifest file links the content hashes to the original file names. static is ignored by git.
@@ -19,10 +20,10 @@ The docs directory is ignored by git as it contains a seperate repository, linke
 Styles are processed through [postcss-import](https://github.com/postcss/postcss-import) and [postcss-css-variables](https://github.com/MadLittleMods/postcss-css-variables). This allows for the CSS to be broken into multiple files and allow for variables to be declared, following the standard CSS format. The functionality is intentionally kept simple. Compiled files have content hash suffixes and a [manifest.json](static/manifest.json) links to their names without the content hash.
 
 ### Views
-[Marko](http://markojs.com/) is used as the template engine because of its JavaScript syntax, streaming support, and speed. The structure of the [views](views) folder reflects the website structure, except for helper folders prefixed with _. [_helpers](views/_helpers) are scripts for use in templates: `<script marko-init> require('./_helpers/*.js') </script>`. [_layouts](views/_layouts) contain page shells that can be used in pages through `<layout-use('./_layouts/*.marko')>`. [_partials](views/_partials) are included via `<include('./_partials/*.marko')>`. The [_taglib](views/_taglib) folder contains custom tags that can be invoked by using them as an html tag, such as `<hello-world>`.
+Both [Marko](http://markojs.com/) and [React](https://facebook.github.io/react/index.html) are currently used as view engines for the program. The files are then served through routes on the Hapi server, with [Vision](https://github.com/hapijs/vision) acting as a view system for [Hapi](https://github.com/hapijs/hapi). JSX files in helper folders (prefixed with `_`) are copied to the frontend build so they can remount as React components.
 
 ### Test
-[Mocha](mochajs.org) is the testing utility and [Chai](http://chaijs.com/) is used for assertions. 
+[Tape](https://github.com/substack/tape) is used for testing. Tests can be run with the command `npm test`.
 
 ## Environment Variables ##
 Configuration is stored in different enviornment variables.

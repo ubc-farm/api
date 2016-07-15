@@ -1,55 +1,100 @@
 {
   "name": "ubc-farm",
   "version": "1.2.0",
-  "main": "backend/index.js",
+  "main": "app/server/index.js",
   "directories": {
     "lib": "backend",
+    "bin": "bin",
     "test": "test",
     "doc": "docs"
   },
   "scripts": {
-    "start": "node backend/index.js",
-    "test": "mocha"
+    "start": "node scripts/start.js",
+    "test": "tape \"dist/node/@(lib|app)/**/*.spec.js\"",
+    "watch": "npm-watch",
+    "css": "copyfiles -u 1 styles/**/*.css dist/browser/css",
+    "node:lib": "babel lib -s -D -d dist/node/lib --plugins transform-es2015-modules-commonjs",
+    "node:app": "babel app -s -D -d dist/node/app --plugins transform-es2015-modules-commonjs",
+    "node": "npm run node:lib && npm run node:app",
+    "browser:node_modules": "copyfiles \"node_modules/@(react?(-dom)|jsts)/dist/@(react?(-dom)|jsts.min).js\" dist/browser",
+    "browser:router-reselect": "babel node_modules --only \"@(react-router|reselect)/lib/**/*.js\" -d dist/browser/node_modules",
+    "browser:redux": "babel node_modules --only \"?(*-)redux?(-*)/lib/**/*.js\" -d dist/browser/node_modules",
+    "browser:lib": "babel lib -s -D -d dist/browser/lib --plugins transform-es2015-modules-systemjs",
+    "browser:app": "babel app -s -D -d dist/browser/app --plugins transform-es2015-modules-systemjs --ignore app/vendor/** app/system-config.js",
+    "browser:vendor": "copyfiles app/vendor/** app/system-config.js dist/browser",
+    "postbrowser": "npm run browser:vendor && npm run browser:redux && npm run browser:node_modules && npm run browser:router-reselect",
+    "browser": "npm run browser:lib && npm run browser:app",
+    "fullstack": "npm run node && npm run browser",
+    "docs": "node scripts/docs.js",
+    "knex": "knex migrate:latest"
+  },
+  "watch": {
+    "node:lib": {
+      "patterns": [
+        "lib"
+      ],
+      "ignore": "*.spec.js"
+    },
+    "node:app": {
+      "patterns": [
+        "app"
+      ],
+      "ignore": "*.spec.js"
+    }
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
-    "babel-plugin-transform-strict-mode": "^6.8.0",
-    "babel-register": "^6.9.0",
-    "bluebird": "^3.4.0",
-    "d3": "^3.5.17",
-    "d3-polygon": "^0.2.1",
-    "glob": "^7.0.3",
-    "jsts": "^1.1.2",
-    "knex": "^0.11.5",
-    "koa": "^2.0.0",
-    "koa-router": "^7.0.1",
-    "koa-send": "^3.2.0",
-    "marko": "^3.3.0",
-    "objection": "^0.4.0",
-    "pg": "^4.5.5",
-    "pg-query-stream": "^1.0.0"
+    "bluebird": "^3.4.1",
+    "hapi": "^13.5.0",
+    "hapi-react-views": "^9.1.0",
+    "inert": "^4.0.1",
+    "jsts": "^1.2.0",
+    "knex": "^0.11.7",
+    "marko": "^3.7.2",
+    "objection": "^0.5.3",
+    "pg": "^6.0.2",
+    "pg-query-stream": "^1.0.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.5.2",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.3",
+    "vision": "^4.1.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.9.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
-    "chai-http": "^2.0.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-imagemin": "^3.0.1",
-    "gulp-postcss": "^6.1.1",
-    "gulp-rev": "^7.0.0",
-    "gulp-shell": "^0.5.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.5.3",
-    "mocha": "^2.5.3",
-    "postcss": "^5.0.21",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "enzyme": "^2.4.1",
+    "eslint": "^3.0.1",
+    "eslint-plugin-react": "^5.2.2",
+    "npm-watch": "^0.1.5",
+    "postcss": "^5.1.0",
     "postcss-css-variables": "^0.5.1",
-    "postcss-import": "^8.1.2"
+    "postcss-import": "^8.1.2",
+    "react-addons-test-utils": "^15.2.1",
+    "rollup": "^0.34.1",
+    "rollup-plugin-babel": "^2.6.1",
+    "sqlite3": "^3.1.4",
+    "tape": "^4.6.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-react-jsx"
+    ],
+    "sourceMaps": "both",
+    "only": [
+      "lib/**",
+      "app/**",
+      "!lib/@(postgres*|folder)/**",
+      "!app/@(server|models|api-handler)/**",
+      "node_modules/?(*-)redux?(-*)/src/**"
+    ]
   }
 }
