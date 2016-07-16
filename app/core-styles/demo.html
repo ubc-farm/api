@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Core Styles - UBC Farm</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+		<link href='normalize.css' rel='stylesheet'>
+		<link href='core.css' rel='stylesheet'>
+		<link href='banner.css' rel='stylesheet'>
+	</head>
+	<body>
+		<header role='banner' class='app-banner'>
+			<a class='banner-logo' href='http://ubcfarm.ubc.ca/'>
+				<img 
+					src='http://ubcfarm.ubc.ca/files/2014/04/ubc-farm-horizontal-cropped-360x106.jpg' 
+					alt='UBC Farm' class='banner-logo-img'
+					height='32'
+				>
+			</a>
+			<nav class='banner-buttons'>
+				<label aria-label='Apps' title='Apps' 
+					class='material-icons banner-button button'
+					for='app-menu-toggle' role='button'
+				>
+					apps
+				</label>
+				<a aria-label='Help' title='Help' role='button'
+					class='material-icons banner-button button' 
+					href='https://github.com/NotWoods/ubc-farm/issues'
+				>
+					help
+				</a>
+				<a aria-label='Account' title='Account' 
+					class='material-icons banner-button button'
+					href='/account' role='button'
+				>
+					face
+				</a>
+			</nav>
+			<input id='app-menu-toggle' type='checkbox' 
+				value='app_menu_toggle' hidden
+				class='hidden-checkbox'
+			>
+			<section class='app-menu'>
+				<a href='/fields' class='app-menu-item button'>
+					<i class='material-icons md-48'>map</i>
+					Fields
+				</a>
+				<a href='/finances' class='app-menu-item button'>
+					<i class='material-icons md-48'>attach_money</i>
+					Finances
+				</a>
+				<a href='/calendar' class='app-menu-item button'>
+					<i class='material-icons md-48'>event</i>
+					Calendar
+				</a>
+				<a href='/directory' class='app-menu-item button'>
+					<i class='material-icons md-48'>people</i>
+					Directory
+				</a>
+			</section>
+		</header>
+
+		<header class='section-banner' role='toolbar'>
+			<a class='section-banner-breadcrumb' href='/fields'>
+				<h1 class='section-banner-header'>Fields</h1>
+			</a>
+		</header>
+	</body>
+</html>

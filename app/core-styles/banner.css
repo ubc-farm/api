@@ -1,0 +1,58 @@
+.app-banner, .section-banner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.25em 1.5em;
+}
+
+.banner-logo, .banner-buttons {
+	display: flex;
+}
+
+.banner-button {
+	padding: 0.15em;
+	border-radius: 50%;
+}
+
+.section-banner {
+	color: white;
+	background: var(--brand-primary);
+}
+
+.section-banner-breadcrumb {
+	color: white;
+}
+
+.section-banner-header {
+	margin: 0.1em 0;
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+.app-menu {
+	visibility: hidden;
+	transform: scale3d(0, 0, 0);
+	transform-origin: 90% top;
+	position: absolute;
+	background: #fff;
+	box-shadow: 0 0.1em 0.5em 0.1em rgba(0,0,0,0.3);
+	right: 5.5em; top: 2.5em;
+	display: flex;
+	flex-flow: row wrap;
+	transition: transform 0.1s ease, visibility 0.1s linear;
+	width: 14.6em;
+}
+
+.app-menu-item {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	margin: 1em;
+	padding: 0.5em;
+	width: 4.3em;
+}
+
+.hidden-checkbox:checked + .app-menu {
+	visibility: visible;
+	transform: none;
+}
