@@ -1,17 +1,12 @@
 .app-banner, .section-banner {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	justify-content: flex-end;
 	padding: 0.25em 1.5em;
 }
 
-.banner-logo, .banner-buttons {
+.banner-logo {
 	display: flex;
-}
-
-.banner-button {
-	padding: 0.15em;
-	border-radius: 50%;
+	margin-right: auto;
 }
 
 .section-banner {
@@ -19,14 +14,12 @@
 	background: var(--brand-primary);
 }
 
-.section-banner-breadcrumb {
-	color: white;
+.banner-breadcrumbs {
+	margin-right: auto;
 }
 
-.section-banner-header {
+.banner-header {
 	margin: 0.1em 0;
-	font-size: 1.5em;
-	font-weight: normal;
 }
 
 .app-menu {
@@ -36,20 +29,25 @@
 	position: absolute;
 	background: #fff;
 	box-shadow: 0 0.1em 0.5em 0.1em rgba(0,0,0,0.3);
-	right: 5.5em; top: 2.5em;
-	display: flex;
-	flex-flow: row wrap;
+	right: 7.5rem; 
+	top: .5rem;
 	transition: transform 0.1s ease, visibility 0.1s linear;
-	width: 14.6em;
+	font-size: 1.25em;
 }
 
 .app-menu-item {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	margin: 1em;
+	display: block;
 	padding: 0.5em;
-	width: 4.3em;
+	white-space: nowrap;
+}
+
+.app-menu-item:hover {
+	background: rgba(0,0,0,0.1);
+}
+
+.app-menu-icon {
+	vertical-align: middle;
+	margin-right: 0.25em;
 }
 
 .hidden-checkbox:checked + .app-menu {
