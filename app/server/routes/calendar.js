@@ -1,11 +1,11 @@
-import {longMonthNames, shortMonthNames} from '../../lib/calendar/index.js';
-import {Event} from '../../app/models/index.js';
+import {longMonthNames, shortMonthNames} from '../../../lib/calendar/index.js';
+import {Event} from '../../../app/models/index.js';
 import {
 	shallowTransform, 
 	silentTransform, 
 	prettyPrint,
 	arrayToObjectMap
-} from '../../lib/api-handler/utils.js';
+} from '../../../lib/api-handler/utils.js';
 
 /**
  * Used to get Events sorted by date and time

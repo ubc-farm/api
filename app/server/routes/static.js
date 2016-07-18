@@ -13,7 +13,7 @@ const config = {
  * @module backend/routes/static
  * @type {Object[]}
  */
-const routes = [
+export default [
 	{
 		method: 'GET',
 		path: '/{param}',
@@ -96,5 +96,4 @@ const routes = [
 		},
 		config
 	}
-]
-export default routes;
+];
