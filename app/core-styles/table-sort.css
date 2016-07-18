@@ -12,10 +12,6 @@ th.sort, th:hover {
 	padding-left: 2.5em;
 }
 
-.sort:first-child {
-	padding-left: 1.5em;
-}
-
 .sort::before {
 	/* 
 		Made absolute so that the loading font icon
@@ -25,10 +21,6 @@ th.sort, th:hover {
 	font-size: 18px;
 	vertical-align: middle;
 	left: 1em;
-}
-
-.sort:first-child::before {
-	left: 0;
 }
 
 .ascending::before {

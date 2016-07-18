@@ -24,7 +24,6 @@ input[type="url"],
 input[type="password"], 
 textarea,
 select {
-	height: 2.375em;
 	padding: 0.4em 0.6em;
 	background: #fff;
 	border: 1px solid #d1d1d1;
