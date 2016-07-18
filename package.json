@@ -47,6 +47,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.4.1",
+    "handlebars": "^4.0.5",
     "hapi": "^13.5.0",
     "hapi-react-views": "^9.1.0",
     "inert": "^4.0.1",
