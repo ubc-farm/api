@@ -1,0 +1,33 @@
+<nav role='banner' class='app-banner'>
+	<a class='banner-logo' href='http://ubcfarm.ubc.ca/'>
+		<img alt='UBC Farm' class='banner-logo-img' height='32' width='109'
+			src='http://ubcfarm.ubc.ca/files/2014/04/ubc-farm-horizontal-cropped-360x106.jpg'>
+	</a>
+	<label aria-label='Apps' title='Apps' role='button'
+		class='material-icons icon-button' for='app-menu-toggle'>apps</label>
+	<a aria-label='Help' title='Help' class='material-icons icon-button' 
+		href='https://github.com/NotWoods/ubc-farm/issues'>help</a>
+	<a aria-label='Account' title='Account' href='/account' 
+		class='material-icons icon-button'>face</a>
+
+	<input id='app-menu-toggle' type='checkbox' 
+		value='app_menu_toggle' hidden class='hidden-checkbox'>
+	<section class='app-menu'>
+		<a href='/fields' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>map</i>
+			Fields
+		</a>
+		<a href='/finances' class='app-menu-item'>
+		<i class='material-icons md-36 app-menu-icon'>attach_money</i>
+			Finances
+		</a>
+		<a href='/calendar' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>event</i>
+			Calendar
+		</a>
+		<a href='/directory' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>people</i>
+			Directory
+		</a>
+	</section>
+</nav>
