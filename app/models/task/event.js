@@ -21,7 +21,7 @@ export default class Event extends Task {
 		return {
 			type: 'object',
 			required: ['start_time', 'end_time'],
-			properties: Object.assign(super.jsonSchema.properties, {
+			properties: Object.assign({}, super.jsonSchema.properties, {
 				type: {type: 'string'},
 				name: {type: 'string'},
 				estimatedAttendeeAmount: {type: 'integer'},

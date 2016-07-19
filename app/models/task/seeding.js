@@ -8,19 +8,50 @@ import {Crop, Plant, Item} from '../index.js';
  * @extends module:app/models.Task
  * @property {string} crop affected/created by this task
  * @property {string} [variety] of plant
- * @property {string} [product]
- * @property {string} [methodUsed]
- * @property {float[]} [spacingBetweenHoles] - expressed as [width, height]
- * @property {float} [depthOfHoles]
+ * @property {string} [product] name of seed bags/product
+ * @property {string} [methodUsed] - one of broadcast/direct drill
+ * @property {Object} [spacingBetweenHoles] - expressed as {width, height} in cm
+ * @property {float} [depthOfHoles] in cm
  * @property {float} [seedsPerHole]
+ * @property {float} [gramsApplied] - amount applied to area
+ * @property {float} [germinationPercentage] - between 0 and 1
  * @property {float} [seedsPerGram]
- * @property {float} [predictedYield]
+ * @property {float} [predictedYield] in kg
  * @property {Object} [daysToMaturity] - an interval
  * @property {Object} [npkReq] - Required N, P, and K amounts
  */
 export default class Seeding extends Task {
 	static get tableName() {return 'Seeding'}
 	static get label() {return 'seeding'}
+
+	/**
+	 * @param {number} area as m^2
+	 * @returns {number} amount of holes in given area
+	 */
+	getNumberOfHoles(area) {
+		const cmSquared = this.spacingBetweenHoles.x * this.spacingBetweenHoles.y;
+		return area / (cmSquared * 1e-4);
+	}
+
+	/**
+	 * @param {number} area as m^2
+	 * @returns {number} density of seeds
+	 */
+	getDensity(area) {
+		if (this.seedsPerHole && this.spacingBetweenHoles) {
+			return (
+				this.getNumberOfHoles(area) * 
+				this.seedsPerHole * 
+				this.germinationPercentage
+			) / area;
+		} else if (this.seedsPerGram && this.gramsApplied) {
+			return (
+				this.seedsPerGram *
+				this.gramsApplied *
+				this.germinationPercentage
+			) / area;
+		} 
+	}
 
 	static get relationMappings() {
 		return Object.assign({

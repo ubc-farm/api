@@ -134,10 +134,14 @@ exports.up = function(knex) {
 		
 		table.string('methodUsed').index();
 		
-		table.specificType('spacingBetweenHoles', 'point');
+		table.json('spacingBetweenHoles');
 		table.float('depthOfHoles');
 		table.float('seedsPerHole');
+
+		table.float('gramsApplied');
 		table.float('seedsPerGram');
+
+		table.float('germinationPercentage');
 
 		table.float('predictedYield');
 		table.specificType('daysToMaturity', 'interval');
@@ -156,20 +160,28 @@ exports.up = function(knex) {
 		table.bigInteger('product')
 			.unsigned().index()
 			.references('id').inTable('Chemical');
+
+		table.string('type');
 		table.float('applicationRate');
+		table.float('waterToMixRatio');
+		table.string('plantLocation');
+		table.specificType('entry_interval', 'interval');
+		table.specificType('harvest_interval', 'interval');
 	})
 	.createTable('Fertilizing', table => {
 		table.inherits('ChemicalTask');
-		table.string('plantLocation') //spot, broadcast
+
+		table.float('tc');
+		table.float('n03');
+		table.float('nh4');
+		table.float('k20');
+		table.float('p205');
 	})
 	.createTable('PestControl', table => {
-		table.inherits('ChemicalTask');
+		table.inherits('ChemicalTask');		
 
-		table.specificType('waterToMixRatio', 'point');
-		table.string('plantLocation') //foliar, root
-
-		table.specificType('entryInterval', 'interval');
-		table.specificType('harvestInterval', 'interval');
+		table.json('activeIngredients');
+		table.float('percentOfActiveIngredients');
 	})
 	.createTable('Scouting', table => {
 		table.inherits('Task');
@@ -225,7 +237,6 @@ exports.up = function(knex) {
 		table.bigInteger('fieldId')
 			.unsigned().notNullable().index()
 			.references('id').inTable('Field');
-		table.integer('quantity')
 		table.text('predictedNutrientReq');
 		table.date('expectedHarvest');
 	})

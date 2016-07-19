@@ -6,14 +6,43 @@ import {Chemical} from '../index.js';
  * Shared properties for chemical tasks
  * @alias module:app/models.ChemicalTask
  * @extends module:app/models.Task
- * @property {string} [product] used for this task
+ * @property {number} [product] used for this task
+ * @property {string} [type]
  * @property {number} [applicationRate] of the product
+ * @property {number} [waterToMixRatio] - water:mix ratio
+ * @property {string} [plantLocation]
+ * @property {number} [entryInterval] - how long before the field can be entered
+ * @property {Object} [harvestInterval] - how long before it can be 
+ * consumed by humans
  */
 export default class ChemicalTask extends Task {
 	static get tableName() {return 'ChemicalTask'}
 	static get label() {return 'chemical-tasks'}
 
-	static get jsonSchema() {return super.jsonSchema;}
+	/** @type {Date} how long before the field can be entered */
+	get entryInterval() {return new Date(this.entry_interval)}
+	set entryInterval(date) {this.entry_interval = date.getTime()}
+
+	/** 
+	 * @type {Date} how long before it can be consumed by humans 
+	 */
+	get harvestInterval() {return new Date(this.harvest_interval)}
+	set harvestInterval(date) {this.harvest_interval = date.getTime()}
+
+	static get jsonSchema() {
+		return {
+			type: 'object',
+			properties: Object.assign({}, super.jsonSchema.properties, {
+				product: {type: 'integer'},
+				type: {type: 'string'},
+				applicationRate: {type: 'number'},
+				waterToMixRatio: {type: 'number'},
+				plantLocation: {type: 'string'},
+				entry_interval: {type: 'number'},
+				harvest_interval: {type: 'number'},
+			})
+		}
+	}
 
 	static get relationMappings() {
 		return Object.assign({
@@ -29,11 +58,22 @@ export default class ChemicalTask extends Task {
 	}
 }
 
+const percentageSchema = {
+	type: 'number',
+	minimum: 0, maximum: 1
+}
+
 /**
  * Task for fertilizing a field
  * @alias module:app/models.Fertilizing
  * @extends module:app/models.ChemicalTask
- * @property {string} [plantLocation] - i.e.: spot, broadcast
+ * @property {string} [type] - one of compost or NPK
+ * @property {string} [plantLocation] - one of spot or broadcast
+ * @property {number} [tc] - percentage of TC
+ * @property {number} [n03] - percentage of N03
+ * @property {number} [nh4] - percentage of NH4
+ * @property {number} [k20] - percentage of K20
+ * @property {number} [p205] - percentage of P205
  */
 export class Fertilizing extends ChemicalTask {
 	static get tableName() {return 'Fertilizing'}
@@ -42,11 +82,20 @@ export class Fertilizing extends ChemicalTask {
 	static get jsonSchema() {
 		return {
 			type: 'object',
-			properties: Object.assign(super.jsonSchema.properties, {
+			properties: Object.assign({}, super.jsonSchema.properties, {
+				type: {
+					type: 'string',
+					oneOf: ['compost', 'npk']
+				},
 				plantLocation: {
 					type: 'string',
 					oneOf: ['spot', 'broadcast']
-				}
+				},
+				tc: percentageSchema,
+				n03: percentageSchema,
+				nh4: percentageSchema,
+				k20: percentageSchema,
+				p205: percentageSchema
 			})
 		}
 	}
@@ -56,10 +105,10 @@ export class Fertilizing extends ChemicalTask {
  * Task for pest control for a field
  * @alias module:app/models.PestControl
  * @extends module:app/models.ChemicalTask
- * @property {Object} [waterToMixRatio] - water:mix ratio
- * @property {string} [plantLocation] - i.e.: foliar, root
- * @property {Object} [entryInterval]
- * @property {Object} [harvestInterval]
+ * @property {string} [type] - one of spray or biocontrol
+ * @property {string} [plantLocation] - one of foliar or root
+ * @property {Object} [activeIngredients]
+ * @property {number} [percentOfActiveIngredients]
  */
 export class PestControl extends ChemicalTask {
 	static get tableName() {return 'PestControl'}
@@ -68,19 +117,17 @@ export class PestControl extends ChemicalTask {
 	static get jsonSchema() {
 		return {
 			type: 'object',
-			properties: Object.assign(super.jsonSchema.properties, {
-				waterToMixRatio: {
-					type: 'object',
-					required: ['water', 'mix'],
-					properties: {
-						water: {type: 'integer'},
-						mix: {type: 'integer'}
-					}
+			properties: Object.assign({}, super.jsonSchema.properties, {
+				type: {
+					type: 'string',
+					oneOf: ['spray', 'biocontrol']
 				},
 				plantLocation: {
 					type: 'string',
 					oneOf: ['foliar', 'root']
-				}
+				},
+				activeIngredients: {type: 'object'},
+				percentOfActiveIngredients: percentageSchema
 			})
 		}
 	}
