@@ -26,7 +26,7 @@ exports.up = function(knex) {
 	.createTable('Employee', table => {
 		table.inherits('Person');
 
-		table.specificType('hourlyPay', 'money');
+		table.integer('hourlyPay');
 		table.boolean('fullOrPartTime').index();
 
 		//possiblity reconfigure to use child tables
@@ -262,14 +262,15 @@ exports.up = function(knex) {
 	.createTable('Location', table => {
 		table.bigIncrements('id');
 		table.text('name');
-		table.specificType('position', 'point');
+		table.json('position');
 		table.bigInteger('fieldId').unsigned().unique()
 			.references('id').inTable('Field');
 	})
 	.createTable('Program', table => {
 		table.bigIncrements('id');
 		table.text('name').index();
-		table.json('color'); 
+		table.string('color', 6); 
+		table.string('text_color', 6).defaultTo('000000'); 
 
 		table.bigInteger('linkedAccount').unsigned()
 			.references('id').inTable('Account');
