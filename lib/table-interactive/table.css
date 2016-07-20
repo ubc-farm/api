@@ -6,7 +6,8 @@
 	position: relative;
 }
 
-.table-cell-normal {
+.table-th-row {
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
