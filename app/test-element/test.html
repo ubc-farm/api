@@ -21,37 +21,34 @@
 			}
 
 			const schema = {
-				item: 'string',
-				description: 'string',
-				unitCost: 'number',
-				quantity: 'number',
-				price: 'number'
+				name: 'string',
+				icon: 'object',
+				role: 'string',
+				hourlyPay: 'number'
 			}
 
-			const data = [
-				{
-					item: 'Beets, lb',
-					description: '4540 Beets, lb',
-					unitCost: new Money(200),
-					quantity: 25,
-					price: new Money(5000)
-				}
-			]
-
 			const tooltips = new Map([
-				['unitCost', {
-					title: 'Unit Cost ($)',
-					definition: 'Cost per unit'
-				}],
-				['price', {title: 'Price ($)'}]
+				['icon', {title: ' '}]
 			])
 
+			function icon(name) {
+				return React.createElement('i', {className: 'material-icons'}, name)
+			}
+
 			function yey() {
-				render(T.default, {
-					data,
-					selection: true, sorting: true,
+				fetch('http://localhost:3000/api/directory').then(response => response.json())
+				.then(json => Object.keys(json).map(k => {
+					const obj = json[k];
+					switch (obj.role) {
+						case 'Restaurant': obj.icon = icon('restaurant'); break;
+						case 'Employee': obj.icon = icon('business'); break;
+					}
+					return obj;
+				}))
+				.then(data => render(T.default, {
+					data, selection: true, sorting: true,
 					tooltips, schema
-				})
+				}))
 			}
 		</script>
 	</head>

@@ -3,6 +3,7 @@ import markoRoutes from './marko.js';
 import reactRoutes from './react.js';
 import apiRoutes from './api.js';
 import calendarRoute from './calendar.js';
+import directoryRoute from './directory.js';
 import financeRoutes from './finance.js';
 import styleRoutes from './css-subsections.js'
 
@@ -13,6 +14,7 @@ import styleRoutes from './css-subsections.js'
  */
 export default [
 	...calendarRoute,
+	directoryRoute,
 	...financeRoutes,
 	...staticRoutes,
 	...markoRoutes,
