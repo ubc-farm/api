@@ -22,7 +22,7 @@ exports.seed = function(knex) {
 		knex('Field').del().then(() => Promise.all([
 			
 		])),
-		knex('Crops').del().then(() => Promise.all([
+		knex('Crop').del().then(() => Promise.all([
 
 		])),
 		knex('Seeding').del().then(() => Promise.all([

@@ -25,6 +25,16 @@ exports.up = function(knex) {
 	})
 	.createTable('Employee', table => {
 		table.inherits('Person');
+		//////////////////////////////////////
+		table.bigIncrements('id');
+		table.text('name').index().notNullable();
+		table.string('role');
+
+		table.text('email');
+		table.string('phoneNumber', 15);
+		table.json('addressMailing');
+		table.json('addressPhysical');
+		/////////////////////////////////////
 
 		table.integer('hourlyPay');
 		table.boolean('fullOrPartTime').index();
@@ -49,6 +59,16 @@ exports.up = function(knex) {
 	})
 	.createTable('Researcher', table => {
 		table.inherits('Person');
+		//////////////////////////////////////
+		table.bigIncrements('id');
+		table.text('name').index().notNullable();
+		table.string('role');
+
+		table.text('email');
+		table.string('phoneNumber', 15);
+		table.json('addressMailing');
+		table.json('addressPhysical');
+		/////////////////////////////////////
 
 		table.text('position');
 		table.text('faculty');
@@ -370,7 +390,7 @@ exports.up = function(knex) {
 	})
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
 	return knex.schema
 		.dropTableIfExists('Person')
 		.dropTableIfExists('Employee')
@@ -381,9 +401,11 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Event')
 		.dropTableIfExists('Task')
 		.dropTableIfExists('Seeding')
+		.dropTableIfExists('ChemicalTask')
 		.dropTableIfExists('Irrigation')
 		.dropTableIfExists('Fertilizing')
 		.dropTableIfExists('PestControl')
+		.dropTableIfExists('Scouting')
 		.dropTableIfExists('ScoutHarvest')
 		.dropTableIfExists('ScoutPest')
 		.dropTableIfExists('SoilSampling')
@@ -399,5 +421,6 @@ exports.down = function(knex, Promise) {
 		.dropTableIfExists('Grant')
 		.dropTableIfExists('ResearchProject')
 		.dropTableIfExists('ResearchPartner')
+		.dropTableIfExists('Account')
 		.dropTableIfExists('Mix')
 }
