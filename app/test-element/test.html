@@ -6,10 +6,30 @@
 		<script src='tape.js'></script>
 		<script src="https://fb.me/react-15.2.1.js"></script>
 		<script src="https://fb.me/react-dom-15.2.1.js"></script>
-		<!--<link href='${c}' rel='stylesheet'>-->
-		<script async src='../json-schema-form/bundle.js'></script>
+		<link href='../core-styles/core.min.css' rel='stylesheet'>
+		<link href='../../lib/table-interactive/table.css' rel='stylesheet'>
+		<script async src='../../lib/table-interactive/bundle.js'></script>
+		<script>
+			function render(element, props) {
+				ReactDOM.render(
+					React.createElement(element, props), 
+					document.getElementById('app-mount')
+				)
+			}
+
+			const data = [
+				{dessert: 'Frozen yogurt', calories: 159, fat: 6.0, carbs: 24, protein: 4, sodium: 87, calcium: .14, iron: .01}
+			]
+
+			function yey() {
+				render(T.InteractiveTable, {
+					data,
+					selection: true
+				})
+			}
+		</script>
 	</head>
-	<body>
+	<body onload="yey()">
 		<div id='app-mount'/>
 	</body>
 </html>
