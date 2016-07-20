@@ -27,7 +27,11 @@
 			function yey() {
 				render(T.InteractiveTable, {
 					data,
-					selection: true, sorting: true
+					selection: true, sorting: true,
+					tooltips: new Map([
+						['dessert', {title: 'Dessert (100g serving)'}],
+						['fat', {title: 'Fat (g)', definition: 'The amount of fat per serving in grams'}],
+					])
 				})
 			}
 		</script>

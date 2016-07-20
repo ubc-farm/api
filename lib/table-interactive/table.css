@@ -35,3 +35,7 @@
 
 .hidden,
 .th-hoverable:hover .table-cell-normal {visibility: hidden}
+
+.table-header-selected {
+	color: var(--brand-primary);
+}
