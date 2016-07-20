@@ -21,5 +21,15 @@ export default [
 				defaultExtension: 'css'
 			}
 		}
+	},
+	{
+		method: 'GET',
+		path: '/css/lib/{param}',
+		handler: {
+			directory: {
+				path: resolve(__dirname, '../../../lib'),
+				defaultExtension: 'css'
+			}
+		}
 	}
 ];

@@ -11,6 +11,7 @@
 		<link href='../core-styles/core.min.css' rel='stylesheet'>
 		<link href='../../lib/table-interactive/table.css' rel='stylesheet'>
 		<script async src='../../lib/table-interactive/bundle.js'></script>
+		<script src='../../lib/money/bundle.js'></script>
 		<script>
 			function render(element, props) {
 				ReactDOM.render(
@@ -19,19 +20,37 @@
 				)
 			}
 
+			const schema = {
+				item: 'string',
+				description: 'string',
+				unitCost: 'number',
+				quantity: 'number',
+				price: 'number'
+			}
+
 			const data = [
-				{dessert: 'Frozen yogurt', calories: 159, fat: 6.0, carbs: 24, protein: 4, sodium: 87, calcium: .14, iron: .01},
-				{dessert: 'Ice cream sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: .08, iron: .01}
+				{
+					item: 'Beets, lb',
+					description: '4540 Beets, lb',
+					unitCost: new Money(200),
+					quantity: 25,
+					price: new Money(5000)
+				}
 			]
 
+			const tooltips = new Map([
+				['unitCost', {
+					title: 'Unit Cost ($)',
+					definition: 'Cost per unit'
+				}],
+				['price', {title: 'Price ($)'}]
+			])
+
 			function yey() {
-				render(T.InteractiveTable, {
+				render(T.default, {
 					data,
 					selection: true, sorting: true,
-					tooltips: new Map([
-						['dessert', {title: 'Dessert (100g serving)'}],
-						['fat', {title: 'Fat (g)', definition: 'The amount of fat per serving in grams'}],
-					])
+					tooltips, schema
 				})
 			}
 		</script>

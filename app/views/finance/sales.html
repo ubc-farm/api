@@ -2,6 +2,7 @@
 <html>
 <head>
 	{{> head}}
+	{{> test}}
 	<link href='/css/core/form.css' rel='stylesheet'>
 
 	<style>
@@ -9,17 +10,20 @@
 		.extra-notes {float: right}
 		.dates .label-body {width: 7em; margin: 0}
 	</style>
+
+	<script>
+		const tooltip = new Map([
+			['item', {title: 'Item'}],
+			['description', {title: 'Description'}],
+			['unitCost', {title: 'Unit Cost ($)'}],
+		])
+	</script>
 </head>
 <body>
 	{{> app-banner}}
 	{{> section-banner breadcrumbs}}
 	<form class='main'>
 		<header>
-			<div class='customer-data'>
-				<label for='customer-name'>Customer</label>
-				<input type='text' id='customer-name' placeholder='John Smith'>
-			</div>
-
 			<div class='extra-notes'>
 				<label for='channel'>Channel</label>
 				<select id='channel'>
@@ -29,6 +33,11 @@
 
 				<label for='notes'>Notes</label>
 				<textarea id='notes'></textarea>
+			</div>
+
+			<div class='customer-data'>
+				<label for='customer-name'>Customer</label>
+				<input type='text' id='customer-name' placeholder='John Smith'>
 			</div>
 
 			<div class='dates'>
@@ -45,39 +54,7 @@
 		</header>
 
 		<link href='/css/core/table.css' rel='stylesheet'>
-		<link href='/css/core/table-sort.css' rel='stylesheet'>
-		<table class='full-width'>
-			<thead>
-				<tr>
-					<th><input type='checkbox'></th>
-					<th class='sort descending'>Item</th>
-					<th>Quantity</th>
-					<th>Unit</th>
-					<th>Price (per unit)</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><input type='checkbox'></td>
-					<td>Apple</td>
-					<td>20</td>
-					<td>kg</td>
-					<td>$10</td>
-				</tr>
-				<tr class='new-item-entry'>
-					<td><input type='checkbox'></td>
-					<td><input type='text' placeholder='Squash'></td>
-					<td><input type='number' placeholder='10'></td>
-					<td>
-						<select>
-							<option>kg</option>
-							<option>lbs</option>
-						</select>
-					</td>
-					<td><input type='number' placeholder='1.99' step='0.01'></td>
-				</tr>
-			</tbody>
-		</table>
+		<div id='app-mount'></div>
 	</form>
 </body>
 </html>

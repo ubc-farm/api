@@ -1,3 +1,5 @@
+import {resolve} from 'path';
+
 /**
  * Shared configuration for all the static routes.
  * @todo config.cache
@@ -95,5 +97,14 @@ export default [
 			}
 		},
 		config
+	},
+	{
+		method: 'GET',
+		path: '/tape.js',
+		handler: {
+			file: {
+				path: resolve(__dirname, '../../../app/test-element/tape.js')
+			}
+		}
 	}
 ];
