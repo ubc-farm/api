@@ -4,6 +4,7 @@
 
 .th-hoverable {
 	position: relative;
+	cursor: pointer;
 }
 
 .table-th-row {
