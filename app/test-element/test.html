@@ -56,9 +56,12 @@
 					title: 'Price ($)',
 					description: 'Total price of all the items',
 					compareFunc: true,
-					toElement(cents, props) {
-						const moneyString = cents !== undefined ? 
-							new Money(cents).toString() : undefined; 
+					toElement(val, props, {unitCost, quantity}) {
+						let moneyString;
+						if (unitCost != null && quantity != null) {
+							const total = unitCost * quantity;
+							moneyString = total.toString();
+						}
 						return React.createElement(Cell, props, moneyString);
 					},
 					compareFunc(a = 0, b = 0) {
@@ -68,8 +71,21 @@
 				}),
 			];
 
+			const testData = {
+				'example': {
+					item: 'Beets, lb',
+					description: '4540 Beets, lb',
+					unitCost: 200,
+					quantity: 25
+				}
+			}
+
+			const data = new Map(
+				Object.keys(testData).map(key => [key, testData[key]])
+			);
+
 			function yey() {
-				
+				render(Table, {data, columns, selection: true, sorting: true})
 			}
 		</script>
 	</head>
