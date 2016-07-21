@@ -24,52 +24,52 @@
 
 			const columns = [
 				new Column({
-					columnKey: 'name',
+					columnKey: 'item',
 					compareFunc: true
 				}),
 				new Column({
-					columnKey: 'icon',
-					title: '',
+					columnKey: 'description',
+					compareFunc: true
+				}),
+				new Column({
+					columnKey: 'unitCost',
+					title: 'Unit Cost ($)',
+					description: 'Cost per unit of this item',
 					compareFunc: true,
-					toElement(value, props) {
-						return React.createElement(Cell, props, 
-							React.createElement('i', {className: 'material-icons'}, value)
-						);
-					}
-				}),
-				new Column({
-					columnKey: 'role',
-					compareFunc: true
-				}),
-				new Column({
-					columnKey: 'hourlyPay',
 					toElement(cents, props) {
-						let moneyString; 
-						if (cents !== undefined) 
-							moneyString = new Money(cents).toString();
+						const moneyString = cents !== undefined ? 
+							new Money(cents).toString() : undefined; 
 						return React.createElement(Cell, props, moneyString);
 					},
 					compareFunc(a = 0, b = 0) {
 						return b - a;
 					},
 					align: 'right'
-				})
+				}),
+				new Column({
+					columnKey: 'quantity',
+					compareFunc: true,
+					align: 'right'
+				}),
+				new Column({
+					columnKey: 'price',
+					title: 'Price ($)',
+					description: 'Total price of all the items',
+					compareFunc: true,
+					toElement(cents, props) {
+						const moneyString = cents !== undefined ? 
+							new Money(cents).toString() : undefined; 
+						return React.createElement(Cell, props, moneyString);
+					},
+					compareFunc(a = 0, b = 0) {
+						return b - a;
+					},
+					align: 'right'
+				}),
 			];
 
 			function yey() {
-				fetch('http://localhost:3000/api/directory').then(response => response.json())
-				.then(json => Object.keys(json).map(k => {
-					const obj = json[k];
-					switch (obj.role) {
-						case 'Restaurant': obj.icon = 'restaurant'; break;
-						case 'Employee': obj.icon = 'business'; break;
-					}
-					return obj;
-				}))
-				.then(data => new Map(Object.keys(data).map(key => [key, data[key]])))
-				.then(data => render(Table, {
-					data, columns, selection: true, sorting: true
-				}))
+				
 			}
 		</script>
 	</head>

@@ -1,3 +1,5 @@
+import {resolve} from 'path';
+
 export default [
 	{
 		method: 'GET',
@@ -12,5 +14,19 @@ export default [
 				]
 			}
 		)
+	},
+	{
+		method: 'GET',
+		path: '/directory',
+		handler: (request, reply) => reply.view(
+			'directory/index.html'
+		)
+	},
+	{
+		method: 'GET',
+		path: '/directory/index.build.js',
+		handler: {
+			file: resolve(__dirname, '../../../app/views/directory/index.build.js')
+		}
 	}
 ];

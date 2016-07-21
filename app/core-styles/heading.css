@@ -1,7 +1,6 @@
 h1, h2,
 .header, .subheader {
 	margin: 0; 
-	line-height: 1.25em;
 	font-weight: 200;
 }
 
@@ -17,7 +16,6 @@ h2, .subheader {
 
 h3, h4, h5, h6,
 .title, .subtitle, .subtitle-alt, .caption {
-	line-height: 1.2em;
 	font-weight: 400;
 	margin: 0;
 }
