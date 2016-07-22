@@ -20,6 +20,9 @@
 				)
 			}
 
+			const Input = ({children, type='text'}) => 
+				React.createElement('input', {type, value: children});
+
 			const {Column, Table, Cell} = T;
 
 			const columns = [
@@ -29,16 +32,25 @@
 				}),
 				new Column({
 					columnKey: 'description',
-					compareFunc: true
+					compareFunc: true,
+					toElement(text, props) {
+						return React.createElement(Cell, props, 
+							React.createElement(Input, {}, text)
+						)
+					}
 				}),
 				new Column({
 					columnKey: 'unitCost',
 					title: 'Unit Cost ($)',
 					description: 'Cost per unit of this item',
 					compareFunc: true,
-					toElement(cents, props) {
-						const moneyString = cents !== undefined ? 
-							new Money(cents).toString() : undefined; 
+					getValue(rowData, columnKey) {
+						const cents = rowData[columnKey];
+						if (cents !== undefined) return new Money(cents);
+					},
+					toElement(money, props) {
+						const moneyString = 
+							money !== undefined ? money.toString() : undefined; 
 						return React.createElement(Cell, props, moneyString);
 					},
 					compareFunc(a = 0, b = 0) {
@@ -58,11 +70,11 @@
 					compareFunc: true,
 					getValue(rowData) {
 						const total = rowData.unitCost * rowData.quantity;
-						if (!Number.isNaN(total)) return total;
+						if (!Number.isNaN(total)) return new Money(total);
 					},
-					toElement(val, props) {
-						const moneyString = val !== undefined ? 
-							new Money(val).toString() : undefined; 
+					toElement(money, props) {
+						const moneyString = money !== undefined ? 
+							money.toString() : undefined; 
 						return React.createElement(Cell, props, moneyString);
 					},
 					compareFunc(a = 0, b = 0) {
@@ -78,6 +90,11 @@
 					description: '4540 Beets, lb',
 					unitCost: 200,
 					quantity: 25
+				},'example2': {
+					item: 'Squash, kg',
+					description: 'Squash Variety 1, kg',
+					unitCost: 400,
+					quantity: 10
 				}
 			}
 
@@ -138,8 +155,12 @@
 
 <header class='section-banner' role='toolbar'>
 	<nav class='banner-breadcrumbs'>
-			<a class='banner-breadcrumb' href='/directory'>
-				<h1 class='title banner-header'>Directory</h1>
+			<a class='banner-breadcrumb' href='/finances'>
+				<h1 class='title banner-header'>Finances</h1>
+			</a>
+			<i class='material-icons breadcrumb-icon'>keyboard_arrow_right</i>
+			<a class='banner-breadcrumb' href='/finances/sales'>
+				<h1 class='title banner-header'>Sales</h1>
 			</a>
 	</nav>
 </header>
