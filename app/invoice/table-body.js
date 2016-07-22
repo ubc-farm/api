@@ -20,17 +20,32 @@ export default class InvoiceDataBody extends Component {
 			const {toElement, columnKey} = column;
 			
 			return new Column(Object.assign({}, column, {
-				toElement: (value, props, rowKey) => toElement(
-					<input type='text' {...props}
-						value={value}
-						onChange={e => this.onInputChange(
-							e.target.value, 
-							rowKey, 
-							columnKey
-						)}
-						onClick={cancelClick}
-					/>
-				, props, rowKey)
+				toElement: (value, props, rowKey) => {
+					if (!props.type && props.type !== 'text' && props.type !== 'number'
+					&& props.type !== 'email' && props.type !== 'tel' 
+					&& props.type !== 'url') {
+						return toElement(value, props, rowKey);
+					}
+					return toElement(
+						<input type={props.type || 'text'}
+							value={value}
+							onChange={e => this.onInputChange(
+								e.target.value, 
+								rowKey, 
+								columnKey
+							)}
+							onClick={cancelClick} readOnly={props.readOnly}
+							autoComplete={props.autoComplete} disabled={props.disabled}
+							inputMode={props.inputMode} list={props.list}
+							step={props.step} placeholder={props.placeholder}
+							min={props.min} max={props.max} 
+							minLength={props.minLength} maxLength={props.maxLength}
+							pattern={props.pattern} required={props.required}
+							selectionDirection={props.selectionDirection}
+							spellCheck={props.spellCheck} tabIndex={props.tabIndex}
+						/>
+					, props, rowKey)
+				}
 			}));
 		});
 

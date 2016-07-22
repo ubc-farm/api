@@ -43,7 +43,6 @@
 					columnKey: 'unitCost',
 					title: 'Unit Cost ($)',
 					description: 'Cost per unit of this item',
-					compareFunc: true,
 					getValue(rowData, columnKey) {
 						const cents = rowData[columnKey];
 						if (cents !== undefined) return new Money(cents);
