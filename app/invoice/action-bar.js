@@ -9,7 +9,7 @@ const visible = {visibility: 'visible'}, hidden = {visibility: 'hidden'};
  * are selected.
  */
 const ActionBar = ({children: [standard, selected], selectedLength = 0}) => (
-	<caption>
+	<header>
 		<section className='table-actions table-actions-standard'
 			style={selectedLength === 0 ? visible : hidden}
 		>
@@ -23,7 +23,7 @@ const ActionBar = ({children: [standard, selected], selectedLength = 0}) => (
 			</span>
 			{selected}
 		</section>
-	</caption>
+	</header>
 )
 
 ActionBar.propTypes = {
