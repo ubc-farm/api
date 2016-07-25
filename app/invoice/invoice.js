@@ -26,7 +26,9 @@ export default class Invoice extends Component {
 		this.state = {
 			data: props.initialData,
 			selected: new Set(),
-			customerDetails: ''
+			customerDetails: '',
+			orderDate: props.orderDate || new Date(Date.now()),
+			deliveryDate: props.deliveryDate || new Date(Date.now())
 		}
 	}
 
@@ -70,7 +72,7 @@ export default class Invoice extends Component {
 						<label>
 							Delivery Date
 							<DatePicker name='deliveryDate' 
-								defaultValue={this.props.deliveryDate}
+								value={this.state.deliveryDate}
 							/>
 						</label>
 
@@ -108,7 +110,7 @@ export default class Invoice extends Component {
 						<label>
 							<span>Date:</span>
 							<DatePicker name='orderDate' 
-								defaultValue={this.props.orderDate}
+								value={this.state.orderDate}
 							/>
 						</label>
 
@@ -120,7 +122,9 @@ export default class Invoice extends Component {
 
 				<section>
 					<ActionBar>
-						<button className='button-icon material-icons'>add</button>
+						<button className='button-icon material-icons'
+							onClick={() => this.addRow({})}
+						>add</button>
 						<button className='button-icon material-icons'>delete</button>
 					</ActionBar>
 					<InvoiceTable data={data}

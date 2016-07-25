@@ -10,7 +10,7 @@
       rel="stylesheet">
 		<link href='../core-styles/core.min.css' rel='stylesheet'>
 		<link href='../../lib/table-controls/table.css' rel='stylesheet'>
-		<script src='../../lib/table-controls/bundle.js'></script>
+		<script src='../../app/invoice/bundle.js'></script>
 		<script src='../../lib/money/bundle.js'></script>
 		<script>
 			function render(element, props) {
@@ -19,69 +19,6 @@
 					document.getElementById('app-mount')
 				)
 			}
-
-			const Input = ({children, type='text'}) => 
-				React.createElement('input', {type, value: children});
-
-			const {Column, Table, Cell} = T;
-
-			const columns = [
-				new Column({
-					columnKey: 'item',
-					compareFunc: true
-				}),
-				new Column({
-					columnKey: 'description',
-					compareFunc: true,
-					toElement(text, props) {
-						return React.createElement(Cell, props, 
-							React.createElement(Input, {}, text)
-						)
-					}
-				}),
-				new Column({
-					columnKey: 'unitCost',
-					title: 'Unit Cost ($)',
-					description: 'Cost per unit of this item',
-					getValue(rowData, columnKey) {
-						const cents = rowData[columnKey];
-						if (cents !== undefined) return new Money(cents);
-					},
-					toElement(money, props) {
-						const moneyString = 
-							money !== undefined ? money.toString() : undefined; 
-						return React.createElement(Cell, props, moneyString);
-					},
-					compareFunc(a = 0, b = 0) {
-						return b - a;
-					},
-					align: 'right'
-				}),
-				new Column({
-					columnKey: 'quantity',
-					compareFunc: true,
-					align: 'right'
-				}),
-				new Column({
-					columnKey: 'price',
-					title: 'Price ($)',
-					description: 'Total price of all the items',
-					compareFunc: true,
-					getValue(rowData) {
-						const total = rowData.unitCost * rowData.quantity;
-						if (!Number.isNaN(total)) return new Money(total);
-					},
-					toElement(money, props) {
-						const moneyString = money !== undefined ? 
-							money.toString() : undefined; 
-						return React.createElement(Cell, props, moneyString);
-					},
-					compareFunc(a = 0, b = 0) {
-						return b - a;
-					},
-					align: 'right'
-				}),
-			];
 
 			const testData = {
 				'example': {
@@ -97,7 +34,7 @@
 				}
 			}
 
-			const data = new Map(
+			const initialData = new Map(
 				Object.keys(testData).map(key => {
 					let value = testData[key];
 					const {quantity, unitCost} = value;
@@ -108,7 +45,7 @@
 			);
 
 			function yey() {
-				render(Table, {data, columns, selection: true, sorting: true})
+				render(Invoice, {initialData})
 			}
 		</script>
 	</head>
