@@ -14,7 +14,6 @@
 
 .table-cell-hover.align-right {left: auto; right: 1em;}
 .table-cell-hover {
-	background: white;
 	display: inline;
 	position: absolute;
 	left: 1em; top: 0.75em;

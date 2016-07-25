@@ -113,7 +113,8 @@ var Invoice = (function (React) {
   	static get propTypes() {
   		return {
   			value: React.PropTypes.instanceOf(Date).isRequired,
-  			onChange: React.PropTypes.func.isRequired
+  			onChange: React.PropTypes.func.isRequired,
+  			className: React.PropTypes.string
   		};
   	}
 
@@ -147,15 +148,16 @@ var Invoice = (function (React) {
   	}
 
   	render() {
-  		const { value } = this.props;
+  		const { value, className } = this.props;
   		const { open, selectingDate } = this.state;
   		return React__default.createElement(
   			'span',
   			{ className: 'date-picker-container' },
-  			React__default.createElement('input', { className: 'date-picker-input', type: 'date',
-  				onChange: this.onInputChange,
+  			React__default.createElement('input', { className: classList('date-picker-input', className),
+  				type: 'text', readOnly: true,
   				onFocus: this.onInputFocus,
-  				onBlur: this.onInputBlur
+  				onBlur: this.onInputBlur,
+  				value: long.months[value.getMonth()] + ` ${ value.getDate() }, ${ value.getFullYear() }`
   			}),
   			React__default.createElement(
   				'div',
@@ -179,6 +181,7 @@ var Invoice = (function (React) {
   						short.weeks[value.getDay()],
   						', ',
   						short.months[value.getMonth()],
+  						' ',
   						value.getDate()
   					)
   				),
@@ -607,22 +610,26 @@ var Invoice = (function (React) {
     * @param {Object} [options]
     * @param {boolean} [options.convert=true] - if false, parse the money
     * integer as dollars instead of cents.
-    * @param {number} [options.exactness=0] - lets you use cent values smaller 
-    * than $0.01. 
     */
-  	constructor(money, { convert = true, exactness = 0 } = {}) {
+  	constructor(money, { convert = true } = {}) {
   		let dollars,
   		    cents = 0;
-  		if (Array.isArray(dollars)) [dollars, cents] = money;else if (!Number.isInteger(money)) {
-  			dollars = Math.trunc(money);
-  			cents = (money - dollars) * 100;
-  		} else if (convert) {
+  		if (Array.isArray(dollars)) [dollars, cents] = money;else if (convert && Number.isInteger(money) || money instanceof Money) {
   			super(money);
   			return;
-  		}
+  		} else {
+  			[dollars, cents] = String(money).split('.');
+  			dollars = parseInt(dollars, 10);
 
-  		const tenPow = Math.pow(10, exactness);
-  		cents = Math.trunc(tenPow * cents) / tenPow;
+  			const centStr = cents;
+  			if (cents === undefined) cents = 0;else {
+  				cents = parseInt(centStr, 10);
+  				if (centStr.length === 1) cents *= 10;
+  			}
+
+  			const negativeDollars = 1 / dollars < 0;
+  			if (negativeDollars) cents *= -1;
+  		}
 
   		super(dollars * 100 + cents);
   	}
@@ -642,20 +649,31 @@ var Invoice = (function (React) {
     * to the string
     * @param {boolean} [opts.useMinusSign=false] normally negative amounts are
     * wrapped in parenthesis. If useMinusSign is true, a negative sign will
-    * be prefixed to the string instead.
+    * be prefixed to the string instead
+    * @param {string} [opts.currency=USD] currency code to use
+    * @param {string} [opts.currencyDisplay=symbol] currency style to use
+    * @param {boolean} [opts.useGrouping=true] wheter or not to 
+    * use thousands seperators
     * @returns {string}
     */
-  	toString({ dollarSign = true, useMinusSign = false } = {}) {
-  		let centsString = Math.abs(this.cents).toString().replace('.', '');
-  		if (centsString.length == 1) centsString = '0' + centsString;
-  		const $ = dollarSign ? '$' : '';
+  	toString({
+  		dollarSign = true,
+  		useMinusSign = false,
+  		currency = 'USD',
+  		currencyDisplay,
+  		useGrouping
+  	} = {}) {
+  		let value = this.toFloat();const negative = value < 0;
+  		if (!useMinusSign && negative) value = Math.abs(value);
 
-  		const { dollars } = this;
-  		const str = `${ $ }${ Math.abs(dollars) }.${ centsString }`;
+  		let str;
+  		if (dollarSign) {
+  			str = value.toLocaleString(undefined, { style: 'currency', currency, currencyDisplay, useGrouping });
+  		} else {
+  			str = value.toLocaleString(undefined, { style: 'decimal', minimumFractionDigits: 2, useGrouping });
+  		}
 
-  		if (dollars < 0) {
-  			if (useMinusSign) return `-${ str }`;else return `(${ str })`;
-  		} else return str;
+  		if (useMinusSign || !negative) return str;else return `(${ str })`;
   	}
 
   	/**
@@ -718,6 +736,13 @@ var Invoice = (function (React) {
   	compareFunc(a = 0, b = 0) {
   		return b - a;
   	},
+  	toElement(value, props) {
+  		return React__default.createElement(
+  			Cell,
+  			props,
+  			value.toString()
+  		);
+  	},
   	align: 'right'
   };
 
@@ -725,50 +750,74 @@ var Invoice = (function (React) {
   const clone = (from, ...extra) => new Column(Object.assign({}, from, ...extra));
 
   function invoiceColumns(onChangeCallback) {
+  	function getOnChange(rowKey, column) {
+  		return e => {
+  			e.stopPropagation();
+  			onChangeCallback(e, rowKey, column.columnKey);
+  		};
+  	}
+
+  	const stop = e => e.stopPropagation();
+
   	return [clone(item, { toElement(value, props, rowKey) {
-  			const onChange = e => onChangeCallback(e, rowKey, item.columnKey);
+  			const onChange = getOnChange(rowKey, item);
   			return React__default.createElement(
   				Cell,
   				_extends({}, props, { header: true, scope: 'row' }),
   				React__default.createElement('input', { type: 'text', spellCheck: true,
   					placeholder: 'Squash, kg',
   					value: value,
-  					onChange: onChange
+  					onChange: onChange,
+  					onClick: stop,
+  					className: 'input-plain invoice-table-input'
   				})
   			);
   		} }), clone(description, { toElement(value, props, rowKey) {
-  			const onChange = e => onChangeCallback(e, rowKey, description.columnKey);
+  			const onChange = getOnChange(rowKey, description);
   			return React__default.createElement(
   				Cell,
   				props,
   				React__default.createElement('input', { type: 'text', spellCheck: true,
   					placeholder: 'Squash variety 2, kg',
   					value: value,
-  					onChange: onChange
+  					onChange: onChange,
+  					onClick: stop,
+  					className: 'input-plain invoice-table-input'
   				})
   			);
   		} }), clone(unitCost, { toElement(value, props, rowKey) {
-  			const onChange = e => onChangeCallback(e, rowKey, unitCost.columnKey);
+  			const onChange = e => {
+  				e.stopPropagation();
+  				let fakeEvent = { target: { value: undefined } };
+  				fakeEvent.target.value = new Money(e.target.value, { convert: false });
+  				onChangeCallback(fakeEvent, rowKey, unitCost.columnKey);
+  			};
   			return React__default.createElement(
   				Cell,
   				props,
   				React__default.createElement('input', { type: 'number',
   					placeholder: '2.99',
-  					value: value,
+  					value: value.toString({ dollarSign: false, useMinusSign: true }),
   					onChange: onChange,
-  					step: 0.01
+  					step: 0.01,
+  					onClick: stop,
+  					className: 'input-plain invoice-table-input',
+  					style: { maxWidth: '5em' }
   				})
   			);
   		} }), clone(quantity, { toElement(value, props, rowKey) {
-  			const onChange = e => onChangeCallback(e, rowKey, quantity.columnKey);
+  			const onChange = getOnChange(rowKey, quantity);
   			return React__default.createElement(
   				Cell,
   				props,
   				React__default.createElement('input', { type: 'number',
-  					placeholder: '2.99',
+  					placeholder: '25',
   					value: value,
   					onChange: onChange,
-  					step: 0.01
+  					step: 'any',
+  					onClick: stop,
+  					className: 'input-plain invoice-table-input',
+  					style: { maxWidth: '5em' }
   				})
   			);
   		} }), clone(price)];
@@ -815,7 +864,7 @@ var Invoice = (function (React) {
 
   		return React__default.createElement(
   			'table',
-  			null,
+  			{ className: 'invoice-table' },
   			React__default.createElement(Head, { columns: columns, sorting: sort,
   				selectedLength: selected.size, dataLength: data.size,
   				onCheckboxChange: this.onColumnCheckboxChange,
@@ -949,7 +998,7 @@ var Invoice = (function (React) {
   	}
 
   	render() {
-  		const { customerDetails, data } = this.state;
+  		const { customerDetails, data, selected } = this.state;
   		const { customerList } = this.props;
 
   		return React__default.createElement(
@@ -983,30 +1032,42 @@ var Invoice = (function (React) {
   						})
   					),
   					React__default.createElement(
-  						'label',
-  						{ htmlFor: 'channel' },
-  						'Channel'
-  					),
-  					React__default.createElement(
-  						'select',
-  						{ id: 'channel', name: 'channel' },
+  						'div',
+  						{ className: 'row' },
   						React__default.createElement(
-  							'option',
-  							{ value: 'csa' },
-  							'CSA'
+  							'div',
+  							{ className: 'left channel' },
+  							React__default.createElement(
+  								'label',
+  								{ htmlFor: 'channel' },
+  								'Channel'
+  							),
+  							React__default.createElement(
+  								'select',
+  								{ id: 'channel', name: 'channel' },
+  								React__default.createElement(
+  									'option',
+  									{ value: 'csa' },
+  									'CSA'
+  								),
+  								React__default.createElement(
+  									'option',
+  									{ value: 'restaurants' },
+  									'Restaurants'
+  								)
+  							)
   						),
   						React__default.createElement(
-  							'option',
-  							{ value: 'restaurants' },
-  							'Restaurants'
+  							'div',
+  							{ className: 'right notes' },
+  							React__default.createElement(
+  								'label',
+  								{ htmlFor: 'notes' },
+  								'Notes'
+  							),
+  							React__default.createElement('textarea', { id: 'notes', name: 'notes' })
   						)
-  					),
-  					React__default.createElement(
-  						'label',
-  						{ htmlFor: 'notes' },
-  						'Notes'
-  					),
-  					React__default.createElement('textarea', { id: 'notes', name: 'notes' })
+  					)
   				)
   			),
   			React__default.createElement(
@@ -1040,34 +1101,39 @@ var Invoice = (function (React) {
   					{ className: 'invoice-details right' },
   					React__default.createElement(
   						'label',
-  						null,
+  						{ className: 'details-row' },
   						React__default.createElement(
   							'span',
-  							null,
+  							{ className: 'detail-cell detail-header' },
   							'Invoice #:'
   						),
-  						React__default.createElement('input', { type: 'number', name: 'invoiceNumber' })
+  						React__default.createElement('input', { type: 'number',
+  							name: 'invoiceNumber',
+  							className: 'detail-cell',
+  							defaultValue: Math.ceil(Math.random() * 1e7)
+  						})
   					),
   					React__default.createElement(
   						'label',
-  						null,
+  						{ className: 'details-row' },
   						React__default.createElement(
   							'span',
-  							null,
+  							{ className: 'detail-cell detail-header' },
   							'Date:'
   						),
-  						React__default.createElement(DatePicker, { name: 'orderDate',
+  						React__default.createElement(DatePicker, { name: 'orderDate', className: 'detail-cell',
   							value: this.state.orderDate
   						})
   					),
   					React__default.createElement(
   						'label',
-  						null,
+  						{ className: 'details-row' },
   						React__default.createElement(
   							'span',
-  							null,
+  							{ className: 'detail-cell detail-header' },
   							'Balance Due (CAD):'
-  						)
+  						),
+  						React__default.createElement('span', { className: 'detail-cell' })
   					)
   				)
   			),
@@ -1076,22 +1142,22 @@ var Invoice = (function (React) {
   				null,
   				React__default.createElement(
   					ActionBar,
-  					null,
+  					{ selectedLength: selected.length },
   					React__default.createElement(
   						'button',
-  						{ className: 'button-icon material-icons',
+  						{ className: 'icon-button material-icons',
   							onClick: () => this.addRow({})
   						},
   						'add'
   					),
   					React__default.createElement(
   						'button',
-  						{ className: 'button-icon material-icons' },
+  						{ className: 'icon-button material-icons' },
   						'delete'
   					)
   				),
   				React__default.createElement(InvoiceTable, { data: data,
-  					selected: this.state.selected,
+  					selected: selected,
   					onDataChange: this.updateData,
   					onSelectionChange: this.updateSelected
   				})

@@ -44,6 +44,9 @@ export const price = {
 	compareFunc(a = 0, b = 0) {
 		return b - a;
 	},
+	toElement(value, props) {
+		return <Cell {...props}>{value.toString()}</Cell>
+	},
 	align: 'right'
 }
 
@@ -51,53 +54,77 @@ export const price = {
 const clone = (from, ...extra) => new Column(Object.assign({}, from, ...extra))
 
 export default function invoiceColumns(onChangeCallback) {
+	function getOnChange(rowKey, column) {
+		return e => {
+			e.stopPropagation();
+			onChangeCallback(e, rowKey, column.columnKey);
+		}
+	}
+
+	const stop = e => e.stopPropagation();
+
 	return [
 		clone(item, { toElement(value, props, rowKey) {
-			const onChange = e => onChangeCallback(e, rowKey, item.columnKey);
+			const onChange = getOnChange(rowKey, item);
 			return (
 				<Cell {...props} header scope='row'>
 					<input type='text' spellCheck
 						placeholder='Squash, kg'
 						value={value}
 						onChange={onChange}
+						onClick={stop}
+						className='input-plain invoice-table-input'
 					/>
 				</Cell>
 			);
 		}}),
 		clone(description, { toElement(value, props, rowKey) {
-			const onChange = e => onChangeCallback(e, rowKey, description.columnKey);
+			const onChange = getOnChange(rowKey, description);
 			return (
 				<Cell {...props}>
 					<input type='text' spellCheck
 						placeholder='Squash variety 2, kg'
 						value={value}
 						onChange={onChange}
+						onClick={stop}
+						className='input-plain invoice-table-input'
 					/>
 				</Cell>
 			);
 		}}),
 		clone(unitCost, { toElement(value, props, rowKey) {
-			const onChange = e => onChangeCallback(e, rowKey, unitCost.columnKey);
+			const onChange = e => {
+				e.stopPropagation();
+				let fakeEvent = {target: {value: undefined}}; 
+				fakeEvent.target.value = new Money(e.target.value, {convert: false});
+				onChangeCallback(fakeEvent, rowKey, unitCost.columnKey);
+			}
 			return (
 				<Cell {...props}>
 					<input type='number' 
 						placeholder='2.99'
-						value={value}
+						value={value.toString({dollarSign: false, useMinusSign: true})}
 						onChange={onChange}
 						step={0.01}
+						onClick={stop}
+						className='input-plain invoice-table-input'
+						style={{maxWidth: '5em'}}
 					/>
 				</Cell>
 			);
 		}}),
 		clone(quantity, { toElement(value, props, rowKey) {
-			const onChange = e => onChangeCallback(e, rowKey, quantity.columnKey);
+			const onChange = getOnChange(rowKey, quantity);
 			return (
 				<Cell {...props}>
 					<input type='number' 
-						placeholder='2.99'
+						placeholder='25'
 						value={value}
 						onChange={onChange}
-						step={0.01}
+						step="any"
+						onClick={stop}
+						className='input-plain invoice-table-input'
+						style={{maxWidth: '5em'}}
 					/>
 				</Cell>
 			);

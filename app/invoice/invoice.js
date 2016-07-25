@@ -54,7 +54,7 @@ export default class Invoice extends Component {
 	}
 
 	render() {
-		const {customerDetails, data} = this.state;
+		const {customerDetails, data, selected} = this.state;
 		const {customerList} = this.props;
 
 		return (
@@ -76,14 +76,20 @@ export default class Invoice extends Component {
 							/>
 						</label>
 
-						<label htmlFor='channel'>Channel</label>
-						<select id='channel' name='channel'>
-							<option value='csa'>CSA</option>
-							<option value='restaurants'>Restaurants</option>
-						</select>
+						<div className='row'>
+							<div className='left channel'>
+								<label htmlFor='channel'>Channel</label>
+								<select id='channel' name='channel'>
+									<option value='csa'>CSA</option>
+									<option value='restaurants'>Restaurants</option>
+								</select>
+							</div>
 
-						<label htmlFor='notes'>Notes</label>
-						<textarea id='notes' name='notes'/>
+							<div className='right notes'>
+								<label htmlFor='notes'>Notes</label>
+								<textarea id='notes' name='notes'/>
+							</div>
+						</div>
 					</fieldset>
 				</div>
 				<div className='row'>
@@ -102,33 +108,40 @@ export default class Invoice extends Component {
 					</div>
 
 					<div className='invoice-details right'>
-						<label>
-							<span>Invoice #:</span>
-							<input type='number' name='invoiceNumber'/>
+						<label className='details-row'>
+							<span className='detail-cell detail-header'>Invoice #:</span>
+							<input type='number' 
+								name='invoiceNumber' 
+								className='detail-cell' 
+								defaultValue={Math.ceil(Math.random() * 1e7)}
+							/>
 						</label>
 
-						<label>
-							<span>Date:</span>
-							<DatePicker name='orderDate' 
+						<label className='details-row'>
+							<span className='detail-cell detail-header'>Date:</span>
+							<DatePicker name='orderDate' className='detail-cell' 
 								value={this.state.orderDate}
 							/>
 						</label>
 
-						<label>
-							<span>Balance Due (CAD):</span>
+						<label className='details-row'>
+							<span className='detail-cell detail-header'>
+								Balance Due (CAD):
+							</span>
+							<span className='detail-cell'/>
 						</label>
 					</div>
 				</div>
 
 				<section>
-					<ActionBar>
-						<button className='button-icon material-icons'
+					<ActionBar selectedLength={selected.length}>
+						<button className='icon-button material-icons'
 							onClick={() => this.addRow({})}
 						>add</button>
-						<button className='button-icon material-icons'>delete</button>
+						<button className='icon-button material-icons'>delete</button>
 					</ActionBar>
 					<InvoiceTable data={data}
-						selected={this.state.selected}
+						selected={selected}
 						onDataChange={this.updateData}
 						onSelectionChange={this.updateSelected}
 					/>

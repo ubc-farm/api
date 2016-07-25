@@ -1,11 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {classlist as cx} from '../../lib/utils/index.js';
-import {asArray, label, toRfcDate} from '../../lib/calendar/index.js';
+import {
+	asArray, label, toRfcDate, toDateString
+} from '../../lib/calendar/index.js';
 
 export default class DatePicker extends Component {
 	static get propTypes() {return {
 		value: PropTypes.instanceOf(Date).isRequired,
-		onChange: PropTypes.func.isRequired
+		onChange: PropTypes.func.isRequired,
+		className: PropTypes.string
 	}}
 
 	constructor(props) {
@@ -34,14 +37,18 @@ export default class DatePicker extends Component {
 	}
 
 	render() {
-		const {value} = this.props;
+		const {value, className} = this.props;
 		const {open, selectingDate} = this.state;
 		return (
 			<span className='date-picker-container'>
-				<input className='date-picker-input' type='date'
-					onChange={this.onInputChange}
+				<input className={cx('date-picker-input', className)} 
+					type='text' readOnly
 					onFocus={this.onInputFocus}
 					onBlur={this.onInputBlur}
+					value={
+						label.long.months[value.getMonth()]
+						+ ` ${value.getDate()}, ${value.getFullYear()}`
+					}
 				/>
 				<div className={cx('date-picker', {open})}>
 					<time className='date-picker-header' dateTime={toRfcDate(value)}>
@@ -57,7 +64,7 @@ export default class DatePicker extends Component {
 							className={cx('date-picker-date', {'highlight': selectingDate})}
 						>
 							{label.short.weeks[value.getDay()]}{', '}
-							{label.short.months[value.getMonth()]}
+							{label.short.months[value.getMonth()]}{' '}
 							{value.getDate()}
 						</span>
 					</time>

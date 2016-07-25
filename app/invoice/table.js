@@ -40,7 +40,7 @@ export default class InvoiceTable extends Component {
 		const {columns, sort} = this.state;
 
 		return (
-			<table>
+			<table className='invoice-table'>
 				<Head columns={columns} sorting={sort}
 					selectedLength={selected.size} dataLength={data.size}
 					onCheckboxChange={this.onColumnCheckboxChange}
