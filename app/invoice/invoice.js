@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
-import {id} from '../../lib/utils/index.js';
+import {id as randomId} from '../../lib/utils/index.js';
 import DatePicker from './date-input.js';
 import InvoiceTable from './table.js';
+import ActionBar from './action-bar.js'
 
-export class Invoice extends Component {
+export default class Invoice extends Component {
 	static get propTypes() {return {
 		initialData: PropTypes.instanceOf(Map),
 		orderDate: PropTypes.instanceOf(Date),
@@ -19,6 +20,8 @@ export class Invoice extends Component {
 		super(props);
 
 		this.changeCustomerDetails = this.changeCustomerDetails.bind(this);
+		this.updateData = data => this.setState({data});
+		this.updateSelected = selected => this.setState({selected});
 
 		this.state = {
 			data: props.initialData,
@@ -34,6 +37,18 @@ export class Invoice extends Component {
 		this.setState({
 			customerDetails: e.target.value
 		})
+	}
+
+	addRow(row, id = randomId()) {
+		let newData = new Map(this.state.data);
+		newData.set(id, row);
+		this.setState({data: newData});
+	}
+
+	deleteRow(id) {
+		let newData = new Map(this.state.data);
+		newData.delete(id);
+		this.setState({data: newData});
 	}
 
 	render() {
@@ -104,9 +119,14 @@ export class Invoice extends Component {
 				</div>
 
 				<section>
-					<ActionBar/>
+					<ActionBar>
+						<button className='button-icon material-icons'>add</button>
+						<button className='button-icon material-icons'>delete</button>
+					</ActionBar>
 					<InvoiceTable data={data}
-						
+						selected={this.state.selected}
+						onDataChange={this.updateData}
+						onSelectionChange={this.updateSelected}
 					/>
 				</section>
 			</form>
