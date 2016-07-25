@@ -23,6 +23,9 @@ export default class Invoice extends Component {
 		this.updateData = data => this.setState({data});
 		this.updateSelected = selected => this.setState({selected});
 
+		this.deleteSelected = this.deleteSelected.bind(this);
+		this.addBlankRow = this.addBlankRow.bind(this);
+
 		this.state = {
 			data: props.initialData,
 			selected: new Set(),
@@ -41,16 +44,19 @@ export default class Invoice extends Component {
 		})
 	}
 
-	addRow(row, id = randomId()) {
-		let newData = new Map(this.state.data);
-		newData.set(id, row);
-		this.setState({data: newData});
+	deleteSelected() {
+		const {selected, data} = this.state;
+		let newData = new Map();
+		for (const [key, value] of data) {
+			if (!selected.has(key)) newData.set(key, value);
+		}
+		this.setState({data: newData, selected: new Set()});
 	}
 
-	deleteRow(id) {
-		let newData = new Map(this.state.data);
-		newData.delete(id);
-		this.setState({data: newData});
+	addBlankRow() {
+		let data = new Map(this.state.data);
+		data.set(randomId(), {});
+		this.setState({data});
 	}
 
 	render() {
@@ -135,9 +141,10 @@ export default class Invoice extends Component {
 
 				<section>
 					<ActionBar selectedLength={selected.size}>
-						<button onClick={() => this.addRow({})}
-						>Add Item</button>
-						<button>Delete Selected Items</button>
+						<button type='button' onClick={this.addBlankRow}>Add Item</button>
+						<button type='button'
+							onClick={this.deleteSelected}
+						>Delete Selected Items</button>
 					</ActionBar>
 					<InvoiceTable data={data}
 						selected={selected}

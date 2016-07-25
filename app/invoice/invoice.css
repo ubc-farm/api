@@ -8,6 +8,10 @@
 	margin: 1em;
 }
 
+.customer {
+	min-height: 10em
+}
+
 .row::after {
 	content: '';
 	display: table;

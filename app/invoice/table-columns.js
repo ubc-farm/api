@@ -45,7 +45,8 @@ export const price = {
 		return b - a;
 	},
 	toElement(value, props) {
-		return <Cell {...props}>{value.toString()}</Cell>
+		const str = value === undefined? null : value.toString();
+		return <Cell {...props}>{str}</Cell>
 	},
 	align: 'right'
 }
@@ -70,7 +71,7 @@ export default function invoiceColumns(onChangeCallback) {
 				<Cell {...props} header scope='row'>
 					<input type='text' spellCheck
 						placeholder='Squash, kg'
-						value={value}
+						value={value || ''}
 						onChange={onChange}
 						onClick={stop}
 						className='input-plain invoice-table-input'
@@ -84,7 +85,7 @@ export default function invoiceColumns(onChangeCallback) {
 				<Cell {...props}>
 					<input type='text' spellCheck
 						placeholder='Squash variety 2, kg'
-						value={value}
+						value={value || ''}
 						onChange={onChange}
 						onClick={stop}
 						className='input-plain invoice-table-input'
@@ -99,11 +100,14 @@ export default function invoiceColumns(onChangeCallback) {
 				fakeEvent.target.value = new Money(e.target.value, {convert: false});
 				onChangeCallback(fakeEvent, rowKey, unitCost.columnKey);
 			}
+			let asNumber = '';
+			if (value !== undefined) 
+				asNumber = value.toString({dollarSign: false, useMinusSign: true});
 			return (
 				<Cell {...props}>
-					<input type='number' 
-						placeholder='2.99'
-						value={value.toString({dollarSign: false, useMinusSign: true})}
+					<input type='text' 
+						placeholder='$2.99'
+						value={asNumber}
 						onChange={onChange}
 						step={0.01}
 						onClick={stop}
@@ -119,7 +123,7 @@ export default function invoiceColumns(onChangeCallback) {
 				<Cell {...props}>
 					<input type='number' 
 						placeholder='25'
-						value={value}
+						value={value || ''}
 						onChange={onChange}
 						step="any"
 						onClick={stop}
