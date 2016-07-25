@@ -134,11 +134,10 @@ export default class Invoice extends Component {
 				</div>
 
 				<section>
-					<ActionBar selectedLength={selected.length}>
-						<button className='icon-button material-icons'
-							onClick={() => this.addRow({})}
-						>add</button>
-						<button className='icon-button material-icons'>delete</button>
+					<ActionBar selectedLength={selected.size}>
+						<button onClick={() => this.addRow({})}
+						>Add Item</button>
+						<button>Delete Selected Items</button>
 					</ActionBar>
 					<InvoiceTable data={data}
 						selected={selected}

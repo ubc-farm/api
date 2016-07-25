@@ -907,8 +907,6 @@ var Invoice = (function (React) {
   	}
   }
 
-  const visible = { visibility: 'visible' };
-  const hidden = { visibility: 'hidden' };
   /**
    * A table caption that toggles between 2 possible children depending on
    * selectedLength. Children must be an array of two items: the first is
@@ -917,18 +915,18 @@ var Invoice = (function (React) {
    */
   const ActionBar = ({ children: [standard, selected], selectedLength = 0 }) => React__default.createElement(
   	'header',
-  	null,
+  	{ className: 'table-actions-container' },
   	React__default.createElement(
   		'section',
-  		{ className: 'table-actions table-actions-standard',
-  			style: selectedLength === 0 ? visible : hidden
+  		{
+  			className: classList('table-actions', 'table-actions-standard', selectedLength === 0 ? 'visible' : 'hidden')
   		},
   		standard
   	),
   	React__default.createElement(
   		'section',
-  		{ className: 'table-actions table-actions-selected',
-  			style: selectedLength > 0 ? visible : hidden
+  		{
+  			className: classList('table-actions', 'table-actions-selected', selectedLength > 0 ? 'visible' : 'hidden')
   		},
   		React__default.createElement(
   			'span',
@@ -1142,18 +1140,17 @@ var Invoice = (function (React) {
   				null,
   				React__default.createElement(
   					ActionBar,
-  					{ selectedLength: selected.length },
+  					{ selectedLength: selected.size },
   					React__default.createElement(
   						'button',
-  						{ className: 'icon-button material-icons',
-  							onClick: () => this.addRow({})
+  						{ onClick: () => this.addRow({})
   						},
-  						'add'
+  						'Add Item'
   					),
   					React__default.createElement(
   						'button',
-  						{ className: 'icon-button material-icons' },
-  						'delete'
+  						null,
+  						'Delete Selected Items'
   					)
   				),
   				React__default.createElement(InvoiceTable, { data: data,

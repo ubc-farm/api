@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
-
-const visible = {visibility: 'visible'}, hidden = {visibility: 'hidden'};
+import {classlist as cx} from '../../lib/utils/index.js'
 
 /**
  * A table caption that toggles between 2 possible children depending on
@@ -9,14 +8,20 @@ const visible = {visibility: 'visible'}, hidden = {visibility: 'hidden'};
  * are selected.
  */
 const ActionBar = ({children: [standard, selected], selectedLength = 0}) => (
-	<header>
-		<section className='table-actions table-actions-standard'
-			style={selectedLength === 0 ? visible : hidden}
+	<header className='table-actions-container'>
+		<section 
+			className={cx(
+				'table-actions', 'table-actions-standard',
+				selectedLength === 0 ? 'visible' : 'hidden'
+			)}
 		>
 			{standard}
 		</section>
-		<section className='table-actions table-actions-selected' 
-			style={selectedLength > 0 ? visible : hidden}
+		<section 
+			className={cx(
+				'table-actions', 'table-actions-selected',
+				selectedLength > 0 ? 'visible' : 'hidden'
+			)}
 		>
 			<span className='selected-count'>
 				{`${selectedLength} item${selectedLength > 1 ? 's' : ''} selected`}
