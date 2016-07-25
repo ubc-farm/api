@@ -747,6 +747,60 @@ var Invoice = (function (React) {
   	align: 'right'
   };
 
+  const stop = e => e.stopPropagation();
+
+  const InputCell = ({ cellProps, inputProps, value = '' }) => React__default.createElement(
+  	Cell,
+  	cellProps,
+  	React__default.createElement('input', _extends({ type: 'text', onClick: stop,
+  		className: 'input-plain invoice-table-input',
+  		value: value
+  	}, inputProps))
+  );
+
+  InputCell.propTypes = {
+  	cellProps: React.PropTypes.object,
+  	inputProps: React.PropTypes.object,
+  	value: React.PropTypes.any
+  };
+
+  class UpdateOnBlur extends React.Component {
+  	static get propTypes() {
+  		return {
+  			value: React.PropTypes.any.isRequired,
+  			onBlur: React.PropTypes.func.isRequired,
+  			inputProps: React.PropTypes.object
+  		};
+  	}
+
+  	constructor(props) {
+  		super(props);
+  		this.state = { renderedValue: props.value };
+  		this.onChange = this.onChange.bind(this);
+  		this.onBlur = this.onBlur.bind(this);
+  	}
+
+  	onChange(e) {
+  		this.setState({ renderedValue: e.target.value });
+  	}
+  	onBlur() {
+  		this.props.onBlur(this.state.renderedValue);
+  	}
+  	componentWillReceiveProps(nextProps) {
+  		this.setState({ renderedValue: nextProps.value });
+  	}
+
+  	render() {
+  		const inputProps = Object.assign({}, this.props.inputProps, {
+  			onBlur: this.onBlur, onChange: this.onChange
+  		});
+  		return React__default.createElement(InputCell, _extends({}, this.props, {
+  			inputProps: inputProps,
+  			value: this.state.renderedValue
+  		}));
+  	}
+  }
+
   /** @returns {Column} copy of object with the specified extra properties */
   const clone = (from, ...extra) => new Column(Object.assign({}, from, ...extra));
 
@@ -758,69 +812,58 @@ var Invoice = (function (React) {
   		};
   	}
 
-  	const stop = e => e.stopPropagation();
-
   	return [clone(item, { toElement(value, props, rowKey) {
-  			const onChange = getOnChange(rowKey, item);
-  			return React__default.createElement(
-  				Cell,
-  				_extends({}, props, { header: true, scope: 'row' }),
-  				React__default.createElement('input', { type: 'text', spellCheck: true,
-  					placeholder: 'Squash, kg',
-  					value: value || '',
-  					onChange: onChange,
-  					onClick: stop,
-  					className: 'input-plain invoice-table-input'
-  				})
-  			);
+  			return React__default.createElement(InputCell, {
+  				cellProps: Object.assign({}, props, { header: true, scope: 'row' }),
+  				key: props.key,
+  				inputProps: {
+  					spellCheck: true,
+  					onChange: getOnChange(rowKey, item),
+  					placeholder: 'Squash, kg'
+  				},
+  				value: value
+  			});
   		} }), clone(description, { toElement(value, props, rowKey) {
-  			const onChange = getOnChange(rowKey, description);
-  			return React__default.createElement(
-  				Cell,
-  				props,
-  				React__default.createElement('input', { type: 'text', spellCheck: true,
-  					placeholder: 'Squash variety 2, kg',
-  					value: value || '',
-  					onChange: onChange,
-  					onClick: stop,
-  					className: 'input-plain invoice-table-input'
-  				})
-  			);
+  			return React__default.createElement(InputCell, {
+  				cellProps: props,
+  				key: props.key,
+  				inputProps: {
+  					spellCheck: true,
+  					onChange: getOnChange(rowKey, description),
+  					placeholder: 'Squash variety 2, kg'
+  				},
+  				value: value
+  			});
   		} }), clone(unitCost, { toElement(value, props, rowKey) {
-  			const onChange = e => {
-  				e.stopPropagation();
-  				let fakeEvent = { target: { value: undefined } };
-  				fakeEvent.target.value = new Money(e.target.value, { convert: false });
-  				onChangeCallback(fakeEvent, rowKey, unitCost.columnKey);
+  			const onBlur = value => {
+  				const stripedNonNumbers = value.replace(/[^0-9\.]/g, '');
+  				const money = new Money(stripedNonNumbers, { convert: false });
+  				onChangeCallback({ target: { value: money } }, rowKey, unitCost.columnKey);
   			};
-  			return React__default.createElement(
-  				Cell,
-  				props,
-  				React__default.createElement('input', { type: 'text',
+
+  			return React__default.createElement(UpdateOnBlur, {
+  				cellProps: props,
+  				key: props.key,
+  				value: value !== undefined ? value.toString() : '',
+  				inputProps: {
   					placeholder: '$2.99',
-  					value: value !== undefined ? value.toString() : '',
-  					onChange: onChange,
-  					step: 0.01,
-  					onClick: stop,
-  					className: 'input-plain invoice-table-input',
   					style: { maxWidth: '5em' }
-  				})
-  			);
+  				},
+  				onBlur: onBlur
+  			});
   		} }), clone(quantity, { toElement(value, props, rowKey) {
-  			const onChange = getOnChange(rowKey, quantity);
-  			return React__default.createElement(
-  				Cell,
-  				props,
-  				React__default.createElement('input', { type: 'number',
+  			return React__default.createElement(InputCell, {
+  				cellProps: props,
+  				key: props.key,
+  				inputProps: {
+  					onChange: getOnChange(rowKey, quantity),
   					placeholder: '25',
-  					value: value || '',
-  					onChange: onChange,
   					step: 'any',
-  					onClick: stop,
-  					className: 'input-plain invoice-table-input',
-  					style: { maxWidth: '5em' }
-  				})
-  			);
+  					style: { maxWidth: '5em' },
+  					type: 'number'
+  				},
+  				value: value
+  			});
   		} }), clone(price)];
   }
 

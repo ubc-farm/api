@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Head, Body, generateSortMap} from '../../lib/table-controls/index.js';
-import invoiceColumns from './table-columns.js';
+import invoiceColumns from './invoice-columns-renderer.js';
 
 export default class InvoiceTable extends Component {
 	static get propTypes() {return {
