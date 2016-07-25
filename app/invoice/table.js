@@ -1,13 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {Head, Body, generateSortMap} from '../../lib/table-controls/index.js';
 import invoiceColumns from './invoice-columns-renderer.js';
+import TotalFooter from './totals.js';
 
 export default class InvoiceTable extends Component {
 	static get propTypes() {return {
 		data: PropTypes.instanceOf(Map),
 		selected: PropTypes.instanceOf(Set),
 		onDataChange: PropTypes.func,
-		onSelectionChange: PropTypes.func
+		onSelectionChange: PropTypes.func,
+		totalsProps: PropTypes.object
 	}}
 
 	constructor(props) {
@@ -23,7 +25,7 @@ export default class InvoiceTable extends Component {
 				descending: true
 			},
 			columns: invoiceColumns(this.onInputChange.bind(this))
-		}
+		};
 	}
 
 	generateSortMap() {
@@ -49,6 +51,9 @@ export default class InvoiceTable extends Component {
 				<Body {...{data, columns, selected}}
 					sortMap={this.generateSortMap()}
 					onSelect={this.onRowSelect}
+				/>
+				<TotalFooter {...this.props.totalsProps} 
+					data={data} columns={columns}
 				/>
 			</table>
 		)

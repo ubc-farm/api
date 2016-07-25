@@ -77,3 +77,7 @@ label.details-row {
 }
 
 .visible {opacity: 1} .hidden {opacity: 0}
+
+.total-row-dark {
+	background: lightgray;
+}

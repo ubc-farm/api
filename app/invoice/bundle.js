@@ -749,21 +749,50 @@ var Invoice = (function (React) {
 
   const stop = e => e.stopPropagation();
 
-  const InputCell = ({ cellProps, inputProps, value = '' }) => React__default.createElement(
-  	Cell,
-  	cellProps,
-  	React__default.createElement('input', _extends({ type: 'text', onClick: stop,
-  		className: 'input-plain invoice-table-input',
-  		value: value
-  	}, inputProps))
-  );
+  /**
+   * Used for inputs inside a table. Additionally, the placeholder will not
+   * update from its initial prop, allowing for randomly-generated placeholders
+   * that don't regenerate each re-render.
+   */
+  class InputCell extends React.Component {
+  	constructor(props) {
+  		super(props);
+  		const { placeholder } = props.inputProps || {};
+  		this.state = { placeholder };
+  	}
 
-  InputCell.propTypes = {
-  	cellProps: React.PropTypes.object,
-  	inputProps: React.PropTypes.object,
-  	value: React.PropTypes.any
-  };
+  	render() {
+  		const { cellProps, inputProps, value = '' } = this.props;
+  		const { placeholder } = this.state;
+  		return React__default.createElement(
+  			Cell,
+  			cellProps,
+  			React__default.createElement('input', _extends({ type: 'text', onClick: stop,
+  				className: 'input-plain invoice-table-input',
+  				value: value
+  			}, inputProps, {
+  				placeholder: placeholder
+  			}))
+  		);
+  	}
 
+  	static get propTypes() {
+  		return {
+  			cellProps: React.PropTypes.object,
+  			inputProps: React.PropTypes.object,
+  			value: React.PropTypes.any
+  		};
+  	}
+  }
+
+  /**
+   * A variation of the InputCell that updates when focus is lost, instead of
+   * every keystroke. This is mainly used for inputs where the typed in values
+   * need to be converted to internal values and internal values need to be 
+   * converted back. Changing every keystroke has unintended consequences for the
+   * user as the input becomes annoying to use, so changing when focus is lost 
+   * works better.
+   */
   class UpdateOnBlur extends React.Component {
   	static get propTypes() {
   		return {
@@ -867,13 +896,179 @@ var Invoice = (function (React) {
   		} }), clone(price)];
   }
 
+  /**
+   * Calculates the total amount of money in the provided column using the given
+   * data.
+   * @param {Map<string, Object>} data
+   * @param {Column} totalColumn
+   * @returns {Money}
+   */
+  function calculateTotal(data, totalColumn) {
+  	const totalColumnKey = totalColumn.columnKey;
+
+  	let total = 0;
+  	for (const [rowKey, rowData] of data) {
+  		const rowValue = totalColumn.getValue(rowData, totalColumnKey, rowKey);
+  		if (!Money.isNaN(rowValue)) total += rowValue;
+  	}
+  	return new Money(total);
+  }
+
+  /**
+   * @param {Map<string, Object>} data
+   * @param {Column} totalColumn
+   * @param {Money} [amountPaid] - amount of money paid so far. If omitted,
+   * amountPaid and balanceDue won't be on the returned object.
+   * @param {number} [VAT] - decimal converted to percentage, i.e.: 0.05 = 5% tax
+   * @returns {Object} containing subtotal, total, amountPaid, and balanceDue.
+   */
+  function calculateInvoice(data, totalColumn, amountPaid, VAT = 0) {
+  	const subtotal = calculateTotal(data, totalColumn);
+  	const total = new Money(subtotal * (VAT + 1));
+  	if (amountPaid !== undefined) {
+  		return {
+  			subtotal, total,
+  			amountPaid: new Money(amountPaid),
+  			balanceDue: new Money(total - amountPaid)
+  		};
+  	} else {
+  		return { subtotal, total };
+  	}
+  }
+
+  /**
+   * Table row used to show totals
+   */
+  const TotalRow = ({
+  	dark, column, leftPad, rightPad,
+  	children: [title, value]
+  }) => React__default.createElement(
+  	'tr',
+  	{ className: classList('total-row', { 'total-row-dark': dark }) },
+  	React__default.createElement(
+  		'th',
+  		{ scope: 'row', className: 'align-right', colSpan: leftPad },
+  		title
+  	),
+  	column.toElement(value, column.toJSON()),
+  	rightPad ? React__default.createElement('td', { colSpan: '0' }) : null
+  );
+  TotalRow.propTypes = {
+  	dark: React.PropTypes.bool,
+  	column: React.PropTypes.instanceOf(Column),
+  	leftPad: React.PropTypes.number,
+  	rightPad: React.PropTypes.number,
+  	children: React.PropTypes.array
+  };
+
+  class InvoiceTotalsFooter extends React.Component {
+  	static get propTypes() {
+  		return {
+  			data: React.PropTypes.instanceOf(Map),
+  			columns: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Column)),
+  			totalColumnKey: React.PropTypes.string.isRequired,
+  			amountPaid: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.instanceOf(Money)]),
+  			invoiceTotals: React.PropTypes.shape({
+  				subtotal: React.PropTypes.instanceOf(Money),
+  				total: React.PropTypes.instanceOf(Money)
+  			}),
+  			VAT: React.PropTypes.number
+  		};
+  	}
+
+  	constructor(props) {
+  		super(props);
+  		const { totalColumnKey, columns } = props;
+
+  		let i = 0,
+  		    indexOf;
+  		for (const column of columns) {
+  			if (totalColumnKey === column.columnKey) {
+  				indexOf = i;
+  				break;
+  			} else i++;
+  		}
+
+  		const columnCount = columns.length;
+  		const totalColumn = columns.find(c => c.columnKey === totalColumnKey);
+
+  		this.state = {
+  			leftPad: indexOf + 1,
+  			rightPad: columnCount - indexOf - 1,
+  			totalColumn
+  		};
+  	}
+
+  	render() {
+  		const { totalColumn, leftPad, rightPad } = this.state;
+  		const { data, amountPaid, VAT } = this.props;
+
+  		const invoiceTotals = this.props.invoiceTotals || calculateInvoice(data, totalColumn, amountPaid, VAT);
+  		const { subtotal, total, balanceDue } = invoiceTotals;
+
+  		return React__default.createElement(
+  			'tfoot',
+  			null,
+  			React__default.createElement(
+  				TotalRow,
+  				_extends({ leftPad, rightPad }, { column: totalColumn }),
+  				React__default.createElement(
+  					'strong',
+  					null,
+  					'Subtotal'
+  				),
+  				subtotal
+  			),
+  			React__default.createElement(
+  				TotalRow,
+  				_extends({ leftPad, rightPad }, { column: totalColumn }),
+  				React__default.createElement(
+  					'strong',
+  					null,
+  					'Total'
+  				),
+  				total
+  			),
+  			amountPaid !== undefined ? React__default.createElement(
+  				'tr',
+  				{ className: 'total-row' },
+  				React__default.createElement(
+  					'th',
+  					{ scope: 'row', className: 'align-right', colSpan: leftPad },
+  					React__default.createElement(
+  						'span',
+  						null,
+  						'Amount Paid'
+  					)
+  				),
+  				React__default.createElement(InputCell, {
+  					cellProps: totalColumn.toJSON(),
+  					inputProps: { defaultValue: amountPaid || 0 }
+  				}),
+  				rightPad ? React__default.createElement('td', { colSpan: '0' }) : null
+  			) : null,
+  			balanceDue !== undefined ? React__default.createElement(
+  				TotalRow,
+  				_extends({ leftPad, rightPad }, { column: totalColumn, dark: true }),
+  				React__default.createElement(
+  					'strong',
+  					null,
+  					'Balance Due (CAD)'
+  				),
+  				balanceDue
+  			) : null
+  		);
+  	}
+  }
+
   class InvoiceTable extends React.Component {
   	static get propTypes() {
   		return {
   			data: React.PropTypes.instanceOf(Map),
   			selected: React.PropTypes.instanceOf(Set),
   			onDataChange: React.PropTypes.func,
-  			onSelectionChange: React.PropTypes.func
+  			onSelectionChange: React.PropTypes.func,
+  			totalsProps: React.PropTypes.object
   		};
   	}
 
@@ -917,6 +1112,9 @@ var Invoice = (function (React) {
   			React__default.createElement(Body, _extends({ data, columns, selected }, {
   				sortMap: this.generateSortMap(),
   				onSelect: this.onRowSelect
+  			})),
+  			React__default.createElement(InvoiceTotalsFooter, _extends({}, this.props.totalsProps, {
+  				data: data, columns: columns
   			}))
   		);
   	}
@@ -992,7 +1190,8 @@ var Invoice = (function (React) {
   			initialData: React.PropTypes.instanceOf(Map),
   			orderDate: React.PropTypes.instanceOf(Date),
   			deliveryDate: React.PropTypes.instanceOf(Date),
-  			customerList: React.PropTypes.arrayOf(React.PropTypes.string)
+  			customerList: React.PropTypes.arrayOf(React.PropTypes.string),
+  			amountPaid: React.PropTypes.number
   		};
   	}
 
@@ -1017,7 +1216,8 @@ var Invoice = (function (React) {
   			selected: new Set(),
   			customerDetails: '',
   			orderDate: props.orderDate || new Date(Date.now()),
-  			deliveryDate: props.deliveryDate || new Date(Date.now())
+  			deliveryDate: props.deliveryDate || new Date(Date.now()),
+  			amountPaid: props.amountPaid || 0
   		};
   	}
 
@@ -1207,7 +1407,11 @@ var Invoice = (function (React) {
   				React__default.createElement(InvoiceTable, { data: data,
   					selected: selected,
   					onDataChange: this.updateData,
-  					onSelectionChange: this.updateSelected
+  					onSelectionChange: this.updateSelected,
+  					totalsProps: {
+  						totalColumnKey: 'price',
+  						amountPaid: this.state.amountPaid
+  					}
   				})
   			)
   		);

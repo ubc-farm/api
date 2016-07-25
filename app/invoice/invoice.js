@@ -9,7 +9,8 @@ export default class Invoice extends Component {
 		initialData: PropTypes.instanceOf(Map),
 		orderDate: PropTypes.instanceOf(Date),
 		deliveryDate: PropTypes.instanceOf(Date),
-		customerList: PropTypes.arrayOf(PropTypes.string)
+		customerList: PropTypes.arrayOf(PropTypes.string),
+		amountPaid: PropTypes.number
 	}}
 
 	static get defaultProps() {return {
@@ -31,7 +32,8 @@ export default class Invoice extends Component {
 			selected: new Set(),
 			customerDetails: '',
 			orderDate: props.orderDate || new Date(Date.now()),
-			deliveryDate: props.deliveryDate || new Date(Date.now())
+			deliveryDate: props.deliveryDate || new Date(Date.now()),
+			amountPaid: props.amountPaid || 0
 		}
 	}
 
@@ -150,6 +152,10 @@ export default class Invoice extends Component {
 						selected={selected}
 						onDataChange={this.updateData}
 						onSelectionChange={this.updateSelected}
+						totalsProps={{
+							totalColumnKey: 'price',
+							amountPaid: this.state.amountPaid
+						}}
 					/>
 				</section>
 			</form>

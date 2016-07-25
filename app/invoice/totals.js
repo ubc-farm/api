@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Money from '../../lib/money/index.js';
 import {Column} from '../../lib/table-controls/index.js';
 import {classlist as cx} from '../../lib/utils/index.js';
+import InputCell from './input-cell.js';
 
 /**
  * Calculates the total amount of money in the provided column using the given
@@ -14,7 +15,7 @@ export function calculateTotal(data, totalColumn) {
 	const totalColumnKey = totalColumn.columnKey;
 
 	let total = 0;
-	for (const [rowKey, rowData] in data) {
+	for (const [rowKey, rowData] of data) {
 		const rowValue = totalColumn.getValue(rowData, totalColumnKey, rowKey);
 		if (!Money.isNaN(rowValue)) total += rowValue;
 	}
@@ -53,7 +54,7 @@ const TotalRow = ({
 }) => (
 	<tr className={cx('total-row', {'total-row-dark': dark})}>
 		<th scope='row' className='align-right' colSpan={leftPad}>{title}</th>
-		<td className='align-right'>{column.toElement(value, column.toJSON())}</td>
+		{column.toElement(value, column.toJSON())}
 		{rightPad ? <td colSpan='0'/> : null}
 	</tr>
 )
@@ -62,7 +63,7 @@ TotalRow.propTypes = {
 	column: PropTypes.instanceOf(Column),
 	leftPad: PropTypes.number,
 	rightPad: PropTypes.number,
-	children: PropTypes.arrayOf(PropTypes.node)
+	children: PropTypes.array
 }
 
 export default class InvoiceTotalsFooter extends Component {
@@ -96,7 +97,7 @@ export default class InvoiceTotalsFooter extends Component {
 		const totalColumn = columns.find(c => c.columnKey === totalColumnKey);
 		
 		this.state = {
-			leftPad: indexOf,
+			leftPad: indexOf + 1,
 			rightPad: columnCount - indexOf - 1,
 			totalColumn
 		};
@@ -113,19 +114,29 @@ export default class InvoiceTotalsFooter extends Component {
 		return (
 			<tfoot>
 				<TotalRow {...{leftPad, rightPad}} column={totalColumn}>
-					<strong>Subtotal</strong>{subtotal}
+					<strong>Subtotal</strong>
+					{subtotal}
 				</TotalRow>
 				<TotalRow {...{leftPad, rightPad}} column={totalColumn}>
-					<strong>Total</strong>{total}
+					<strong>Total</strong>
+					{total}
 				</TotalRow>
 				{amountPaid !== undefined ? 
-					<TotalRow {...{leftPad, rightPad}} column={totalColumn}>
-						<span>Amount Paid</span>{amountPaid}
-					</TotalRow>
+					<tr className='total-row'>
+						<th scope='row' className='align-right' colSpan={leftPad}>
+							<span>Amount Paid</span>
+						</th>
+						<InputCell
+							cellProps={totalColumn.toJSON()}
+							inputProps={{defaultValue: amountPaid || 0}}
+						/>
+						{rightPad ? <td colSpan='0'/> : null}
+					</tr>
 				: null}
 				{balanceDue !== undefined ?
 					<TotalRow {...{leftPad, rightPad}} column={totalColumn} dark>
-						<strong>Balance Due (CAD)</strong>{balanceDue}
+						<strong>Balance Due (CAD)</strong>
+						{balanceDue}
 					</TotalRow>	
 				: null}
 			</tfoot>
