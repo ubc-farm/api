@@ -81,3 +81,5 @@ label.details-row {
 .total-row-dark {
 	background: lightgray;
 }
+.total-row:hover {background: transparent}
+.total-row-dark:hover {background: lightgray}
