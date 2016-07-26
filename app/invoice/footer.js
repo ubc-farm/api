@@ -53,7 +53,7 @@ const TotalRow = ({
 	<tr className={cx('total-row', {'total-row-dark': dark})}>
 		<th scope='row' className='align-right' colSpan={leftPad}>{title}</th>
 		{column.toElement(value)}
-		{rightPad ? <td colSpan='0'/> : null}
+		{rightPad ? <td colSpan='0' /> : null}
 	</tr>
 )
 TotalRow.propTypes = {
@@ -122,7 +122,7 @@ export default class InvoiceTotalsFooter extends Component {
 								onBlur={onAmountChange}
 							/>
 						</Cell>
-						{rightPad ? <td colSpan='0'/> : null}
+						{rightPad ? <td colSpan='0' /> : null}
 					</tr>
 				: null}
 				{balanceDue !== undefined ?
