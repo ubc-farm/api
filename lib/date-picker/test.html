@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+	<head>
+		<title>React Testing</title>
+		<script>window.STORE = {}</script>
+		<script src='tape.js'></script>
+		<script src="https://fb.me/react-15.2.1.js"></script>
+		<script src="https://fb.me/react-dom-15.2.1.js"></script>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+		<link href='../core-styles/core.min.css' rel='stylesheet'>
+		<link href='../../lib/table-controls/table.css' rel='stylesheet'>
+		<link href='../../app/invoice/date-input.css' rel='stylesheet'>
+		<link href='../../app/invoice/invoice.css' rel='stylesheet'>
+		<script src='../../app/invoice/bundle.js'></script>
+		<script>
+			function render(element, props) {
+				ReactDOM.render(
+					React.createElement(element, props), 
+					document.getElementById('app-mount')
+				)
+			}
+
+			const testData = {
+				'example': {
+					item: 'Beets, lb',
+					description: '4540 Beets, lb',
+					unitCost: 200,
+					quantity: 25
+				},'example2': {
+					item: 'Squash, kg',
+					description: 'Squash Variety 1, kg',
+					unitCost: 400,
+					quantity: 10
+				}
+			}
+
+			const initialData = new Map(
+				Object.keys(testData).map(key => {
+					let value = testData[key];
+					const {quantity, unitCost} = value;
+					if (quantity != null && unitCost != null) 
+						value.price = quantity * unitCost;
+					return [key, value];
+				})
+			);
+
+			function yey() {
+				render(Invoice, {initialData})
+			}
+		</script>
+	</head>
+	<body onload="yey()">
+		<link href='http://localhost:3000/css/core/button.css' rel='stylesheet'>
+<link href='http://localhost:3000/css/partials/app-banner.css' rel='stylesheet'>
+
+<nav role='banner' class='app-banner'>
+	<a class='banner-logo' href='http://ubcfarm.ubc.ca/'>
+		<img alt='UBC Farm' class='banner-logo-img' height='32' width='109'
+			src='http://ubcfarm.ubc.ca/files/2014/04/ubc-farm-horizontal-cropped-360x106.jpg'>
+	</a>
+	<label aria-label='Apps' title='Apps' role='button'
+		class='material-icons icon-button' for='app-menu-toggle'>apps</label>
+	<a aria-label='Help' title='Help' class='material-icons icon-button' 
+		href='https://github.com/NotWoods/ubc-farm/issues'>help</a>
+	<a aria-label='Account' title='Account' href='/account' 
+		class='material-icons icon-button'>face</a>
+
+	<input id='app-menu-toggle' type='checkbox' 
+		value='app_menu_toggle' hidden class='hidden-checkbox'>
+	<section class='app-menu'>
+		<a href='/fields' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>map</i>
+			Fields
+		</a>
+		<a href='/finances' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>attach_money</i>
+			Finances
+		</a>
+		<a href='/calendar' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>event</i>
+			Calendar
+		</a>
+		<a href='/directory' class='app-menu-item'>
+			<i class='material-icons md-36 app-menu-icon'>people</i>
+			Directory
+		</a>
+	</section>
+</nav>
+<link href='http://localhost:3000/css/core/heading.css' rel='stylesheet'>
+<link href='http://localhost:3000/css/partials/section-banner.css' rel='stylesheet'>
+
+<header class='section-banner' role='toolbar'>
+	<nav class='banner-breadcrumbs'>
+			<a class='banner-breadcrumb' href='/finances'>
+				<h1 class='title banner-header'>Finances</h1>
+			</a>
+			<i class='material-icons breadcrumb-icon'>keyboard_arrow_right</i>
+			<a class='banner-breadcrumb' href='/finances/sales'>
+				<h1 class='title banner-header'>Sales</h1>
+			</a>
+	</nav>
+</header>
+		<div id='app-mount'/>
+	</body>
+</html>
