@@ -1,16 +1,42 @@
+import React from 'react';
 import Money from '../../lib/money/index.js';
+import {Column} from '../../lib/table-controls/index.js';
+import InvoiceInput, {InvoiceInputBlur} from './input-cell.js';
 
-export const item = {
+export const item = new Column({
 	columnKey: 'item',
-	compareFunc: true
-}
+	compareFunc: true,
+	toElement(value, rowKey) {
+		const props = Object.assign({},this.toJSON(), {header: true, scope: 'row'});
+		return this.super_toElement(
+			<InvoiceInput spellCheck
+				placeholder='Squash, kg'
+				rowKey={rowKey} column={this}
+			/>
+		, rowKey, props);
+	}
+})
 
-export const description = {
+export const description = new Column({
 	columnKey: 'description',
-	compareFunc: true
+	compareFunc: true,
+	toElement(value, rowKey) {
+		const random1to10 = Math.ceil(Math.random() * 10);
+		return this.super_toElement(
+			<InvoiceInput spellCheck
+				placeholder={`Squash variety ${random1to10}, kg`}
+				rowKey={rowKey} column={this}
+			/>
+		)
+	}
+})
+
+export const moneyTransformer = value => {
+	const stripedNonNumbers = value.replace(/[^0-9\.]/g, '');
+	return new Money(stripedNonNumbers, {convert: false});
 }
 
-export const unitCost = {
+export const unitCost = new Column({
 	columnKey: 'unitCost',
 	title: 'Unit Cost ($)',
 	description: 'Cost per unit of this item',
@@ -21,18 +47,37 @@ export const unitCost = {
 	compareFunc(a = 0, b = 0) {
 		return b - a;
 	},
-	align: 'right'
-}
+	align: 'right',
+	toElement(value, rowKey) {
+		const randomMoney = new Money(Math.trunc(Math.random() * 50000)).toString();
 
-export const quantity = {
+		return this.super_toElement(
+			<InvoiceInputBlur
+				transformerOut={moneyTransformer}
+				style={{maxWidth: '5em'}}
+				rowKey={rowKey} column={this}
+				placeholder={randomMoney}
+			/>
+		);
+	}
+})
+
+export const quantity = new Column({
 	columnKey: 'quantity',
 	compareFunc: true,
 	align: 'right',
-	type: 'number',
-	step: 'any'
-}
+	toElement(value, rowKey) {
+		return this.super_toElement(
+			<InvoiceInput type='number' step='any'
+				style={{maxWidth: '5em'}}
+				placeholder={Math.trunc(Math.random() * 100)}
+				rowKey={rowKey} column={this}
+			/>
+		);
+	}
+})
 
-export const price = {
+export const price = new Column({
 	columnKey: 'price',
 	title: 'Price ($)',
 	getValue(rowData) {
@@ -45,4 +90,6 @@ export const price = {
 		return this.super_toElement(str);
 	},
 	align: 'right'
-}
+})
+
+export default [item, description, unitCost, quantity, price];

@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Money from '../../lib/money/index.js';
-import {Column} from '../../lib/table-controls/index.js';
+import {Column, Cell} from '../../lib/table-controls/index.js';
 import {classlist as cx} from '../../lib/utils/index.js';
-import InputCell from './input-cell.js';
+import {UpdateOnBlur} from './input-cell.js';
 
 /**
  * Calculates the total amount of money in the provided column using the given
@@ -12,11 +12,9 @@ import InputCell from './input-cell.js';
  * @returns {Money}
  */
 export function calculateTotal(data, totalColumn) {
-	const totalColumnKey = totalColumn.columnKey;
-
 	let total = 0;
-	for (const [rowKey, rowData] of data) {
-		const rowValue = totalColumn.getValue(rowData, totalColumnKey, rowKey);
+	for (const rowData of data.values()) {
+		const rowValue = totalColumn.getValue(rowData);
 		if (!Money.isNaN(rowValue)) total += rowValue;
 	}
 	return new Money(total);
@@ -54,7 +52,7 @@ const TotalRow = ({
 }) => (
 	<tr className={cx('total-row', {'total-row-dark': dark})}>
 		<th scope='row' className='align-right' colSpan={leftPad}>{title}</th>
-		{column.toElement(value, column.toJSON())}
+		{column.toElement(value)}
 		{rightPad ? <td colSpan='0'/> : null}
 	</tr>
 )
@@ -70,46 +68,39 @@ export default class InvoiceTotalsFooter extends Component {
 	static get propTypes() {return {
 		data: PropTypes.instanceOf(Map),
 		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)),
-		totalColumnKey: PropTypes.string.isRequired,
-		amountPaid: PropTypes.oneOfType([
-			PropTypes.number, PropTypes.instanceOf(Money)
-		]),
-		invoiceTotals: PropTypes.shape({
-			subtotal: PropTypes.instanceOf(Money),
-			total: PropTypes.instanceOf(Money)
-		}),
-		VAT: PropTypes.number
+		totalColumn: PropTypes.instanceOf(Column).isRequired,
+		amountPaid: PropTypes.instanceOf(Money),
+		VAT: PropTypes.number,
+		onAmountChange: PropTypes.func
 	}}
 
 	constructor(props) {
 		super(props);
-		const {totalColumnKey, columns} = props;
+		const {totalColumn, columns} = props;
 
 		let i = 0, indexOf;
 		for (const column of columns) {
-			if (totalColumnKey === column.columnKey) {
+			if (totalColumn === column) {
 				indexOf = i;
 				break;
 			} else i++;
 		}
 
 		const columnCount = columns.length;
-		const totalColumn = columns.find(c => c.columnKey === totalColumnKey);
 		
 		this.state = {
 			leftPad: indexOf + 1,
-			rightPad: columnCount - indexOf - 1,
-			totalColumn
+			rightPad: columnCount - indexOf - 1
 		};
 	}
 
 	render() {
-		const {totalColumn, leftPad, rightPad} = this.state;
-		const {data, amountPaid, VAT} = this.props;
+		const {leftPad, rightPad} = this.state;
 
-		const invoiceTotals = this.props.invoiceTotals 
-			|| calculateInvoice(data, totalColumn, amountPaid, VAT);
-		const {subtotal, total, balanceDue} = invoiceTotals;
+		const {data, totalColumn, amountPaid, VAT, onAmountChange} = this.props;
+		const {subtotal, total, balanceDue} = calculateInvoice(
+			data, totalColumn, amountPaid, VAT
+		);
 		
 		return (
 			<tfoot>
@@ -126,10 +117,11 @@ export default class InvoiceTotalsFooter extends Component {
 						<th scope='row' className='align-right' colSpan={leftPad}>
 							<span>Amount Paid</span>
 						</th>
-						<InputCell
-							cellProps={totalColumn.toJSON()}
-							inputProps={{defaultValue: amountPaid || 0}}
-						/>
+						<Cell {...totalColumn.toJSON()}>
+							<UpdateOnBlur value={amountPaid}
+								onBlur={onAmountChange}
+							/>
+						</Cell>
 						{rightPad ? <td colSpan='0'/> : null}
 					</tr>
 				: null}

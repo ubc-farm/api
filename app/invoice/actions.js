@@ -5,6 +5,7 @@ export const CLEAR_SELECTION = 'CLEAR_SELECTION';
 export const EVERYTHING_SELECTION = 'EVERYTHING_SELECTION';
 export const ADD_DATA_ROW = 'ADD_DATA_ROW';
 export const REMOVE_DATA_ROWS = 'REMOVE_DATA_ROWS';
+export const CHANGE_DATA = 'CHANGE_DATA';
 export const SET_AMOUNT_PAID = 'SET_AMOUNT_PAID';
 
 export function toggleRowSelection(rowId) {
@@ -15,6 +16,13 @@ export function selectNothing() {
 }
 export function selectEverything() {
 	return {type: EVERYTHING_SELECTION};
+}
+export function toggleSelectAll() {
+	return (dispatch, getState) => {
+		const {selected, data} = getState();
+		if (selected.size === data.size) return dispatch(selectNothing());
+		else return dispatch(selectEverything());
+	}
 }
 
 export function addRow(rowData, rowId) {
@@ -29,6 +37,12 @@ export function removeRows(...rowIds) {
 	else rowIdList = new Set(rowIds); 
 
 	return {type: REMOVE_DATA_ROWS, ids: rowIdList};
+}
+export function removeSelected() {
+	return (dispatch, getState) => dispatch(removeRows(getState().selected));
+}
+export function changeData(newValue, atRowKey, atColumn) {
+	return {type: CHANGE_DATA, newValue, atRowKey, atColumn};
 }
 
 export function setAmountPaid(amount) {

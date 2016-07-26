@@ -2,9 +2,10 @@ import {id as randomId} from '../../lib/utils/index.js';
 import Money from '../../lib/money/index.js';
 import {
 	TOGGLE_SELECTION, CLEAR_SELECTION, EVERYTHING_SELECTION,
-	ADD_DATA_ROW, REMOVE_DATA_ROWS,
+	ADD_DATA_ROW, REMOVE_DATA_ROWS, CHANGE_DATA,
 	SET_AMOUNT_PAID
 } from './actions.js';
+import columnList from './invoice-columns.js';
 
 /**
  * @name invoiceState
@@ -40,7 +41,7 @@ export default function invoiceApp(state = initialState, action) {
 
 		case ADD_DATA_ROW: {
 			const {id = randomId(), rowData = new WeakMap()} = action;
-			const data = new Map(state.data).add(id, rowData);
+			const data = new Map(state.data).set(id, rowData);
 			return setState({ data });
 		}
 		case REMOVE_DATA_ROWS: {
@@ -49,6 +50,21 @@ export default function invoiceApp(state = initialState, action) {
 			for (const [id, row] of oldData) {
 				if (!ids.has(id)) data.set(id, row);
 			}
+			return setState({ data });
+		}
+		case CHANGE_DATA: {
+			const {atRowKey, atColumn, newValue} = action;
+			let data = new Map(state.data), newRow = new WeakMap();
+			const oldRow = data.get(atRowKey);
+
+			newRow.set(atColumn, newValue);
+			for (const col of columnList) {
+				if (oldRow.has(col) && col !== atColumn) {
+					newRow.set(col, oldRow.get(col));
+				}
+			}
+
+			data.set(atRowKey, newRow);
 			return setState({ data });
 		}
 

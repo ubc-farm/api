@@ -8,7 +8,7 @@ import {classlist as cx} from '../../lib/utils/index.js'
  * are selected.
  */
 const ActionBar = ({children: [standard, selected], selectedLength = 0}) => (
-	<header className='table-actions-container'>
+	<caption className='table-actions-container'>
 		<section 
 			className={cx(
 				'table-actions', 'table-actions-standard',
@@ -28,7 +28,7 @@ const ActionBar = ({children: [standard, selected], selectedLength = 0}) => (
 			</span>
 			{selected}
 		</section>
-	</header>
+	</caption>
 )
 
 ActionBar.propTypes = {

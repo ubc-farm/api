@@ -1,15 +1,21 @@
 import React, {Component, PropTypes} from 'react';
-import {Head, Body, generateSortMap} from '../../lib/table-controls/index.js';
-import invoiceColumns from './invoice-columns-renderer.js';
-import TotalFooter from './totals.js';
+import {
+	Head, Body, Column,
+	generateSortMap
+} from '../../lib/table-controls/index.js';
+import TotalFooter from './total-footer.js';
+import columnList from './invoice-columns.js'
+import ActionBar from './action-bar.js';
+import {AddRow, DeleteSelected} from 'data-buttons.js';
 
-export default class InvoiceTable extends Component {
+class InvoiceTable extends Component {
 	static get propTypes() {return {
 		data: PropTypes.instanceOf(Map),
 		selected: PropTypes.instanceOf(Set),
-		onDataChange: PropTypes.func,
-		onSelectionChange: PropTypes.func,
-		totalsProps: PropTypes.object
+		onColumnCheckboxChange: PropTypes.func,
+		onRowSelect: PropTypes.func,
+		onInputChange: PropTypes.func,
+		columns: PropTypes.instanceOf(Column)
 	}}
 
 	constructor(props) {
@@ -20,8 +26,7 @@ export default class InvoiceTable extends Component {
 		this.generateSortMap = this.generateSortMap.bind(this);
 
 		this.state = {
-			sort: {column: undefined, descending: true},
-			columns: invoiceColumns(this.onInputChange.bind(this))
+			sort: {column: undefined, descending: true}
 		};
 	}
 
@@ -33,25 +38,27 @@ export default class InvoiceTable extends Component {
 	}
 
 	render() {
-		const {data, selected} = this.props;
-		const {columns, sort} = this.state;
+		const {data, selected, columns} = this.props;
+		const {sort} = this.state;
 
 		return (
 			<table className='invoice-table'>
+				<ActionBar selectedLength={this.props.selected.size}>
+					<AddRow/>
+					<DeleteSelected/>
+				</ActionBar>
 				<Head columns={columns} sorting={sort}
 					selectedLength={selected.size} dataLength={data.size}
-					onCheckboxChange={this.onColumnCheckboxChange}
+					onCheckboxChange={this.props.onColumnCheckboxChange}
 					onColumnClick={this.onColumnClick}
 				/>
 				<Body {...{data, columns, selected}}
 					sortMap={this.generateSortMap()}
-					onSelect={this.onRowSelect}
+					onSelect={this.props.onRowSelect}
 				/>
-				<TotalFooter {...this.props.totalsProps} 
-					data={data} columns={columns}
-				/>
+				<TotalFooter />
 			</table>
-		)
+		);
 	}
 
 	/** Changes table sorting when the user clicks on a column */
@@ -62,35 +69,18 @@ export default class InvoiceTable extends Component {
 		else 
 			this.setState({sort: {column, descending: true}});
 	}
-
-	/** @todo move to redux */
-	onRowSelect(rowKey) {
-		const {onSelectionChange} = this.props;
-		const selected = new Set(this.props.selected);
-		if (!selected.has(rowKey)) 
-			return onSelectionChange(selected.add(rowKey))
-		else {
-			selected.delete(rowKey);
-			return onSelectionChange(selected);
-		}
-	}
-	/** @todo move to redux */
-	onColumnCheckboxChange() {
-		const {selected, data, onSelectionChange} = this.props;
-		if (selected.size === data.size)
-			return onSelectionChange(new Set());
-		else
-			return onSelectionChange(new Set(data.keys()));
-	}
-	/** @todo move to redux */
-	onInputChange(event, rowKey, column) {
-		const data = new Map(this.props.data);
-		let rowData = data.get(rowKey);
-
-		///TODO immutable
-		rowData.set(column, event.target.value);
-		
-		data.set(rowKey, rowData);
-		return this.props.onDataChange(data);
-	}
 }
+
+import {connect} from 'react-redux';
+import {toggleRowSelection, toggleSelectAll} from './actions.js';
+
+export default connect(
+	({data, selected}) => ({
+		columns: columnList,
+		data, selected
+	}),
+	dispatch => ({
+		onColumnCheckboxChange: () => dispatch(toggleSelectAll()),
+		onRowSelect: rowKey => dispatch(toggleRowSelection(rowKey))
+	})
+)(InvoiceTable);
