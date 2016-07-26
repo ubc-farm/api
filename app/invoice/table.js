@@ -20,21 +20,16 @@ export default class InvoiceTable extends Component {
 		this.generateSortMap = this.generateSortMap.bind(this);
 
 		this.state = {
-			sort: {
-				columnKey: undefined,
-				descending: true
-			},
+			sort: {column: undefined, descending: true},
 			columns: invoiceColumns(this.onInputChange.bind(this))
 		};
 	}
 
 	generateSortMap() {
-		const {columnKey, descending} = this.state.sort;
-		if (!columnKey) return;
+		const {column, descending} = this.state.sort;
+		if (!column) return;
 
-		const {data} = this.props;
-		const sortColumn = this.state.columns.find(c => c.columnKey === columnKey);
-		return generateSortMap(data, sortColumn, descending);
+		return generateSortMap(this.props.data, column, descending);
 	}
 
 	render() {
@@ -59,14 +54,16 @@ export default class InvoiceTable extends Component {
 		)
 	}
 
-	onColumnClick(columnKey) {
-		const {columnKey: sortKey, descending} = this.state.sort;
-		if (sortKey === columnKey) 
-			this.setState({sort: {columnKey, descending: !descending}});
+	/** Changes table sorting when the user clicks on a column */
+	onColumnClick(column) {
+		const {column: sortColumn, descending} = this.state.sort;
+		if (sortColumn === column) 
+			this.setState({sort: {column, descending: !descending}});
 		else 
-			this.setState({sort: {columnKey, descending: true}});
+			this.setState({sort: {column, descending: true}});
 	}
 
+	/** @todo move to redux */
 	onRowSelect(rowKey) {
 		const {onSelectionChange} = this.props;
 		const selected = new Set(this.props.selected);
@@ -77,6 +74,7 @@ export default class InvoiceTable extends Component {
 			return onSelectionChange(selected);
 		}
 	}
+	/** @todo move to redux */
 	onColumnCheckboxChange() {
 		const {selected, data, onSelectionChange} = this.props;
 		if (selected.size === data.size)
@@ -84,14 +82,14 @@ export default class InvoiceTable extends Component {
 		else
 			return onSelectionChange(new Set(data.keys()));
 	}
-
-	onInputChange(event, rowKey, columnKey) {
+	/** @todo move to redux */
+	onInputChange(event, rowKey, column) {
 		const data = new Map(this.props.data);
 		let rowData = data.get(rowKey);
+
+		///TODO immutable
+		rowData.set(column, event.target.value);
 		
-		rowData = Object.assign({}, rowData, {
-			[columnKey]: event.target.value
-		});
 		data.set(rowKey, rowData);
 		return this.props.onDataChange(data);
 	}

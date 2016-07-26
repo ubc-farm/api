@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {Cell} from '../../lib/table-controls/index.js';
 
 const stop = e => e.stopPropagation();
 
@@ -8,38 +7,31 @@ const stop = e => e.stopPropagation();
  * update from its initial prop, allowing for randomly-generated placeholders
  * that don't regenerate each re-render.
  */
-export default class InputCell extends Component {
+export default class InvoiceInput extends Component {
 	constructor(props) {
 		super(props);
-		const {placeholder} = props.inputProps || {};
-		this.state = {placeholder};
+
+		const {placeholder: initialPlaceholder} = props;
+		this.state = {initialPlaceholder};
 	}
 
 	render() {
-		const {cellProps, inputProps, value = ''} = this.props;
-		const {placeholder} = this.state;
 		return (
-			<Cell {...cellProps}>
-				<input type='text' onClick={stop} 
-					className='input-plain invoice-table-input'
-					value={value}
-					{...inputProps}
-					placeholder={placeholder}
-				/>
-			</Cell>
+			<input type='text' onClick={stop} 
+				{...this.props}
+				placeholder={this.state.initialPlaceholder}
+			/>
 		)
 	}
 
 	static get propTypes() {return {
-		cellProps: PropTypes.object,
-		inputProps: PropTypes.object,
-		value: PropTypes.any
+		placeholder: PropTypes.string
 	}}
 }
 
 
 /**
- * A variation of the InputCell that updates when focus is lost, instead of
+ * A variation of the InvoiceInput that updates when focus is lost, instead of
  * every keystroke. This is mainly used for inputs where the typed in values
  * need to be converted to internal values and internal values need to be 
  * converted back. Changing every keystroke has unintended consequences for the
@@ -71,13 +63,12 @@ export class UpdateOnBlur extends Component {
 	}
 
 	render() {
-		const inputProps = Object.assign({}, this.props.inputProps, {
-			onBlur: this.onBlur, onChange: this.onChange
-		});
-		return <InputCell {...this.props} 
-			inputProps={inputProps}
-			value={this.state.renderedValue}
-		/>
+		return (
+			<InvoiceInput {...this.props} 
+				onBlur={this.onBlur} onChange={this.onChange}
+				value={this.state.renderedValue}
+			/>
+		);
 	}
 }
 
