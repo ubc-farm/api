@@ -1,0 +1,16 @@
+{
+  "name": "geojson",
+  "version": "1.0.0",
+  "description": "Classes representing GeoJSON, providing a standard format for the various depictions of coordinates and paths",
+  "license": "MIT",
+  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/geojson",
+	"main": "index.node.js",
+	"jsnext:main": "index.js",
+	"private": true,
+  "scripts": {
+		"geojson": "rollup -i geojson/index.js -o geojson.js -f cjs -m",
+		"money": "rollup -i money/index.js -o money.js -f cjs -m",
+		"build": "rollup -i index.js -o index.node.js -f cjs -m",
+		"prepublish": "npm run geojson && npm run money && npm run build"
+	}
+}

@@ -1,4 +1,3 @@
-import {Model} from 'objection';
 import Task from './task.js';
 
 /**
