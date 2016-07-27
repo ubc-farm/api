@@ -1,18 +1,17 @@
 {
-  "name": "ubc-farm-api",
+  "name": "react-table",
   "version": "1.0.0",
-  "description": "API server and routes",
+  "description": "Code for a react powered table",
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "license": "MIT",
-  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-api",
+  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/react-table",
 	"main": "index.node.js",
 	"jsnext:main": "index.es.js",
 	"private": true,
   "dependencies": {
-    "hapi": "^13.5.0"
+    "react": "^15.2.1"
   },
   "scripts": {
-		"prepublish": "rollup -c",
-		"start": "node server.js"
+		"prepublish": "rollup -c"
 	}
 }

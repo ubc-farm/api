@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {classlist as cx} from '../../lib/utils/index.js';
+import cx from '../classlist.js;'
 
 /**
  * Represents a cell in a table. If the header prop is set to true,

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
-import Cell from './cell.js';
-import {classlist as cx} from '../../lib/utils/index.js';
+import Cell from '../bits/cell.js';
+import cx from '../classlist.js';
 
 /**
  * @param {Object} props

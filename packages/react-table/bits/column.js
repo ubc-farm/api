@@ -1,4 +1,4 @@
-import {format} from '../../lib/utils/index.js';
+import {format} from '../../ubc-farm-utils/index.js';
 import {createElement} from 'react';
 import Cell from './cell.js';
 

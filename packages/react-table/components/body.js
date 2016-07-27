@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Column from './column.js';
+import Column from '../bits/column.js';
 import Row from './row.js';
 
 /**

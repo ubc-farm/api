@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-database",
 	"main": "index.node.js",
-	"jsnext:main": "index.js",
+	"jsnext:main": "index.es.js",
 	"private": true,
   "dependencies": {
     "knex": "^0.11.9",
