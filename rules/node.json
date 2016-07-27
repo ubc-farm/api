@@ -1,4 +1,5 @@
 {
+	"env": { "node": true },
 	"parserOptions": {
 		"env": { "node": true	}
 	},
