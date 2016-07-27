@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
 
 export default {
 	plugins: [
@@ -11,7 +12,13 @@ export default {
 			jsnext: true,
 			main: true,
 			browser: true
-		})
+		}),
+		commonjs()
 	],
-	sourceMap: true
+	sourceMap: true,
+	external: ['react', 'react-dom'],
+	globals: {
+		react: 'React',
+		'react-dom': 'ReactDOM'
+	}
 }
