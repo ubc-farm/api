@@ -1,3 +1,4 @@
-geojson.*
-money.*
-index.node.*
+geojson.js
+money.js
+index.node.js
+*.map
