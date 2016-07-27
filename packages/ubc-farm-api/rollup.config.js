@@ -6,6 +6,6 @@ export default {
 	format: 'cjs',
 	external: [
 		'hapi',
-		resolve(__dirname, '../ubc-farm-database')
+		resolve(__dirname, '../ubc-farm-database/index.js')
 	],
 };

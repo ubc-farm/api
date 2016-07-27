@@ -1,4 +1,4 @@
-import {Person, Employee, Researcher} from '../../ubc-farm-database';
+import {Person, Employee, Researcher} from '../../ubc-farm-database/index.js';
 import {
 	transformReply,
 	arrayToObjectMap,
