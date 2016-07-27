@@ -65,4 +65,4 @@ export function removeNullandUndef(json) {
 	return copy;
 }
 
-export {arrayToObjectMap} from '../../ubc-farm-utils/index.js';
+export {arrayToObjectMap} from '../ubc-farm-utils/index.js';

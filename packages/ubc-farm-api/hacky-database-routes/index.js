@@ -1,29 +1,25 @@
-/*{
-	method: 'GET',
-	path: '/api/items/{id?}/{property?}',
-	handler: {api: {table: 'Item'}}
-}*/
 //Quick and dirty route generators for the API
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 import * as models from '../../ubc-farm-database';
+import modelHandler from './model-handler/index.js';
 
-function* methodRoutes(table, alias) {
+function* methodRoutes(model) {
 	for (let method of methods) {
-		const handler = {api: {model: table}};
+		const handler = modelHandler({method}, {model});
 		if (method == 'POST') {
 			yield {
 				method, handler,
-				path: `/api/${alias}`
+				path: `/api/${model.label}`
 			}
 		} else {
 			yield {
 				method, handler,
-				path: `/api/${alias}/{id?}`
+				path: `/api/${model.label}/{id?}`
 			};
 			yield {
 				method, handler,
-				path: `/api/${alias}/{id}/{property}`
+				path: `/api/${model.label}/{id}/{property}`
 			};
 		}
 	}
@@ -44,5 +40,4 @@ function* modelRoutes() {
 	}
 }
 
-const routes = [...modelRoutes()];
-export default routes;
+export default [...modelRoutes()];
