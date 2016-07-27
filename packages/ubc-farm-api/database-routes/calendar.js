@@ -1,9 +1,10 @@
-import {longMonthNames, shortMonthNames} from '../../../lib/calendar/index.js';
-import {Event} from '../../../app/models/index.js';
+import {Event} from '../../ubc-farm-database';
+import {longMonthNames, shortMonthNames} from '../../ubc-farm-utils/calendar';
 import {
 	transformReply,
-	arrayToObjectMap
-} from '../../../lib/api-handler/utils.js';
+	arrayToObjectMap,
+	removeNullandUndef
+} from './transformer.js';
 
 /**
  * Used to get Events sorted by date and time
@@ -36,7 +37,8 @@ export function calendarCollection(request, reply) {
 		.where('start_time', '>=', startDate)
 		.andWhere('end_time', '<=', endDate)
 		.orderBy('start_time', 'desc')
-		.then(list => arrayToObjectMap(list, Event.idColumn));
+		.then(list => arrayToObjectMap(list, Event.idColumn))
+		.then(json => removeNullandUndef(json));
 
 	return transformReply(query, request, reply);
 }
@@ -56,5 +58,13 @@ export default [
 		method: 'GET',
 		path: '/api/calendar/{year}',
 		handler: calendarCollection
+	},
+	{
+		method: 'GET',
+		path: '/api/calendar',
+		handler: (request, reply) => {
+			const currentYear = new Date(Date.now()).getFullYear();
+			return reply().redirect(`/api/calendar/${currentYear}`);
+		}
 	}
 ]

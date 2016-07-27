@@ -86,15 +86,23 @@ export function transformReply(data, request, reply) {
 
 /**
  * Deletes null keys from the object
- * @param {Object} json
- * @returns {Object}
+ * @param {Object|Array} json
+ * @returns {Object|Array}
  */
 export function removeNullandUndef(json) {
-	if (typeof json !== 'object' || Array.isArray(json) || json === null) 
+	if (typeof json !== 'object' || json === null) 
 		return json;
+
+	let keys, copy;
+	if (Array.isArray(json)) {
+		keys = json.keys();
+		copy = [...json];
+	} else {
+		keys = Object.keys(json);
+		copy = Object.assign({}, json);
+	}
 	
-	let copy = Object.assign({}, json);
-	for (const key in copy) {
+	for (const key of keys) {
 		const value = copy[key];
 		if (value === null) delete copy[key];
 		else if (typeof value === 'object') copy[key] = removeNullandUndef(value);

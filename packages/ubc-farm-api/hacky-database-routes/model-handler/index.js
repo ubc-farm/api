@@ -8,7 +8,6 @@ import patcher from './patcher.js';
  * Uses the 'model' property in the route options to reference
  * an Objection.js Model, which is then queried and results are returned
  * in a format similar to Firebase's database JSON
- * @alias module:lib/api-handler.default
  */
 export default function handler(route, options) {
 	switch(route.method.toLowerCase()) {

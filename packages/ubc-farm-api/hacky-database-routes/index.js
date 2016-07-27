@@ -6,15 +6,7 @@
 //Quick and dirty route generators for the API
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
-const tables = ['Person', 'Employee', 'Researcher', 'Assignment', 'Equipment', 
-	'EquipmentUsage', 'Event', 'Task', 'Field', 'Crop', 'Item', 'Plant', 
-	'Location', 'Program', 'ProgramUsage', 'Account', 'Chemical', 'Sale', 'Grant',
-	'ResearchProject', 'ResearchPartner', 'Mix'];
-const labels = ['people', 'employees', 'researchers', 'assignments', 
-	'equipment', 'equipmentusage', 'events', 'tasks', 'fields', 'crops', 'items', 
-	'plants', 'location', 'program', 'programusage', 'account', 'chemicals', 
-	'sales', 'grants', 'researchprojects', 'researchpartners', 'mixes']
-import * as models from 'app/models';
+import * as models from '../../ubc-farm-database';
 
 function* methodRoutes(table, alias) {
 	for (let method of methods) {
@@ -40,6 +32,7 @@ function* methodRoutes(table, alias) {
 function* modelRoutes() {
 	let completed = [];
 	for (let modelName in models) {
+		if (modelName === 'joins') continue;
 		const model = models[modelName];
 		if (!model.label) model.label = model.tableName.toLowerCase() + 's';
 		if (completed.indexOf(model.label) > -1) {
