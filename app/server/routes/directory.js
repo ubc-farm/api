@@ -1,18 +1,11 @@
 import {Person, Employee, Researcher} from '../../../app/models/index.js';
 import {
-	shallowTransform, 
-	silentTransform, 
-	prettyPrint,
+	transformReply,
 	arrayToObjectMap,
 	removeNullandUndef
 } from '../../../lib/api-handler/utils.js';
 
 export function directory(request, reply) {
-	const {print, shallow} = request.query;
-	const silentPrintFlag = print === 'silent', 
-		prettyPrintFlag = print === 'pretty';
-	const shallowFlag = shallow || false;
-
 	const query = Promise.all([
 		Person.query(), Employee.query(), Researcher.query()
 	]).then(([people, employees, researchers]) => {
@@ -22,10 +15,9 @@ export function directory(request, reply) {
 		return people.concat(employees, researchers);
 	})
 	.then(list => arrayToObjectMap(list))
-	.then(json => removeNullandUndef(json))
-	.then(json => shallowTransform(json, shallowFlag))
-	.then(data => silentTransform(request, data, silentPrintFlag));
-	return prettyPrint( reply(query), prettyPrintFlag );
+	.then(json => removeNullandUndef(json));
+
+	return transformReply(query, request, reply);
 }
 
 export default {
