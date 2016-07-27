@@ -54,8 +54,8 @@
     "jsts": "^1.2.0",
     "knex": "^0.11.7",
     "marko": "^3.7.2",
-    "objection": "^0.5.3",
-    "pg": "^6.0.2",
+    "objection": "^0.5.5",
+    "pg": "^6.0.3",
     "pg-query-stream": "^1.0.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
@@ -65,7 +65,10 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.3",
-    "vision": "^4.1.0"
+    "vision": "^4.1.0",
+    "spherical-geometry-js": "NotWoods/spherical-geometry-js",
+    "promise-worker": "NotWoods/promise-worker",
+    "googlemaps-enhancer": "NotWoods/googlemaps-enhancer"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
