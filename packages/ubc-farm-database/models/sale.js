@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 import {Person, Location} from './index.js';
-import Money from 'ubc-farm-util-classes/money/index.js';
+import {Money} from 'ubc-farm-utils/class/index.js';
 
 /**
  * A common format for sale information. This can be used for tickets,

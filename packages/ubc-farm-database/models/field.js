@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 import {Plant, Scouting} from './index.js';
-import {Polygon} from 'ubc-farm-util-classes/geojson/index.js';
+import {Polygon} from 'ubc-farm-utils/class/geojson/index.js';
 
 /**
  * Represents a field or sub-field in the farm with crops. If parentField is 
