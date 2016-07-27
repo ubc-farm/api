@@ -1,11 +1,9 @@
-import {longMonthNames, shortMonthNames} from '../../lib/calendar/index.js';
-import {Event} from '../../app/models/index.js';
+import {longMonthNames, shortMonthNames} from '../../../lib/calendar/index.js';
+import {Event} from '../../../app/models/index.js';
 import {
-	shallowTransform, 
-	silentTransform, 
-	prettyPrint,
+	transformReply,
 	arrayToObjectMap
-} from '../../lib/api-handler/utils.js';
+} from '../../../lib/api-handler/utils.js';
 
 /**
  * Used to get Events sorted by date and time
@@ -26,11 +24,6 @@ export function calendarCollection(request, reply) {
 
 	if (date !== undefined) date = parseInt(date);
 
-	const {print, shallow} = request.query;
-	const silentPrintFlag = print === 'silent', 
-		prettyPrintFlag = print === 'pretty';
-	const shallowFlag = shallow || false;
-
 	const startDate = new Date(year, month || 0, date);
 
 	let endDate;
@@ -39,14 +32,13 @@ export function calendarCollection(request, reply) {
 	else endDate = new Date(year + 1, 0);
 	endDate = new Date(endDate.getTime() - 1); //Subtract 1 millisecond
 	
-	let query = Event.query()
+	const query = Event.query()
 		.where('start_time', '>=', startDate)
 		.andWhere('end_time', '<=', endDate)
 		.orderBy('start_time', 'desc')
-		.then(list => arrayToObjectMap(list, Event.idColumn))
-		.then(json => shallowTransform(json, shallowFlag))
-		.then(data => silentTransform(request, data, silentPrintFlag));
-	return prettyPrint( reply(query), prettyPrintFlag );
+		.then(list => arrayToObjectMap(list, Event.idColumn));
+
+	return transformReply(query, request, reply);
 }
 
 export default [

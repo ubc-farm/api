@@ -1,7 +1,5 @@
-import {search} from 'lib/folder';
-
 /** Routes for marko views */
-const routes = [
+export default [
 	{
 		method: 'GET',
 		path: '/planning/database',
@@ -13,4 +11,3 @@ const routes = [
 		}
 	} 
 ];
-export default routes;

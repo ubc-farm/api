@@ -16,16 +16,34 @@ function newestTimestamp(timestamps) {
 	return timestamps.sort((a, b) => parseInt(b) - parseInt(a))[0];
 }
 
+/**
+ * Wrapper over a Google Maps map that links with a Redux store and checks for
+ * differences in the store.
+ * @alias module:app/googlemap-connector.default
+ * @typicalname googlemap
+ */
 export default class GoogleMap {
 	/**
 	 * @param {Element|string} element or an element's ID
 	 * @param {Redux.store} store
 	 */
-	constructor(element, store) {
+	constructor(element = req(), store =req()) {
 		this.polygons = new Map(); //the collection kind of map
 		if (typeof element == 'string') element = document.getElementById(element);
+
+		/** 
+		 * The Google Maps API map
+		 * @memberof module:app/googlemap-connector.default#
+		 * @protected
+		 */
 		this.map = new google.maps.Map(element, style.map);
+		
 		store.subscribe(() => {
+			/** 
+			 * Copy of the last seen branch of the store.
+			 * @memberof module:app/googlemap-connector.default#
+			 * @protected
+			 */
 			this.lastState = this.updateState(this.lastState, store.getState().map);
 		});
 	}
@@ -35,6 +53,7 @@ export default class GoogleMap {
 	 * @param {Object} [oldState]
 	 * @param {Object} newState
 	 * @returns {Object} newState
+	 * @protected 
 	 */
 	updateState(oldState = {polygons:null, geojson:null}, newState) {
 		if (oldState === newState) return;

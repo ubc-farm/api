@@ -1,0 +1,32 @@
+th {
+	opacity: 0.9;
+}
+
+th.sort, th:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.sort {
+	position: relative;
+	padding-left: 2.5em;
+}
+
+.sort::before {
+	/* 
+		Made absolute so that the loading font icon
+		won't cause visible table reflow once it loads
+	 */
+	position: absolute;
+	font-size: 18px;
+	vertical-align: middle;
+	left: 1em;
+}
+
+.ascending::before {
+	content: 'arrow_upward';
+}
+
+.descending::before {
+	content: 'arrow_downward';
+}

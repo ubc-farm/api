@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+	{{> head}}
+	{{> test}}
+	<link href='/css/core/form.css' rel='stylesheet'>
+</head>
+<body>
+	{{> app-banner}}
+	{{> section-banner breadcrumbs}}
+	<form className='invoice'>
+		<div className='row'>
+			<p className='farm-address left'>
+				UBC Farm<br/>
+				2357 Main Maill<br/>
+				Vancouver BC  V6T 1Z4<br/>
+				Canada<br/>
+				Phone: 604-822-5092
+			</p>
+
+			<fieldset className='internal-data right'>
+				<!-- React Node -->
+				<label id='delivery-date-input'>
+					Delivery Date
+					<!-- TODO -->
+					<input type='text'/>	
+				</label>
+
+				<div className='row'>
+
+					<div className='left channel'>
+						<label htmlFor='channel'>Channel</label>
+						<select id='channel' name='channel'>
+							<option value='csa'>CSA</option>
+							<option value='restaurants'>Restaurants</option>
+						</select>
+					</div>
+
+					<div className='right notes'>
+						<label htmlFor='notes'>Notes</label>
+						<textarea id='notes' name='notes'/>
+					</div>
+
+				</div>
+			</fieldset>
+		</div>
+		<div className='row'>
+			<!-- React Node -->
+			<div className='customer left' id='customer-input'>
+				<!-- TODO -->
+			</div>
+
+			<div className='invoice-details right'>
+				<label className='details-row'>
+					<span className='detail-cell detail-header'>Invoice #:</span>
+					<input type='number' 
+						name='invoiceNumber' 
+						className='detail-cell' 
+						placeholder='9584107'
+					/>
+				</label>
+
+				<label className='details-row'>
+					<span className='detail-cell detail-header'>Date:</span>
+					<!-- React Node -->
+					<!-- TODO -->
+					<input type='text'/>	
+				</label>
+
+				<label className='details-row'>
+					<span className='detail-cell detail-header'>
+						Balance Due (CAD):
+					</span>
+					<!-- React Node -->
+					<!-- TODO -->
+					<span className='detail-cell'/>
+				</label>
+			</div>
+		</div>
+
+		<!-- React Node -->
+		<div id='invoice-table-node'></div>
+	</form>
+</body>
+</html>

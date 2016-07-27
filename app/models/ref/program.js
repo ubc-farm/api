@@ -6,8 +6,8 @@ import {Task} from '../index.js';
  * @alias module:app/models.Program
  * @property {string} name
  * @property {Object} [color] used to represent this program in the interface
- * @property {boolean} [darkText] - true if black text should be used instead 
- * of white text. Should be auto-calculated based on the color.
+ * @property {boolean} [text_color] - text color to use. Should be calculated
+ * based on the color, see WebAIM Color Contrast Checker.
  * @property {string} [linkedAccount]
  */
 export default class Program extends Model {

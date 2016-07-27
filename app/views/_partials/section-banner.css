@@ -1,0 +1,19 @@
+.section-banner {
+	color: white;
+	background: var(--brand-primary);
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.25em 1.5em;
+}
+
+.banner-breadcrumbs {
+	display: flex;
+	align-items: flex-end;
+	margin: 0.1em auto 0.1em 0;
+}
+
+.breadcrumb-icon {
+	color: rgba(255, 255, 255, 0.3);
+	cursor: default;
+	width: 24px; /* Prevents reflow flash */
+}

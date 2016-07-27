@@ -3,6 +3,13 @@ import Checkbox from '../../app/checkbox/index.js';
 import Input from '../../app/input/text.js';
 import {format} from '../../lib/utils/index.js';
 
+/**
+ * Creates a form input using a JSON schema
+ * @param {Object} props
+ * @param {string} [props.name] - set as the input name
+ * @param {Object} props.schema - JSON schema to parse
+ * @param {boolean} [props.required] - marks input as required
+ */
 const FormItem = ({name, schema, required}) => {
 	if (!schema || !schema.type) return null;
 

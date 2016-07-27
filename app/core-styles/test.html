@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Core Styles - UBC Farm</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+		<link href='normalize.css' rel='stylesheet'>
+		<link href='root.css' rel='stylesheet'>
+	</head>
+	<body>
+		<link href='../views/_partials/app-banner.css' rel='stylesheet'>
+		<nav role='banner' class='app-banner'>
+			<a class='banner-logo' href='http://ubcfarm.ubc.ca/'>
+				<img alt='UBC Farm' class='banner-logo-img' height='32' width='109'
+					src='http://ubcfarm.ubc.ca/files/2014/04/ubc-farm-horizontal-cropped-360x106.jpg'>
+			</a>
+			<label aria-label='Apps' title='Apps' role='button'
+				class='material-icons icon-button' for='app-menu-toggle'>apps</label>
+			<a aria-label='Help' title='Help' class='material-icons icon-button' 
+				href='https://github.com/NotWoods/ubc-farm/issues'>help</a>
+			<a aria-label='Account' title='Account' href='/account' 
+				class='material-icons icon-button'>face</a>
+
+			<input id='app-menu-toggle' type='checkbox' 
+				value='app_menu_toggle' hidden class='hidden-checkbox'>
+			<section class='app-menu'>
+				<a href='/fields' class='app-menu-item'>
+					<i class='material-icons md-36 app-menu-icon'>map</i>
+					Fields
+				</a>
+				<a href='/finances' class='app-menu-item'>
+				<i class='material-icons md-36 app-menu-icon'>attach_money</i>
+					Finances
+				</a>
+				<a href='/calendar' class='app-menu-item'>
+					<i class='material-icons md-36 app-menu-icon'>event</i>
+					Calendar
+				</a>
+				<a href='/directory' class='app-menu-item'>
+					<i class='material-icons md-36 app-menu-icon'>people</i>
+					Directory
+				</a>
+			</section>
+		</nav>
+		<link href='heading.css' rel='stylesheet'>
+		<link href='../views/_partials/section-banner.css' rel='stylesheet'>
+		<header class='section-banner' role='toolbar'>
+			<nav class='banner-breadcrumbs'>
+				<a class='banner-breadcrumb' href='/fields'>
+					<h1 class='title banner-header'>Fields</h1>
+				</a>
+				<i class='material-icons breadcrumb-icon'>keyboard_arrow_right</i>
+				<a class='banner-breadcrumb' href='/fields/page'>
+					<h1 class='title banner-header'>Task Planner</h1>
+				</a>
+			</nav>
+		</header>
+
+		<main>
+			<!-- Standard Headings -->
+			<h1>Header</h1>
+			<h2>Subheader</h2>
+			<h3>Title</h3>
+			<h4>Subtitle</h4>
+			<h5>Subtitle Alt</h5>
+			<h6>Caption</h6>
+
+			<!-- Base type size -->
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin erat diam, mattis sed pretium nec, ornare id nisi. Quisque lobortis rutrum magna, id tristique odio gravida at. Aliquam posuere iaculis libero et imperdiet. Maecenas laoreet mi at consectetur fringilla. Mauris eget cursus mauris, at tempus ante. Mauris non turpis id felis consequat porttitor. Morbi accumsan, orci eget tincidunt ornare, orci mauris gravida libero, in blandit ante ante et massa. Mauris diam leo, sagittis eget nibh et, luctus faucibus urna. Aenean sit amet placerat lacus, in porttitor magna. Fusce nec sapien velit.</p>
+
+			<!-- Other styled text tags -->
+			<strong>Bolded</strong>
+			<em>Italicized</em>
+			<a>Colored</a>
+			<u>Underlined</u>
+			<br>
+
+			<link href='button.css' rel='stylesheet'>
+			<!-- Standard buttons -->
+			<a class="button" href="#">Anchor button</a>
+			<button>Button element</button>
+			<input type="submit" value="submit input">
+			<input type="button" value="button input">
+			<br>
+
+			<!-- Primary buttons -->
+			<a class="button button-primary" href="#">Anchor button</a>
+			<button class="button-primary">Button element</button>
+			<input class="button-primary" type="submit" value="submit input">
+			<input class="button-primary" type="button" value="button input">
+			<br>
+
+			<link href='form.css' rel='stylesheet'>
+			<form>
+				<div class="row">
+					<div class="six columns">
+						<label for="exampleEmailInput">Your email</label>
+						<input class="full-width" type="email" placeholder="test@mailbox.com" id="exampleEmailInput">
+					</div>
+					<div class="six columns">
+						<label for="exampleRecipientInput">Reason for contacting</label>
+						<select class="full-width" id="exampleRecipientInput">
+							<option value="Option 1">Questions</option>
+							<option value="Option 2">Admiration</option>
+							<option value="Option 3">Can I get your number?</option>
+						</select>
+					</div>
+				</div>
+				<label for="exampleMessage">Message</label>
+				<textarea class="full-width" placeholder="Hi Dave …" id="exampleMessage"></textarea>
+				<label class="example-send-yourself-copy">
+					<input type="checkbox">
+					<span class="label-body">Send a copy to yourself</span>
+				</label>
+				<input class="button-primary" type="submit" value="Submit">
+			</form>
+			<br>
+
+			<!-- Always wrap checkbox and radio inputs in a label and use a <span class="label-body"> inside of it -->
+
+			<link href='table.css' rel='stylesheet'>
+			<link href='table-sort.css' rel='stylesheet'>
+			<!-- Note: The class .full-width is just a utility class shorthand for width: 100% -->
+
+			<table class="full-width">
+				<thead>
+					<tr>
+						<th class='sort ascending'>Name</th>
+						<th>Age</th>
+						<th>Sex</th>
+						<th>Location</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Dave Gamache</td>
+						<td>26</td>
+						<td>Male</td>
+						<td>San Francisco</td>
+					</tr>
+					<tr>
+						<td>Dwayne Johnson</td>
+						<td>42</td>
+						<td>Male</td>
+						<td>Hayward</td>
+					</tr>
+				</tbody>
+			</table>
+		</main>
+	</body>
+</html>

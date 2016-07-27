@@ -79,7 +79,6 @@ export default class Field extends Model {
  * @alias module:app/models.Crop
  * @property {string} type of plant growing in this field.
  * @property {string} fieldId of the field this crop grows in
- * @property {number} quantity of this crop growing in the field
  * @property {string} predictedNutrientReq - predicted nutrient requirements
  * @proeprty {Date} [expectedHarvest]
  */

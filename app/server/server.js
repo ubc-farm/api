@@ -4,6 +4,7 @@ import {Server} from 'hapi';
 import Inert from 'inert';
 import Vision from 'vision';
 import path from 'path';
+import Handlebars from 'handlebars';
 
 import apiHandler from 'lib/api-handler';
 import templateHandler from 'app/template-handler';
@@ -25,6 +26,11 @@ server.register([Inert, Vision], err => {
 	if (err) throw err;
 	server.views({
 		engines: {
+			'html': {
+				module: Handlebars,
+				path: path.resolve(__dirname, '../views'),
+				partialsPath: path.resolve(__dirname, '../views/_partials')
+			},
 			'marko': {
 				module: markoEngine,
 				compileMode: 'async',

@@ -1,4 +1,3 @@
-import {search} from 'lib/folder';
 import {join} from 'path';
 
 const handler = {
@@ -9,7 +8,7 @@ const handler = {
 }
 
 /** Routes for marko views */
-const routes = [
+export default [
 	{
 		method: 'GET',
 		path: '/fields/edit/{clientParams*}',
@@ -31,4 +30,3 @@ const routes = [
 		handler
 	},
 ];
-export default routes;

@@ -1,4 +1,5 @@
 export * from 'app/google-map/style';
+import {color} from 'app/google-map/style';
 
 export const grid = {
 	normal: {

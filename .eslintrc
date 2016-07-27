@@ -1,0 +1,24 @@
+{
+	"env": {
+		"browser": true,
+		"worker": true,
+		"serviceworker": true
+	},
+	"extends": [
+		"eslint:recommended", 
+		"./rules/errors.json",
+		"./rules/es6.json",
+		"./rules/modules.json",
+		"./rules/node.json",
+		"./rules/react.json",
+		"./rules/variables.json"
+	],
+	"installedESLint": true,
+	"rules": {
+		"indent": ["warn",	"tab", {"SwitchCase": 1}],
+		"quotes": ["error",	"single",
+			{"allowTemplateLiterals": true}
+		],
+		"semi": "off"
+	}
+}

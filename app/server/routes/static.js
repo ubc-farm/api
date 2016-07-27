@@ -1,3 +1,5 @@
+import {resolve} from 'path';
+
 /**
  * Shared configuration for all the static routes.
  * @todo config.cache
@@ -13,7 +15,7 @@ const config = {
  * @module backend/routes/static
  * @type {Object[]}
  */
-const routes = [
+export default [
 	{
 		method: 'GET',
 		path: '/{param}',
@@ -95,6 +97,14 @@ const routes = [
 			}
 		},
 		config
+	},
+	{
+		method: 'GET',
+		path: '/tape.js',
+		handler: {
+			file: {
+				path: resolve(__dirname, '../../../app/test-element/tape.js')
+			}
+		}
 	}
-]
-export default routes;
+];
