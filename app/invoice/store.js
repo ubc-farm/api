@@ -1,4 +1,8 @@
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk'
 import invoiceApp from './reducer.js';
 
-export default createStore(invoiceApp);
+export default createStore(
+	invoiceApp,
+	applyMiddleware(thunk)
+);
