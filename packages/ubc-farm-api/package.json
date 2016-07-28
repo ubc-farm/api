@@ -1,18 +1,18 @@
 {
-  "name": "ubc-farm-api",
-  "version": "1.0.0",
-  "description": "API server and routes",
-  "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
-  "license": "MIT",
-  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-api",
+	"name": "ubc-farm-api",
+	"version": "1.0.0",
+	"description": "API server and routes",
+	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+	"license": "MIT",
+	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-api",
 	"main": "index.node.js",
 	"jsnext:main": "index.es.js",
 	"private": true,
-  "dependencies": {
-    "hapi": "^13.5.0"
-  },
-  "devDependencies": { "rollup": "^0.34.1" },
-  "scripts": {
+	"dependencies": {
+		"hapi": "^13.5.0"
+	},
+	"devDependencies": { "rollup": "^0.34.1" },
+	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js"
 	}
