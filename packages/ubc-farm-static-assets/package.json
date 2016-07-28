@@ -12,6 +12,7 @@
     "hapi": "^13.5.0",
 		"inert": "^4.0.1"
   },
+  "devDependencies": { "rollup": "^0.34.1" },
   "scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js"

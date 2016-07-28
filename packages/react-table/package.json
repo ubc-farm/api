@@ -11,6 +11,10 @@
   "dependencies": {
     "react": "^15.2.1"
   },
+  "devDependencies": { 
+    "rollup": "^0.34.1",
+    "rollup-plugin-buble": "^0.12.1"
+  },
   "scripts": {
 		"prepublish": "rollup -c"
 	}

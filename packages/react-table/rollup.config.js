@@ -1,10 +1,10 @@
-import babel from 'rollup-plugin-babel';
+import buble from 'rollup-plugin-buble';
 
 export default {
 	entry: 'index.js',
 	external: ['react'],
-	plugins: [babel({
-		plugins: ['transform-react-jsx', 'external-helpers-2']
+	plugins: [buble({
+		target: {chrome: 52}
 	})],
 	targets: [
 		{ dest: 'index.node.js', format: 'cjs' },
