@@ -1,6 +1,9 @@
 import {Server} from 'hapi';
 
+export const port = 3001;
+
 const server = new Server();
+server.connection({port});
 
 import Inert from 'inert';
 server.register(Inert, err => {if (err) throw err});
