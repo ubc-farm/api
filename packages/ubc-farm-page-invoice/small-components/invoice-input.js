@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {changeData} from './actions.js'
+import {changeData} from '../store/actions.js'
 import StaticInput from './input-static-placeholder.js';
 import UpdateOnBlur from './input-change-on-blur.js';
 

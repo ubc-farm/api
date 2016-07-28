@@ -6,7 +6,7 @@ import {
 import TotalFooter from './footer.js';
 import columnList from '../columnlist.js'
 import ActionBar from './toolbar.js';
-import {AddRow, DeleteSelected} from 'toolbar-buttons.js';
+import {AddRow, DeleteSelected} from './toolbar-buttons.js';
 
 class InvoiceTable extends Component {
 	static get propTypes() {return {
@@ -69,7 +69,7 @@ class InvoiceTable extends Component {
 }
 
 import {connect} from 'react-redux';
-import {toggleRowSelection, toggleSelectAll} from './actions.js';
+import {toggleRowSelection, toggleSelectAll} from '../store/actions.js';
 
 export default connect(
 	({data, selected}) => ({

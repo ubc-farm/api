@@ -4,8 +4,8 @@ import {Money, classlist as cx} from '../../ubc-farm-utils/index.js';
 
 import UpdateOnBlur from '../small-components/input-change-on-blur.js';
 import StaticInput from '../small-components/input-static-placeholder.js';
-import calculateOffset from '../redux/calculate-offset.js'
-import {calculateInvoice} from '../redux/calculate-money.js'
+import calculateOffset from '../store/calculate-offset.js'
+import {calculateInvoice} from '../store/calculate-money.js'
 
 /**
  * Table row used to show totals

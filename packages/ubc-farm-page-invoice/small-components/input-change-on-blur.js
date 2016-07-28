@@ -8,7 +8,7 @@ import {Component, PropTypes, cloneElement} from 'react';
  * user as the input becomes annoying to use, so changing when focus is lost 
  * works better.
  */
-export class UpdateOnBlur extends Component {
+export default class UpdateOnBlur extends Component {
 	static get propTypes() {return {
 		value: PropTypes.any.isRequired,
 		onBlur: PropTypes.func.isRequired,
