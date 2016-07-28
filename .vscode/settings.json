@@ -6,9 +6,6 @@
 		"**/*.marko.js": true,
 		"dev.sqlite3": true,
 		"LICENSE": true,
-		"UBC Farm-c*.json": true,
-		"**/*.js.map": true,
-		"**/index.node.js": true,
-		"**/index.es.js": true
+		"UBC Farm-c*.json": true
 	}
 }

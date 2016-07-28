@@ -5,8 +5,12 @@
 	},
 	"exclude": [
 		"node_modules",
+		"**/node_modules",
 		"dist",
 		"static",
-		"build"
+		"build",
+		"**/*js.map",
+		"**/index.node.js",
+		"**/index.es.js"
 	]
 }
