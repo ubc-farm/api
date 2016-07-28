@@ -1,7 +1,8 @@
 import {resolve} from 'path';
-const cssFolder = resolve(__dirname, '../../ubc-farm-css');
+const packageFolder = resolve(__dirname, '../../');
+const cssFolder = resolve(packageFolder, './ubc-farm-css');
 
-export default {
+export const main = {
 	method: 'GET',
 	path: '/css/{param}',
 	handler: {
@@ -13,3 +14,18 @@ export default {
 		}
 	}
 }
+
+export const partialStyles = {
+	method: 'GET',
+	path: '/css/partials/{param}',
+	handler: {
+		directory: {
+			path: resolve(packageFolder, './ubc-farm-view-helpers/styles'),
+			listing: true,
+			defaultExtension: 'css',
+			index: false
+		}
+	}
+}
+
+export default [main, partialStyles];
