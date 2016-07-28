@@ -1,15 +1,9 @@
 {
-  "name": "ubc-farm",
-  "version": "3.0.0",
-  "main": "app/server/index.js",
   "directories": {
-    "lib": "backend",
-    "bin": "bin",
-    "test": "test",
+    "lib": "packages",
     "doc": "docs"
   },
   "scripts": {
-    "start": "node scripts/start.js",
     "test": "tape \"dist/node/@(lib|app)/**/*.spec.js\"",
     "watch": "npm-watch",
     "css": "copyfiles -u 1 styles/**/*.css dist/browser/css",
@@ -25,22 +19,9 @@
     "postbrowser": "npm run browser:vendor && npm run browser:redux && npm run browser:node_modules && npm run browser:router-reselect",
     "browser": "npm run browser:lib && npm run browser:app",
     "fullstack": "npm run node && npm run browser",
-    "docs": "node scripts/docs.js",
-    "knex": "knex migrate:latest"
-  },
-  "watch": {
-    "node:lib": {
-      "patterns": [
-        "lib"
-      ],
-      "ignore": "*.spec.js"
-    },
-    "node:app": {
-      "patterns": [
-        "app"
-      ],
-      "ignore": "*.spec.js"
-    }
+    "knex": "knex migrate:latest",
+    "start": "node scripts/start.js",
+    "docs": "node scripts/docs.js"
   },
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "private": true,
@@ -52,7 +33,6 @@
     "hapi-react-views": "^9.1.0",
     "inert": "^4.0.1",
     "jsts": "^1.2.0",
-    "knex": "^0.11.7",
     "marko": "^3.7.2",
     "objection": "^0.5.5",
     "pg": "^6.0.3",
@@ -85,23 +65,11 @@
     "postcss-import": "^8.1.2",
     "react-addons-test-utils": "^15.2.1",
     "rollup": "^0.34.1",
+    "rollup-plugin-alias": "^1.2.0",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^3.3.1",
     "rollup-plugin-node-resolve": "^1.7.1",
     "sqlite3": "^3.1.4",
     "tape": "^4.6.0"
-  },
-  "babel": {
-    "plugins": [
-      "transform-react-jsx"
-    ],
-    "sourceMaps": "both",
-    "only": [
-      "lib/**",
-      "app/**",
-      "!lib/@(postgres*|folder)/**",
-      "!app/@(server|models|api-handler)/**",
-      "node_modules/?(*-)redux?(-*)/src/**"
-    ]
   }
 }

@@ -1,0 +1,15 @@
+{
+	"name": "ubc-farm-css",
+	"version": "1.0.0",
+	"description": "API server and routes",
+	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+	"license": "MIT",
+	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-css",
+	"private": true,
+	"devDependencies": {
+		"cssnano-cli": "^1.0.4"
+	},
+	"scripts": {
+		"core": "type .\\core\\*.css | cssnano > core.css"
+	}
+}
