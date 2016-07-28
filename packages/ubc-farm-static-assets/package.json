@@ -1,15 +1,16 @@
 {
-  "name": "ubc-farm-api",
+  "name": "ubc-farm-static-assets",
   "version": "1.0.0",
-  "description": "API server and routes",
+  "description": "Server for static files",
   "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
   "license": "MIT",
-  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-api",
+  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-static-assets",
 	"main": "index.node.js",
 	"jsnext:main": "index.es.js",
 	"private": true,
   "dependencies": {
-    "hapi": "^13.5.0"
+    "hapi": "^13.5.0",
+		"inert": "^4.0.1"
   },
   "scripts": {
 		"prepublish": "rollup -c",
