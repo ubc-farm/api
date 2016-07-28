@@ -1,7 +1,8 @@
 import {connect} from 'react-redux';
-import Footer from './footer.js';
-import {price, moneyTransformer} from './invoice-columns.js';
-import {setAmountPaid} from './actions.js';
+import Footer from './footer-base.js';
+import {price} from '../columnlist.js';
+import {moneyTransformer} from '../redux/calculate-money.js';
+import {setAmountPaid} from '../redux/actions.js';
 
 export default connect(
 	({data, columns, amountPaid}) => ({
@@ -13,7 +14,5 @@ export default connect(
 			value = moneyTransformer(value);
 			return dispatch(setAmountPaid(value));
 		}
-	}),
-	undefined,
-	{pure: false}
+	})
 )(Footer)

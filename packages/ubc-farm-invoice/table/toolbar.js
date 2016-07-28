@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {classlist as cx} from '../../lib/utils/index.js'
+import {classlist as cx} from '../../ubc-farm-utils/index.js'
 
 /**
  * A table caption that toggles between 2 possible children depending on

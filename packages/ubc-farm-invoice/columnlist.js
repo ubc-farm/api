@@ -1,7 +1,10 @@
 import React from 'react';
-import Money from '../../lib/money/index.js';
-import {Column} from '../../lib/table-controls/index.js';
-import InvoiceInput, {InvoiceInputBlur} from './input-cell.js';
+import {Money} from '../ubc-farm-utils/index.js';
+import {Column} from '../react-table/index.js';
+
+import StaticInput from '../small-components/input-static-placeholder.js';
+import InvoiceInput, {OnBlur} from '../small-components/invoice-input.js';
+import {moneyTransformer} from './redux/calculate-money.js';
 
 export const item = new Column({
 	columnKey: 'item',
@@ -27,14 +30,9 @@ export const description = new Column({
 				placeholder={`Squash variety ${random1to10}, kg`}
 				rowKey={rowKey} column={this}
 			/>
-		)
+		);
 	}
-})
-
-export const moneyTransformer = value => {
-	const stripedNonNumbers = value.replace(/[^0-9\.]/g, '');
-	return new Money(stripedNonNumbers, {convert: false});
-}
+});
 
 export const unitCost = new Column({
 	columnKey: 'unitCost',
@@ -52,12 +50,15 @@ export const unitCost = new Column({
 		const randomMoney = new Money(Math.trunc(Math.random() * 50000)).toString();
 
 		return this.super_toElement(
-			<InvoiceInputBlur
+			<OnBlur
 				transformerOut={moneyTransformer}
-				style={{maxWidth: '5em'}}
 				rowKey={rowKey} column={this}
-				placeholder={randomMoney}
-			/>
+			>
+				<StaticInput
+					style={{maxWidth: '5em'}}
+					placeholder={randomMoney}
+				/>
+			</OnBlur>
 		);
 	}
 })

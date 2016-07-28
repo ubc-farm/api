@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import {
 	Head, Body, Column,
 	generateSortMap
-} from '../../lib/table-controls/index.js';
-import TotalFooter from './total-footer.js';
-import columnList from './invoice-columns.js'
-import ActionBar from './action-bar.js';
-import {AddRow, DeleteSelected} from 'data-buttons.js';
+} from '../../react-table/index.js';
+import TotalFooter from './footer.js';
+import columnList from '../columnlist.js'
+import ActionBar from './toolbar.js';
+import {AddRow, DeleteSelected} from 'toolbar-buttons.js';
 
 class InvoiceTable extends Component {
 	static get propTypes() {return {
@@ -20,10 +20,7 @@ class InvoiceTable extends Component {
 
 	constructor(props) {
 		super(props);
-		this.onColumnCheckboxChange = this.onColumnCheckboxChange.bind(this);
-		this.onColumnClick = this.onColumnClick.bind(this);
-		this.onRowSelect = this.onRowSelect.bind(this);
-		this.generateSortMap = this.generateSortMap.bind(this);
+		this.handleColumnClick = this.handleColumnClick.bind(this);
 
 		this.state = {
 			sort: {column: undefined, descending: true}
@@ -37,6 +34,15 @@ class InvoiceTable extends Component {
 		return generateSortMap(this.props.data, column, descending);
 	}
 
+	/** Changes table sorting when the user clicks on a column */
+	handleColumnClick(column) {
+		const {column: sortColumn, descending} = this.state.sort;
+		if (sortColumn === column) 
+			this.setState({sort: {column, descending: !descending}});
+		else 
+			this.setState({sort: {column, descending: true}});
+	}
+
 	render() {
 		const {data, selected, columns} = this.props;
 		const {sort} = this.state;
@@ -44,13 +50,13 @@ class InvoiceTable extends Component {
 		return (
 			<table className='invoice-table'>
 				<ActionBar selectedLength={this.props.selected.size}>
-					<AddRow/>
-					<DeleteSelected/>
+					<AddRow />
+					<DeleteSelected />
 				</ActionBar>
 				<Head columns={columns} sorting={sort}
 					selectedLength={selected.size} dataLength={data.size}
 					onCheckboxChange={this.props.onColumnCheckboxChange}
-					onColumnClick={this.onColumnClick}
+					onColumnClick={this.handleColumnClick}
 				/>
 				<Body {...{data, columns, selected}}
 					sortMap={this.generateSortMap()}
@@ -59,15 +65,6 @@ class InvoiceTable extends Component {
 				<TotalFooter />
 			</table>
 		);
-	}
-
-	/** Changes table sorting when the user clicks on a column */
-	onColumnClick(column) {
-		const {column: sortColumn, descending} = this.state.sort;
-		if (sortColumn === column) 
-			this.setState({sort: {column, descending: !descending}});
-		else 
-			this.setState({sort: {column, descending: true}});
 	}
 }
 
@@ -82,5 +79,7 @@ export default connect(
 	dispatch => ({
 		onColumnCheckboxChange: () => dispatch(toggleSelectAll()),
 		onRowSelect: rowKey => dispatch(toggleRowSelection(rowKey))
-	})
+	}),
+	undefined,
+	{pure: false}
 )(InvoiceTable);

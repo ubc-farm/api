@@ -1,4 +1,4 @@
-import Money from '../../lib/money/index.js';
+import {Money} from '../../ubc-farm-utils/index.js';
 
 export const TOGGLE_SELECTION = 'TOGGLE_SELECTION';
 export const CLEAR_SELECTION = 'CLEAR_SELECTION';

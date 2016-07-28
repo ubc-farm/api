@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {calculateInvoice} from './footer.js';
-import {price} from './invoice-columns.js';
+import {calculateInvoice} from '../table/footer.js';
+import {price} from '../columnlist.js';
 
 const Indicator = ({children}) => 
 	<span className='detail-cell'>{children}</span>;
