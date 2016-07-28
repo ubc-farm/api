@@ -9,7 +9,6 @@ const server = new Server({
 		}
 	}
 });
-server.connection({port: 3000});
 
 server.route(databaseRoutes);
 server.route(hackyRoutes);

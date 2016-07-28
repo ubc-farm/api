@@ -1,0 +1,19 @@
+{
+  "name": "ubc-farm-package-server",
+  "version": "1.0.0",
+  "description": "Automatially bundles code for the browser on request",
+  "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+  "license": "MIT",
+  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-package-server",
+	"main": "index.node.js",
+	"jsnext:main": "index.es.js",
+	"private": true,
+  "dependencies": {
+    "hapi": "^13.5.0",
+		"rollup": "^0.34.1"
+  },
+  "scripts": {
+		"prepublish": "rollup -c",
+		"start": "node index.node.js"
+	}
+}
