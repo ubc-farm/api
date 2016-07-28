@@ -2,9 +2,9 @@ import React from 'react';
 import {Money} from '../ubc-farm-utils/index.js';
 import {Column} from '../react-table/index.js';
 
-import StaticInput from '../small-components/input-static-placeholder.js';
-import InvoiceInput, {OnBlur} from '../small-components/invoice-input.js';
-import {moneyTransformer} from './redux/calculate-money.js';
+import StaticInput from './small-components/input-static-placeholder.js';
+import InvoiceInput, {OnBlur} from './small-components/invoice-input.js';
+import {moneyTransformer} from './store/calculate-money.js';
 
 export const item = new Column({
 	columnKey: 'item',

@@ -1,6 +1,6 @@
 import {createElement} from 'react';
 import {Column} from '../react-table/index.js';
-import {Money} from '../ubc-farm/utils/index.js';
+import {Money} from '../ubc-farm-utils/index.js';
 
 export const name = new Column({columnKey: 'name', compareFunc: true});
 

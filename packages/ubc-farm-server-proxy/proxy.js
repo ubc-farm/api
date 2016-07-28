@@ -1,7 +1,9 @@
 import {parse} from 'url';
 
-import {port as staticPort} from '../ubc-farm-static-assets/server.js';
-import {port as bundlerPort} from '../ubc-farm-package-server/server.js';
+//import {port as staticPort} from '../ubc-farm-static-assets/server.js';
+//import {port as bundlerPort} from '../ubc-farm-package-server/server.js';
+const staticPort = 3001;
+const bundlerPort = 3002;
 
 export const host = 'localhost';
 export const protocol = 'http';

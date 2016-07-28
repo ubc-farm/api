@@ -18,5 +18,4 @@ server.route({
 
 server.route(apiProxy);
 
-server.start();
 export default server;

@@ -1,4 +1,5 @@
-import {port} from '../ubc-farm-api/server.js';
+//import {port} from '../ubc-farm-api/server.js';
+const port = 3080;
 import {host, protocol, options} from './proxy.js';
 
 export const handler = Object.assign({}, options, {
