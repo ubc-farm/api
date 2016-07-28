@@ -1,0 +1,13 @@
+{
+  "name": "ubc-farm-view-partials",
+  "version": "1.0.0",
+  "description": "Partials and helpers for handlebar templates",
+  "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+  "license": "MIT",
+  "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-view-partials",
+	"main": "paths.js",
+	"private": true,
+  "dependencies": {
+    "handlebars": "^4.0.5"
+  }
+}
