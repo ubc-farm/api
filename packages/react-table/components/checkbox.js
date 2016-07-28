@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {omit} from '../ubc-farm-utils/index.js';
+import {omit} from '../../ubc-farm-utils/index.js';
 
 /**
  * A checkbox component. Adds a 'indeterminate' prop, which allows for the

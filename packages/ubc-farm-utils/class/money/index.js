@@ -16,13 +16,15 @@ export default class Money extends Number {
 	 */
 	constructor(money, {convert = true} = {}) {
 		let dollars, cents = 0;
-		if (Array.isArray(dollars)) [dollars, cents] = money;
-		else if ((convert && Number.isInteger(money)) 
+		if (Array.isArray(dollars)) {
+			dollars = money[0]; cents = money[1];
+		}	else if ((convert && Number.isInteger(money)) 
 		|| money instanceof Money) {
 			super(money); 
 			return;
 		} else {
-			[dollars, cents] = String(money).split('.');
+			const split = String(money).split('.');
+			dollars = split[0]; cents = split[1];
 			dollars = parseInt(dollars, 10);
 
 			const centStr = cents;

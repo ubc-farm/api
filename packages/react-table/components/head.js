@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import Cell from '../bits/cell.js';
 import Column from '../bits/column.js';
-import HeaderCell from './header-cells.js'
+import HeaderCell from './head-cells.js'
 import Checkbox from './checkbox.js';
 
 const Head = props => {

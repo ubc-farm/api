@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Body, Head, Column} from './index.js';
+import {Body, Head, Column} from '../index.js';
 
 /**
  * @param {Map<K, WeakMap<Column, *>>} data - data to sort.
@@ -49,6 +49,26 @@ export default class Table extends Component {
 		this.onColumnClick = sorting ? this.onColumnClick.bind(this) : undefined;
 	}
 
+	onRowSelect(rowKey) {
+		const selected = new Set(this.state.selected);
+		if (!selected.has(rowKey)) selected.add(rowKey);
+		else selected.delete(rowKey);
+		this.setState({selected});
+	}
+	onColumnCheckboxChange() {
+		const {data} = this.props;
+		const {selected} = this.state;
+		if (selected.size === data.size) this.setState({selected: new Set()});
+		else this.setState({selected: new Set(data.keys())})
+	}
+	onColumnClick(column) {
+		const {column: sortColumn, descending} = this.state.sort;
+		if (sortColumn === column) 
+			this.setState({sort: {column, descending: !descending}});
+		else 
+			this.setState({sort: {column, descending: true}});
+	}
+
 	generateSortMap() {
 		const {sort} = this.state; 
 		if (!sort) return;
@@ -81,25 +101,5 @@ export default class Table extends Component {
 				/>
 			</table>
 		)
-	}
-
-	onRowSelect(rowKey) {
-		const selected = new Set(this.state.selected);
-		if (!selected.has(rowKey)) selected.add(rowKey);
-		else selected.delete(rowKey);
-		this.setState({selected});
-	}
-	onColumnCheckboxChange() {
-		const {data} = this.props;
-		const {selected} = this.state;
-		if (selected.size === data.size) this.setState({selected: new Set()});
-		else this.setState({selected: new Set(data.keys())})
-	}
-	onColumnClick(column) {
-		const {column: sortColumn, descending} = this.state.sort;
-		if (sortColumn === column) 
-			this.setState({sort: {column, descending: !descending}});
-		else 
-			this.setState({sort: {column, descending: true}});
 	}
 }
