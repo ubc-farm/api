@@ -16,8 +16,8 @@ export const options = {
 export default function(request, reply) {
 	const {pathname} = parse(request.path);
 	
-	function useConnection(uri) {
-		const {host, port, protocol} = parse(uri);
+	function useConnection(connection) {
+		const {host, port, protocol} = connection;
 		const opts = Object.assign({}, options, { host, port, protocol });
 		return reply.proxy(opts);
 	}

@@ -1,6 +1,5 @@
-import {parse} from 'url';
-import {server_uri as apiUri} from '../ubc-farm-api/package.json';
-const {hostname, protocol, port} = parse(apiUri);
+import {server as connection} from '../ubc-farm-api/package.json';
+const {hostname, protocol, port} = connection;
 
 import {options} from './proxy.js';
 
