@@ -4,6 +4,7 @@ import {parse} from 'url';
 //import {port as bundlerPort} from '../ubc-farm-package-server/server.js';
 const staticPort = 3001;
 const bundlerPort = 3002;
+const viewPort = 3040;
 
 export const host = 'localhost';
 export const protocol = 'http';
@@ -29,5 +30,11 @@ export default function(request, reply) {
 			return usePort(staticPort);
 
 		case 'packages': return usePort(bundlerPort);
+
+		case 'finance':
+		case 'directory':
+		case 'fields':
+		case 'calendar':
+			return usePort(viewPort);
 	}
 }
