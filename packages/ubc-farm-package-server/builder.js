@@ -44,7 +44,7 @@ export default function(route, options) {
 
 		const bundle = roll.then(bundle => bundle.generate(bunConfig));
 		const code = bundle.then(({code, map}) => {
-			if (map) code += map.toUrl();
+			if (map) code += '\n//#sourceMappingURL=' + map.toUrl();
 			return code;
 		});
 
