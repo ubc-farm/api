@@ -1,10 +1,13 @@
-import {resolve} from 'path';
 
 export const tape = {
 	method: 'GET',
 	path: '/packages/tape{ext?}',
 	handler: {
-		file: resolve(__dirname, '../../tape/index.js')
+		file: {
+			confine: false,
+			path: 'tape/index.js',
+			lookupCompressed: false //@todo gzip
+		}
 	}
 }
 
@@ -22,10 +25,10 @@ export const react_dom = {
 
 export const jsts = {
 	method: 'GET',
-	path: '/package/jsts{ext?}',
+	path: '/packages/jsts{ext?}',
 	handler: {
 		package: {
-			entry: resolve(__dirname, '../../jsts/index.js'),
+			entry: 'jsts/index.js',
 			moduleName: 'jsts'
 		}
 	}
