@@ -7,5 +7,6 @@
 		"dev.sqlite3": true,
 		"LICENSE": true,
 		"UBC Farm-c*.json": true
-	}
+	},
+	"eslint.enable": true
 }

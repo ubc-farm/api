@@ -22,9 +22,12 @@ export default function(request, reply) {
 		return reply.proxy(opts);
 	}
 
-	const [subfolder] = pathname.substr(1).split('/');
+	const [, subfolder] = pathname.split('/');
 	switch (subfolder) {
-		case 'css': return usePort(staticPort);
+		case 'analytics.js':
+		case 'css': 
+			return usePort(staticPort);
+
 		case 'packages': return usePort(bundlerPort);
 	}
 }

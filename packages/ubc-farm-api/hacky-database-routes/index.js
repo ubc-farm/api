@@ -1,7 +1,7 @@
 //Quick and dirty route generators for the API
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
-import * as models from '../../ubc-farm-database/index.js';
+import * as models from '../../ubc-farm-database';
 import modelHandler from './model-handler/index.js';
 
 function* methodRoutes(model) {

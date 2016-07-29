@@ -1,4 +1,4 @@
-import {Event} from '../../ubc-farm-database/index.js';
+import {Event} from '../../ubc-farm-database';
 import {
 	longMonthNames, shortMonthNames
 } from '../../ubc-farm-utils/calendar/index.js';

@@ -2,32 +2,38 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var Knex = _interopDefault(require('knex'));
+var objection = require('objection');
+var require$$0 = require('path');
+
 function interopDefault(ex) {
 	return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex;
 }
-
-var Knex = interopDefault(require('knex'));
-var objection = require('objection');
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
 var knexfile = createCommonjsModule(function (module) {
+const {resolve} = interopDefault(require$$0);
+
 module.exports = {
 
 	development: {
 		client: 'sqlite3',
 		connection: {
-			filename: './dev.sqlite3'
+			filename: resolve(__dirname, './dev.sqlite3')
 		},
 		migrations: {
 			tableName: 'knex_migrations',
-			directory: './_migrations'
+			directory: resolve(__dirname, './_migrations')
 		},
 		seeds: {
-			directory: './_seeds'
-		}
+			directory: resolve(__dirname, './_seeds')
+		},
+		useNullAsDefault: true
 	},
 
 	staging: {
@@ -1785,13 +1791,15 @@ class Money extends Number {
 	 */
 	constructor(money, {convert = true} = {}) {
 		let dollars, cents = 0;
-		if (Array.isArray(dollars)) [dollars, cents] = money;
-		else if ((convert && Number.isInteger(money)) 
+		if (Array.isArray(dollars)) {
+			dollars = money[0]; cents = money[1];
+		}	else if ((convert && Number.isInteger(money)) 
 		|| money instanceof Money) {
 			super(money); 
 			return;
 		} else {
-			[dollars, cents] = String(money).split('.');
+			const split = String(money).split('.');
+			dollars = split[0]; cents = split[1];
 			dollars = parseInt(dollars, 10);
 
 			const centStr = cents;

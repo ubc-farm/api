@@ -1,17 +1,20 @@
+const {resolve} = require('path');
+
 module.exports = {
 
 	development: {
 		client: 'sqlite3',
 		connection: {
-			filename: './dev.sqlite3'
+			filename: resolve(__dirname, './dev.sqlite3')
 		},
 		migrations: {
 			tableName: 'knex_migrations',
-			directory: './_migrations'
+			directory: resolve(__dirname, './_migrations')
 		},
 		seeds: {
-			directory: './_seeds'
-		}
+			directory: resolve(__dirname, './_seeds')
+		},
+		useNullAsDefault: true
 	},
 
 	staging: {
