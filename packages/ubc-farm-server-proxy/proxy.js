@@ -17,7 +17,8 @@ export default function(request, reply) {
 	const {pathname} = parse(request.path);
 	
 	function useConnection(connection) {
-		const {host, port, protocol} = connection;
+		const {host = 'localhost', port, protocol = 'http'} = connection;
+		if (port === undefined) throw Error('Missing port');
 		const opts = Object.assign({}, options, { host, port, protocol });
 		return reply.proxy(opts);
 	}
