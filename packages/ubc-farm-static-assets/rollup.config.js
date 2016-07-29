@@ -1,4 +1,5 @@
 import {resolve} from 'path';
+import json from 'rollup-plugin-json';
 
 export default {
 	entry: 'index.js',

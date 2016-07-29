@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-api",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "API server and routes",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
@@ -13,10 +13,12 @@
 	},
 	"devDependencies": { 
 		"rollup": "^0.34.1",
-		"rollup-plugin-alias": "^1.2.0"
+		"rollup-plugin-alias": "^1.2.0",
+		"rollup-plugin-json": "^2.0.1"
 	},
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js"
-	}
+	},
+	"server_uri": "http://localhost:3080"
 }

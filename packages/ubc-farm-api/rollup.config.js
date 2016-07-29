@@ -1,5 +1,6 @@
 import {resolve} from 'path';
 import alias from 'rollup-plugin-alias';
+import json from 'rollup-plugin-json';
 
 export default {
 	entry: 'index.js',
@@ -7,9 +8,12 @@ export default {
 		'hapi',
 		resolve(__dirname, '../ubc-farm-database'),
 	],
-	plugins: [alias({
-		'../ubc-farm-database': '../ubc-farm-database/index.node.js'
-	})],
+	plugins: [
+		alias({
+			'../ubc-farm-database': '../ubc-farm-database/index.node.js'
+		}),
+		json()
+	],
 	sourceMap: true,
 	targets: [
 		{ dest: 'index.node.js', format: 'cjs' },

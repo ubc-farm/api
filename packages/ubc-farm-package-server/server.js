@@ -2,6 +2,7 @@ import {Server} from 'hapi';
 import Inert from 'inert';
 import {resolve} from 'path';
 
+import {server_uri as uri} from './package.json';
 import rollupHandler from './builder.js';
 import routes from './routes/index.js';
 
@@ -13,7 +14,7 @@ const server = new Server({
 	}
 });
 server.path(resolve(__dirname, '../'))
-server.connection({port});
+server.connection({uri});
 
 server.handler('package', rollupHandler);
 server.register(Inert, () => {});

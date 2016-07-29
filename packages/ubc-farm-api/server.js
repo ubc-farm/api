@@ -1,8 +1,7 @@
 import {Server} from 'hapi';
 import databaseRoutes from './database-routes/index.js';
 import hackyRoutes from './hacky-database-routes/index.js';
-
-export const port = 3080;
+import {server_uri as uri} from './package.json' 
 
 const server = new Server({
 	connections: {
@@ -15,7 +14,7 @@ const server = new Server({
 	}
 });
 
-server.connection({port});
+server.connection({uri});
 
 server.route(databaseRoutes);
 server.route(hackyRoutes);

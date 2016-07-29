@@ -14,10 +14,12 @@
 		"vision": "^4.1.0"
 	},
 	"devDependencies": {
-		"rollup": "^0.34.1"
+		"rollup": "^0.34.1",
+		"rollup-plugin-json": "^2.0.1"
 	},
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js"
-	}
+	},
+	"server_uri": "http://localhost:3040"
 }

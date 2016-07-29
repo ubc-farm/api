@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-package-server",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Automatially bundles code for the browser on request",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
@@ -13,8 +13,12 @@
 		"rollup": "^0.34.1",
 		"inert": "^4.0.1"
 	},
+	"devDependencies": {
+		"rollup-plugin-json": "^2.0.1"
+	},
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js"
-	}
+	},
+	"server_uri": "http://localhost:3002"
 }
