@@ -1,4 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, Component, PropTypes} from 'react'; 
+/** @jsx h */
+
 
 const stop = e => e.stopPropagation();
 

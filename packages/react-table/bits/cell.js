@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes} from 'react'; 
 import cx from '../classlist.js'
 
 /**
@@ -8,7 +8,7 @@ import cx from '../classlist.js'
 const Cell = ({
 	children, header, onClick, align = 'left', 
 	colSpan, headers, rowSpan, scope, className, id, style
-}) => React.createElement(
+}) => createElement(
 	header ? 'th' : 'td',
 	{
 		className: cx(className, `align-${align}`),

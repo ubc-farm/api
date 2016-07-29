@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
+import {createElement as h} from 'react'; /** @jsx h */
 import {Provider} from 'react-redux';
 
 import store from './store/index.js';

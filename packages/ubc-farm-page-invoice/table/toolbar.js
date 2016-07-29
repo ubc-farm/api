@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement as h, PropTypes} from 'react'; /** @jsx h */
 import {classlist as cx} from '../../ubc-farm-utils/index.js'
 
 /**

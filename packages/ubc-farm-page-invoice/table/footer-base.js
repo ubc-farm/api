@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement as h, PropTypes} from 'react'; /** @jsx h */
 import {Column, Cell} from '../../react-table/index.js';
 import {Money, classlist as cx} from '../../ubc-farm-utils/index.js';
 

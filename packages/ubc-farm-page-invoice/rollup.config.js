@@ -1,19 +1,19 @@
 import buble from 'rollup-plugin-buble';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import alias from 'rollup-plugin-alias';
+import replace from 'rollup-plugin-replace';
 
 export default {
 	plugins: [
-		buble({ target: {chrome: 50} }),
-		nodeResolve({jsnext: true}),
+		nodeResolve({jsnext: true, browser: true}),
 		commonjs({ignoreGlobals: true}),
-		alias({ 'react-redux': '../react-redux/index.js' }),
+		replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+		buble({ target: {chrome: 50}, jsx: 'h' }),
 	],
 	sourceMap: true,
 	external: ['react', 'react-dom'],
 	globals: {
-		react: 'React',
+		'react': 'React',
 		'react-dom': 'ReactDOM'
 	}
 }

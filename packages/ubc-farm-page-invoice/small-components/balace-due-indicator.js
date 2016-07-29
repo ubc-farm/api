@@ -1,4 +1,4 @@
-import React from 'react';
+import {createElement as h} from 'react'; /** @jsx h */
 import {connect} from 'react-redux';
 import {calculateInvoice} from '../table/footer.js';
 import {price} from '../columnlist.js';

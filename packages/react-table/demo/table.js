@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, PropTypes, Component} from 'react'; /** @jsx h */
 import {Body, Head, Column} from '../index.js';
 
 /**

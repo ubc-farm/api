@@ -1,4 +1,4 @@
-import React from 'react';
+import {createElement as h} from 'react'; /** @jsx h */
 import {Money} from '../ubc-farm-utils/index.js';
 import {Column} from '../react-table/index.js';
 

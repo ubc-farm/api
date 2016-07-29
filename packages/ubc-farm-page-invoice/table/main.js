@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, Component, PropTypes} from 'react'; /** @jsx h */
 import {
 	Head, Body, Column,
 	generateSortMap
@@ -15,7 +15,7 @@ class InvoiceTable extends Component {
 		onColumnCheckboxChange: PropTypes.func,
 		onRowSelect: PropTypes.func,
 		onInputChange: PropTypes.func,
-		columns: PropTypes.instanceOf(Column)
+		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column))
 	}}
 
 	constructor(props) {
