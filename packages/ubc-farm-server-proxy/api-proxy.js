@@ -7,7 +7,10 @@ export const handler = Object.assign({}, options, {
 });
 
 export default {
-	method: '*',
+	method: [
+		'GET', 'POST', 'PUT',
+		'DELETE', 'PATCH', 'OPTIONS'
+	],
 	path: '/api/{path*}',
-	handler
+	handler: {proxy: handler}
 };
