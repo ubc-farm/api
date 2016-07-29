@@ -2,7 +2,7 @@ import {Server} from 'hapi';
 import Vision from 'vision';
 import Handlebars from 'handlebars';
 import {resolve} from 'path';
-import routeArray from './route/index.js';
+import routeArray from './routes/index.js';
 
 export const port = 3040;
 
