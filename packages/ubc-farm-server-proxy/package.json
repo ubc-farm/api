@@ -22,7 +22,7 @@
 		"start:static": "cd ../ubc-farm-static-assets && npm run prepublish && npm start",
 		"start:package": "cd ../ubc-farm-package-server && npm run prepublish && npm start",
 		"start:views": "cd ../ubc-farm-views-server && npm run prepublish && npm start",
-		"prestart": "start npm run start:api && start npm run start:static && start npm run start:package && start npm run start:views",
-		"start": "node index.node.js"
+		"start": "start npm run start:api && start npm run start:static && start npm run start:package && start npm run start:views",
+		"poststart": "node index.node.js"
 	}
 }
