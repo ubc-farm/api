@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/app/server/index.js",
+			"program": "${workspaceRoot}/packages/ubc-farm-api/index.node.js",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
@@ -16,12 +16,10 @@
 			],
 			"env": {
 				"NODE_ENV": "development",
-				"NODE_PATH": "${workspaceRoot}/dist/node",
 				"WORKSPACE_ROOT": "${workspaceRoot}"
 			},
 			"externalConsole": false,
-			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/dist/node"
+			"sourceMaps": true
 		},
 		{
 			"name": "Attach",

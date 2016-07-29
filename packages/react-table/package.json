@@ -1,0 +1,21 @@
+{
+	"name": "react-table",
+	"version": "1.0.0",
+	"description": "Code for a react powered table",
+	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+	"license": "MIT",
+	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/react-table",
+	"main": "index.node.js",
+	"jsnext:main": "index.es.js",
+	"private": true,
+	"dependencies": {
+		"react": "^15.2.1"
+	},
+	"devDependencies": { 
+		"rollup": "^0.34.1",
+		"rollup-plugin-buble": "^0.12.1"
+	},
+	"scripts": {
+		"prepublish": "rollup -c"
+	}
+}
