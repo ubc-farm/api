@@ -1,0 +1,8 @@
+{
+  "name": "react-redux",
+  "version": "4.4.5",
+  "description": "Copy of React Redux's browserify build; as the NPM version uses node globals. (rollup's globals plugin conflicts with other plugins)",
+	"main": "index.js",
+	"private": true,
+	"author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)"
+}
