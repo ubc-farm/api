@@ -1,7 +1,7 @@
 
 export const tape = {
 	method: 'GET',
-	path: '/packages/tape{ext?}',
+	path: '/packages/tape.js',
 	handler: {
 		file: {
 			confine: false,
@@ -13,19 +13,19 @@ export const tape = {
 
 export const react = {
 	method: 'GET',
-	path: '/packages/react{ext?}',
+	path: '/packages/react.js',
 	handler: (req, reply) => reply().redirect('https://fb.me/react-15.2.1.js')
 }
 
 export const react_dom = {
 	method: 'GET',
-	path: '/packages/react-dom{ext?}',
+	path: '/packages/react-dom.js',
 	handler: (req, reply) => reply().redirect('https://fb.me/react-dom-15.2.1.js')
 }
 
 export const jsts = {
 	method: 'GET',
-	path: '/packages/jsts{ext?}',
+	path: '/packages/jsts.js',
 	handler: {
 		package: {
 			entry: 'jsts/index.js',
