@@ -1,10 +1,8 @@
 import {parse} from 'url';
 
-//import {port as staticPort} from '../ubc-farm-static-assets/server.js';
-//import {port as bundlerPort} from '../ubc-farm-package-server/server.js';
-const staticPort = 3001;
-const bundlerPort = 3002;
-const viewPort = 3040;
+import {server_uri as staticUri} from '../ubc-farm-static-assets/package.json';
+import {server_uri as bundlerUri} from '../ubc-farm-package-server/package.json';
+import {server_uri as viewUri} from '../ubc-farm-views-server/package.json';
 
 export const host = 'localhost';
 export const protocol = 'http';
@@ -18,7 +16,8 @@ export const options = {
 export default function(request, reply) {
 	const {pathname} = parse(request.path);
 	
-	function usePort(port) {
+	function useUri(uri) {
+		const {hostname: host, port, protocol} = parse(uri);
 		const opts = Object.assign({}, options, { host, port, protocol });
 		return reply.proxy(opts);
 	}
@@ -27,14 +26,14 @@ export default function(request, reply) {
 	switch (subfolder) {
 		case 'analytics.js':
 		case 'css': 
-			return usePort(staticPort);
+			return useUri(staticUri);
 
-		case 'packages': return usePort(bundlerPort);
+		case 'packages': return useUri(bundlerUri);
 
 		case 'finance':
 		case 'directory':
 		case 'fields':
 		case 'calendar':
-			return usePort(viewPort);
+			return useUri(viewUri);
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-server-proxy",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Reverse proxy parent server that directs requests to the correct subservers. Allows for easier code splitting, as well as the potential for certain functions to be moved to seperate systems in the future",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
@@ -12,7 +12,10 @@
 		"hapi": "^13.5.0",
 		"h2o2": "^5.1.0"
 	},
-	"devDependencies": { "rollup": "^0.34.1" },
+	"devDependencies": { 
+		"rollup": "^0.34.1",
+		"rollup-plugin-json": "^2.0.1" 
+	},
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start:api": "cd ../ubc-farm-api && npm start",
