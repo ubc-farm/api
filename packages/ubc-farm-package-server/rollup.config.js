@@ -1,7 +1,7 @@
 export default {
 	entry: 'index.js',
 	external: [
-		'path', 'rollup', 
+		'path', 'rollup', 'hapi', 'inert',
 		'rollup-plugin-buble',
 		'rollup-plugin-commonjs',
 		'rollup-plugin-node-resolve'

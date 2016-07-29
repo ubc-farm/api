@@ -1,4 +1,5 @@
 import {rollup} from 'rollup';
+import {join} from 'path';
 
 /**
  * Automatically bundles code using rollup for the browser
@@ -20,7 +21,8 @@ export default function(route, options) {
 	
 	var cache;
 	if (options.cache) cache = options.cache;
-	const config = Object.assign({}, options, {cache});
+	const entry = join(route.settings.files.relativeTo, options.entry);
+	const config = Object.assign({}, options, {cache, entry});
 
 	const {regenerate = true} = options; let parentRoll;
 	if (!regenerate) parentRoll = rollup(config);
@@ -35,7 +37,7 @@ export default function(route, options) {
 		if (regenerate) roll = rollup(config);
 		else roll = parentRoll;
 
-		const bundle = roll.then(bundle => bundle.generate(bunConfig))
+		const bundle = roll.then(bundle => bundle.generate(bunConfig));
 		const code = bundle.then(({code, map}) => {
 			if (map) code += map.toUrl();
 			return code;
