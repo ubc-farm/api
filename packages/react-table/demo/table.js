@@ -19,8 +19,8 @@ export function generateSortMap(data, sortColumn, descending = true) {
 	const sortedData = columnData.sort(([, a], [, b]) => 
 		sortColumn.compareFunc(a, b) * multiplier)
 
-	const sortMap = sortedData.map(([rowKey], index) => [index, rowKey]);
-	return new Map(sortMap);
+	const sortMap = sortedData.map(([rowKey]) => rowKey);
+	return sortMap;
 }
 
 /**

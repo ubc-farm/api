@@ -1,3 +1,5 @@
+import * as column from './columnlist.js';
+
 export default fetch('/api/directory')
 .then(response => response.json())
 .then(json => {
@@ -10,7 +12,12 @@ export default fetch('/api/directory')
 			case 'Employee': value.icon = 'business'; break;
 		}
 
-		map.set(key, value);
+		let row = new WeakMap();
+		for (const k in value) {
+			if (k in column) row.set(column[k], value[k]);
+		}
+
+		map.set(key, row);
 	}
 
 	return map;

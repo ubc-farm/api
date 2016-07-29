@@ -20,7 +20,7 @@ export default class Body extends Component {
 	static get propTypes() {return {
 		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)).isRequired,
 		data: PropTypes.instanceOf(Map).isRequired,
-		sortMap: PropTypes.instanceOf(Map),
+		sortMap: PropTypes.array,
 		selected: PropTypes.instanceOf(Set),
 		onSelect: PropTypes.func
 	}}

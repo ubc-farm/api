@@ -20,7 +20,6 @@ export const role = new Column({columnKey: 'role', compareFunc: true});
 
 export const hourlyPay = new Column({
 	columnKey: 'hourlyPay', 
-	title: '',
 	toElement(cents) {
 		let value;
 		if (cents !== undefined) value = new Money(cents).toString();
