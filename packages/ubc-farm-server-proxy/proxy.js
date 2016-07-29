@@ -31,10 +31,6 @@ export default function(request, reply) {
 
 		case 'packages': return useConnection(bundlerObj);
 
-		case 'finance':
-		case 'directory':
-		case 'fields':
-		case 'calendar':
-			return useConnection(viewObj);
+		default: return useConnection(viewObj);
 	}
 }
