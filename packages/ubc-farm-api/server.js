@@ -9,6 +9,9 @@ const server = new Server({
 		routes: {
 			cors: true
 		}
+	},
+	debug: {
+		request: ['error']
 	}
 });
 

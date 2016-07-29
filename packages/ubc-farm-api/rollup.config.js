@@ -10,6 +10,7 @@ export default {
 	plugins: [alias({
 		'../ubc-farm-database': '../ubc-farm-database/index.node.js'
 	})],
+	sourceMap: true,
 	targets: [
 		{ dest: 'index.node.js', format: 'cjs' },
 		{ dest: 'index.es.js', format: 'es' }
