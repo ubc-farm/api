@@ -13,7 +13,7 @@ server.path(resolve(__dirname, '../'));
 
 server.register(Inert, err => {if (err) throw err});
 
-server.routes(css);
-server.routes(analytics);
+server.route(css);
+server.route(analytics);
 
 export default server;

@@ -1,6 +1,6 @@
 export const main = {
 	method: 'GET',
-	path: '/css/{param}',
+	path: '/css/{param*}',
 	handler: {
 		directory: {
 			path: 'ubc-farm-css',
@@ -13,7 +13,7 @@ export const main = {
 
 export const partialStyles = {
 	method: 'GET',
-	path: '/css/partials/{param}',
+	path: '/css/partials/{param*}',
 	handler: {
 		directory: {
 			path: 'ubc-farm-view-helpers/styles',
