@@ -1,10 +1,9 @@
 import server from './server.js';
 
-/**
- * @done server works as desired
- * @todo write automated tape tests
- */
+const name = 'Static';
 
 server.start().then(() => {
-	console.log(`Static server running at: ${server.info.uri}`);
-});
+	console.log(`[+] ${name} server running at: ${server.info.uri}`);
+}).catch(err => {
+	console.error(`[x] ${name} server issue: ${err}`)
+})

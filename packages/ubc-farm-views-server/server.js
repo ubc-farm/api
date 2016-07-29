@@ -3,10 +3,10 @@ import Vision from 'vision';
 import Handlebars from 'handlebars';
 import {resolve} from 'path';
 import routeArray from './routes/index.js';
-import {server_uri as uri} from './package.json';
+import {server as connection} from './package.json';
 
 const server = new Server();
-server.connection({uri});
+server.connection(connection);
 server.path(resolve(__dirname, '../'));
 
 server.register(Vision, err => {if (err) throw err});

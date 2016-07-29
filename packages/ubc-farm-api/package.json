@@ -20,5 +20,7 @@
 		"prepublish": "rollup -c",
 		"start": "node index.node.js"
 	},
-	"server_uri": "http://localhost:3080"
+	"server": {
+		"port": 3080
+	}
 }

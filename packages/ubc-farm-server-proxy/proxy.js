@@ -1,8 +1,8 @@
 import {parse} from 'url';
 
-import {server_uri as staticUri} from '../ubc-farm-static-assets/package.json';
-import {server_uri as bundlerUri} from '../ubc-farm-package-server/package.json';
-import {server_uri as viewUri} from '../ubc-farm-views-server/package.json';
+import {server as staticObj} from '../ubc-farm-static-assets/package.json';
+import {server as bundlerObj} from '../ubc-farm-package-server/package.json';
+import {server as viewObj} from '../ubc-farm-views-server/package.json';
 
 export const host = 'localhost';
 export const protocol = 'http';
@@ -16,8 +16,8 @@ export const options = {
 export default function(request, reply) {
 	const {pathname} = parse(request.path);
 	
-	function useUri(uri) {
-		const {hostname: host, port, protocol} = parse(uri);
+	function useConnection(uri) {
+		const {host, port, protocol} = parse(uri);
 		const opts = Object.assign({}, options, { host, port, protocol });
 		return reply.proxy(opts);
 	}
@@ -26,14 +26,14 @@ export default function(request, reply) {
 	switch (subfolder) {
 		case 'analytics.js':
 		case 'css': 
-			return useUri(staticUri);
+			return useConnection(staticObj);
 
-		case 'packages': return useUri(bundlerUri);
+		case 'packages': return useConnection(bundlerObj);
 
 		case 'finance':
 		case 'directory':
 		case 'fields':
 		case 'calendar':
-			return useUri(viewUri);
+			return useConnection(viewObj);
 	}
 }
