@@ -5,13 +5,17 @@ import {join} from 'path';
  * Automatically bundles code using rollup for the browser
  * @param {Object} route
  * @param {string} route.method - must be GET
- * @param {string} route.path
+ * @param {string} route.settings.files.relativeTo - set via server.path(), 
+ * lists the path that all the module entry points are relative to.
+ * 
  * @param {Object} options - mostly sameas rollup config
  * @param {boolean} [options.sourceMap] - appends sourceMap to code if true
+ * @param {string} options.moduleName - needed for the default 
+ * IIFE module format
+ * 
  * @param {boolean} [options.regenerate=true] for testing, recreate
  * the rollup on each request
  * @param {string} [options.mime='application/javascript']
- * @param {string} options.moduleName
  */
 export default function(route, options) {
 	if (route.method.toLowerCase() !== 'get') {
@@ -24,7 +28,8 @@ export default function(route, options) {
 	const entry = join(route.settings.files.relativeTo, options.entry);
 	const config = Object.assign({}, options, {cache, entry});
 
-	const {regenerate = true} = options; let parentRoll;
+	const {regenerate = (process.env.NODE_ENV === 'development')} = options; 
+	let parentRoll;
 	if (!regenerate) parentRoll = rollup(config);
 
 	const {format = 'iife'} = options;

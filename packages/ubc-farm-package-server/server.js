@@ -2,7 +2,7 @@ import {Server} from 'hapi';
 import Inert from 'inert';
 import {resolve} from 'path';
 
-import rollupHandler from './handler.js';
+import rollupHandler from './builder.js';
 import routes from './routes/index.js';
 
 export const port = 3002;
