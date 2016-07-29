@@ -15,6 +15,9 @@
 	"devDependencies": { "rollup": "^0.34.1" },
 	"scripts": {
 		"prepublish": "rollup -c",
+		"start:api": "cd ../ubc-farm-api && npm run start",
+		"start:static": "cd ../ubc-farm-static-assets && npm run start",
+		"prestart": "start npm run start:api && start npm run start:static",
 		"start": "node index.node.js"
 	}
 }
