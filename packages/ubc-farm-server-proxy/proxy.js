@@ -9,8 +9,7 @@ export const protocol = 'http';
 
 export const options = {
 	passThrough: true,
-	xforward: true,
-	redirects: 5,
+	xforward: true
 }
 
 export default function(request, reply) {
