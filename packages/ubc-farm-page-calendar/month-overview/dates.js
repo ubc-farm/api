@@ -35,10 +35,10 @@ const OverviewBody = ({
 	viewingDate, todayDate
 }) => (
 	<tbody>
-		{dates.map((row, i) => (
-			<tr key={i}>
-				{row.map(date => (
-					<OverviewDate key={date}
+		{dates.map((row, index) => (
+			<tr key={index}>
+				{row.map((date, i) => (
+					<OverviewDate key={date === null? `blank-${i}` : date}
 						onClick={onClick}
 						hasEvent={eventCheck(date)}
 						viewing={viewingDate === date}

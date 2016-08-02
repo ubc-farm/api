@@ -24,6 +24,9 @@ export default function calendarArray(value = new Date(Date.now())) {
 		calendar[week][day] = date;
 		if (day === 6) week += 1;
 	}
+
+	const hasSixWeeks = week === 5;
+	if (!hasSixWeeks) calendar.splice(5, 1);
 	
 	return calendar;
 }
