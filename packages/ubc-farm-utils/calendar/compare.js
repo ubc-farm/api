@@ -59,7 +59,7 @@ export function compare(date1, date2, fidelity = 3) {
 	
 	const gen = comparinator(date1, date2);
 	for (let i = 0; i < fidelity; i++) gen.next();
-	return gen.return();
+	return gen.return().value;
 }
 
 /**

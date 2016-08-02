@@ -19,7 +19,7 @@ const Overview = ({
 				onLeftClick={onPrevious} 
 				onRightClick={onFollowing} 
 				date={viewingDate} 
-				showYear={sameYearAsToday}
+				showYear={!sameYearAsToday}
 			/>
 			<Head />
 			<Body

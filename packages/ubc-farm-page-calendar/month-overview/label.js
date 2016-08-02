@@ -9,22 +9,24 @@ const OverviewLabel = ({date, onLeftClick, onRightClick, showYear}) => (
 	<caption>
 		<button type='button'
 			onClick={onLeftClick}
-			className='material-icons'
+			className='material-icons cal-month-button'
+			style={{float: 'left'}}
 		>
 			keyboard_arrow_left
+		</button>
+
+		<button type='button'
+			onClick={onRightClick}
+			className='material-icons cal-month-button'
+			style={{float: 'right'}}
+		>
+			keyboard_arrow_right
 		</button>
 
 		<h3>
 			{longMonthNames[date.getMonth()]}
 			{showYear? ' ' + date.getFullYear() : ''}
 		</h3>
-
-		<button type='button'
-			onClick={onRightClick}
-			className='material-icons'
-		>
-			keyboard_arrow_right
-		</button>
 	</caption>
 );
 
