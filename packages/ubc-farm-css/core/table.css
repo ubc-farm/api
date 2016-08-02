@@ -2,12 +2,8 @@ table {
 	border-spacing: 0;
 }
 
-tr:hover, tr.checked {
+.tr-hoverable:hover, tr.checked {
 	background: #eee;
-}
-
-thead > tr:hover, thead > tr.checked {
-	background: transparent;
 }
 
 td, th {

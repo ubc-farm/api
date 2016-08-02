@@ -20,6 +20,12 @@ export default class PickerHeader extends Component {
 	}
 
 	handleYearChange(e) {
+		const year = e.target.value;
+
+		if (Math.abs(year - this.state.year) < 2) {
+			this.props.onYearBlur(year);
+		}
+
 		this.setState({year: e.target.value});
 	}
 

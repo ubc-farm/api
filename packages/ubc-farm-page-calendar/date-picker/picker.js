@@ -42,6 +42,7 @@ export default class DatePicker extends Component {
 		let newDate = new Date(this.state.viewing);
 		const currentMonth = newDate.getMonth();
 		newDate.setMonth(currentMonth + changeAmount);
+		this.setState({viewing: newDate});
 	}
 
 	handleDateClick(date) {
