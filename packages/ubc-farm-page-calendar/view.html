@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+	{{> head}}
+	<title>Calendar</title>
+	{{> test}}
+	<script async src='/packages/ubc-farm-page-calendar.js'></script>
+	<link href='/packages/ubc-farm-page-calendar/date-picker/style.css' rel='stylesheet'>
+</head>
+<body>
+	{{> app-banner active='Calendar'}}
+	{{> section-banner title='Calendar' href='/calendar'}}
+
+	<link href='/css/core/table.css' rel='stylesheet'>
+	<div id='app-mount'></div>
+</body>
+</html>

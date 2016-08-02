@@ -5,8 +5,7 @@
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
 	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-page-invoice",
-	"main": "index.node.js",
-	"jsnext:main": "index.es.js",
+	"browser": "index.iife.js",
 	"private": true,
 	"dependencies": {
 		"react": "^15.2.1",

@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-package-server",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Automatially bundles code for the browser on request",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",

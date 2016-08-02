@@ -1,6 +1,3 @@
-/**
- * @module lib/calendar
- */
 export {default as asArray} from './asarray.js';
 export * from './tostring.js';
 export * from './compare.js';

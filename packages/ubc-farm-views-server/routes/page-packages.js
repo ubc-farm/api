@@ -23,3 +23,13 @@ export const invoice = {
 		}
 	}
 }
+
+export const calendar = {
+	method: 'GET',
+	path: '/calendar',
+	handler: {
+		view: {
+			template: 'ubc-farm-page-calendar/view.html'
+		}
+	}
+}
