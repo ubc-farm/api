@@ -7,10 +7,13 @@ export default {
 	external: [
 		'hapi',
 		resolve(__dirname, '../ubc-farm-database'),
+		resolve(__dirname, '../ubc-farm-database/index.node.js'),
+		'../ubc-farm-database/index.node.js',
 	],
 	plugins: [
 		alias({
-			'../ubc-farm-database': '../ubc-farm-database/index.node.js'
+			'../ubc-farm-database': '../ubc-farm-database/index.node.js',
+			'../../ubc-farm-database': '../ubc-farm-database/index.node.js'
 		}),
 		json()
 	],
