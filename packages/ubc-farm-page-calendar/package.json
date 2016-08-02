@@ -17,6 +17,6 @@
 		"handlebars": "^4.0.5"
 	},
 	"scripts": {
-		"prepublish": "rollup -c -i index.js -o index.iife.js -f iife -n Events"
+		"prepublish": "rollup -c -i index.js -o index.iife.js -f iife -n Calendar"
 	}
 }

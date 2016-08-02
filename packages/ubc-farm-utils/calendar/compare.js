@@ -69,7 +69,7 @@ export function compare(date1, date2, fidelity = 3) {
  * @param {Date} date2
  * @returns {boolean}
  */
-export function equal(date1, date2, fidelity = 3) {
+export function equal(date1, date2, fidelity = Fidelity.DAY) {
 	if (fidelity >= Fidelity.MILLISECOND) return Number(date1) === Number(date2);
 
 	const gen = comparinator(date1, date2);

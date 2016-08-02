@@ -36,6 +36,25 @@ export const invoiceFiles = {
 	}
 }
 
+import calendarConfig from '../../ubc-farm-page-calendar/rollup.config.js';
+export const calendar = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-calendar.js',
+	handler: {
+		package: Object.assign({}, calendarConfig, {
+			entry: 'ubc-farm-page-calendar/index.js'
+		})
+	}
+}
+
+export const calendarFiles = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-calendar/{param*}',
+	handler: {
+		directory: { path: 'ubc-farm-page-calendar' }
+	}
+}
+
 import tableConfig from '../../react-table/rollup.config.js';
 export const table = {
 	method: 'GET',
