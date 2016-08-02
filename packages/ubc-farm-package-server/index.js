@@ -1,9 +1,4 @@
 import server from './server.js';
+import startServer from '../ubc-farm-utils/function/start-server.js';
 
-const name = 'Package bundler';
-
-server.start().then(() => {
-	console.log(`[+] ${name} server running at: ${server.info.uri}`);
-}).catch(err => {
-	console.error(`[x] ${name} server issue: ${err}`)
-})
+startServer(server, 'Package bundler');

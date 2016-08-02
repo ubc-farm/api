@@ -1,10 +1,11 @@
 import {connect} from 'react-redux';
-import Overview from './overview.js';
+import DatePickerTable from '../date-picker/table.js';
 import {adjustViewingMonth, setViewingDate} from '../redux/actions.js';
 
 export default connect(
 	state => ({
 		viewingDate: state.viewingDate,
+		selectedDate: state.viewingDate,
 		todayDate: state.today
 	}),
 	dispatch => ({
@@ -12,4 +13,4 @@ export default connect(
 		onFollowing: () => dispatch(adjustViewingMonth(1)),
 		onDateClick: date => dispatch(setViewingDate(date))
 	})
-)(Overview);
+)(DatePickerTable);

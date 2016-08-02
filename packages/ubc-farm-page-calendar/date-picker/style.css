@@ -1,5 +1,10 @@
 .d-picker {
 	position: absolute;
+	display: flex;
+	flex-direction: column;
+}
+.d-picker-horizontal {
+	flex-direction: row;
 }
 
 .d-picker-heading {
