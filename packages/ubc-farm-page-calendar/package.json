@@ -1,10 +1,10 @@
 {
-	"name": "ubc-farm-page-events",
+	"name": "ubc-farm-page-calendar",
 	"version": "1.0.0",
-	"description": "Events page listing upcoming tasks",
+	"description": "Calendar page listing upcoming tasks",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
-	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-page-events",
+	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-page-calendar",
 	"browser": "index.iife.js",
 	"private": true,
 	"dependencies": {
