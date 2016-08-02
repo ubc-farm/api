@@ -5,7 +5,7 @@ import {createElement as h, PropTypes} from 'react'; /** @jsx h */
  */
 const OverviewHeading = ({children = ['S', 'M', 'T', 'W', 'T', 'F', 'S']}) => (
 	<thead>
-		{children.map(title => <th scope='col' key={title}>{title}</th>)}
+		{children.map((title, i) => <th scope='col' key={i}>{title}</th>)}
 	</thead>
 );
 
