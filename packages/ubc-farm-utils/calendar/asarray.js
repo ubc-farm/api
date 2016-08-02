@@ -9,12 +9,12 @@ export default function calendarArray(value = new Date(Date.now())) {
 	const maxDays = dateObj.getDate();
 	
 	const calendar = [
-		Array(7), 
-		Array(7),
-		Array(7),
-		Array(7),
-		Array(7),
-		Array(7)
+		Array(7).fill(null), 
+		Array(7).fill(null),
+		Array(7).fill(null),
+		Array(7).fill(null),
+		Array(7).fill(null),
+		Array(7).fill(null)
 	]
 	
 	let week = 0;
