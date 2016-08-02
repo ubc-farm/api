@@ -1,0 +1,23 @@
+.d-picker {
+	position: absolute;
+}
+
+.d-picker-heading {
+	background: var(--brand-primary);
+	color: white;
+}
+.d-picker-year-input {
+	border: 0;
+	background: transparent;
+	color: inherit;
+	width: 4em;
+	border-bottom: 1px dotted white;
+}
+
+.d-picker-month-title {
+	line-height: 3rem;
+}
+.d-picker-month-button {
+	border: 0;
+	padding: 0.5em;
+}
