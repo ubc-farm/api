@@ -1,10 +1,11 @@
 import {createElement as h, PropTypes} from 'react'; /** @jsx h */
+import {longMonthNames} from '../../ubc-farm-utils/calendar/index.js';
 
 /**
  * Label for the overview, meant to display the month name and 
  * show arrows for moving to the previous and following months.
  */
-const OverviewLabel = ({children, onLeftClick, onRightClick}) => (
+const OverviewLabel = ({date, onLeftClick, onRightClick, showYear}) => (
 	<caption>
 		<button type='button'
 			onClick={onLeftClick}
@@ -13,7 +14,10 @@ const OverviewLabel = ({children, onLeftClick, onRightClick}) => (
 			keyboard_arrow_left
 		</button>
 
-		<h3>{children}</h3>
+		<h3>
+			{longMonthNames[date.getMonth()]}
+			{showYear? ' ' + date.getFullYear() : ''}
+		</h3>
 
 		<button type='button'
 			onClick={onRightClick}
@@ -25,9 +29,10 @@ const OverviewLabel = ({children, onLeftClick, onRightClick}) => (
 );
 
 OverviewLabel.propTypes = {
-	children: PropTypes.node,
+	date: PropTypes.instanceOf(Date).isRequired,
 	onLeftClick: PropTypes.func,
-	onRightClick: PropTypes.func
+	onRightClick: PropTypes.func,
+	showYear: PropTypes.bool
 }
 
 export default OverviewLabel;
