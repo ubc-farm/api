@@ -9,13 +9,8 @@
 	"private": true,
 	"devDependencies": { "rollup": "^0.34.1" },
   "scripts": {
-		"geojson": "rollup -i class/geojson/index.js -o class/geojson.js -f cjs -m",
-		"money": "rollup -i class/money/index.js -o class/money.js -f cjs -m",
-		"calendar": "rollup -i calendar/index.js -o calendar.js -f cjs -m",
-		"classes": "rollup -i class/index.js -o class/index.node.js -f cjs -m",
-		"functions": "rollup -i function/index.js -o function/index.node.js -f cjs -m",
 		"build": "rollup -i index.js -o index.node.js -f cjs -m",
 		"build:es": "rollup -i index.js -o index.es.js -f es -m",
-		"prepublish": "npm run geojson && npm run money && npm run classes && npm run functions && npm run build && npm run build:es"
+		"prepublish": "npm run build && npm run build:es"
 	}
 }

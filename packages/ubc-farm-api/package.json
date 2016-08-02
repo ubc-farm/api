@@ -14,11 +14,13 @@
 	"devDependencies": { 
 		"rollup": "^0.34.1",
 		"rollup-plugin-alias": "^1.2.0",
-		"rollup-plugin-json": "^2.0.1"
+		"rollup-plugin-json": "^2.0.1",
+		"rollup-plugin-node-resolve": "^2.0.0"
 	},
 	"scripts": {
 		"prepublish": "rollup -c",
-		"start": "node index.node.js"
+		"start": "node index.node.js",
+		"quickstart": "npm run prepublish && npm start"
 	},
 	"server": {
 		"port": 3080
