@@ -1,4 +1,4 @@
-import moment from 'moment';
+import * as moment from '../module/moment';
 import {
 	convert, forEach, extend,
 	getAbsoluteRight, getAbsoluteTop, getTarget,
@@ -7,7 +7,7 @@ import {
 import DataSet from '../DataSet.js';
 import DataView from '../DataView.js';
 import validate, {printStyle} from '../shared/Validator.js'
-import Configurator from '../shared/Configurator';
+import Configurator from '../shared/Configurator.js';
 
 import TimeAxis from './component/TimeAxis.js';
 import CurrentTime from './component/CurrentTime.js';
@@ -29,7 +29,7 @@ export default class Timeline extends Core {
 	 * @extends Core
 	 */
 	constructor(container, items, groups, options) {
-		super();
+		super(container);
 
 		// if the third element is options, the forth is groups (optionally);
 		if (!(Array.isArray(groups) 

@@ -4,7 +4,7 @@
 // use this instance. Else, load via commonjs.
 
 import moment from 'moment';
-import {v4} from './uuid.js';
+import {v4} from './module/uuid.js';
 
 import * as option from './util-option.js';
 import * as easing from './util-easing.js';

@@ -1,5 +1,5 @@
 import Emitter from 'emitter-component';
-import Hammer from 'hammer';
+import Hammer from '../module/hammer.js';
 import {
 	disablePreventDefaultVertically,
 	onTouch, onRelease

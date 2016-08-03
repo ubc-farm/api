@@ -1,0 +1,17 @@
+{
+  "name": "vis-timeline",
+  "version": "4.16.1",
+  "description": "A dynamic, browser-based visualization library. Porting Timeline and nessecary dependencies to ES6 for use through rollup",
+  "homepage": "http://visjs.org/",
+  "license": "(Apache-2.0 OR MIT)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/almende/vis.git"
+  },
+  "dependencies": {
+		"hammerjs": "^2.0.6",
+		"propagating-hammerjs": "^1.4.6",
+		"moment": "^2.14.1",
+		"emitter-component": "^1.1.1"
+	}
+}
