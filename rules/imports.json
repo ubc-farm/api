@@ -1,0 +1,34 @@
+{
+	"env": { "es6": true },
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"plugins": ["import"],
+	"settings": {
+		"import/resolver": {
+			"extensions": [".js", ".json"]
+		}
+	},
+	"rules": {
+		"import/no-unresolved": ["error", {"commonjs": true}],
+		"import/named": "error",
+		"import/default": "error",
+		"import/namespace": ["error", {"allowComputed": true}],
+		"import/export": "error",
+		"import/no-named-as-default": "warning",
+		"import/no-named-as-default-member": "error",
+		"import/no-deprecated": "warning",
+		"import/no-extraneous-dependencies": ["error", {
+			"devDependencies": false
+		}],
+		"import/no-mutable-exports": "error",
+		"import/no-commonjs": "error",
+		"import/no-amd": "error",
+		"import/imports-first": ["error", "absolute-first"],
+		"import/no-namespace": "warning",
+		"import/order": "error",
+		"import/newline-after-import": "error",
+		"import/prefer-default-export": "error"
+	}
+}
