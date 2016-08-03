@@ -1,5 +1,5 @@
 import Hammer from '../../module/hammer.js';
-import * as moment from '../../module/moment.js';
+import moment from '../../module/moment.js';
 import * as locales from '../locales.js';
 import {
 	extend, selectiveExtend,

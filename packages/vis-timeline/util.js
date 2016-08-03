@@ -7,9 +7,9 @@ import moment from 'moment';
 import {v4} from './module/uuid.js';
 
 import * as option from './util-option.js';
-import * as easing from './util-easing.js';
+import * as easingFunctions from './util-easing.js';
 
-export {option, easing};
+export {option, easingFunctions};
 
 /**
  * Test whether given object is a number
