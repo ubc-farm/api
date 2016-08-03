@@ -6,7 +6,8 @@ export default {
 		'path', 'rollup', 'hapi', 'inert',
 		'rollup-plugin-buble',
 		'rollup-plugin-commonjs',
-		'rollup-plugin-node-resolve'
+		'rollup-plugin-node-resolve',
+		'rollup-plugin-replace'
 	],
 	plugins: [json()],
 	targets: [
