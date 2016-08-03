@@ -159,7 +159,7 @@ export function v1(options, buf, offset) {
 // **`v4()` - Generate random UUID**
 
 // See https://github.com/broofa/node-uuid for API details
-export default function v4(options, buf, offset) {
+export function v4(options, buf, offset) {
 	// Deprecated - 'format' argument, as supported in v1.2
 	var i = buf && offset || 0;
 
@@ -185,4 +185,4 @@ export default function v4(options, buf, offset) {
 	return buf || unparse(rnds);
 }
 
-export {v4};
+export default v4;

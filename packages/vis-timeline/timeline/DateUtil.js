@@ -296,21 +296,23 @@ export function toScreen(Core, time, width) {
  * @param width
  * @returns {Date}
  */
-exports.toTime = function(Core, x, width) {
+export function toTime(Core, x, width) {
 	if (Core.body.hiddenDates.length == 0) {
 		var conversion = Core.range.conversion(width);
 		return new Date(x / conversion.scale + conversion.offset);
 	}
 	else {
-		var hiddenDuration = exports.getHiddenDurationBetween(Core.body.hiddenDates, Core.range.start, Core.range.end);
+		var hiddenDuration = getHiddenDurationBetween(
+			Core.body.hiddenDates, Core.range.start, Core.range.end);
 		var totalDuration = Core.range.end - Core.range.start - hiddenDuration;
 		var partialDuration = totalDuration * x / width;
-		var accumulatedHiddenDuration = exports.getAccumulatedHiddenDuration(Core.body.hiddenDates, Core.range, partialDuration);
+		var accumulatedHiddenDuration = getAccumulatedHiddenDuration(
+			Core.body.hiddenDates, Core.range, partialDuration);
 
 		var newTime = new Date(accumulatedHiddenDuration + partialDuration + Core.range.start);
 		return newTime;
 	}
-};
+}
 
 
 /**
@@ -320,7 +322,7 @@ exports.toTime = function(Core, x, width) {
  * @param range
  * @returns {number}
  */
-exports.getHiddenDurationBetween = function(hiddenDates, start, end) {
+export function getHiddenDurationBetween(hiddenDates, start, end) {
 	var duration = 0;
 	for (var i = 0; i < hiddenDates.length; i++) {
 		var startDate = hiddenDates[i].start;
@@ -331,7 +333,7 @@ exports.getHiddenDurationBetween = function(hiddenDates, start, end) {
 		}
 	}
 	return duration;
-};
+}
 
 
 /**
@@ -342,13 +344,13 @@ exports.getHiddenDurationBetween = function(hiddenDates, start, end) {
  * @param time
  * @returns {{duration: number, time: *, offset: number}}
  */
-exports.correctTimeForHidden = function(moment, hiddenDates, range, time) {
+export function correctTimeForHidden(moment, hiddenDates, range, time) {
 	time = moment(time).toDate().valueOf();
-	time -= exports.getHiddenDurationBefore(moment, hiddenDates,range,time);
+	time -= getHiddenDurationBefore(moment, hiddenDates,range,time);
 	return time;
-};
+}
 
-exports.getHiddenDurationBefore = function(moment, hiddenDates, range, time) {
+export function getHiddenDurationBefore(moment, hiddenDates, range, time) {
 	var timeOffset = 0;
 	time = moment(time).toDate().valueOf();
 
@@ -373,11 +375,13 @@ exports.getHiddenDurationBefore = function(moment, hiddenDates, range, time) {
  * @param time
  * @returns {{duration: number, time: *, offset: number}}
  */
-exports.getAccumulatedHiddenDuration = function(hiddenDates, range, requiredDuration) {
+export function getAccumulatedHiddenDuration(
+	hiddenDates, range, requiredDuration
+) {
 	var hiddenDuration = 0;
 	var duration = 0;
 	var previousPoint = range.start;
-	//exports.printDates(hiddenDates)
+	
 	for (var i = 0; i < hiddenDates.length; i++) {
 		var startDate = hiddenDates[i].start;
 		var endDate = hiddenDates[i].end;
@@ -395,7 +399,7 @@ exports.getAccumulatedHiddenDuration = function(hiddenDates, range, requiredDura
 	}
 
 	return hiddenDuration;
-};
+}
 
 
 
@@ -407,8 +411,10 @@ exports.getAccumulatedHiddenDuration = function(hiddenDates, range, requiredDura
  * @param correctionEnabled
  * @returns {*}
  */
-exports.snapAwayFromHidden = function(hiddenDates, time, direction, correctionEnabled) {
-	var isHidden = exports.isHidden(time, hiddenDates);
+export function snapAwayFromHidden(
+	hiddenDates, time, direction, correctionEnabled
+) {
+	var isHidden = isHidden(time, hiddenDates);
 	if (isHidden.hidden == true) {
 		if (direction < 0) {
 			if (correctionEnabled == true) {
@@ -441,15 +447,15 @@ exports.snapAwayFromHidden = function(hiddenDates, time, direction, correctionEn
  * @param hiddenDates
  * @returns {{hidden: boolean, startDate: Window.start, endDate: *}}
  */
-exports.isHidden = function(time, hiddenDates) {
+export function isHidden(time, hiddenDates) {
 	for (var i = 0; i < hiddenDates.length; i++) {
 		var startDate = hiddenDates[i].start;
 		var endDate = hiddenDates[i].end;
 
-		if (time >= startDate && time < endDate) { // if the start is entering a hidden zone
-			return {hidden: true, startDate: startDate, endDate: endDate};
-			break;
+		// if the start is entering a hidden zone
+		if (time >= startDate && time < endDate) { 
+			return {hidden: true, startDate, endDate};
 		}
 	}
-	return {hidden: false, startDate: startDate, endDate: endDate};
+	return {hidden: false, startDate, endDate};
 }

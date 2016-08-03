@@ -1,21 +1,21 @@
 import moment from 'moment';
 import {
-	convert, forEach, 
+	convert, forEach, extend,
 	getAbsoluteRight, getAbsoluteTop, getTarget,
 	hasParent
 } from '../util.js';
 import DataSet from '../DataSet.js';
 import DataView from '../DataView.js';
-import Range from './Range.js';
-import Core from './Core.js';
+import validate, {printStyle} from '../shared/Validator.js'
+import Configurator from '../shared/Configurator';
+
 import TimeAxis from './component/TimeAxis.js';
 import CurrentTime from './component/CurrentTime.js';
 import {customTimeFromTarget} from './component/CustomTime.js';
 import ItemSet from './component/ItemSet.js';
-
-import validate, {printStyle} from '../shared/Validator.js'
+import Range from './Range.js';
+import Core from './Core.js';
 import {allOptions, configureOptions} from './optionsTimeline.js';
-import Configurator from '../shared/Configurator';
 
 export default class Timeline extends Core {
 	/**
@@ -39,7 +39,7 @@ export default class Timeline extends Core {
 			[options, groups] = [groups, options];
 		}
 
-		this.options = Object.assign({}, this.defaultOptions);
+		this.options = extend({}, this.defaultOptions);
 
 		// Create the DOM, props, and emitter
 		this._create(container);

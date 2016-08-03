@@ -6,11 +6,11 @@ import {
 } from '../hammerUtil.js';
 import {
 	selectiveExtend, deepExtend, throttle, convert,
-	addClassName, removeClassName, option,
+	addClassName, removeClassName, option, extend,
 	addEventListener, removeEventListener
 } from '../util.js';
-import TimeAxis from './component/TimeAxis.js';
 import Activator from '../shared/Activator.js';
+import TimeAxis from './component/TimeAxis.js';
 import {
 	toTime, updateHiddenDates, toScreen
 } from './DateUtil.js'
@@ -238,7 +238,7 @@ export default class Core {
 				if (!this.timeAxis2) {
 					var timeAxis2 = this.timeAxis2 = new TimeAxis(this.body);
 					timeAxis2.setOptions = function (options) {
-						var _options = options ? Object.assign({}, options) : {};
+						var _options = options ? extend({}, options) : {};
 						_options.orientation = 'top'; // override the orientation option, always top
 						TimeAxis.prototype.setOptions.call(timeAxis2, _options);
 					};
@@ -439,7 +439,7 @@ export default class Core {
 		
 		const customTime = new CustomTime(
 			this.body, 
-			Object.assign({}, this.options, {time, id})
+			extend({}, this.options, {time, id})
 		);
 
 		this.customTimes.push(customTime);
