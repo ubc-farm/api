@@ -9,10 +9,6 @@ import {
 	addClassName, removeClassName, option,
 	addEventListener, removeEventListener
 } from '../util.js';
-import DataSet from '../DataSet.js';
-import DataView from '../DataView.js';
-import Range from './Range.js';
-import ItemSet from './component/ItemSet.js';
 import TimeAxis from './component/TimeAxis.js';
 import Activator from '../shared/Activator.js';
 import {
