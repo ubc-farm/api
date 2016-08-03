@@ -6,7 +6,8 @@ import {
 } from '../hammerUtil.js';
 import {
 	selectiveExtend, deepExtend, throttle, convert,
-	addClassName, removeClassName, option
+	addClassName, removeClassName, option,
+	addEventListener, removeEventListener
 } from '../util.js';
 import DataSet from '../DataSet.js';
 import DataView from '../DataView.js';
@@ -586,7 +587,7 @@ export default class Core {
 
 	/**
 	 * Redraw for internal use. Redraws all components. See also the public
-   * method redraw.
+	 * method redraw.
 	 * @protected
 	 */
 	_redraw() {
@@ -861,6 +862,158 @@ export default class Core {
 			this._startAutoResize();
 		else 
 			this._stopAutoResize();
+	}
+
+	/**
+	 * Watch for changes in the size of the container. On resize, the Panel will
+	 * automatically redraw itself.
+	 * @private
+	 */
+	_startAutoResize() {
+		this._stopAutoResize();
+		this._onResize = () => {
+			if (!this.options.autoResize) {
+				// stop watching when the option autoResize is changed to false
+				this._stopAutoResize();
+				return;
+			}
+
+			if (this.dom.root) {
+				// check whether the frame is resized
+				// Note: we compare offsetWidth here, not clientWidth. For some reason,
+				// IE does not restore the clientWidth from 0 to the actual width after
+				// changing the timeline's container display style from none to visible
+				if ((this.dom.root.offsetWidth != this.props.lastWidth) ||
+					(this.dom.root.offsetHeight != this.props.lastHeight)) {
+					this.props.lastWidth = this.dom.root.offsetWidth;
+					this.props.lastHeight = this.dom.root.offsetHeight;
+
+					this.body.emitter.emit('_change');
+				}
+			}
+		}
+
+		// add event listener to window resize
+		addEventListener(window, 'resize', this._onResize);
+
+		//Prevent initial unnecessary redraw
+		if (this.dom.root) {
+			this.props.lastWidth = this.dom.root.offsetWidth;
+			this.props.lastHeight = this.dom.root.offsetHeight;
+		}
+
+		this.watchTimer = setInterval(this._onResize, 1000);
+	}
+
+	/**
+	 * Stop watching for a resize of the frame.
+	 * @privae
+	 */
+	_stopAutoResize() {
+		if (this.watchTimer) {
+			clearInterval(this.watchTimer);
+			this.watchTimer = undefined;
+		}
+
+		// remove event listener on window.resize
+		if (this._onResize) {
+			removeEventListener(window, 'resize', this._onResize);
+			this._onResize = null;
+		}
+	}
+
+	/**
+	 * Start moving the timeline vertically
+	 * @param {Event} event
+	 * @private
+	 */
+	_onTouch() {
+		this.touch.allowDragging = true;
+		this.touch.initialScrollTop = this.props.scrollTop;
+	}
+
+	/**
+	 * Start moving the timeline vertically
+	 * @param {Event} event
+	 * @private
+	 */
+	_onPinch() {
+		this.touch.allowDragging = false;
+	}
+
+	/**
+	 * Move the timeline vertically
+	 * @param {Event} event
+	 * @private
+	 */
+	_onDrag(event) {
+		// refuse to drag when we where pinching to prevent the timeline make a jump
+		// when releasing the fingers in opposite order from the touch screen
+		if (!this.touch.allowDragging) return;
+
+		var delta = event.deltaY;
+
+		var oldScrollTop = this._getScrollTop();
+		var newScrollTop = this._setScrollTop(this.touch.initialScrollTop + delta);
+
+
+		if (newScrollTop != oldScrollTop) {
+			this.emit('verticalDrag');
+		}
+	}
+
+	/**
+	 * Apply a scrollTop
+	 * @param {Number} scrollTop
+	 * @returns {Number} scrollTop  Returns the applied scrollTop
+	 * @private
+	 */
+	_setScrollTop(scrollTop) {
+		this.props.scrollTop = scrollTop;
+		this._updateScrollTop();
+		return this.props.scrollTop;
+	}
+
+	/**
+	 * Update the current scrollTop when the height of  the containers has been changed
+	 * @returns {Number} scrollTop  Returns the applied scrollTop
+	 * @private
+	 */
+	_updateScrollTop() {
+		// recalculate the scrollTopMin
+		var scrollTopMin = Math.min(this.props.centerContainer.height - this.props.center.height, 0); // is negative or zero
+		if (scrollTopMin != this.props.scrollTopMin) {
+			// in case of bottom orientation, change the scrollTop such that the contents
+			// do not move relative to the time axis at the bottom
+			if (this.options.orientation.item != 'top') {
+				this.props.scrollTop += (scrollTopMin - this.props.scrollTopMin);
+			}
+			this.props.scrollTopMin = scrollTopMin;
+		}
+
+		// limit the scrollTop to the feasible scroll range
+		if (this.props.scrollTop > 0) this.props.scrollTop = 0;
+		if (this.props.scrollTop < scrollTopMin) this.props.scrollTop = scrollTopMin;
+
+		return this.props.scrollTop;
+	}
+
+	/**
+	 * Get the current scrollTop
+	 * @returns {number} scrollTop
+	 * @private
+	 */
+	_getScrollTop() {
+		return this.props.scrollTop;
+	}
+
+	/**
+	 * Load a configurator
+	 * @return {Object}
+	 * @private
+	 */
+	_createConfigurator() {
+		throw new Error('Cannot invoke abstract method _createConfigurator');
 	}
 }
 
