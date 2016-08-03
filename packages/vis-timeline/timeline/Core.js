@@ -12,7 +12,8 @@ import {
 import Activator from '../shared/Activator.js';
 import TimeAxis from './component/TimeAxis.js';
 import {
-	toTime, updateHiddenDates, toScreen
+	toTime, updateHiddenDates, toScreen,
+	convertHiddenOptions
 } from './DateUtil.js'
 import CustomTime from './component/CustomTime.js'
 
@@ -259,12 +260,12 @@ export default class Core {
 			// if the graph2d's drawPoints is a function delegate the callback to the onRender property
 			if (typeof options.drawPoints == 'function') {
 				options.drawPoints = {
-						onRender: options.drawPoints
+					onRender: options.drawPoints
 				};
 			}
 
 			if ('hiddenDates' in this.options) {
-				DateUtil.convertHiddenOptions(this.options.moment, this.body, this.options.hiddenDates);
+				convertHiddenOptions(this.options.moment, this.body, this.options.hiddenDates);
 			}
 
 			if ('clickToUse' in options) {

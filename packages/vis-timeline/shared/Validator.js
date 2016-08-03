@@ -21,7 +21,7 @@ export default function validate(options, referenceOptions, subObject) {
 	return errorFound;
 }
 
-export {validate};
+//export {validate};
 
 /**
  * Will traverse an object recursively and check every value
