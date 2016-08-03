@@ -14,7 +14,9 @@ import Range from './Range.js';
 import ItemSet from './component/ItemSet.js';
 import TimeAxis from './component/TimeAxis.js';
 import Activator from '../shared/Activator.js';
-import * as DateUtil from './DateUtil.js'
+import {
+	toTime, updateHiddenDates, toScreen
+} from './DateUtil.js'
 import CustomTime from './component/CustomTime.js'
 
 /**
@@ -594,29 +596,32 @@ export default class Core {
 		var props = this.props;
 		var dom = this.dom;
 
-		if (!dom || !dom.container || dom.root.offsetWidth == 0) return; // when destroyed, or invisible
+		// when destroyed, or invisible
+		if (!dom || !dom.container || dom.root.offsetWidth == 0) return; 
 
-		DateUtil.updateHiddenDates(this.options.moment, this.body, this.options.hiddenDates);
+		updateHiddenDates(this.options.moment, this.body, this.options.hiddenDates);
 
 		// update class names
 		if (options.orientation == 'top') {
-			util.addClassName(dom.root, 'vis-top');
-			util.removeClassName(dom.root, 'vis-bottom');
+			addClassName(dom.root, 'vis-top');
+			removeClassName(dom.root, 'vis-bottom');
 		}
 		else {
-			util.removeClassName(dom.root, 'vis-top');
-			util.addClassName(dom.root, 'vis-bottom');
+			removeClassName(dom.root, 'vis-top');
+			addClassName(dom.root, 'vis-bottom');
 		}
 
 		// update root width and height options
-		dom.root.style.maxHeight = util.option.asSize(options.maxHeight, '');
-		dom.root.style.minHeight = util.option.asSize(options.minHeight, '');
-		dom.root.style.width = util.option.asSize(options.width, '');
+		dom.root.style.maxHeight = option.asSize(options.maxHeight, '');
+		dom.root.style.minHeight = option.asSize(options.minHeight, '');
+		dom.root.style.width = option.asSize(options.width, '');
 
 		// calculate border widths
-		props.border.left   = (dom.centerContainer.offsetWidth - dom.centerContainer.clientWidth) / 2;
+		props.border.left   = 
+			(dom.centerContainer.offsetWidth - dom.centerContainer.clientWidth) / 2;
 		props.border.right  = props.border.left;
-		props.border.top    = (dom.centerContainer.offsetHeight - dom.centerContainer.clientHeight) / 2;
+		props.border.top    = 
+			(dom.centerContainer.offsetHeight - dom.centerContainer.clientHeight) / 2;
 		props.border.bottom = props.border.top;
 		var borderRootHeight= dom.root.offsetHeight - dom.root.clientHeight;
 		var borderRootWidth = dom.root.offsetWidth - dom.root.clientWidth;
@@ -631,7 +636,8 @@ export default class Core {
 			borderRootWidth = borderRootHeight;
 		}
 
-		// calculate the heights. If any of the side panels is empty, we set the height to
+		// calculate the heights. If any of the side panels is empty, 
+		// we set the height to
 		// minus the border width, such that the border will be invisible
 		props.center.height = dom.center.offsetHeight;
 		props.left.height   = dom.left.offsetHeight;
@@ -642,17 +648,19 @@ export default class Core {
 		// TODO: compensate borders when any of the panels is empty.
 
 		// apply auto height
-		// TODO: only calculate autoHeight when needed (else we cause an extra reflow/repaint of the DOM)
-		var contentHeight = Math.max(props.left.height, props.center.height, props.right.height);
+		// TODO: only calculate autoHeight when needed 
+		// (else we cause an extra reflow/repaint of the DOM)
+		var contentHeight = 
+			Math.max(props.left.height, props.center.height, props.right.height);
 		var autoHeight = props.top.height + contentHeight + props.bottom.height +
 			borderRootHeight + props.border.top + props.border.bottom;
-		dom.root.style.height = util.option.asSize(options.height, autoHeight + 'px');
+		dom.root.style.height = option.asSize(options.height, autoHeight + 'px');
 
 		// calculate heights of the content panels
 		props.root.height = dom.root.offsetHeight;
 		props.background.height = props.root.height - borderRootHeight;
-		var containerHeight = props.root.height - props.top.height - props.bottom.height -
-			borderRootHeight;
+		var containerHeight = props.root.height - props.top.height 
+			- props.bottom.height -	borderRootHeight;
 		props.centerContainer.height  = containerHeight;
 		props.leftContainer.height    = containerHeight;
 		props.rightContainer.height   = props.leftContainer.height;
@@ -664,7 +672,8 @@ export default class Core {
 		props.leftContainer.width = props.left.width;
 		props.right.width = dom.rightContainer.clientWidth || -props.border.right;
 		props.rightContainer.width = props.right.width;
-		var centerWidth = props.root.width - props.left.width - props.right.width - borderRootWidth;
+		var centerWidth = props.root.width - props.left.width 
+			- props.right.width - borderRootWidth;
 		props.center.width          = centerWidth;
 		props.centerContainer.width = centerWidth;
 		props.top.width             = centerWidth;
@@ -688,7 +697,8 @@ export default class Core {
 		// reposition the panels
 		dom.background.style.left           = '0';
 		dom.background.style.top            = '0';
-		dom.backgroundVertical.style.left   = (props.left.width + props.border.left) + 'px';
+		dom.backgroundVertical.style.left   =
+			(props.left.width + props.border.left) + 'px';
 		dom.backgroundVertical.style.top    = '0';
 		dom.backgroundHorizontal.style.left = '0';
 		dom.backgroundHorizontal.style.top  = props.top.height + 'px';
@@ -696,12 +706,14 @@ export default class Core {
 		dom.centerContainer.style.top       = props.top.height + 'px';
 		dom.leftContainer.style.left        = '0';
 		dom.leftContainer.style.top         = props.top.height + 'px';
-		dom.rightContainer.style.left       = (props.left.width + props.center.width) + 'px';
+		dom.rightContainer.style.left = 
+			(props.left.width + props.center.width) + 'px';
 		dom.rightContainer.style.top        = props.top.height + 'px';
 		dom.top.style.left                  = props.left.width + 'px';
 		dom.top.style.top                   = '0';
 		dom.bottom.style.left               = props.left.width + 'px';
-		dom.bottom.style.top                = (props.top.height + props.centerContainer.height) + 'px';
+		dom.bottom.style.top                = 
+			(props.top.height + props.centerContainer.height) + 'px';
 
 		// update the scrollTop, feasible range for the offset can be changed
 		// when the height of the Core or of the contents of the center changed
@@ -710,7 +722,8 @@ export default class Core {
 		// reposition the scrollable contents
 		var offset = this.props.scrollTop;
 		if (options.orientation.item != 'top') {
-			offset += Math.max(this.props.centerContainer.height - this.props.center.height -
+			offset += Math.max(
+				this.props.centerContainer.height - this.props.center.height -
 				this.props.border.top - this.props.border.bottom, 0);
 		}
 		dom.center.style.left = '0';
@@ -722,7 +735,8 @@ export default class Core {
 
 		// show shadows when vertical scrolling is available
 		var visibilityTop = this.props.scrollTop == 0 ? 'hidden' : '';
-		var visibilityBottom = this.props.scrollTop == this.props.scrollTopMin ? 'hidden' : '';
+		var visibilityBottom = this.props.scrollTop == 
+			this.props.scrollTopMin ? 'hidden' : '';
 		dom.shadowTop.style.visibility          = visibilityTop;
 		dom.shadowBottom.style.visibility       = visibilityBottom;
 		dom.shadowTopLeft.style.visibility      = visibilityTop;
@@ -731,9 +745,11 @@ export default class Core {
 		dom.shadowBottomRight.style.visibility  = visibilityBottom;
 
 		// enable/disable vertical panning
-		var contentsOverflow = this.props.center.height > this.props.centerContainer.height;
+		var contentsOverflow = 
+			this.props.center.height > this.props.centerContainer.height;
 		this.hammer.get('pan').set({
-			direction: contentsOverflow ? Hammer.DIRECTION_ALL : Hammer.DIRECTION_HORIZONTAL
+			direction: contentsOverflow 
+				? Hammer.DIRECTION_ALL : Hammer.DIRECTION_HORIZONTAL
 		});
 
 		// redraw all components
@@ -747,7 +763,7 @@ export default class Core {
 				return;
 			}
 			else {
-				console.log('WARNING: infinite loop in redraw?');
+				console.log('WARNING: infinite loop in redraw?'); 
 			}
 		} else {
 			this.redrawCount = 0;
@@ -755,7 +771,96 @@ export default class Core {
 		this.initialDrawDone = true;
 
 		//Emit public 'changed' event for UI updates, see issue #1592
-		this.body.emitter.emit("changed");
+		this.body.emitter.emit('changed');
+	}
+
+	/**
+	 * Set a current time. This can be used for example to ensure that a client's
+	 * time is synchronized with a shared server time.
+	 * Only applicable when option `showCurrentTime` is true.
+	 * @param {Date | String | Number} time     A Date, unix timestamp, or
+	 *                                          ISO date string.
+	 */
+	setCurrentTime(time) {
+		if (!this.currentTime) 
+			throw new Error('Option showCurrentTime must be true');
+
+		this.currentTime.setCurrentTime(time);
+	}
+
+	/**
+	 * Get the current time.
+	 * Only applicable when option `showCurrentTime` is true.
+	 * @return {Date} Returns the current time.
+	 */
+	getCurrentTime() {
+		if (!this.currentTime) 
+			throw new Error('Option showCurrentTime must be true');
+
+		return this.currentTime.getCurrentTime();
+	}
+
+	/**
+	 * Convert a position on screen (pixels) to a datetime
+	 * @param {int}     x    Position on the screen in pixels
+	 * @return {Date}   time The datetime the corresponds with given position x
+	 * @protected
+	 * @todo Move this function to range
+	 */
+	_toTime(x) {
+		return toTime(this, x, this.props.center.width);
+	}
+
+	/**
+	 * Convert a position on the global screen (pixels) to a datetime
+	 * @param {int}     x    Position on the screen in pixels
+	 * @return {Date}   time The datetime the corresponds with given position x
+	 * @protected
+	 */
+	// TODO: move this function to Range
+	_toGlobalTime(x) {
+		return toTime(this, x, this.props.root.width);
+		//var conversion = this.range.conversion(this.props.root.width);
+		//return new Date(x / conversion.scale + conversion.offset);
+	}
+
+	/**
+	 * Convert a datetime (Date object) into a position on the screen
+	 * @param {Date}   time A date
+	 * @return {int}   x    The position on the screen in pixels which corresponds
+	 *                      with the given date.
+	 * @protected
+	 */
+	// TODO: move this function to Range
+	_toScreen(time) {
+		return toScreen(this, time, this.props.center.width);
+	}
+
+	/**
+	 * Convert a datetime (Date object) into a position on the root
+	 * This is used to get the pixel density estimate for the screen, not the center panel
+	 * @param {Date}   time A date
+	 * @return {int}   x    The position on root in pixels which corresponds
+	 *                      with the given date.
+	 * @protected
+	 */
+	// TODO: move this function to Range
+	_toGlobalScreen(time) {
+		return toScreen(this, time, this.props.root.width);
+		//var conversion = this.range.conversion(this.props.root.width);
+		//return (time.valueOf() - conversion.offset) * conversion.scale;
+	}
+
+
+	/**
+	 * Initialize watching when option autoResize is true
+	 * @private
+	 */
+	_initAutoResize () {
+		if (this.options.autoResize == true) 
+			this._startAutoResize();
+		else 
+			this._stopAutoResize();
 	}
 }
 
