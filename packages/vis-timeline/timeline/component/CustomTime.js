@@ -5,13 +5,13 @@ import {
 	extend, selectiveExtend,
 	convert
 } from '../../util.js';
-import Component from './Component.js';
+import TimelineComponent from './Component.js';
 
 /**
  * A custom time bar
  * @extends Component
  */
-export default class CustomTime extends Component {
+export default class CustomTime extends TimelineComponent {
 	constructor(body, options) {
 		super(body, options);
 		this.body = body;

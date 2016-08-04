@@ -8,7 +8,7 @@ export default class Component {
 	 * @param {{dom: Object, domProps: Object, emitter: Emitter, range: Range}} [body]
  	 * @param {Object} [options]
 	 */
-	constructor(body, options) {
+	constructor() {//(body, options) {
 		this.options = null;
 		this.props = null;
 	}

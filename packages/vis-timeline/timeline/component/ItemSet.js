@@ -11,7 +11,7 @@ import TimeStep from '../TimeStep.js';
 import TimelineComponent from './Component.js';
 import Group from './Group.js';
 import BackgroundGroup from './BackgroundGroup.js';
-import BoxItem from './item/BoxItem.js';
+import BoxItem from './item/BoxItem.js'; 
 import PointItem from './item/PointItem.js';
 import RangeItem from './item/RangeItem.js';
 import BackgroundItem from './item/BackgroundItem.js';
@@ -524,7 +524,7 @@ export default class ItemSet extends TimelineComponent {
 	redraw() {
 		var margin = this.options.margin,
 			range = this.body.range,
-			asSize = asSize,
+			//asSize = asSize,
 			options = this.options,
 			orientation = options.orientation.item,
 			resized = false,

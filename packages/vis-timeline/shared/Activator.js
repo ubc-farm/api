@@ -1,5 +1,5 @@
-import keycharm from 'keycharm';
-import Emitter from 'emitter-component';
+import Emitter from '../module/emitter-component.js';
+import keycharm from '../module/keycharm.js';
 import Hammer from '../module/hammer.js';
 import {addClassName, removeClassName} from '../util.js';
 
