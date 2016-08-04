@@ -3,7 +3,6 @@ import {
 	getAbsoluteRight, getAbsoluteTop, getAbsoluteLeft,
 	easingFunctions
 } from '../util.js';
-import {} from '../hammerUtil.js';
 import * as moment from '../module/moment.js';
 import Component from './component/Component.js';
 import {

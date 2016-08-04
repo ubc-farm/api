@@ -140,7 +140,7 @@ export default class DataSet {
 		}
 
 		subscribers.push({
-			callback: callback
+			callback
 		});
 	}
 
@@ -198,8 +198,8 @@ export default class DataSet {
 	 */
 	add(data, senderId) {
 		var addedIds = [],
-				id,
-				me = this;
+			id,
+			me = this;
 
 		if (Array.isArray(data)) {
 			// Array
@@ -276,7 +276,7 @@ export default class DataSet {
 			this._trigger('add', {items: addedIds}, senderId);
 		}
 		if (updatedIds.length) {
-			var props = { items: updatedIds, oldData: oldData, data: updatedData }
+			var props = { items: updatedIds, oldData, data: updatedData }
 			// TODO: remove deprecated property 'data' some day
 			//Object.defineProperty(props, 'data', {
 			//  'get': (function() {
@@ -401,7 +401,7 @@ export default class DataSet {
 		// return the results
 		if (returnType == 'Object') {
 			var result = {},
-					resultant;
+				resultant;
 			for (i = 0, len = items.length; i < len; i++) {
 				resultant = items[i];
 				result[resultant.id] = resultant;
@@ -430,16 +430,16 @@ export default class DataSet {
 	 */
 	getIds(options) {
 		var data = this._data,
-				filter = options && options.filter,
-				order = options && options.order,
-				type = options && options.type || this._options.type,
-				itemIds = Object.keys(data),
-				i,
-				len,
-				id,
-				item,
-				items,
-				ids = [];
+			filter = options && options.filter,
+			order = options && options.order,
+			type = options && options.type || this._options.type,
+			itemIds = Object.keys(data),
+			i,
+			len,
+			id,
+			item,
+			items,
+			ids = [];
 
 		if (filter) {
 			// get filtered items
@@ -520,13 +520,13 @@ export default class DataSet {
 	 */
 	forEach(callback, options) {
 		var filter = options && options.filter,
-				type = options && options.type || this._options.type,
-				data = this._data,
-				itemIds = Object.keys(data),
-				i,
-				len,
-				item,
-				id;
+			type = options && options.type || this._options.type,
+			data = this._data,
+			itemIds = Object.keys(data),
+			i,
+			len,
+			item,
+			id;
 
 		if (options && options.order) {
 			// execute forEach on ordered list
@@ -563,14 +563,14 @@ export default class DataSet {
 	 */
 	map(callback, options) {
 		var filter = options && options.filter,
-				type = options && options.type || this._options.type,
-				mappedItems = [],
-				data = this._data,
-				itemIds = Object.keys(data),
-				i,
-				len,
-				id,
-				item;
+			type = options && options.type || this._options.type,
+			mappedItems = [],
+			data = this._data,
+			itemIds = Object.keys(data),
+			i,
+			len,
+			id,
+			item;
 
 		// convert and filter items
 		for (i = 0, len = itemIds.length; i < len; i++) {
@@ -602,10 +602,10 @@ export default class DataSet {
 		}
 
 		var filteredItem = {},
-				itemFields = Object.keys(item),
-				len = itemFields.length,
-				i,
-				field;
+			itemFields = Object.keys(item),
+			len = itemFields.length,
+			i,
+			field;
 
 		if(Array.isArray(fields)){
 			for (i = 0; i < len; i++) {
@@ -662,7 +662,7 @@ export default class DataSet {
 	 */
 	remove(id, senderId) {
 		var removedIds = [],
-				i, len, removedId;
+			i, len, removedId;
 
 		if (Array.isArray(id)) {
 			for (i = 0, len = id.length; i < len; i++) {
@@ -734,11 +734,11 @@ export default class DataSet {
 	 */
 	max(field) {
 		var data = this._data,
-				itemIds = Object.keys(data),
-				max = null,
-				maxField = null,
-				i,
-				len;
+			itemIds = Object.keys(data),
+			max = null,
+			maxField = null,
+			i,
+			len;
 
 		for (i = 0, len = itemIds.length; i < len; i++) {
 			var id = itemIds[i];
@@ -760,11 +760,11 @@ export default class DataSet {
 	 */
 	min(field) {
 		var data = this._data,
-				itemIds = Object.keys(data),
-				min = null,
-				minField = null,
-				i,
-				len;
+			itemIds = Object.keys(data),
+			min = null,
+			minField = null,
+			i,
+			len;
 
 		for (i = 0, len = itemIds.length; i < len; i++) {
 			var id = itemIds[i];
@@ -793,8 +793,8 @@ export default class DataSet {
 		var fieldType = this._options.type && this._options.type[field] || null;
 		var count = 0;
 		var i,
-				j,
-				len;
+			j,
+			len;
 
 		for (i = 0, len = itemIds.length; i < len; i++) {
 			var id = itemIds[i];
@@ -845,9 +845,9 @@ export default class DataSet {
 		}
 
 		var d = {},
-				fields = Object.keys(item),
-				i,
-				len;
+			fields = Object.keys(item),
+			i,
+			len;
 		for (i = 0, len = fields.length; i < len; i++) {
 			var field = fields[i];
 			var fieldType = this._type[field];  // type may be undefined
@@ -877,7 +877,7 @@ export default class DataSet {
 
 		// convert the items field types
 		var converted = {},
-				fields = Object.keys(raw);
+			fields = Object.keys(raw);
 
 		if (types) {
 			for (i = 0, len = fields.length; i < len; i++) {

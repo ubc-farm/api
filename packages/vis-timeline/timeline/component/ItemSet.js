@@ -41,7 +41,7 @@ export default class ItemSet extends TimelineComponent {
 			},
 			align: 'auto', // alignment of box items
 			stack: true,
-			groupOrderSwap(fromGroup, toGroup, groups) {
+			groupOrderSwap(fromGroup, toGroup) {
 				var targetOrder = toGroup.order;
 				toGroup.order = fromGroup.order;
 				fromGroup.order = targetOrder;
@@ -117,34 +117,21 @@ export default class ItemSet extends TimelineComponent {
 		this.props = {}
 		this.hammer = null;
 
-		var me = this;
 		this.itemsData = null;    // DataSet
 		this.groupsData = null;   // DataSet
 
 		// listeners for the DataSet of the items
 		this.itemListeners = {
-			'add': function (event, params, senderId) {
-				me._onAdd(params.items);
-			},
-			'update': function (event, params, senderId) {
-				me._onUpdate(params.items);
-			},
-			'remove': function (event, params, senderId) {
-				me._onRemove(params.items);
-			}
+			'add': (event, {items}) => {this._onAdd(items)},
+			'update': (event, {items}) => {this._onUpdate(items)},
+			'remove': (event, {items}) => {this._onRemove(items)}
 		}
 
 		// listeners for the DataSet of the groups
 		this.groupListeners = {
-			'add': function (event, params, senderId) {
-				me._onAddGroups(params.items);
-			},
-			'update': function (event, params, senderId) {
-				me._onUpdateGroups(params.items);
-			},
-			'remove': function (event, params, senderId) {
-				me._onRemoveGroups(params.items);
-			}
+			'add': (event, {items}) => {this._onAddGroups(items)},
+			'update': (event, {items}) => {this._onUpdateGroups(items)},
+			'remove': (event, {items}) => {this._onRemoveGroups(items)}
 		}
 
 		this.items = {}      // object with an Item for every data item
