@@ -1,5 +1,5 @@
 import json from 'rollup-plugin-json';
-import buble from 'rollup-plugin-buble';
+import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
@@ -33,9 +33,8 @@ export const server = Object.assign({}, base, {
 
 export const browser = Object.assign({}, base, {
 	plugins: [
-		buble({
-			target: {chrome: 50},
-			jsx: 'h'
+		babel({
+			plugins: ['transform-react-jsx', 'external-helpers-2']
 		}),
 		nodeResolve({
 			module: true,

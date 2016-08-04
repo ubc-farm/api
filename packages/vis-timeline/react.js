@@ -1,5 +1,3 @@
-import vis from 'vis'
-import 'vis/dist/vis.css'
 import React, { Component, PropTypes } from 'react'
 import {
 	difference,
@@ -9,6 +7,9 @@ import {
 	omit,
 	keys
 } from 'lodash-es';
+import VisTimeline from './src/timeline/Timeline.js';
+import DataSet from './src/DataSet.js';
+//import 'vis/dist/vis.css'
 
 const noop = function() {}
 const events = [
@@ -82,7 +83,7 @@ export default class Timeline extends Component {
 			animate = true,
 		} = this.props
 
-		const timelineItems = new vis.DataSet(items)
+		const timelineItems = new DataSet(items)
 		const timelineExists = !!$el
 
 		if (timelineExists) {
@@ -100,7 +101,7 @@ export default class Timeline extends Component {
 			$el.setOptions(updatedOptions)
 
 		} else {
-			$el = this.TimelineElement = new vis.Timeline(container, timelineItems, options)
+			$el = this.TimelineElement = new VisTimeline(container, timelineItems, options)
 
 			events.forEach(event => {
 				$el.on(event, this.props[`${event}Handler`])
