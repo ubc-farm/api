@@ -11,5 +11,10 @@
   "dependencies": {
 		"hammerjs": "^2.0.6",
 		"moment": "^2.14.1"
-	}
+	},
+  "devDependencies": {
+    "rollup": "^0.34.3",
+    "rollup-plugin-node-resolve": "^2.0.0",
+		"rollup-plugin-commonjs": "^3.3.1"
+  }
 }

@@ -213,7 +213,7 @@ export default class DataView {
 			}
 
 			ids = this._data.getIds({
-				filter: filter,
+				filter,
 				order: options && options.order
 			});
 		}
@@ -256,7 +256,7 @@ export default class DataView {
 			}
 
 			mappedItems = this._data.map(callback,{
-				filter: filter,
+				filter,
 				order: options && options.order
 			});
 		}
