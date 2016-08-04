@@ -14,6 +14,7 @@
   "devDependencies": {
     "cssnano-cli": "^1.0.4",
     "h2o2": "^5.1.0",
+    "hammerjs": "^2.0.8",
     "handlebars": "^4.0.5",
     "hapi": "^13.5.0",
     "inert": "^4.0.1",

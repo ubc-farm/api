@@ -3,7 +3,7 @@ import commonjs from 'rollup-plugin-commonjs';
 
 export default {
 	entry: 'index.js',
-	external: ['moment', 'hammerjs'],
+	external: ['moment'],
 	plugins: [
 		nodeResolve({jsnext: true, browser: true}),
 		commonjs()
