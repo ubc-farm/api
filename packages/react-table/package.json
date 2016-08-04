@@ -9,7 +9,7 @@
 	"jsnext:main": "index.es.js",
 	"private": true,
 	"dependencies": {
-		"react": "^15.2.1"
+		"react": "^15.3.0"
 	},
 	"devDependencies": { 
 		"rollup": "^0.34.1",

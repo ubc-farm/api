@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-api",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "API server and routes",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
