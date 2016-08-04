@@ -1,13 +1,19 @@
 import commonjs from 'rollup-plugin-commonjs';
+import base from '../../rollup.default.config.js';
 
-export default {
-	entry: 'index.js',
-	external: ['knex', 'objection', 'pg'],
-	plugins: [
-		commonjs()
+export default Object.assign({}, base, {
+	external: [
+		//...base.external,
+		'knex', 'pg', 'objection'
 	],
-	targets: [
-		{ dest: 'index.node.js', format: 'cjs' },
-		{ dest: 'index.es.js', format: 'es' }
+	plugins: [
+		//...base.plugins,
+		commonjs({
+			include: [
+				'_migrations/**',
+				'_seeds/**',
+				'knexfile.js'
+			]
+		})
 	]
-};
+});

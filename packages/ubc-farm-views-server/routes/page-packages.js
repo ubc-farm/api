@@ -33,3 +33,19 @@ export const calendar = {
 		}
 	}
 }
+
+export const planner = {
+	method: 'GET',
+	path: '/calendar/planner',
+	handler: {
+		view: {
+			template: 'ubc-farm-page-planner/view.html',
+			context: {
+				breadcrumbs: [
+					{title: 'Calendar', href: '/calendar'},
+					{title: 'Planner', href: '#'}
+				]
+			}
+		}
+	}
+}

@@ -75,6 +75,25 @@ export const tableFiles = {
 	}
 }
 
+import plannerConfig from '../../ubc-farm-page-planner/rollup.config.js';
+export const planner = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-planner.js',
+	handler: {
+		package: Object.assign({}, plannerConfig, {
+			entry: 'ubc-farm-page-planner/index.js'
+		})
+	}
+}
+
+export const plannerFiles = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-planner/{param*}',
+	handler: {
+		directory: { path: 'ubc-farm-page-planner' }
+	}
+}
+
 export const utils = {
 	method: 'GET',
 	path: '/packages/ubc-farm-utils.js',

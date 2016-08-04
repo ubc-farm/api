@@ -1981,3 +1981,4 @@ exports.Seeding = Seeding;
 exports.SoilSampling = SoilSampling;
 exports.Event = Event;
 exports.Task = Task$1;
+//# sourceMappingURL=index.node.js.map

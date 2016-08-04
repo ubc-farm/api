@@ -8,6 +8,7 @@
 		"eslint:recommended", 
 		"./rules/errors.json",
 		"./rules/es6.json",
+		"./rules/imports.json",
 		"./rules/modules.json",
 		"./rules/node.json",
 		"./rules/react.json",
