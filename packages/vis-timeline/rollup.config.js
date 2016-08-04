@@ -9,6 +9,7 @@ export default {
 		commonjs()
 	],
 	sourceMap: true,
+	moduleName: 'Timeline',
 	targets: [
 		{ dest: 'index.es.js', format: 'es' },
 		{ dest: 'index.iife.js', format: 'iife' }
