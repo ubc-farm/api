@@ -9,8 +9,6 @@
 	"private": true,
 	"devDependencies": { "rollup": "^0.34.1" },
   "scripts": {
-		"build": "rollup -i index.js -o index.node.js -f cjs -m",
-		"build:es": "rollup -i index.js -o index.es.js -f es -m",
-		"prepublish": "npm run build && npm run build:es"
+		"prepublish": "rollup -c"
 	}
 }
