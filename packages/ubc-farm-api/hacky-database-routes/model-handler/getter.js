@@ -1,9 +1,13 @@
-import {transformReply, arrayToObjectMap, removeNullandUndef} from './utils.js';
+import {
+	transformReply, getBooleanQuery,
+	arrayToObjectMap, removeNullandUndef
+} from './utils.js';
 
 export default function getter(route, options) {
 	const Model = options.model;
 	return function(request, reply) {
-		const {params: {id, property}} = request;
+		const {id, property} = request.params;
+		let {array, clean = true} = getBooleanQuery(request.query);
 
 		let query = Model.query();
 		if (id) {
@@ -14,9 +18,10 @@ export default function getter(route, options) {
 					else return item;
 				});
 		} else {
-			query = query
-				.then(list => arrayToObjectMap(list, Model.idColumn))
-				.then(json => removeNullandUndef(json));
+			if (!array) 
+				query = query.then(list => arrayToObjectMap(list, Model.idColumn));
+			if (clean) 
+				query = query.then(data => removeNullandUndef(data));
 		} 
 
 		return transformReply(query, request, reply);
