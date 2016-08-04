@@ -1,4 +1,5 @@
-import {createElement as h, PropTypes, Component} from 'react'; /** @jsx h */
+import {createElement as h, PropTypes, PureComponent} from 'react'; 
+/** @jsx h */
 import {Body, Head, Column} from '../index.js';
 
 /**
@@ -26,7 +27,7 @@ export function generateSortMap(data, sortColumn, descending = true) {
 /**
  * Example table that uses the table-controls components.
  */
-export default class Table extends Component {
+export default class Table extends PureComponent {
 	static get propTypes() {return {
 		data: PropTypes.instanceOf(Map),
 		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)),

@@ -1,6 +1,6 @@
 import {createElement as h} from 'react'; /** @jsx h */
 import {connect} from 'react-redux';
-import {calculateInvoice} from '../table/footer.js';
+import {calculateInvoice} from '../store/calculate-money.js'
 import {price} from '../columnlist.js';
 
 const Indicator = ({children}) => 

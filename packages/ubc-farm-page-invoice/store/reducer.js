@@ -1,11 +1,11 @@
 import {Money, id as randomId} from '../../ubc-farm-utils/index.js';
 
+import columnList from '../columnlist.js';
 import {
 	TOGGLE_SELECTION, CLEAR_SELECTION, EVERYTHING_SELECTION,
 	ADD_DATA_ROW, REMOVE_DATA_ROWS, CHANGE_DATA,
 	SET_AMOUNT_PAID
 } from './actions.js';
-import columnList from '../columnlist.js';
 
 /**
  * @name invoiceState

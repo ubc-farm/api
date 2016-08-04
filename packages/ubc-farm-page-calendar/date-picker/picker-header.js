@@ -1,9 +1,10 @@
-import {createElement as h, Component, PropTypes} from 'react'; /** @jsx h */
+import {createElement as h, PureComponent, PropTypes} from 'react'; 
+/** @jsx h */
 import {
 	shortMonthNames as sMonth, shortWeekdayNames as sWeek
 } from '../../ubc-farm-utils/calendar/index.js';
 
-export default class PickerHeader extends Component {
+export default class PickerHeader extends PureComponent {
 	static get propTypes() {return {
 		date: PropTypes.instanceOf(Date).isRequired,
 		onYearBlur: PropTypes.func

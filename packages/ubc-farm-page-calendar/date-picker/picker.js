@@ -1,9 +1,10 @@
-import {createElement as h, Component, PropTypes} from 'react'; /** @jsx h */
+import {createElement as h, PureComponent, PropTypes} from 'react'; 
+/** @jsx h */
 import {classlist as cx} from '../../ubc-farm-utils/index.js';
 import Header from './picker-header.js';
 import Table from './table.js';
 
-export default class DatePicker extends Component {
+export default class DatePicker extends PureComponent {
 	static get propTypes() {return {
 		value: PropTypes.instanceOf(Date),
 		onChange: PropTypes.func,

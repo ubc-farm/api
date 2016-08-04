@@ -1,7 +1,7 @@
-import {createElement as h, Component} from 'react'; /** @jsx h */
+import {createElement as h, PureComponent} from 'react'; /** @jsx h */
 import Picker from './picker.js';
 
-export default class PickerContainer extends Component {
+export default class PickerContainer extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);

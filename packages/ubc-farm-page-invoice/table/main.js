@@ -1,10 +1,12 @@
 import {createElement as h, Component, PropTypes} from 'react'; /** @jsx h */
+import {connect} from 'react-redux';
 import {
 	Head, Body, Column,
 	generateSortMap
 } from '../../react-table/index.js';
-import TotalFooter from './footer.js';
+import {toggleRowSelection, toggleSelectAll} from '../store/actions.js';
 import columnList from '../columnlist.js'
+import TotalFooter from './footer.js';
 import ActionBar from './toolbar.js';
 import {AddRow, DeleteSelected} from './toolbar-buttons.js';
 
@@ -67,9 +69,6 @@ class InvoiceTable extends Component {
 		);
 	}
 }
-
-import {connect} from 'react-redux';
-import {toggleRowSelection, toggleSelectAll} from '../store/actions.js';
 
 export default connect(
 	({data, selected}) => ({

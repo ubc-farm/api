@@ -76,12 +76,7 @@ export default class Timeline extends Component {
 		const container = this._container
 		let $el = this.TimelineElement
 
-		const {
-			items,
-			options,
-			customTimes,
-			animate = true,
-		} = this.props
+		const {items,	options,	customTimes, animate = true} = this.props
 
 		const timelineItems = new DataSet(items)
 		const timelineExists = !!$el
