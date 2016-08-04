@@ -10,7 +10,7 @@ import validate, {printStyle} from '../shared/Validator.js'
 import Configurator from '../shared/Configurator.js';
 
 import TimeAxis from './component/TimeAxis.js';
-import CurrentTime from './component/CurrentTime.js';
+import CurrentTime from './component/CurrentTime.js'; 
 import {customTimeFromTarget} from './component/CustomTime.js';
 import ItemSet from './component/ItemSet.js';
 import Range from './Range.js';
