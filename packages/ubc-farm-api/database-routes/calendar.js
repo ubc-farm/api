@@ -35,7 +35,7 @@ export function calendarCollection(request, reply) {
 	else endDate = new Date(year + 1, 0);
 	endDate = new Date(endDate.getTime() - 1); //Subtract 1 millisecond
 	
-	const query = Event.query()
+	let query = Event.query()
 		.where('start_time', '>=', startDate)
 		.andWhere('end_time', '<=', endDate)
 		.orderBy('start_time', 'desc')

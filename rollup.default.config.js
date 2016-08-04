@@ -14,14 +14,19 @@ const base = {
 	]
 }
 
+if (typeof process !== 'undefined' && process.env.NO_OUTPUT) {
+	delete base.targets;
+	delete base.sourceMap;
+}
+
 export const server = Object.assign({}, base, {
 	external: [
 		'hapi', 'vision',	'inert', 'h2o2',
-		'handlebars', 'path'
+		'handlebars', 'path', 'url'
 	],
 	plugins: [
 		json({
-			include: 'package.json'
+			//include: 'package.json'
 		})
 	],
 });

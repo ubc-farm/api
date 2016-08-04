@@ -65,4 +65,29 @@ export function removeNullandUndef(json) {
 	return copy;
 }
 
+/**
+ * Returns an object with boolean values instead of strings.
+ * 'false' is turned into false, and 'true' or '' are turned into true
+ * @param {Object} query from request.query 
+ * @param {string[]} filter - if specified, ignore anything not in the filter
+ * @returns {Object}
+ */
+export function getBooleanQuery(query, filter) {
+	let result = {};
+	for (const prop in query) {
+		const value = query[prop];
+		const valid = !filter || filter.includes(prop);
+		if (valid && typeof value === 'string') {
+			switch(value.toLowerCase()) {
+				case '': case 't': case 'true':
+					result[prop] = true; break;
+				case 'false': case 'f': case '!':
+					result[prop] = false; break;
+				default: result[prop] = value;
+			}
+		} else result[prop] = value;
+	}
+	return result;
+}
+
 export {arrayToObjectMap} from '../../ubc-farm-utils/index.js';

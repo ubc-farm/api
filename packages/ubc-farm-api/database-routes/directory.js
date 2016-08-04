@@ -1,6 +1,7 @@
 import {Person, Employee, Researcher} from '../../ubc-farm-database';
 import {
 	transformReply,
+	getBooleanQuery,
 	arrayToObjectMap,
 	removeNullandUndef
 } from './transformer.js';
@@ -9,16 +10,19 @@ import {
  * Retrieve all people from the database and reply with them
  */
 export function directory(request, reply) {
-	const query = Promise.all([
+	let query = Promise.all([
 		Person.query(), Employee.query(), Researcher.query()
 	]).then(([people, employees, researchers]) => {
 		employees = employees.map(val => {val.role = 'Employee'; return val})
 		researchers = researchers.map(val => {val.role = 'Researcher'; return val})
 
 		return people.concat(employees, researchers);
-	})
-	.then(list => arrayToObjectMap(list))
-	.then(json => removeNullandUndef(json));
+	});
+
+	const {array = false, clean = true} = getBooleanQuery(request.query);
+
+	if (!array) query = query.then(list => arrayToObjectMap(list));
+	if (clean) query = query.then(data => removeNullandUndef(data));
 
 	return transformReply(query, request, reply);
 }
@@ -34,13 +38,10 @@ export function roleDirectory(request, reply) {
 	else if (role === 'Researcher') query = Researcher.query();
 	else query = Person.query().where('role', '=', role);
 
-	return transformReply(
-		query
-			.then(list => arrayToObjectMap(list))
-			.then(json => removeNullandUndef(json)), 
-		request, 
-		reply
-	);
+	const {array = false} = request.query;
+	if (!array) query = query.then(list => arrayToObjectMap(list));
+
+	return transformReply(query, request,	reply);
 }
 
 export default [
