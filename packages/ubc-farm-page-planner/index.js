@@ -1,3 +1,15 @@
-import timelineComponent from './drag-drop/index.js';
+import {createElement} from 'react';
+import {render} from 'react-dom';
+import timelineComponent from './timeline/index.js';
+import TaskPanel from './drag-drop/panel.js';
+import bindListeners from './drag-drop/handler.js';
 
-timelineComponent.then(t => window.TimelineComponent = t);
+timelineComponent
+.then(Timeline => {
+	bindListeners(Timeline);
+	window.TimelineComponent = Timeline;
+})
+.then(() => render(
+	createElement(TaskPanel), 
+	document.getElementById('tasklist-mount')
+))

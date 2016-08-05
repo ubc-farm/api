@@ -14,6 +14,18 @@
 	{{> app-banner active='Calendar'}}
 	{{> section-banner breadcrumbs}}
 
-	<div id='app-mount'></div>
+	<style>
+		.vis-item {
+			background: var(--brand-primary);
+			color: white;
+		}
+		.vis-item.vis-selected {
+			background: var(--brand-primary);
+			box-shadow: 0 0 4px #4195fc;
+		}
+	</style>
+	<div id='timeline-mount'></div>
+
+	<aside id='tasklist-mount'></aside>
 </body>
 </html>
