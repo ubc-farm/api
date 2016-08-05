@@ -3,7 +3,7 @@ import {
 	getAbsoluteRight, getAbsoluteTop, getAbsoluteLeft,
 	easingFunctions
 } from '../util.js';
-import * as moment from '../module/moment.js';
+import moment from '../module/moment.js';
 import Component from './component/Component.js';
 import {
 	snapAwayFromHidden, updateHiddenDates,

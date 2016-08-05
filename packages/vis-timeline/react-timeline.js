@@ -6,7 +6,7 @@ import {
 	assign,
 	omit,
 	keys
-} from 'lodash-es';
+} from './lodash/index.es.js';
 import VisTimeline from './src/timeline/Timeline.js';
 import DataSet from './src/DataSet.js';
 //import 'vis/dist/vis.css'

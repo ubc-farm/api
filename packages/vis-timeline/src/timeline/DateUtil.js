@@ -161,8 +161,8 @@ export function updateHiddenDates(moment, body, hiddenDates) {
 		// remove duplicates, merge where possible
 		removeDuplicates(body);
 		// ensure the new positions are not on hidden dates
-		var startHidden = isHidden(body.range.start, body.hiddenDates);
-		var endHidden = isHidden(body.range.end,body.hiddenDates);
+		var startHidden = _isHidden(body.range.start, body.hiddenDates);
+		var endHidden = _isHidden(body.range.end,body.hiddenDates);
 		var rangeStart = body.range.start;
 		var rangeEnd = body.range.end;
 		if (startHidden.hidden == true) {rangeStart = body.range.startToFront == true ? startHidden.startDate - 1 : startHidden.endDate + 1;}
@@ -275,7 +275,7 @@ export function toScreen(Core, time, width) {
 		return (time.valueOf() - conversion.offset) * conversion.scale;
 	}
 	else {
-		const hidden = isHidden(time, Core.body.hiddenDates);
+		const hidden = _isHidden(time, Core.body.hiddenDates);
 		if (hidden.hidden == true) time = hidden.startDate;
 
 		const duration = getHiddenDurationBetween(
@@ -414,22 +414,22 @@ export function getAccumulatedHiddenDuration(
 export function snapAwayFromHidden(
 	hiddenDates, time, direction, correctionEnabled
 ) {
-	var isHidden = isHidden(time, hiddenDates);
-	if (isHidden.hidden == true) {
+	let _isHidden = isHidden(time, hiddenDates);
+	if (_isHidden.hidden == true) {
 		if (direction < 0) {
 			if (correctionEnabled == true) {
-				return isHidden.startDate - (isHidden.endDate - time) - 1;
+				return _isHidden.startDate - (_isHidden.endDate - time) - 1;
 			}
 			else {
-				return isHidden.startDate - 1;
+				return _isHidden.startDate - 1;
 			}
 		}
 		else {
 			if (correctionEnabled == true) {
-				return isHidden.endDate + (time - isHidden.startDate) + 1;
+				return _isHidden.endDate + (time - _isHidden.startDate) + 1;
 			}
 			else {
-				return isHidden.endDate + 1;
+				return _isHidden.endDate + 1;
 			}
 		}
 	}
