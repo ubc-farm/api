@@ -1,4 +1,4 @@
-import * as moment from '../module/moment';
+import moment from '../module/moment';
 import {
 	convert, forEach, extend,
 	getAbsoluteRight, getAbsoluteTop, getTarget,

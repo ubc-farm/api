@@ -33,3 +33,25 @@ export const jsts = {
 		}
 	}
 }
+
+export const momemt = {
+	method: 'GET',
+	path: '/packages/moment.js',
+	handler: (req, reply) => 
+		reply().redirect('http://momentjs.com/downloads/moment.js')
+}
+
+export const timeline = {
+	method: 'GET',
+	path: '/packages/vis-timeline.js',
+	handler: {
+		file: 'vis-timeline/index.iife.js'
+	}
+}
+export const timelineFiles = {
+	method: 'GET',
+	path: '/packages/vis-timeline/{param*}',
+	handler: {
+		directory: { path: 'vis-timeline/dist' }
+	}
+}

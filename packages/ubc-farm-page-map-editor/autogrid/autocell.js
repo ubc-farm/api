@@ -1,9 +1,8 @@
-import {geom} from 'jsts';
-import {
-	toDegrees, toRadians, PI_OVER_2,
-	normalize as normalizeAngle
-} from '../../lib/angle/index.js';
-import {computeOffset as offset} from '../../lib/spherical-geometry/index.js'
+import {geom, algorithm} from '../../jsts/index.js';
+import {computeOffset as offset} from 'spherical-geometry-js';
+
+const {toDegrees, toRadians, normalize: normalizeAngle} = algorithm.Angle;
+const {PI_OVER_2} = algorithm.Angle;
 
 /**
  * Self-building cell of an AutoGrid

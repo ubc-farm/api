@@ -1,15 +1,15 @@
-import {register} from '../promise-worker';
+import {geom, io} from '../../jsts/index.js';
+import {register} from 'promise-worker';
 import AutoGrid from './autogrid.js';
 import GridMerge from './merge.js';
-import jsts from 'jsts';
 
-const factory = new jsts.geom.GeometryFactory();
+const factory = new geom.GeometryFactory();
 /**
  * GeoJSONWriter seems to be broken; just extract the parser and run that
  * instead. GeoJSONWriter.write just runs parser.write anyways.
  * @type {jsts.io.GeoJSONParser}
  */
-const reader = new jsts.io.GeoJSONReader(factory);
+const reader = new io.GeoJSONReader(factory);
 const {parser: writer} = reader;
 
 /** 

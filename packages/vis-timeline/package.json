@@ -23,6 +23,5 @@
     "prepublish": "rollup -c"
   },
   "jsnext:main": "index.es.js",
-  "browser": "index.iife.js",
   "main": "index.iife.js"
 }

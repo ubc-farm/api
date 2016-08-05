@@ -1,4 +1,4 @@
-import {geom} from 'jsts';
+import {geom} from '../../jsts/index.js';
 
 /**
  * Coroutine function that wraps union from JSTS. Each value passed to the 

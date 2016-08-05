@@ -1,4 +1,4 @@
-import * as moment from '../module/moment.js';
+import moment from '../module/moment.js';
 import {deepExtend} from '../util.js';
 import {stepOverHiddenDates} from './DateUtil.js';
 

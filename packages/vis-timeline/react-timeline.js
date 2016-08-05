@@ -6,7 +6,7 @@ import {
 	assign,
 	omit,
 	keys
-} from 'lodash-es';
+} from './lodash/index.es.js';
 import VisTimeline from './src/timeline/Timeline.js';
 import DataSet from './src/DataSet.js';
 //import 'vis/dist/vis.css'
@@ -49,15 +49,13 @@ export default class Timeline extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		const {items,	options, customTimes} = this.props;
+		const propKeys = Object.keys(this.props);
 
-		const itemsChange = items !== nextProps.items
-		const optionsChange = options !== nextProps.options
-		const customTimesChange = customTimes !== nextProps.customTimes
+		if (propKeys.length !== Object.keys(nextProps).length) return true;
 
-		return itemsChange ||
-			optionsChange ||
-			customTimesChange
+		return propKeys.reduce(
+			(bool, prop) => bool || nextProps[prop] !== this.props[prop]
+		);
 	}
 
 	componentDidUpdate() {
@@ -76,9 +74,10 @@ export default class Timeline extends Component {
 		const container = this._container
 		let $el = this.TimelineElement
 
-		const {items,	options,	customTimes, animate = true} = this.props
+		const {items,	options, groups, customTimes, animate = true} = this.props
 
 		const timelineItems = new DataSet(items)
+		const timelineGroups = new DataSet(groups);
 		const timelineExists = !!$el
 
 		if (timelineExists) {
@@ -96,7 +95,8 @@ export default class Timeline extends Component {
 			$el.setOptions(updatedOptions)
 
 		} else {
-			$el = this.TimelineElement = new VisTimeline(container, timelineItems, options)
+			$el = this.TimelineElement = new VisTimeline(container, 
+				timelineItems, timelineGroups, options)
 
 			events.forEach(event => {
 				$el.on(event, this.props[`${event}Handler`])
@@ -135,6 +135,7 @@ export default class Timeline extends Component {
 
 Timeline.propTypes = assign({
 	items: PropTypes.array,
+	groups: PropTypes.array,
 	options: PropTypes.object,
 	customTimes: PropTypes.shape({
 		datetime: PropTypes.instanceOf(Date),

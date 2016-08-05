@@ -533,9 +533,9 @@ export default class Core {
 		/* eslint-disable prefer-rest-params */
 		let animation;
 		if (arguments.length === 1) {
-			({start, end, animation}) = arguments[0];
+			({start, end, animation} = arguments[0]);
 		} else {
-			({animation}) = options || {};
+			({animation} = options || {});
 		}
 		if (animation === undefined) animation = true;
 		this.range.setRange(start, end, animation);
