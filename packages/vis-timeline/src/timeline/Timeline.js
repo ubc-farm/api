@@ -1,8 +1,8 @@
 import moment from '../module/moment';
 import {
 	convert, forEach, extend,
-	getAbsoluteRight, getAbsoluteTop, getTarget,
-	hasParent
+	getAbsoluteRight, getAbsoluteLeft, getAbsoluteTop,
+	getTarget, hasParent
 } from '../util.js';
 import DataSet from '../DataSet.js';
 import DataView from '../DataView.js';
@@ -469,7 +469,7 @@ export default class Timeline extends Core {
 		const clientY = event.center ? event.center.y : event.clientY;
 		const x = this.options.rtl 
 			?	getAbsoluteRight(this.dom.centerContainer) - clientX
-			: getAbsoluteTop(this.dom.centerContainer);
+			: clientX - getAbsoluteLeft(this.dom.centerContainer);
 		const y = clientY - getAbsoluteTop(this.dom.centerContainer);
 
 		const item = this.itemSet.itemFromTarget(event);

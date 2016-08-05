@@ -1,9 +1,15 @@
-//import {createElement} from 'react';
-import ReactDOM from 'react-dom';
-import {domready} from '../ubc-farm-utils/index.js';
-//import TaskTile, {Tasks} from './drag-drop/tasklist.js';
-import timelineElement from './drag-drop/index.js';
+import {createElement} from 'react';
+import {render} from 'react-dom';
+import timelineComponent from './timeline/index.js';
+import TaskPanel from './drag-drop/panel.js';
+import bindListeners from './drag-drop/handler.js';
 
-Promise.all([timelineElement, domready]).then(([element]) => {
-	ReactDOM.render(element, document.getElementById('app-mount'))
-});
+timelineComponent
+.then(Timeline => {
+	bindListeners(Timeline);
+	window.TimelineComponent = Timeline;
+})
+.then(() => render(
+	createElement(TaskPanel), 
+	document.getElementById('tasklist-mount')
+))

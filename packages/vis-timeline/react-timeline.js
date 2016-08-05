@@ -46,6 +46,7 @@ export default class Timeline extends Component {
 
 	componentDidMount() {
 		this.init()
+		console.log(this.TimelineElement);
 	}
 
 	shouldComponentUpdate(nextProps) {
