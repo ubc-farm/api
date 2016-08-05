@@ -7,7 +7,7 @@ function* DialNumbers(count) {
 		yield (<ClockNumber angle={angleDelta * i}>{i + 1}</ClockNumber>);
 }
 
-const isEven(n) => n % 2 === 0;
+const isEven = (n) => n % 2 === 0;
 
 function* TwentyFourHour() {
 	let i = 0;
@@ -24,10 +24,4 @@ function* TwentyFourHour() {
 
 		i++;
 	}
-}
-
-function* Minute() {
-	const angleDelta = 360 / 60;
-	for (let i = 0; i < 60; i++) 
-		yield (<ClockNumber angle={angleDelta * i}>{i + 1}</ClockNumber>);
 }
