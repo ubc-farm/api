@@ -42,8 +42,8 @@ export const planner = {
 			template: 'ubc-farm-page-planner/view.html',
 			context: {
 				breadcrumbs: [
-					{title: 'Calendar', href: '/calendar'},
-					{title: 'Planner', href: '#'}
+					{title: 'Finance', href: '/finance'},
+					{title: 'Sales', href: '#'}
 				]
 			}
 		}
