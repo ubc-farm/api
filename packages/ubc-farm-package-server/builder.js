@@ -1,5 +1,6 @@
 import {rollup} from 'rollup';
 import {join} from 'path';
+import {wrap} from 'boom';
 
 /**
  * Automatically bundles code using rollup for the browser
@@ -46,7 +47,9 @@ export default function(route, options) {
 		const code = bundle.then(({code, map}) => {
 			if (map) code += '\n//#sourceMappingURL=' + map.toUrl();
 			return code;
-		});
+		}).catch(err => {
+			wrap(err, 500, 'Error when compling code');
+		})
 
 		return reply(code).type(mime)
 	}

@@ -1,6 +1,6 @@
+import {resolve} from 'path';
 import {Server} from 'hapi';
 import Inert from 'inert';
-import {resolve} from 'path';
 
 import {server as connection} from './package.json';
 import rollupHandler from './builder.js';
