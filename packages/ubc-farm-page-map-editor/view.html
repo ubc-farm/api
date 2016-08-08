@@ -4,8 +4,13 @@
 	{{> head}}
 	<title>Field Editor</title>
 	{{> test}}
-	<script async src='/packages/ubc-farm-page-map-editor.js'></script>
+	<!--<script async src='/packages/ubc-farm-page-map-editor/menu.js'></script>-->
 	<link href='/css/core/form.css' rel='stylesheet'>
+
+	<script defer 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU"
+  ></script>
+	<script defer src='/packages/ubc-farm-page-map-editor.js'></script>
 </head>
 <body>
 	{{> app-banner active='Fields'}}

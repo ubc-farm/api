@@ -1,8 +1,8 @@
+/* global google */
 import store from '../redux/store.js';
 import map from './map.js';
 import drawingManager from './drawing-manager.js';
 import {field as fieldStyle} from './style.js';
-/* global google */
 
 /**
  * @param {Iterable<V>} source
