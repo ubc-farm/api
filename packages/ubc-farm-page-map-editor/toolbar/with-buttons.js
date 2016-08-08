@@ -7,8 +7,8 @@ const Toolbar = ({
 	resizing = false, onResize
 }) => (
 	<BaseToolbar breadcrumbs={breadcrumbs}>
-		<label role='button'>
-			<i className='material-icons breadcrumb-icon'>add</i>
+		<label role='button' className='button toolbar-button'>
+			<i className='material-icons'>add</i>
 			Add
 			<input type='checkbox'
 				checked={adding}
@@ -18,8 +18,8 @@ const Toolbar = ({
 			/>
 		</label>
 		<section className='sidebar-toolbar'>
-			<label role='button'>
-				<i className='material-icons breadcrumb-icon'>transform</i>
+			<label role='button' className='button toolbar-button'>
+				<i className='material-icons'>transform</i>
 				Resize
 				<input type='checkbox'
 					checked={resizing}
@@ -36,11 +36,18 @@ Toolbar.propTypes = {
 	breadcrumbs: PropTypes.arrayOf(PropTypes.shape({
 		title: PropTypes.node,
 		href: PropTypes.string
-	})).isRequired,
+	})),
 	adding: PropTypes.bool,
 	resizing: PropTypes.bool,
 	onAdd: PropTypes.func,
 	onResize: PropTypes.func
+}
+
+Toolbar.defaultProps = {
+	breadcrumbs: [
+		{title: 'Fields', href: '/fields'},
+		{title: 'Editor', href: '#'}
+	]
 }
 
 export default Toolbar;

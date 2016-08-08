@@ -41,6 +41,9 @@ main, .main {
 
   /* Support for IE. */
   font-feature-settings: 'liga';
+
+  vertical-align: middle;
+  margin-bottom: 0;
 }
 
 /* Rules for sizing the icon. */

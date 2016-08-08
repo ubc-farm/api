@@ -1,0 +1,17 @@
+.toolbar-button {
+	color: white;
+	border-color: #ddd;
+	margin-bottom: 0;
+	padding: 0.32em 1.5em;
+}
+
+.sidebar-toolbar {
+	display: flex;
+	width: 15rem;
+	justify-content: flex-end;
+}
+
+.map-aside {
+	float: right;
+	width: 15rem;
+}

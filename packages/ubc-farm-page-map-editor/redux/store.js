@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 
 import gridForm from './grid-reducer.js';
@@ -13,5 +13,9 @@ export default createStore(
 		fieldData,
 		mapMeta
 	}),
-	applyMiddleware(thunk)
+	undefined,
+	compose(
+		applyMiddleware(thunk),
+		window.devToolsExtension ? window.devToolsExtension() : f => f
+	)
 )

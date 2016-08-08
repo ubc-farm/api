@@ -5,7 +5,7 @@ import GridForm from './grid-form.js';
 export default connect(
 	state => {
 		const {active, gridForm} = state;
-		const {width, height, angle} = gridForm.get(active);
+		const {width, height, angle} = gridForm.get(active) || {};
 		return {
 			defaultWidth: width,
 			defaultHeight: height,

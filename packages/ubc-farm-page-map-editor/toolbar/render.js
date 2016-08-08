@@ -4,4 +4,7 @@ import {domready} from '../../ubc-farm-utils/index.js';
 import store from '../redux/store.js';
 import Toolbar from './connected.js';
 
-domready.then(() => render(<Toolbar store={store} />));
+domready.then(() => render(
+	<Toolbar store={store} />, 
+	document.getElementById('toolbar-mount')
+));

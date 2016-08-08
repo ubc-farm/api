@@ -10,4 +10,4 @@ domready.then(() => render(
 		<Form store={store} id='grid-form' />
 		<Submit store={store} form='grid-form' />
 	</aside>
-));
+, document.getElementById('aside-mount')));

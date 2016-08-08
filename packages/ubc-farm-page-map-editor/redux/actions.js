@@ -38,7 +38,7 @@ export function setResizing(id, resizingState) {
 export function toggleResize() {
 	return (dispatch, getState) => {
 		const {active, gridForm} = getState();
-		const resizing = gridForm.get(active).resizing;
+		const {resizing} = gridForm.get(active) || {};
 		return dispatch(setResizing(active, !resizing));
 	}
 }
@@ -47,6 +47,8 @@ export function setAdding(addingState) {
 	return {type: ADD_MODE, payload: addingState}
 }
 export function toggleAdding() {
-	return (dispatch, getState) => 
-		dispatch( !setAdding(getState().mapMeta.adding) );
+	return (dispatch, getState) => {
+		const {adding} = getState().mapMeta;
+		dispatch(setAdding(!adding));
+	}
 }

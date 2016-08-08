@@ -4,7 +4,7 @@ import {
 
 export default function fieldData(state = {}, action) {
 	switch (action.type) {
-		case UPDATE_GEOJSON: return action.payload
+		case UPDATE_GEOJSON: return action.payload || state;
 		default: return state;
 	}
 }
