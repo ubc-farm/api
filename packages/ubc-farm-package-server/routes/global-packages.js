@@ -14,13 +14,13 @@ export const tape = {
 export const react = {
 	method: 'GET',
 	path: '/packages/react.js',
-	handler: (req, reply) => reply().redirect('https://fb.me/react-15.2.1.js')
+	handler: (req, reply) => reply().redirect('https://fb.me/react-15.3.0.js')
 }
 
 export const react_dom = {
 	method: 'GET',
 	path: '/packages/react-dom.js',
-	handler: (req, reply) => reply().redirect('https://fb.me/react-dom-15.2.1.js')
+	handler: (req, reply) => reply().redirect('https://fb.me/react-dom-15.3.0.js')
 }
 
 export const jsts = {
