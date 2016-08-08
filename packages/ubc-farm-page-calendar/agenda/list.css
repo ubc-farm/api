@@ -51,6 +51,10 @@
 	color: #666;
 }
 
+.agenda-overview-table {position: fixed;}
 .agenda-date-list {
 	display: flex;
+	margin-left: 25em;
 }
+
+.loader {align-self: center}
