@@ -15,3 +15,9 @@
 	float: right;
 	width: 15rem;
 }
+
+.map-mount {
+	background: #ddd;
+	width: calc(100% - 16rem);
+	height: calc(100vh - 5.2rem); /* TODO: Better method to fill remanining height instead of bad hack */
+}
