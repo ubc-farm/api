@@ -1,7 +1,7 @@
 import {createElement as h, PropTypes, cloneElement} from 'react'; /** @jsx h */
 import ClockNumber from './number.js';
 
-function* DialNumbers(count) {
+function* DialNumbers(count = 12) {
 	const angleDelta = 360 / count;
 	for (let i = 0; i < count; i++) 
 		yield (<ClockNumber angle={angleDelta * i}>{i + 1}</ClockNumber>);
@@ -25,3 +25,16 @@ function* TwentyFourHour() {
 		i++;
 	}
 }
+
+const Dial = ({count, className}) => (
+	<div className={className}>
+		{count === 24 ? TwentyFourHour() : DialNumbers(count)}
+	</div>
+);
+
+Dial.propTypes = {
+	count: PropTypes.number,
+	className: PropTypes.string
+}
+
+export default Dial;
