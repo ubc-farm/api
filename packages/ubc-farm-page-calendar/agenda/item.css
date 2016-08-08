@@ -37,3 +37,20 @@
 .not-my-event {
 	opacity: 0.7;
 }
+
+.agenda-label {
+	display: flex;
+	flex-direction: column;
+	width: 3em;
+}
+.agenda-label-date {font-size: 1.7em;}
+.agenda-label-today {
+	color: var(--brand-primary);
+}
+.agenda-label-past {
+	color: #666;
+}
+
+.agenda-date-list {
+	display: flex;
+}
