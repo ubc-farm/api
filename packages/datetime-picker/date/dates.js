@@ -6,7 +6,7 @@ import {classlist as cx} from '../../ubc-farm-utils/index.js';
  */
 export const PickerDate = ({onClick, children, selected, today}) => (
 	<td
-		onClick={children ? () => onClick(children) : undefined}
+		onClick={onClick}
 		className={cx('circle', {
 			'hover-light': children,
 			'd-picker-day': children,
@@ -28,19 +28,32 @@ PickerDate.propTypes = {
  * corresponding to the month.
  */
 const PickerBody = ({
-	dates, onClick, 
+	dates, onClick, onPrevious, onFollowing,
 	selectedDate, todayDate
 }) => (
 	<tbody>
 		{dates.map((row, index) => (
 			<tr key={index}>
-				{row.map((date, i) => (
-					<PickerDate key={date === null? `blank-${i}` : date}
-						onClick={onClick}
-						selected={selectedDate === date}
-						today={todayDate === date}
-					>{date}</PickerDate>
-				))}
+				{row.map((date, i) => {
+					let _onClick, key = date;
+					if (date === null) {
+						key = `blank-${i}`;
+						if (index === 0) _onClick = onPrevious;
+						else if (index >= 4) _onClick = onFollowing;
+					} else {
+						_onClick = () => onClick(date)
+					}
+
+					return (
+						<PickerDate key={key}
+							onClick={_onClick}
+							selected={selectedDate === date}
+							today={todayDate === date}
+						>
+							{date}
+						</PickerDate>
+					);
+				})}
 			</tr>
 		))}
 	</tbody>
@@ -51,7 +64,9 @@ PickerBody.propTypes = {
 	onClick: PropTypes.func,
 	eventCheck: PropTypes.func,
 	selectedDate: PropTypes.number,
-	todayDate: PropTypes.number
+	todayDate: PropTypes.number,
+	onPrevious: PropTypes.func,
+	onFollowing: PropTypes.func
 }
 
 export default PickerBody;

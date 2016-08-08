@@ -27,6 +27,7 @@ const PickerTable = ({
 				selectedDate={sameMonthAsSelected ? selectedDate.getDate() : undefined} 
 				todayDate={sameMonthAsToday ? todayDate.getDate() : undefined}
 				onClick={onDateClick}
+				onPrevious={onPrevious} onFollowing={onFollowing}
 			/>
 		</table>
 	)
