@@ -2,6 +2,7 @@
 import store from '../redux/store.js';
 import map from './map.js';
 import drawingManager from './drawing-manager.js';
+import polygonRef from './polygons.js';
 import {field as fieldStyle} from './style.js';
 
 /**
@@ -18,7 +19,7 @@ function diffSets(source, against) {
 
 export default class MapStoreListener {
 	/** @param {Map<string, google.maps.Polygon>} polygonRef */
-	constructor(polygonRef) { 
+	constructor() { 
 		this.state = undefined;
 		this.polygons = polygonRef;
 	}
