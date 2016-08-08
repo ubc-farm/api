@@ -1,4 +1,5 @@
-import calendar from './calendar.js';
-import directory from './directory.js';
+import Calendar from './calendar.js';
+import Directory from './directory.js';
+import GeoJSON from './geojson.js';
 
-export default [...calendar, ...directory];
+export default [...Calendar, ...Directory, GeoJSON];
