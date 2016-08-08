@@ -1,11 +1,17 @@
 import * as globalPackages from './global-packages.js';
 import * as pagePackages from './page-packages.js';
 
-function getRoutesFromModule(mod) {
-	return Object.keys(mod).map(ex => mod[ex]);
+function* RoutesFromModule(mod) {
+	for (const exportName in mod) {
+		const exports = mod[exportName];
+		if (Array.isArray(exports)) 
+			for (const route of exports) yield route;
+		else
+			yield exports;
+	}
 }
 
 export default [
-	...getRoutesFromModule(globalPackages),
-	...getRoutesFromModule(pagePackages)
+	...RoutesFromModule(globalPackages),
+	...RoutesFromModule(pagePackages)
 ];
