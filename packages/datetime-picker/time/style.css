@@ -1,0 +1,8 @@
+.t-picker-number {
+	mix-blend-mode: difference;
+	text-align: center;
+	display: block;
+	position: absolute;
+	width: 2em; line-height: 2em;
+}
+
