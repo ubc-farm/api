@@ -27,6 +27,11 @@ export function changeField(id, field, newValue) {
 	} else
 		return {};
 }
+export function changeFieldFormData(id, formData) {
+	return dispatch => {
+		for (const key in formData) dispatch(changeField(id, key, formData[key]));
+	}
+}
 
 export function setLoading(id, loadingState) {
 	return {type: SET_LOADING, id, loading: loadingState}

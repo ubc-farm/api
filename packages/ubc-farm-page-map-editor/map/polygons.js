@@ -1,6 +1,7 @@
 /* global google */
 import {id} from '../../ubc-farm-utils/index.js';
-import {changeActive} from '../redux/actions.js';
+import {changeActive, setAdding} from '../redux/actions.js';
+import buildGrid from '../redux/build-grid-action.js';
 import store from '../redux/store.js';
 import map from './map.js';
 import drawManager from './drawing-manager.js';
@@ -16,6 +17,7 @@ const polygonData = new WeakMap();
  * @type {Map<string, google.maps.Polygon>}
  */
 const polygonRef = new Map();
+export default polygonRef;
 
 function handlePolygonClick() {
 	const {id} = polygonData.get(this);
@@ -31,4 +33,7 @@ function handleDrawnPolygon(polygon) {
 		)
 	});
 	polygonRef.set(polyID, polygon);
+
+	store.dispatch(setAdding(false));
+	store.dispatch(buildGrid(polyID));
 }

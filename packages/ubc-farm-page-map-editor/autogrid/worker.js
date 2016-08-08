@@ -1,5 +1,6 @@
-import {geom, io} from '../../jsts/index.js';
 import {register} from 'promise-worker';
+import {geom, io} from '../../jsts/index.js';
+import {FeatureCollection} from '../../ubc-farm-utils/class/geojson/index.js';
 import AutoGrid from './autogrid.js';
 import GridMerge from './merge.js';
 
@@ -18,33 +19,45 @@ const {parser: writer} = reader;
  * @param {GeoJSON.Polygon[]} msg.cells - array of cells
  * @returns {GeoJSON.Polygon} the resulting polygon
  */
-register(msg => {if (msg.cells) {
-	const coroutine = GridMerge(factory);
-	coroutine.next();
-	for (const cell of msg.cells) coroutine.next(reader.read(cell));
-	return writer.write(coroutine.return().value);
-}})
+function mergeCells({cells}) {
+	const mergingCoroutine = GridMerge(factory); mergingCoroutine.next();
+
+	for (let cell of cells) {
+		cell = reader.read(cell);
+		mergingCoroutine.next(cell);
+	}
+
+	const result = mergingCoroutine.return().value;
+	return writer.write(result);
+}
 
 /**
  * Build a field and return its grid
  * @param {Object} msg
  * @param {GeoJSON.Polygon} msg.polygon for field
- * @param {Object} msg.gridSpec
- * @param {number} msg.gridSpec.width - base width of grid
- * @param {number} msg.gridSpec.height - base height of grid
- * @param {number} msg.gridSpec.angle - angle of grid
- * @param {number[][]} msg.gridSpec.widthSpecific - specific widths
- * @param {number[]} msg.gridSpec.widthSpecific[] - key and width
- * @param {number[][]} msg.gridSpec.heightSpecific - specific heights
- * @param {number[]} msg.gridSpec.heightSpecific[] - key and height
- * @return {GeoJSON.Polygon[]} array of cell polygons
+ * @param {Object} msg.gridOptions
+ * @param {number} msg.gridOptions.width - base width of grid
+ * @param {number} msg.gridOptions.height - base height of grid
+ * @param {number} msg.gridOptions.angle - angle of grid
+ * @param {number[][]} msg.gridOptions.widthSpecific - specific widths
+ * @param {number[]} msg.gridOptions.widthSpecific[] - key and width
+ * @param {number[][]} msg.gridOptions.heightSpecific - specific heights
+ * @param {number[]} msg.gridOptions.heightSpecific[] - key and height
+ * @return {FeatureCollection} array of cell polygons
  */
-register(msg => {if (msg.gridSpec) {
-	const polygon = reader.read(msg.polygon);
-	const {angle} = msg.gridSpec;
-		
-	return [...AutoGrid(polygon, msg.gridSpec, angle)].reduce((array, cell) => {
-		if (cell.getGeometryType() == 'Polygon') array.push(writer.write(cell));
-		return array;
-	})	
-}})
+function buildGrid({polygon, gridOptions}) {
+	polygon = reader.read(polygon);
+
+	let cells = Array.from(
+		AutoGrid(polygon, gridOptions, gridOptions.angle),
+		cell => writer.write(cell)
+	);
+	cells = cells.filter(c => c.type === 'Polygon');
+	
+	return new FeatureCollection(cells);
+}
+
+register(msg => {
+	if ('polygon' in msg) return buildGrid(msg);
+	else if ('cells' in msg) return mergeCells(msg);
+});
