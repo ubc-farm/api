@@ -42,7 +42,6 @@ export const browser = Object.assign({}, base, {
 			browser: true
 		}),
 		replace({
-			include: 'node_modules/react-redux/**',
 			'process.env.NODE_ENV': JSON.stringify('production')
 		}),
 		commonjs()
