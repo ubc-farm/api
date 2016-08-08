@@ -17,7 +17,7 @@ function diffSets(source, against) {
 	return results;
 }
 
-export default class MapStoreListener {
+class MapStoreListener {
 	/** @param {Map<string, google.maps.Polygon>} polygonRef */
 	constructor() { 
 		this.state = undefined;
@@ -82,3 +82,5 @@ export default class MapStoreListener {
 		this.state = newState;
 	}
 }
+
+new MapStoreListener();

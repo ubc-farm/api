@@ -3,7 +3,6 @@ import {id} from '../../ubc-farm-utils/index.js';
 import {changeActive, setAdding} from '../redux/actions.js';
 import buildGrid from '../redux/build-grid-action.js';
 import store from '../redux/store.js';
-import map from './map.js';
 import drawManager from './drawing-manager.js';
 
 /** 
