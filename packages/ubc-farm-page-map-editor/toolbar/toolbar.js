@@ -15,10 +15,10 @@ const Toolbar = ({breadcrumbs, children}) => (
 	<header className='section-banner' role='toolbar'>
 		<nav className='banner-breadcrumbs'>
 			{breadcrumbs.reduce((array, {title, href}, index) => {
-				if (index !== 0) array.push(<Arrow />);
-				array.push(<Breadcrumb href={href}>{title}</Breadcrumb>);
+				if (index !== 0) array.push(<Arrow key={`arrow-${index}`} />);
+				array.push(<Breadcrumb href={href} key={title}>{title}</Breadcrumb>);
 				return array;
-			})}
+			}, [])}
 		</nav>
 		{children}
 	</header>

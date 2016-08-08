@@ -49,3 +49,19 @@ export const planner = {
 		}
 	}
 }
+
+export const mapEditor = {
+	method: 'GET',
+	path: '/fields/editor',
+	handler: {
+		view: {
+			template: 'ubc-farm-page-map-editor/view.html',
+			context: {
+				breadcrumbs: [
+					{title: 'Fields', href: '/fields'},
+					{title: 'Editor', href: '#'}
+				]
+			}
+		}
+	}
+}

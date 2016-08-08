@@ -1,6 +1,3 @@
-/**
- * @file preset styles for map objects
- */
 /*global google*/
 
 export const color = {
@@ -31,4 +28,24 @@ export const map = {
 	scaleControl: true,
 	mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
 	tilt: 0
+}
+
+export const grid = {
+	normal: {
+		zIndex: 2,
+		fillOpacity: 0.0,
+		strokeOpacity: 0.5,
+		fillColor: color.gray,
+		strokeColor: color.light
+	},
+	hover: {
+		fillOpacity: 0.4
+	},
+	selected: {
+		zIndex: 3,
+		fillOpacity: 0.5,
+		strokeOpacity: 0.9,
+		fillColor: color.accent,
+		strokeColor: color.accent
+	}
 }

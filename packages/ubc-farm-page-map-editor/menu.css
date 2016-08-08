@@ -1,0 +1,23 @@
+.toolbar-button {
+	color: white;
+	border-color: #ddd;
+	margin-bottom: 0;
+	padding: 0.32em 1.5em;
+}
+
+.sidebar-toolbar {
+	display: flex;
+	width: 15rem;
+	justify-content: flex-end;
+}
+
+.map-aside {
+	float: right;
+	width: 15rem;
+}
+
+.map-mount {
+	background: #ddd;
+	width: calc(100% - 16rem);
+	height: calc(100vh - 5.2rem); /* TODO: Better method to fill remanining height instead of bad hack */
+}

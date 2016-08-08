@@ -12,16 +12,19 @@ export default class GridForm extends PureComponent {
 	}}
 
 	static get defaultProps() {return {
-		id: 'grid-form'
+		id: 'grid-form',
+		defaultWidth: 2,
+		defaultHeight: 2,
+		defaultAngle: 25
 	}}
 
 	constructor(props) {
 		super(props);
 
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleWidthChange = this.handeChange.bind(this, 'width');
-		this.handleHeightChange = this.handeChange.bind(this, 'height');
-		this.handleAngleChange = this.handeChange.bind(this, 'angle');
+		this.handleWidthChange = this.handleChange.bind(this, 'width');
+		this.handleHeightChange = this.handleChange.bind(this, 'height');
+		this.handleAngleChange = this.handleChange.bind(this, 'angle');
 
 		this.state = {
 			width: props.defaultWidth, 
@@ -55,7 +58,7 @@ export default class GridForm extends PureComponent {
 				<section id='grid-angle'>
 					<label>
 						<h5>Grid Angle</h5>
-						<input min={0} max={360} step='any'
+						<input min={0} max={360} step='any' type='number'
 							onChange={this.handleAngleChange} value={angle}
 							className='angle-field' name='angle'
 						/>
@@ -66,13 +69,13 @@ export default class GridForm extends PureComponent {
 				<section id='grid-size'>
 					<label>
 						<h5>Grid Width</h5>
-						<input min={0} step='any' name='width'
+						<input min={0} step='any' name='width' type='number'
 							onChange={this.handleWidthChange} value={width}
 						/>
 					</label>
 					<label>
 						<h5>Grid Height</h5>
-						<input min={0} step='any' name='height'
+						<input min={0} step='any' name='height' type='number'
 							onChange={this.handleHeightChange} value={height}
 						/>
 					</label>

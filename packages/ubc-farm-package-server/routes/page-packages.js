@@ -1,61 +1,35 @@
 import directoryConfig from '../../ubc-farm-page-directory/rollup.config.js';
-export const directory = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-directory.js',
-	handler: {
-		package: Object.assign({}, directoryConfig, {
-			entry: 'ubc-farm-page-directory/index.js'
-		})
-	}
-}
-
-export const directoryFiles = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-directory/{param*}',
-	handler: {
-		directory: { path: 'ubc-farm-page-directory' }
-	}
-}
-
 import invoiceConfig from '../../ubc-farm-page-invoice/rollup.config.js';
-export const invoice = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-invoice.js',
-	handler: {
-		package: Object.assign({}, invoiceConfig, {
-			entry: 'ubc-farm-page-invoice/index.js'
-		})
-	}
-}
-
-export const invoiceFiles = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-invoice/{param*}',
-	handler: {
-		directory: { path: 'ubc-farm-page-invoice' }
-	}
-}
-
 import calendarConfig from '../../ubc-farm-page-calendar/rollup.config.js';
-export const calendar = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-calendar.js',
-	handler: {
-		package: Object.assign({}, calendarConfig, {
-			entry: 'ubc-farm-page-calendar/index.js'
-		})
-	}
-}
-
-export const calendarFiles = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-calendar/{param*}',
-	handler: {
-		directory: { path: 'ubc-farm-page-calendar' }
-	}
-}
-
 import tableConfig from '../../react-table/rollup.config.js';
+import plannerConfig from '../../ubc-farm-page-planner/rollup.config.js';
+import mapEditorConfig from '../../ubc-farm-page-map-editor/rollup.config.js';
+
+const packageRoutes = (pageName, config) => [
+	{
+		method: 'GET',
+		path: `/packages/ubc-farm-page-${pageName}.js`,
+		handler: {
+			package: Object.assign({}, config, {
+				entry: `ubc-farm-page-${pageName}/index.js`
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: `/packages/ubc-farm-page-${pageName}/{param*}`,
+		handler: {
+			directory: { path: `ubc-farm-page-${pageName}` }
+		}
+	}
+];
+
+export const directory = packageRoutes('directory', directoryConfig);
+export const invoice = packageRoutes('invoice', invoiceConfig);
+export const calendar = packageRoutes('calendar', calendarConfig);
+export const planner = packageRoutes('planner', plannerConfig);
+export const mapEditor = packageRoutes('map-editor', mapEditorConfig);
+
 export const table = {
 	method: 'GET',
 	path: '/packages/react-table.js',
@@ -66,31 +40,11 @@ export const table = {
 		})
 	}
 }
-
 export const tableFiles = {
 	method: 'GET',
 	path: '/packages/react-table/{param*}',
 	handler: {
 		directory: { path: 'react-table' }
-	}
-}
-
-import plannerConfig from '../../ubc-farm-page-planner/rollup.config.js';
-export const planner = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-planner.js',
-	handler: {
-		package: Object.assign({}, plannerConfig, {
-			entry: 'ubc-farm-page-planner/index.js'
-		})
-	}
-}
-
-export const plannerFiles = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-planner/{param*}',
-	handler: {
-		directory: { path: 'ubc-farm-page-planner' }
 	}
 }
 
