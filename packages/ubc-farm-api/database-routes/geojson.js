@@ -1,10 +1,12 @@
-import Joi from 'joi';
 import {Field} from '../../ubc-farm-database';
 import {
 	Feature,
 	FeatureCollection
 } from '../../ubc-farm-utils/class/geojson/index.js';
 import {transformReply} from './transformer.js';
+import {print, shallow} from './transformer-validation.js';
+
+const Joi = require('joi') //eslint-disable-line import/no-commonjs
 
 /**
  * Retrieve fields as a GeoJSON Feature Collection
@@ -13,7 +15,7 @@ export function geojson(request, reply) {
 	const query = Field.query()
 		.map(({polygon, parent, grid, $id}) => 
 			new Feature(polygon, {parent, grid}, $id()))
-		.then(features => new FeatureCollection(features))
+		.then(features => new FeatureCollection(features).toJSON())
 
 	return transformReply(query, request, reply);
 }
@@ -107,7 +109,10 @@ export default [
 					featureCollectionSchema, 
 					featureSchema, 
 					polygonSchema
-				)
+				),
+				query: {
+					print, shallow
+				}
 			}
 		}
 	},

@@ -10,7 +10,7 @@
 	"private": true,
 	"dependencies": {
 		"hapi": "^13.5.0",
-		"boom": "^3.2.2"
+		"joi": "9.0.4"
 	},
 	"devDependencies": { 
 		"rollup": "^0.34.1",
