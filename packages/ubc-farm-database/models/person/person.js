@@ -32,7 +32,7 @@ export default class Person extends Model {
 			},
 			phoneNumber: {
 				type: 'string',
-				minLength: 15,
+				minLength: 5,
 				maxLength: 15
 			},
 			addressMailing: addressSchema,
@@ -72,6 +72,7 @@ const addressSchema = {
 		street: {type: 'string'},
 		city: {type: 'string'},
 		province: {type: 'string'},
-		postalCode: {type: 'string', maxLength: 6}
+		postalCode: {type: 'string', maxLength: 6},
+		text: {type: 'string'}
 	}
 }
