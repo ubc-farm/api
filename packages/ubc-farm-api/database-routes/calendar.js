@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import {Event} from '../../ubc-farm-database';
 import {
 	longMonthNames, shortMonthNames
@@ -8,6 +7,8 @@ import {
 	arrayToObjectMap,
 	removeNullandUndef
 } from './transformer.js';
+
+const Joi = require('joi') //eslint-disable-line import/no-commonjs
 
 /**
  * Used to get Events sorted by date and time
@@ -47,7 +48,7 @@ export function calendarCollection(request, reply) {
 }
 
 const yearSchema = Joi.number().integer().positive();
-const monthSchema = Joi.alternatives.try(
+const monthSchema = Joi.alternatives().try(
 	Joi.number().min(1).max(12), 
 	Joi.string().alphanum().min(3).max(9)
 ); 

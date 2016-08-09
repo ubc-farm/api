@@ -95,7 +95,10 @@ export default [
 		handler: geojson,
 		config: {
 			response: {
-				schema: featureCollectionSchema
+				schema: Joi.any()
+					.when(Joi.ref('$query.shallow'), {is: false, 
+						then: featureCollectionSchema	
+					})
 			}
 		}
 	},
