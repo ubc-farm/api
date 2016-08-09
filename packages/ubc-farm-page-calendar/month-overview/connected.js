@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import DatePickerTable from '../date-picker/table.js';
+import DatePickerTable from '../../datetime-picker/date/table.js';
 import {adjustViewingMonth, setViewingDate} from '../redux/actions.js';
 
 export default connect(

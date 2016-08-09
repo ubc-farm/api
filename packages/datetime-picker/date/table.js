@@ -7,13 +7,14 @@ import Body from './dates.js';
 
 const PickerTable = ({
 	viewingDate = new Date(), todayDate = new Date(), selectedDate = new Date(),
-	onPrevious, onFollowing, onDateClick
+	onPrevious, onFollowing, onDateClick,
+	className
 }) => {
 	const sameMonthAsToday = equal(todayDate, viewingDate, 2);
 	const sameMonthAsSelected = equal(selectedDate, viewingDate, 2);
 
 	return (
-		<table>
+		<table className={className}>
 			<Caption 
 				onLeftClick={onPrevious} 
 				onRightClick={onFollowing} 
@@ -26,6 +27,7 @@ const PickerTable = ({
 				selectedDate={sameMonthAsSelected ? selectedDate.getDate() : undefined} 
 				todayDate={sameMonthAsToday ? todayDate.getDate() : undefined}
 				onClick={onDateClick}
+				onPrevious={onPrevious} onFollowing={onFollowing}
 			/>
 		</table>
 	)
@@ -37,7 +39,8 @@ PickerTable.propTypes = {
 	selectedDate: PropTypes.instanceOf(Date),
 	onPrevious: PropTypes.func,
 	onFollowing: PropTypes.func,
-	onDateClick: PropTypes.func
+	onDateClick: PropTypes.func,
+	className: PropTypes.string
 }
 
 export default PickerTable;
