@@ -1,8 +1,8 @@
+import {badData} from 'boom';
 import {Field} from '../../ubc-farm-database';
 import {
 	Feature,
-	FeatureCollection,
-	Polygon
+	FeatureCollection
 } from '../../ubc-farm-utils/class/geojson/index.js';
 import {transformReply} from './transformer.js';
 
@@ -18,25 +18,75 @@ export function geojson(request, reply) {
 	return transformReply(query, request, reply);
 }
 
-export function geojsonPost(request, reply) {
-	const feature = new Feature(request.payload);
-	feature.geometry = Polygon.from(feature.geometry);
+function featureToField(feature) {
+	const {id, properties, geometry} = feature;
+	if (geometry.type !== 'Polygon') 
+		throw badData(`Geometry type must be Polygon, cannot be ${geometry.type}`);
+	
+	const path = geometry.coordinates, {parent, grid} = properties || {};
+	
+	let field = {path, parent};
+	if (id) field.id = id;
+	if (grid) {
+		field.gridWidths = [grid.baseWidth, ...grid.specificWidths || []];
+		field.gridHeights = [grid.baseHeight, ...grid.specificHeights || []];
+	}	
+	
+	return field;
+}
 
-	const field = {
-		path: feature.geometry.coordinates,
-		gridWidths: [feature.grid.width],
-		gridHeights: [feature.grid.height],
-		parent: feature.parent
-	};
+export function geojsonAdd(request, reply) {
+	const {payload} = request;
+	let insertQuery = [];
 
-	const query = Field.query.insert([field])
+	switch (payload.type) {
+		case 'FeatureCollection': {
+			for (const feature of payload.features) {
+				try {
+					insertQuery.push(featureToField(feature));
+				} catch (err) {
+					if (err.isBoom && err.output.statusCode === 422)
+						return reply(err);
+					else throw err;
+				}
+			}
+			break;
+		}
+		case 'Feature': 
+			try {
+				insertQuery[0] = featureToField(payload);
+				break;
+			} catch (err) {
+				if (err.isBoom && err.output.statusCode === 422)
+					return reply(err);
+				else throw err;
+			}
+		case 'Polygon': {
+			const path = payload.coordinates;
+			insertQuery[0] = {path};
+			break;
+		}
+		default: return reply(badData(
+			'GeoJSON Type must be a FeatureCollection, Feature, or Polygon;' 
+			+ ` it cannot be ${payload.type}`
+		)); 
+	}
+
+	const query = Field.query.insert(insertQuery)
 		.then(inserted => ({ id: inserted[Field.idColumn] }));
 
 	return transformReply(query, request, reply);
 }
 
-export default {
-	method: 'GET',
-	path: '/api/fields/geojson',
-	handler: geojson
-}
+export default [
+	{
+		method: 'GET',
+		path: '/api/fields/geojson',
+		handler: geojson
+	},
+	{
+		method: 'POST',
+		path: '/api/fields/geojson',
+		handler: geojsonAdd
+	},
+]
