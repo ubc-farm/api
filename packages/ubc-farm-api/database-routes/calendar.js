@@ -1,3 +1,4 @@
+import Joi from 'joi';
 import {Event} from '../../ubc-farm-database';
 import {
 	longMonthNames, shortMonthNames
@@ -45,21 +46,51 @@ export function calendarCollection(request, reply) {
 	return transformReply(query, request, reply);
 }
 
+const yearSchema = Joi.number().integer().positive();
+const monthSchema = Joi.alternatives.try(
+	Joi.number().min(1).max(12), 
+	Joi.string().alphanum().min(3).max(9)
+); 
+
 export default [
 	{
 		method: 'GET',
 		path: '/api/calendar/{year}/{month}/{date}',
-		handler: calendarCollection
+		handler: calendarCollection,
+		config: {
+			validate: {
+				params: {
+					year: yearSchema,
+					month: monthSchema,
+					date: Joi.number().min(1).max(31).integer().positive()
+				}
+			}
+		}
 	},
 	{
 		method: 'GET',
 		path: '/api/calendar/{year}/{month}',
-		handler: calendarCollection
+		handler: calendarCollection,
+		config: {
+			validate: {
+				params: {
+					year: yearSchema,
+					month: monthSchema
+				}
+			}
+		}
 	},
 	{
 		method: 'GET',
 		path: '/api/calendar/{year}',
-		handler: calendarCollection
+		handler: calendarCollection,
+		config: {
+			validate: {
+				params: {
+					year: yearSchema
+				}
+			}
+		}
 	},
 	{
 		method: 'GET',
