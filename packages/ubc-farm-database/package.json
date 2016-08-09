@@ -9,12 +9,12 @@
 	"jsnext:main": "index.es.js",
 	"private": true,
   "dependencies": {
-    "knex": "^0.11.9",
-		"objection": "^0.5.5",
-		"pg": "^6.0.3"
+    "knex": "0.11.10",
+		"objection": "0.5.5",
+		"pg": "6.0.3"
   },
 	"devDependencies": { 
-		"rollup": "^0.34.1",
+		"rollup": "0.34.7",
 		"rollup-plugin-alias": "^1.2.0",
 		"rollup-plugin-commonjs": "^3.3.1"
 	},
