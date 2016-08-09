@@ -1,7 +1,7 @@
 import {createElement as h, PropTypes, PureComponent} from 'react'; 
 /** @jsx h */
 
-export default class RoleField extends PureComponent {
+export default class NameField extends PureComponent {
 	static get propTypes() {return {
 		defaultValue: PropTypes.string,
 		onChange: PropTypes.string
