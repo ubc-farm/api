@@ -2,23 +2,25 @@
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 import * as models from '../../ubc-farm-database';
+import {validate} from '../database-routes/transformer-validation.js';
 import modelHandler from './model-handler/index.js';
 
 function* methodRoutes(model) {
 	for (let method of methods) {
 		const handler = modelHandler({method}, {model});
+		const config = {validate}
 		if (method == 'POST') {
 			yield {
-				method, handler,
-				path: `/api/${model.label}`
+				method, handler, config,
+				path: `/api/${model.label}`,
 			}
 		} else {
 			yield {
-				method, handler,
+				method, handler, config,
 				path: `/api/${model.label}/{id?}`
 			};
 			yield {
-				method, handler,
+				method, handler, config,
 				path: `/api/${model.label}/{id}/{property}`
 			};
 		}
