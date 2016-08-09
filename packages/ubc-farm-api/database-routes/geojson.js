@@ -1,4 +1,4 @@
-import {badData} from 'boom';
+import Joi from 'joi';
 import {Field} from '../../ubc-farm-database';
 import {
 	Feature,
@@ -20,9 +20,6 @@ export function geojson(request, reply) {
 
 function featureToField(feature) {
 	const {id, properties, geometry} = feature;
-	if (geometry.type !== 'Polygon') 
-		throw badData(`Geometry type must be Polygon, cannot be ${geometry.type}`);
-	
 	const path = geometry.coordinates, {parent, grid} = properties || {};
 	
 	let field = {path, parent};
@@ -41,35 +38,18 @@ export function geojsonAdd(request, reply) {
 
 	switch (payload.type) {
 		case 'FeatureCollection': {
-			for (const feature of payload.features) {
-				try {
-					insertQuery.push(featureToField(feature));
-				} catch (err) {
-					if (err.isBoom && err.output.statusCode === 422)
-						return reply(err);
-					else throw err;
-				}
-			}
+			for (const feature of payload.features) 
+				insertQuery.push(featureToField(feature));
 			break;
 		}
 		case 'Feature': 
-			try {
-				insertQuery[0] = featureToField(payload);
-				break;
-			} catch (err) {
-				if (err.isBoom && err.output.statusCode === 422)
-					return reply(err);
-				else throw err;
-			}
+			insertQuery[0] = featureToField(payload);
+			break;
 		case 'Polygon': {
 			const path = payload.coordinates;
 			insertQuery[0] = {path};
 			break;
 		}
-		default: return reply(badData(
-			'GeoJSON Type must be a FeatureCollection, Feature, or Polygon;' 
-			+ ` it cannot be ${payload.type}`
-		)); 
 	}
 
 	const query = Field.query.insert(insertQuery)
@@ -78,15 +58,57 @@ export function geojsonAdd(request, reply) {
 	return transformReply(query, request, reply);
 }
 
+const polygonSchema = Joi.object().keys({
+	type: Joi.string().valid('Polygon').required(),
+	coordinates: Joi.array().min(1).items(
+		Joi.array().min(3).items(
+			Joi.array().min(2).items(Joi.number())
+		)
+	).required()
+});
+
+const featureSchema = Joi.object().keys({
+	type: Joi.string().valid('Feature').required(),
+	geometry: polygonSchema,
+	properties: {
+		parent: Joi.string().optional(),
+		grid: Joi.object().keys({
+			baseWidth: Joi.number(),
+			baseHeight: Joi.number(),
+			specificWidths: Joi.array().items(Joi.number()).optional(),
+			specificHeights: Joi.array().items(Joi.number()).optional()
+		}).requiredKeys('baseWidth', 'baseHeight').optional()
+	}
+}).requiredKeys('geometry', 'properties');
+
+const featureCollectionSchema = Joi.object().keys({
+	type: Joi.string().valid('FeatureCollection').required(),
+	features: Joi.array().items(featureSchema).required()
+});
+
 export default [
 	{
 		method: 'GET',
 		path: '/api/fields/geojson',
-		handler: geojson
+		handler: geojson,
+		config: {
+			response: {
+				schema: featureCollectionSchema
+			}
+		}
 	},
 	{
 		method: 'POST',
 		path: '/api/fields/geojson',
-		handler: geojsonAdd
+		handler: geojsonAdd,
+		config: {
+			validate: {
+				payload: Joi.alternatives().try(
+					featureCollectionSchema, 
+					featureSchema, 
+					polygonSchema
+				)
+			}
+		}
 	},
 ]
