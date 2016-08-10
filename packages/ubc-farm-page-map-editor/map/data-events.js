@@ -1,4 +1,5 @@
 import map from './map.js';
+import {isGridCell} from './filter.js';
 
 /**
  * Adds functionality to 'select' polygons when mousing over them
@@ -11,7 +12,8 @@ class Selector {
 	 * @param {function} filter - passed the feature, returns true if this is a feature that should be able to be selected
 	 */
 	constructor(map) {
-		this.active = false; this.ctrlKey = false; this.map = map;
+		this.active = false; this.ctrlKey = false; 
+		this.map = map;
 
 		this.handleMouseOver = this.handleMouseOver.bind(this);
 		this.handleRightMouseDown = this.handleRightMouseDown.bind(this);
@@ -44,7 +46,7 @@ class Selector {
 
 	/** Event handler for when the mouse goes over a tile */
 	handleMouseOver({feature}) {
-		if (this.active) {
+		if (this.active && isGridCell(feature)) {
 			const selected = feature.getProperty('selected');
 			if (this.ctrlKey && selected) 
 				feature.setProperty('selected', false);

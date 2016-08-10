@@ -1,9 +1,7 @@
 /* global google */
 import store from '../redux/store.js';
-import map from './map.js';
-import drawingManager from './drawing-manager.js';
+import map, {fieldStyle} from './map.js';
 import polygonRef from './polygons.js';
-import {field as fieldStyle} from './style.js';
 
 /**
  * @param {Iterable<V>} source
@@ -37,11 +35,7 @@ class MapStoreListener {
 	handleMeta() {
 		const {mapMeta} = store.getState();
 		if (mapMeta !== this.state.mapMeta) {
-			const newMode = mapMeta.adding 
-				? google.maps.drawing.OverlayType.POLYGON || 'polygon'
-				: null;
-
-			drawingManager.setDrawingMode(newMode);
+			map.data.setDrawingMode(mapMeta.adding ? 'Polygon'	: null);
 		}
 	}
 

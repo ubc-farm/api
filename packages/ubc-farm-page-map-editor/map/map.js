@@ -1,4 +1,5 @@
-/* global google */
-import {map as style} from './style.js';
+import {color, field, map, grid} from '../../ubc-farm-page-fields/map/style.js';
 
-export default new google.maps.Map(document.getElementById('map-mount'), style);
+export {color, grid};
+export {map as mapStyle, field as fieldStyle};
+export {default, features} from '../../ubc-farm-page-fields/map/index.js';

@@ -1,41 +1,45 @@
-/* global google */
-import {id} from '../../ubc-farm-utils/index.js';
+import {id as randomID} from '../../ubc-farm-utils/index.js';
 import {changeActive, setAdding} from '../redux/actions.js';
 import buildGrid from '../redux/build-grid-action.js';
 import store from '../redux/store.js';
-import drawManager from './drawing-manager.js';
-
-/** 
- * Stores special data about the polygons on the map, including the 
- * @type {WeakMap<google.maps.Polygon, Object>}
- */
-export const polygonData = new WeakMap();
+import map from './map.js';
+import {isField, isNewlyDrawn} from './filter.js';
 
 /**
- * Reference polygons by ID
- * @type {Map<string, google.maps.Polygon>}
+ * Listener for click event
  */
-const polygonRef = new Map();
-export default polygonRef;
-
-export function handlePolygonClick() {
-	const {id} = polygonData.get(this);
-	store.dispatch(changeActive(id));
+export function handlePolygonClick({feature}) {
+	if (isField(feature)) {
+		const id = feature.getId();
+		store.dispatch(changeActive(id));
+	}
 }
 
-function handleDrawnPolygon(polygon) {
-	const polyID = id();
-	polygonData.set(polygon, {
-		id: polyID,
-		clickListener: google.maps.event.addListener(
-			polygon, 'click', handlePolygonClick
-		)
-	});
-	polygonRef.set(polyID, polygon);
-
-	store.dispatch(setAdding(false));
-	store.dispatch(buildGrid(polyID));
+/** Promisified version of Data.Feature.toGeoJson() */
+function toGeoJson(feature) {
+	return new Promise(resolve => feature.toGeoJson(resolve));
 }
 
-google.maps.event.addListener(drawManager, 
-	'polygoncomplete', handleDrawnPolygon);
+/**
+ * Listener for addfeature event
+ */
+export function handlePolygonAdd({feature}) {
+	if (isNewlyDrawn(feature)) {
+		store.dispatch(setAdding(false));
+
+		const id = randomID();
+		toGeoJson(feature).then(f => {
+			f.id = id;
+			f.properties.parent = null;
+			f.properties.grid = {
+				baseWidth: 2, baseHeight: 2,
+				specificWidths: [], specificHeights: []
+			};
+
+			map.data.remove(feature);
+			map.data.addGeoJson(f);
+
+			store.dispatch(buildGrid(id));
+		});
+	}
+}
