@@ -1,9 +1,13 @@
 import {id as randomID} from '../../ubc-farm-utils/index.js';
+
 import {changeActive, setAdding} from '../redux/actions.js';
 import buildGrid from '../redux/build-grid-action.js';
 import store from '../redux/store.js';
+
 import map from './map.js';
 import {isField, isNewlyDrawn} from './filter.js';
+import {toGeoJson} from './promisify.js';
+import defaultGrid from './grid-default.js';
 
 /**
  * Listener for click event
@@ -13,11 +17,6 @@ export function handlePolygonClick({feature}) {
 		const id = feature.getId();
 		store.dispatch(changeActive(id));
 	}
-}
-
-/** Promisified version of Data.Feature.toGeoJson() */
-function toGeoJson(feature) {
-	return new Promise(resolve => feature.toGeoJson(resolve));
 }
 
 /**
@@ -31,10 +30,7 @@ export function handlePolygonAdd({feature}) {
 		toGeoJson(feature).then(f => {
 			f.id = id;
 			f.properties.parent = null;
-			f.properties.grid = {
-				baseWidth: 2, baseHeight: 2,
-				specificWidths: [], specificHeights: []
-			};
+			f.properties.grid = defaultGrid;
 
 			map.data.remove(feature);
 			map.data.addGeoJson(f);

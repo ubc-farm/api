@@ -11,7 +11,7 @@ export default class Feature {
 	 * @param {Object} properties
 	 * @param {any} [id]
 	 */
-	constructor(geometry, properties, id) {
+	constructor(geometry, properties = null, id) {
 		Object.assign(this, {geometry, properties});
 		if (id) this.id = id;
 	}
