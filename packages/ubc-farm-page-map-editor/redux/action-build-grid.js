@@ -4,8 +4,7 @@ import map from '../map/map.js';
 import {toGeoJson} from '../map/promisify.js';
 
 import {
-	changeActive, changeFieldFormData,
-	updateGeoJson
+	setSelected, applyGridData, overwriteCells
 } from './actions.js';
 
 const GridWorker = 
@@ -13,19 +12,18 @@ const GridWorker =
 
 export default function buildGrid(polyID, gridOptions) {
 	return (dispatch, getState) => {
-		if (!polyID) polyID = getState().active;
-
-		if (gridOptions) dispatch(changeFieldFormData(polyID, gridOptions));
-		gridOptions = getState().gridForm.get(polyID);
+		polyID = polyID || getState().active;
+		if (gridOptions) dispatch(applyGridData(polyID, gridOptions));
+		gridOptions = getState().grids.get(polyID);
 
 		const polygon = map.data.getFeatureById(polyID);
 
 		return toGeoJson(polygon)
 		.then(feature => GridWorker.postMessage({feature, gridOptions}))
 		.then(features => {
-			dispatch(updateGeoJson(polyID, features));
-			dispatch(changeActive(polyID));
+			dispatch(overwriteCells(polyID, features));
+			dispatch(setSelected(polyID));
 		})
-		.catch(err => dispatch(updateGeoJson(polyID, undefined, err)));
+		.catch(err => dispatch(overwriteCells(polyID, undefined, err)));
 	}
 }

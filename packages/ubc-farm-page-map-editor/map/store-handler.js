@@ -1,7 +1,6 @@
 /* global google */
 import store from '../redux/store.js';
-import map, {fieldStyle} from './map.js';
-import polygonRef from './polygons.js';
+import map from './map.js';
 
 /**
  * @param {Iterable<V>} source
@@ -19,23 +18,22 @@ class MapStoreListener {
 	/** @param {Map<string, google.maps.Polygon>} polygonRef */
 	constructor() { 
 		this.state = undefined;
-		this.polygons = polygonRef;
 	}
 
 	handleActive() {
 		const {active} = store.getState(), {state} = this;
 		if (active !== state.active) {
-			const last = this.polygons.get(state.active);
-			const next = this.polygons.get(active);
-			last.setOptions(fieldStyle.normal);
-			next.setOptions(fieldStyle.selected);
+			const last = map.data.getFeatureById(state.active);
+			const next = map.data.getFeatureById(active);
+			last.removeProperty('activeField');
+			next.setProperty('activeField', true);
 		}
 	}
 
 	handleMeta() {
 		const {mapMeta} = store.getState();
 		if (mapMeta !== this.state.mapMeta) {
-			map.data.setDrawingMode(mapMeta.adding ? 'Polygon'	: null);
+			map.data.setDrawingMode(mapMeta.adding ? 'Polygon' : null);
 		}
 	}
 

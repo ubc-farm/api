@@ -1,7 +1,7 @@
 import {id as randomID} from '../../ubc-farm-utils/index.js';
 
-import {changeActive, setAdding} from '../redux/actions.js';
-import buildGrid from '../redux/build-grid-action.js';
+import {setSelected, addingMode} from '../redux/actions.js';
+import buildGrid from '../redux/action-build-grid.js';
 import store from '../redux/store.js';
 
 import map from './map.js';
@@ -15,7 +15,7 @@ import defaultGrid from './grid-default.js';
 export function handlePolygonClick({feature}) {
 	if (isField(feature)) {
 		const id = feature.getId();
-		store.dispatch(changeActive(id));
+		store.dispatch(setSelected(id));
 	}
 }
 
@@ -24,7 +24,7 @@ export function handlePolygonClick({feature}) {
  */
 export function handlePolygonAdd({feature}) {
 	if (isNewlyDrawn(feature)) {
-		store.dispatch(setAdding(false));
+		store.dispatch(addingMode(false));
 
 		const id = randomID();
 		toGeoJson(feature).then(f => {
@@ -35,6 +35,7 @@ export function handlePolygonAdd({feature}) {
 			map.data.remove(feature);
 			map.data.addGeoJson(f);
 
+			store.dispatch(setSelected(id));
 			store.dispatch(buildGrid(id));
 		});
 	}

@@ -1,59 +1,56 @@
-export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
-export const UPDATE_GEOJSON = 'UPDATE_GEOJSON';
-export const ADD_MODE = 'ADD_MODE';
+export const OVERWRITE_CELLS = 'OVERWRITE_CELLS';
 
-export const CLEAR_GRID_DATA = 'CLEAR_GRID_DATA';
-export const CHANGE_GRID_FIELD = 'CHANGE_GRID_FIELD';
-export const SET_LOADING = 'SET_LOADING';
+export const ADD_MODE = 'ADD_MODE';
 export const SET_RESIZING = 'SET_RESIZING';
 
-export function changeActive(newId) {
-	return {type: CHANGE_ACTIVE, newId}
-}
-export function updateGeoJson(id, payload, error) {
-	return {type: UPDATE_GEOJSON, payload, error, meta: {id}}
+export const SET_LOADING = 'SET_LOADING';
+export const APPLY_GRID_DATA = 'APPLY_GRID_DATA';
+
+
+export {
+	SET_SELECTED, 
+	setSelected
+} from '../../ubc-farm-page-fields/redux/actions.js';
+
+/** Used to load a new grid onto the map, for the given parent field */
+export function overwriteCells(parent, payload, error) {
+	return {type: OVERWRITE_CELLS, payload, error, meta: parent}
 }
 
-export function clearSubData(forId) {
-	return {type: CLEAR_GRID_DATA, id: forId};
+/** Set the grid property for a field */
+export function applyGridData(toField, grid) {
+	return {type: APPLY_GRID_DATA, payload: grid, meta: toField}
 }
 
-export function changeField(id, field, newValue) {
-	if (
-		['width', 'height', 'angle', 'widthSpecific', 'heightSpecific']
-		.includes(field)
-	) {
-		return {type: CHANGE_GRID_FIELD, id, field, value: newValue}
-	} else
-		return {};
-}
-export function changeFieldFormData(id, formData) {
-	return dispatch => {
-		for (const key in formData) dispatch(changeField(id, key, formData[key]));
-	}
+
+
+/** Set the field to be resized. Call with no args to clear. */
+export function resizeField(id = '') {
+	return {type: SET_RESIZING, payload: id}
 }
 
-export function setLoading(id, loadingState) {
-	return {type: SET_LOADING, id, loading: loadingState}
+/** If true, the user can draw on the map. */
+export function addingMode(state) {
+	return {type: ADD_MODE, payload: state}
 }
 
-export function setResizing(id, resizingState) {
-	return {type: SET_RESIZING, meta: id, payload: resizingState}
-}
-export function toggleResize() {
+
+
+/** Toggles resizing for the selected polygon */
+export function toggleResizing() {
 	return (dispatch, getState) => {
-		const {active, gridForm} = getState();
-		const {resizing} = gridForm.get(active) || {};
-		return dispatch(setResizing(active, !resizing));
+		const {active, resizing} = getState();
+		if (resizing === active) 
+			return dispatch(resizeField());
+		else 
+			return dispatch(resizeField(active));
 	}
 }
 
-export function setAdding(addingState) {
-	return {type: ADD_MODE, payload: addingState}
-}
+/** Toggles adding mode */
 export function toggleAdding() {
 	return (dispatch, getState) => {
-		const {adding} = getState().mapMeta;
-		dispatch(setAdding(!adding));
+		const addModeActive = getState().mapMeta.adding;
+		dispatch(addingMode(!addModeActive));
 	}
 }
