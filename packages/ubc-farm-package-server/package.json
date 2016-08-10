@@ -9,8 +9,8 @@
 	"jsnext:main": "index.es.js",
 	"private": true,
 	"dependencies": {
-		"hapi": "^13.5.0",
-		"rollup": "^0.34.1",
+		"hapi": "14.1.0",
+		"rollup": "0.34.2",
 		"inert": "^4.0.1",
 		"boom": "^3.2.2"
 	},
@@ -20,7 +20,8 @@
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js",
-		"quickstart": "npm run prepublish && npm start"
+		"quickstart": "npm run prepublish && npm start",
+		"watch": "nodemon index.node.js"
 	},
 	"server": {
 		"port": 3002

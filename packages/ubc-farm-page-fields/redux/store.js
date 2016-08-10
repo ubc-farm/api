@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 
-import active from './active-reducer.js';
+import active from './reducer-active.js';
 
 export default createStore(
 	combineReducers({

@@ -21,7 +21,7 @@ if (typeof process !== 'undefined' && process.env.NO_OUTPUT) {
 
 export const server = Object.assign({}, base, {
 	external: [
-		'hapi', 'vision',	'inert', 'h2o2',
+		'hapi', 'vision',	'inert', 'h2o2', 'boom', 'joi',
 		'handlebars', 'path', 'url', 'moment'
 	],
 	plugins: [

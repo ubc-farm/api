@@ -43,7 +43,7 @@ export const momemt = {
 
 export const timeline = {
 	method: 'GET',
-	path: '/packages/vis-timeline.js',
+	path: '/packages/vis-timeline/index.js',
 	handler: {
 		file: 'vis-timeline/index.iife.js'
 	}

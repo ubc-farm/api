@@ -9,11 +9,11 @@
 	"jsnext:main": "index.es.js",
 	"private": true,
 	"dependencies": {
-		"hapi": "^13.5.0",
+		"hapi": "14.1.0",
 		"joi": "9.0.4"
 	},
 	"devDependencies": { 
-		"rollup": "^0.34.1",
+		"rollup": "0.34.2",
 		"rollup-plugin-alias": "^1.2.0",
 		"rollup-plugin-json": "^2.0.1",
 		"rollup-plugin-node-resolve": "^2.0.0"

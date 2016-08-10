@@ -4,20 +4,21 @@
 	{{> head}}
 	{{> test}}
 	<link href='/css/core/form.css' rel='stylesheet'>
+	<link href='/packages/ubc-farm-page-fields/fill.css' rel='stylesheet'>
 	<script async src='/packages/ubc-farm-page-fields/menus.js'></script>
 	<script defer 
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU&callback=initMap"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU"
   ></script>
 	<script defer src='/packages/ubc-farm-page-fields/map.js'></script>
 </head>
-<body>
+<body class='fill-body'>
 	{{> app-banner active='Fields'}}
 	{{> section-banner title='Fields' href='/fields'}}
 
 	<div id='aside-mount'></div>
-	<section class='map-container'>
-		<div id='map-mount'></div>
-		<div id='map-controls-mount'></div>
+	<section class='map-container fill-content'>
+		<div id='map-mount' class='fill'></div>
+		<div id='weather-mount'></div>
 	</section>
 </body>
 </html>
