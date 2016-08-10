@@ -9,7 +9,7 @@ import fieldsConfig from '../../ubc-farm-page-fields/rollup.config.js';
 const packageRoutes = (pageName, config) => [
 	{
 		method: 'GET',
-		path: `/packages/ubc-farm-page-${pageName}.js`,
+		path: `/packages/ubc-farm-page-${pageName}/index.js`,
 		handler: {
 			package: Object.assign({}, config, {
 				entry: `ubc-farm-page-${pageName}/index.js`
@@ -33,7 +33,7 @@ export const mapEditor = packageRoutes('map-editor', mapEditorConfig);
 
 export const table = {
 	method: 'GET',
-	path: '/packages/react-table.js',
+	path: '/packages/react-table/index.js',
 	handler: {
 		package: Object.assign({}, tableConfig, {
 			entry: 'react-table/index.js',
@@ -51,7 +51,7 @@ export const tableFiles = {
 
 export const utils = {
 	method: 'GET',
-	path: '/packages/ubc-farm-utils.js',
+	path: '/packages/ubc-farm-utils/index.js',
 	handler: {
 		package: {
 			entry: 'ubc-farm-utils/index.js',
@@ -65,9 +65,9 @@ export const fields = {
 	method: 'GET',
 	path: '/packages/ubc-farm-page-fields/map.js',
 	handler: {
-		package: {
+		package: Object.assign({}, fieldsConfig, {
 			entry: 'ubc-farm-page-fields/map/index.js',
 			moduleName: 'FieldMap'
-		}
+		})
 	}
 }
