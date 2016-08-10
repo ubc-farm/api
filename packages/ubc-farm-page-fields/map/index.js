@@ -1,3 +1,4 @@
+import 'googlemaps-enhancer';
 import './connector.js';
 
 export {default} from './map.js';
