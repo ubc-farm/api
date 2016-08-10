@@ -8,8 +8,7 @@
 	"private": true,
 	"dependencies": {
 		"react": "^15.3.0",
-		"react-dom": "^15.3.0",
-		"googlemaps-enhancer": "NotWoods/googlemaps-enhancer"
+		"react-dom": "^15.3.0"
 	},
 	"browser": "index.iife.js",
 	"devDependencies": {

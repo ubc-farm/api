@@ -16,12 +16,12 @@ export default class ZoomButtons extends PureComponent {
 
 	handleZoomInClick() {
 		const {map} = this.props;
-		map.zoom = map.zoom + 1;	
+		map.setZoom(map.getZoom() + 1);
 	}
 
 	handleZoomOutClick() {
 		const {map} = this.props;
-		map.zoom = map.zoom - 1;
+		map.setZoom(map.getZoom() - 1);
 	}
 
 	render() {

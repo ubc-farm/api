@@ -36,6 +36,7 @@ export const invoice = packageRoutes('invoice', invoiceConfig);
 export const calendar = packageRoutes('calendar', calendarConfig);
 export const planner = packageRoutes('planner', plannerConfig);
 export const mapEditor = packageRoutes('map-editor', mapEditorConfig);
+export const fields = packageRoutes('fields', fieldsConfig);
 
 export const table = {
 	method: 'GET',
@@ -67,7 +68,7 @@ export const utils = {
 	}
 }
 
-export const fields = {
+export const fieldsMap = {
 	method: 'GET',
 	path: '/packages/ubc-farm-page-fields/map.js',
 	handler: {
