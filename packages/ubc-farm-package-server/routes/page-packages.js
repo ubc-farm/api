@@ -4,6 +4,7 @@ import calendarConfig from '../../ubc-farm-page-calendar/rollup.config.js';
 import tableConfig from '../../react-table/rollup.config.js';
 import plannerConfig from '../../ubc-farm-page-planner/rollup.config.js';
 import mapEditorConfig from '../../ubc-farm-page-map-editor/rollup.config.js';
+import fieldsConfig from '../../ubc-farm-page-fields/rollup.config.js';
 
 const packageRoutes = (pageName, config) => [
 	{
@@ -56,6 +57,17 @@ export const utils = {
 			entry: 'ubc-farm-utils/index.js',
 			moduleName: 'Utils',
 			sourceMap: true
+		}
+	}
+}
+
+export const fields = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-fields/map.js',
+	handler: {
+		package: {
+			entry: 'ubc-farm-page-fields/map/index.js',
+			moduleName: 'FieldMap'
 		}
 	}
 }

@@ -34,6 +34,16 @@ export const calendar = {
 	}
 }
 
+export const fields = {
+	method: 'GET',
+	path: '/fields',
+	handler: {
+		view: {
+			template: 'ubc-farm-page-fields/view.html'
+		}
+	}
+}
+
 export const planner = {
 	method: 'GET',
 	path: '/calendar/planner',
