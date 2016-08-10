@@ -18,6 +18,12 @@ const packageRoutes = (pageName, config) => [
 	},
 	{
 		method: 'GET',
+		path: `/packages/ubc-farm-page-${pageName}.js`,
+		handler: (req, reply) => 
+			reply().redirect(`/packages/ubc-farm-page-${pageName}/index.js`)
+	},
+	{
+		method: 'GET',
 		path: `/packages/ubc-farm-page-${pageName}/{param*}`,
 		handler: {
 			directory: { path: `ubc-farm-page-${pageName}` }
