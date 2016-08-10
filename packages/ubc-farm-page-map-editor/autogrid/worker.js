@@ -1,6 +1,8 @@
 import {register} from 'promise-worker';
 import {geom, io} from '../../jsts/index.js';
-import {FeatureCollection} from '../../ubc-farm-utils/class/geojson/index.js';
+import {
+	Feature, FeatureCollection
+} from '../../ubc-farm-utils/class/geojson/index.js';
 import AutoGrid from './autogrid.js';
 import GridMerge from './merge.js';
 
@@ -33,9 +35,9 @@ function mergeCells({cells}) {
 
 /**
  * Build a field and return its grid
- * @param {Object} msg
- * @param {GeoJSON.Polygon} msg.polygon for field
- * @param {Object} msg.gridOptions
+ * @param {GeoJSON.Feature} feature for field
+ * @param {Object} feature.id - id of the field, set as cell parent
+ * @param {Object} msg.grid
  * @param {number} msg.gridOptions.width - base width of grid
  * @param {number} msg.gridOptions.height - base height of grid
  * @param {number} msg.gridOptions.angle - angle of grid
@@ -45,19 +47,28 @@ function mergeCells({cells}) {
  * @param {number[]} msg.gridOptions.heightSpecific[] - key and height
  * @return {FeatureCollection} array of cell polygons
  */
-function buildGrid({polygon, gridOptions}) {
-	polygon = reader.read(polygon);
+function buildGrid(feature) {
+	const field = feature.id;
+	const polygon = reader.read(feature.geometry);
 
-	let cells = Array.from(
-		AutoGrid(polygon, gridOptions, gridOptions.angle),
-		cell => writer.write(cell)
-	);
-	cells = cells.filter(c => c.type === 'Polygon');
-	
-	return new FeatureCollection(cells);
+	let features = [];
+	for (const cell of AutoGrid(polygon, feature.properties.grid)) {
+		if (cell.getGeometryTYpe() !== 'Polygon') continue;
+
+		const geometry = writer.write(cell);
+		const properties = {
+			isGridCell: true,
+			parent: field
+		}
+		const feature = new Feature(geometry, properties);
+
+		features.push(feature);
+	}
+
+	return new FeatureCollection(features);
 }
 
 register(msg => {
-	if ('polygon' in msg) return buildGrid(msg);
+	if ('feature' in msg) return buildGrid(msg.feature);
 	else if ('cells' in msg) return mergeCells(msg);
 });

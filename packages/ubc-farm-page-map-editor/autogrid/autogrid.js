@@ -5,25 +5,26 @@ import DefaultMap from './defaultmap.js';
 /**
  * Using flood-fill algorithm, fill the container with grid rectangles.
  * @param {jsts.geom.Polygon} container - polygon to fill with grid
- * @param {Object} [baseDimensions]
- * @param {number} [baseDimensions.width] - width of each cell
- * @param {number} [baseDimensions.height] - height of each cell
- * @param {number} [angle] of the grid
+ * @param {Object} [gridOptions]
+ * @param {number} [gridOptions.baseWidth] - width of each cell
+ * @param {number} [gridOptions.baseHeight] - height of each cell
+ * @param {number} [gridOptions.angle] of the grid
  * @returns {Generator}
  * @yields {jsts.geom.Polygon} grid cell
  * @throws if container isn't a jsts geometry
  */
-export default function* AutoGrid(container, baseDimensions, angle = 0.0) {
+export default function* AutoGrid(container, gridOptions) {
 	if (!container.getGeometryType) 
 		throw TypeError('AutoGrid container must be a JSTS geometry');
 	const width = new DefaultMap(
-		baseDimensions.width || 1.0, 
-		baseDimensions.widthSpecific
+		gridOptions.baseWidth || 2.0, 
+		gridOptions.specificWidths
 	);
 	const height = new DefaultMap(
-		baseDimensions.height || 1.0, 
-		baseDimensions.heightSpecific
+		gridOptions.baseHeight || 2.0, 
+		gridOptions.specificHeights
 	);
+	const {angle} = gridOptions;
 
 	const cells = new PolygonSet(), queue = [];
 	queue.push({pos: container.getCoordinate(), row: 0, col: 0});

@@ -1,6 +1,8 @@
 import PromiseWorker from 'promise-worker';
-import {Polygon} from '../../ubc-farm-utils/class/geojson/index.js';
-import polygonRef from '../map/polygons.js';
+
+import map from '../map/map.js';
+import {toGeoJson} from '../map/promisify.js';
+
 import {
 	changeActive, changeFieldFormData,
 	updateGeoJson
@@ -16,12 +18,13 @@ export default function buildGrid(polyID, gridOptions) {
 		if (gridOptions) dispatch(changeFieldFormData(polyID, gridOptions));
 		gridOptions = getState().gridForm.get(polyID);
 
-		const polygon = Polygon.fromGoogle(polygonRef.get(polyID));
+		const polygon = map.data.getFeatureById(polyID);
 
-		GridWorker.postMessage({polygon, gridOptions})
+		return toGeoJson(polygon)
+		.then(feature => GridWorker.postMessage({feature, gridOptions}))
 		.then(features => {
-			dispatch(changeActive(polyID));
 			dispatch(updateGeoJson(polyID, features));
+			dispatch(changeActive(polyID));
 		})
 		.catch(err => dispatch(updateGeoJson(polyID, undefined, err)));
 	}
