@@ -20,7 +20,8 @@
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js",
-		"quickstart": "npm run prepublish && npm start"
+		"quickstart": "npm run prepublish && npm start",
+		"watch": "nodemon index.node.js"
 	},
 	"server": {
 		"port": 3002
