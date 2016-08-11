@@ -12,7 +12,7 @@
  * @returns {Response}
  */
 export function transformReply(data, request, reply) {
-	const {print, shallow} = request.query;
+	const {print, shallow} = getBooleanQuery(request.query, ['shallow']);
 
 	if (shallow) {
 		data = data.then(json => {
@@ -79,12 +79,15 @@ export function getBooleanQuery(query, filter) {
 		const valid = !filter || filter.includes(prop);
 		if (valid && typeof value === 'string') {
 			switch(value.toLowerCase()) {
-				case '': case 't': case 'true':
+				case '': case 'true': case 'yes': case 'on': case '1':
 					result[prop] = true; break;
-				case 'false': case 'f': case '!':
+				case 'false': case 'no': case 'off': case '0':
 					result[prop] = false; break;
 				default: result[prop] = value;
 			}
+		} else if (valid && typeof value === 'number' 
+		&& (value === 0 || value === 1)) {
+			result[prop] = Boolean(value);
 		} else result[prop] = value;
 	}
 	return result;

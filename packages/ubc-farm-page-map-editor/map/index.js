@@ -1,5 +1,5 @@
-import './map.js';
-import './drawing-manager.js';
-import './store-handler.js';
+import './cells.js';
 import './polygons.js';
-import './data-events.js';
+import './connector.js';
+
+export {default} from './map.js';

@@ -9,18 +9,19 @@
 	"jsnext:main": "index.es.js",
 	"private": true,
 	"dependencies": {
-		"hapi": "^13.5.0",
+		"hapi": "14.1.0",
 		"handlebars": "^4.0.5",
-		"vision": "^4.1.0"
+		"vision": "4.1.0"
 	},
 	"devDependencies": {
-		"rollup": "^0.34.1",
+		"rollup": "0.34.2",
 		"rollup-plugin-json": "^2.0.1"
 	},
 	"scripts": {
 		"prepublish": "rollup -c",
 		"start": "node index.node.js",
-		"quickstart": "npm run prepublish && npm start"
+		"quickstart": "npm run prepublish && npm start",
+		"watch": "nodemon index.node.js"
 	},
 	"server": {
 		"port": 3040

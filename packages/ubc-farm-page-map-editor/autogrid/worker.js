@@ -1,16 +1,22 @@
 import {register} from 'promise-worker';
-import {geom, io} from '../../jsts/index.js';
-import {FeatureCollection} from '../../ubc-farm-utils/class/geojson/index.js';
-import AutoGrid from './autogrid.js';
-import GridMerge from './merge.js';
+import {io, operation} from '../../jsts/index.es.js';
 
-const factory = new geom.GeometryFactory();
+import {
+	Feature, FeatureCollection
+} from '../../ubc-farm-utils/class/geojson/index.js';
+
+import AutoGrid from './autogrid.js';
+import factory from './factory.js';
+
+const {GeoJSONReader} = io;
+const {union: {CascadedPolygonUnion}} = operation;
+
 /**
  * GeoJSONWriter seems to be broken; just extract the parser and run that
  * instead. GeoJSONWriter.write just runs parser.write anyways.
  * @type {jsts.io.GeoJSONParser}
  */
-const reader = new io.GeoJSONReader(factory);
+const reader = new GeoJSONReader(factory);
 const {parser: writer} = reader;
 
 /** 
@@ -19,23 +25,17 @@ const {parser: writer} = reader;
  * @param {GeoJSON.Polygon[]} msg.cells - array of cells
  * @returns {GeoJSON.Polygon} the resulting polygon
  */
-function mergeCells({cells}) {
-	const mergingCoroutine = GridMerge(factory); mergingCoroutine.next();
-
-	for (let cell of cells) {
-		cell = reader.read(cell);
-		mergingCoroutine.next(cell);
-	}
-
-	const result = mergingCoroutine.return().value;
+function mergeCells(cells) {
+	cells = cells.map(c => reader.read(c));
+	const result = CascadedPolygonUnion.union(cells);
 	return writer.write(result);
 }
 
 /**
  * Build a field and return its grid
- * @param {Object} msg
- * @param {GeoJSON.Polygon} msg.polygon for field
- * @param {Object} msg.gridOptions
+ * @param {GeoJSON.Feature} feature for field
+ * @param {Object} feature.id - id of the field, set as cell parent
+ * @param {Object} msg.grid
  * @param {number} msg.gridOptions.width - base width of grid
  * @param {number} msg.gridOptions.height - base height of grid
  * @param {number} msg.gridOptions.angle - angle of grid
@@ -45,19 +45,28 @@ function mergeCells({cells}) {
  * @param {number[]} msg.gridOptions.heightSpecific[] - key and height
  * @return {FeatureCollection} array of cell polygons
  */
-function buildGrid({polygon, gridOptions}) {
-	polygon = reader.read(polygon);
+function buildGrid(feature) {
+	const field = feature.id;
+	const polygon = reader.read(feature.geometry);
 
-	let cells = Array.from(
-		AutoGrid(polygon, gridOptions, gridOptions.angle),
-		cell => writer.write(cell)
-	);
-	cells = cells.filter(c => c.type === 'Polygon');
-	
-	return new FeatureCollection(cells);
+	let features = [];
+	for (const cell of AutoGrid(polygon, feature.properties.grid)) {
+		if (cell.getGeometryType() !== 'Polygon') continue;
+
+		const geometry = writer.write(cell);
+		const properties = {
+			isGridCell: true,
+			parent: field
+		}
+		const feature = new Feature(geometry, properties);
+
+		features.push(feature);
+	}
+
+	return new FeatureCollection(features);
 }
 
 register(msg => {
-	if ('polygon' in msg) return buildGrid(msg);
-	else if ('cells' in msg) return mergeCells(msg);
+	if ('feature' in msg) return buildGrid(msg.feature);
+	else if ('cells' in msg) return mergeCells(msg.cells);
 });

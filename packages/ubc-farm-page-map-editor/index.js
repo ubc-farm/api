@@ -1,3 +1,5 @@
 import './toolbar/render.js'
 import './sidebar/render.js'
-import './map/index.js';
+
+export {default} from './map/index.js';
+export {default as store} from './redux/store.js';

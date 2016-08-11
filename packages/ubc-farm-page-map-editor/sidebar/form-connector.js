@@ -1,19 +1,20 @@
 import {connect} from 'react-redux';
-import handleGridFormSubmit from '../redux/compute-geojson-action.js';
+import buildGrid from '../redux/action-build-grid.js';
+import {activeGridSelector} from '../redux/selectors.js';
 import GridForm from './grid-form.js';
 
 export default connect(
 	state => {
-		const {active, gridForm} = state;
-		const {width, height, angle} = gridForm.get(active) || {};
+		const {baseWidth, baseHeight, angle} = activeGridSelector(state) || {};
+
 		return {
-			defaultWidth: width,
-			defaultHeight: height,
+			defaultWidth: baseWidth,
+			defaultHeight: baseHeight,
 			defaultAngle: angle
 		}
 	}, 
 	dispatch => ({
-		onSubmit(data) {dispatch(handleGridFormSubmit(data))}
+		onSubmit(data) {dispatch(buildGrid(undefined, data))}
 	}),
 	undefined,
 	{pure: false}

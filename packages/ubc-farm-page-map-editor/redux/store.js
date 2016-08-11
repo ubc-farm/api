@@ -1,17 +1,19 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 
-import gridForm from './grid-reducer.js';
-import active from './active-reducer.js';
-import fieldData from './field-data-reducer.js';
-import mapMeta from './map-meta-reducer.js';
+import {active, resizing, mapMeta} from './reducer-simple.js';
+import grids from './reducer-grid.js';
+import cells from './reducer-cells.js';
+import loading from './reducer-loading.js';
 
 export default createStore(
 	combineReducers({
-		gridForm,
-		active,
-		fieldData,
-		mapMeta
+		active, 
+		resizing, 
+		mapMeta, 
+		loading, 
+		grids, 
+		cells 
 	}),
 	undefined,
 	compose(

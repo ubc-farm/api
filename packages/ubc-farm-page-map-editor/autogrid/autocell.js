@@ -1,78 +1,59 @@
-import {geom, algorithm} from '../../jsts/index.js';
 import {computeOffset as offset} from 'spherical-geometry-js';
+import {geom, algorithm} from '../../jsts/index.es.js';
+import factory from './factory.js';
 
-const {toDegrees, toRadians, normalize: normalizeAngle} = algorithm.Angle;
-const {PI_OVER_2} = algorithm.Angle;
+const {Coordinate} = geom;
+const {Angle: {toDegrees, toRadians, normalize, PI_OVER_2}} = algorithm;
+
+export function getPerpendicularAngle(angle) {
+	const perpendicularRadians = toRadians(angle) - (PI_OVER_2 * -1) ;
+	return toDegrees(normalize(perpendicularRadians));
+}
 
 /**
- * Self-building cell of an AutoGrid
- * Creates a path from the given starting point and dimensions
- * @extends {jsts.geom.Polygon}
+ * Builds a rectanglular polygon clockwise from the properties given
+ * @param {Coordinate} options.position - the bottom left corner 
+ * of the rectangle
+ * @param {number} options.width - width of the rectangle
+ * @param {number} options.height - height of the rectangle
+ * @param {number} options.angle - angle between left and right corners
+ * of the rectangle.
+ * @returns {Polygon} the new rectangle
  */
-export default class AutoGridCell extends geom.Polygon {
-	/**
-	 * @param {jsts.geom.Coordinate} start
-	 * @param {number} width of cell
-	 * @param {number} height of cell
-	 * @param {number} angle of baseline, in degrees
-	 */
-	constructor(start, width, height, angle) {
-		if (!start || width == null || height == null || angle == null)
-			throw TypeError('Missing paramaters in constructor');
-		const perpendicular = toDegrees(normalizeAngle(
-			toRadians(angle) - (PI_OVER_2 * -1) 
-		));
-		const path = AutoGridCell.build(start, width, height, angle, perpendicular);
+export function createRectangle({position, width = 2, height = 2, angle}) {
+	const perpendicularAngle = getPerpendicularAngle(angle);
 
-		AutoGridCell.init();
-		super(AutoGridCell.factory.createLinearRing(path), [], AutoGridCell.factory)
-		Object.assign(this, {start, width, height, parallel: angle, perpendicular});
-		
-		this.north = path[1];
-		this.west = path[3];
-	}
-
-	get east() {
-		return offset(this.start, this.width, (this.parallel + 180) % 360);
-	}
+	const bottomLeft = {x: position.x, y: position.y};
+	const topLeft = offset(bottomLeft, height, perpendicularAngle);
+	const topRight = offset(topLeft, width, angle);
+	const bottomRight = offset(topRight, height, (perpendicularAngle + 180) % 360)
 	
-	get south() {
-		return offset(this.start, this.height, (this.perpendicular + 180) % 360);
-	}
+	const path = [bottomLeft, topLeft, topRight, bottomRight, bottomLeft]
+		.map(({x, y}) => new Coordinate(x, y))
+	const line = factory.createLinearRing(path);
 
-	/**
-	 * Initializes the geometry factory for creating cells. A factory can be
-	 * passed before creating grid cell instances so it is used instead.
-	 * @param {jsts.geom.GeometryFactory}
-	 */
-	static init(factory) {
-		AutoGridCell.factory = factory || AutoGridCell.factory 
-			|| new geom.GeometryFactory();
-	}
-
-	/**
-	 * Creates a clockwise path from the start
-	 * point of the cell. 
-	 * @returns {jsts.geom.Coordinate[]} 
-	 */
-	static build(startPoint, width, height, parallel, perpendicular) {
-		//Build path clockwise
-		const north = offset(startPoint, height, perpendicular); //Draw up
-		const point2 = offset(north, width, parallel); //Draw right
-		const west = offset(point2, height, (perpendicular + 180) % 360);//Draw down
-		return [startPoint, north, point2, west, startPoint];
-	}
-	
-	/**
-	 * Weakens the cell because it partially lies outside the container.
-	 * The weak property can be used to get a partial cell that fits properly
-	 * as the extra portion is chopped off.
-	 * @param {jsts.geom.Polygon} container
-	 * @returns {jsts.geom.Polygon} smaller cell
-	 */
-	weaken(container) {
-		if (!container.getGeometryType) 
-			throw Error('container must be a JSTS geometry');
-		return this.intersection(container);
-	}
+	return factory.createPolygon(line);
 }
+
+/**
+ * Returns an object containing north, south, east, and west coordinates
+ * offset from the rectangle. Expects a clockwise simple rectangle.
+ */
+export function getNextPoints({polygon, x = 2, y = 2, angle}) {
+	const perpendicular = getPerpendicularAngle(angle);
+	const [start, northPoint, , westPoint] = polygon.getCoordinates();
+	const startPosition = {x: start.x, y: start.y};
+
+	const eastPosition = offset(startPosition, x, (angle + 180) % 360);
+	const southPosition = offset(startPosition, y, (perpendicular + 180) % 360);
+
+	const eastPoint = new Coordinate(eastPosition.x, eastPosition.y);
+	const southPoint = new Coordinate(southPosition.x, southPosition.y);
+
+	return {
+		north: northPoint,
+		south: southPoint,
+		east: eastPoint,
+		west: westPoint
+	};
+} 

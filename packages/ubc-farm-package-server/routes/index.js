@@ -1,5 +1,6 @@
 import * as globalPackages from './global-packages.js';
 import * as pagePackages from './page-packages.js';
+import * as prebuilt from './static.js';
 
 function* RoutesFromModule(mod) {
 	for (const exportName in mod) {
@@ -13,5 +14,6 @@ function* RoutesFromModule(mod) {
 
 export default [
 	...RoutesFromModule(globalPackages),
-	...RoutesFromModule(pagePackages)
+	...RoutesFromModule(pagePackages),
+	...RoutesFromModule(prebuilt),
 ];

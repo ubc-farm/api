@@ -17,6 +17,9 @@ export const field = {
 	},
 	selected: {
 		fillOpacity: 0.1
+	},
+	resizable: {
+		editable: true
 	}
 }
 

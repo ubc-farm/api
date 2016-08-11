@@ -22,6 +22,21 @@
 			"sourceMaps": true
 		},
 		{
+			"name": "Launch Package",
+			"type": "node",
+			"request": "launch",
+			"program": "${fileDirname}/index.node.js",
+			"stopOnEntry": false,
+			"args": [],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"sourceMaps": true
+		},
+		{
 			"name": "Attach",
 			"type": "node",
 			"request": "attach",

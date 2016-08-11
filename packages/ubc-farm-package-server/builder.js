@@ -1,5 +1,5 @@
-import {rollup} from 'rollup';
 import {join} from 'path';
+import {rollup} from 'rollup';
 import {wrap} from 'boom';
 
 /**
@@ -24,31 +24,24 @@ export default function(route, options) {
 			'GET method. ' + route.method + ' is not supported.');
 	}
 	
-	var cache;
-	if (options.cache) cache = options.cache;
+	var cache; if (options.cache) cache = options.cache;
 	const entry = join(route.settings.files.relativeTo, options.entry);
 	const config = Object.assign({}, options, {cache, entry});
 
-	const {regenerate = (process.env.NODE_ENV === 'development')} = options; 
-	let parentRoll;
-	if (!regenerate) parentRoll = rollup(config);
+	let roll = rollup(config);
 
-	const {format = 'iife'} = options;
+	const {format = 'iife', mime = 'application/javascript'} = options;
 	const bunConfig = Object.assign({}, options, {format});
 
-	const {mime = 'application/javascript'} = options;
-
 	return function(request, reply) {
-		let roll;
-		if (regenerate) roll = rollup(config);
-		else roll = parentRoll;
-
 		const bundle = roll.then(bundle => bundle.generate(bunConfig));
 		const code = bundle.then(({code, map}) => {
 			if (map) code += '\n//#sourceMappingURL=' + map.toUrl();
 			return code;
 		}).catch(err => {
-			wrap(err, 500, 'Error when compling code');
+			const boom = wrap(err, 501, 'Error when compling code');
+			console.error(boom.message);
+			return boom;
 		})
 
 		return reply(code).type(mime)

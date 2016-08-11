@@ -30,7 +30,7 @@ export default class Polygon extends Geometry {
 	}
 
 	/**
-	 * Converts Google Maps API LatLng to Position
+	 * Converts Google Maps API Polygon to GeoJSON Polygon
 	 * @param {google.maps.Polygon} polygon
 	 * @returns {Polygon}
 	 */
@@ -42,5 +42,14 @@ export default class Polygon extends Geometry {
 				return p;
 			})
 		);
+	}
+
+	/**
+	 * Converts Google Maps API Data.Polygon to GeoJSON Polygon
+	 */
+	static fromGoogleData(polygon) {
+		return new Polygon(
+			...polygon.getArray().map(path => {})
+		)
 	}
 }

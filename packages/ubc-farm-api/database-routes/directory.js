@@ -5,6 +5,7 @@ import {
 	arrayToObjectMap,
 	removeNullandUndef
 } from './transformer.js';
+import {validate} from './transformer-validation.js';
 
 /**
  * Retrieve all people from the database and reply with them
@@ -49,12 +50,12 @@ export default [
 		method: 'GET',
 		path: '/api/directory',
 		handler: directory,
-		config: {cors: true}
+		config: {cors: true, validate}
 	},
 	{
 		method: 'GET',
 		path: '/api/directory/{role}',
 		handler: roleDirectory,
-		config: {cors: true}
+		config: {cors: true, validate}
 	}
 ];

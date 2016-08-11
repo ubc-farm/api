@@ -1,41 +1,50 @@
 /* global google */
-import {id} from '../../ubc-farm-utils/index.js';
-import {changeActive, setAdding} from '../redux/actions.js';
-import buildGrid from '../redux/build-grid-action.js';
-import store from '../redux/store.js';
-import drawManager from './drawing-manager.js';
+import {id as randomID} from '../../ubc-farm-utils/index.js';
 
-/** 
- * Stores special data about the polygons on the map, including the 
- * @type {WeakMap<google.maps.Polygon, Object>}
- */
-export const polygonData = new WeakMap();
+import {setSelected, addingMode} from '../redux/actions.js';
+import buildGrid from '../redux/action-build-grid.js';
+import store from '../redux/store.js';
+
+import map from './map.js';
+import {isField, isNewlyDrawn} from './filter.js';
+import {toGeoJson} from './promisify.js';
+import defaultGrid from './grid-default.js';
 
 /**
- * Reference polygons by ID
- * @type {Map<string, google.maps.Polygon>}
+ * Listener for click event
  */
-const polygonRef = new Map();
-export default polygonRef;
-
-export function handlePolygonClick() {
-	const {id} = polygonData.get(this);
-	store.dispatch(changeActive(id));
+export function handlePolygonClick({feature}) {
+	if (isField(feature)) {
+		console.log(feature, isField(feature));
+		const id = feature.getId();
+		store.dispatch(setSelected(id));
+		store.dispatch(buildGrid(id));
+	}
 }
 
-function handleDrawnPolygon(polygon) {
-	const polyID = id();
-	polygonData.set(polygon, {
-		id: polyID,
-		clickListener: google.maps.event.addListener(
-			polygon, 'click', handlePolygonClick
-		)
-	});
-	polygonRef.set(polyID, polygon);
+/**
+ * Listener for addfeature event
+ */
+export function handlePolygonAdd({feature}) {
+	if (isNewlyDrawn(feature)) {
+		store.dispatch(addingMode(false));
+		const id = randomID();
+		toGeoJson(feature).then(f => {
+			f.id = id;
+			f.properties.parent = null;
+			f.properties.grid = defaultGrid;
 
-	store.dispatch(setAdding(false));
-	store.dispatch(buildGrid(polyID));
+			map.data.remove(feature);
+			map.data.addGeoJson(f);
+
+			store.dispatch(setSelected(id));
+			store.dispatch(buildGrid(id));
+		});
+	}
 }
 
-google.maps.event.addListener(drawManager, 
-	'polygoncomplete', handleDrawnPolygon);
+export const addListener = 
+	google.maps.event.addListener(map.data, 'addfeature', handlePolygonAdd);
+
+export const clickListener = 
+	google.maps.event.addListener(map.data, 'click', handlePolygonAdd);
