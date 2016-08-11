@@ -78,3 +78,13 @@ export const fieldsMap = {
 		})
 	}
 }
+
+export const editorWorker = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-map-editor/autogrid/worker.js',
+	handler: {
+		package: Object.assign({}, mapEditorConfig, {
+			entry: 'ubc-farm-page-map-editor/autogrid/worker.js'
+		})
+	}
+}

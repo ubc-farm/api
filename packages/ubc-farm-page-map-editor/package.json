@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-page-map-editor",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "Page for editing fields",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
@@ -13,7 +13,9 @@
 		"react-redux": "^4.4.5",
 		"redux": "^3.5.2",
 		"redux-thunk": "^2.1.0",
-		"promise-worker": "NotWoods/promise-worker"
+		"promise-worker": "NotWoods/promise-worker",
+		"spherical-geometry-js": "NotWoods/spherical-geometry-js",
+		"reselect": "2.5.3"
 	},
 	"devDependencies": {
 		"rollup": "0.34.2",

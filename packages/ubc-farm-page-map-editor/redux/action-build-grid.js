@@ -9,7 +9,7 @@ import {
 } from './actions.js';
 
 const GridWorker = 
-	new PromiseWorker('/packages/ubc-farm-page-map-editor/worker.js');
+	new PromiseWorker('/packages/ubc-farm-page-map-editor/autogrid/worker.js');
 
 export default function buildGrid(polyID, gridOptions) {
 	return (dispatch, getState) => {
