@@ -1,17 +1,21 @@
 import {register} from 'promise-worker';
-import {geom, io, operation} from '../../jsts/index.js';
+import {geom, io, operation} from '../../jsts/index.es.js';
 import {
 	Feature, FeatureCollection
 } from '../../ubc-farm-utils/class/geojson/index.js';
 import AutoGrid from './autogrid.js';
 
-const factory = new geom.GeometryFactory();
+const {GeometryFactory} = geom;
+const {GeoJSONReader} = io;
+const {union: {CascadedPolygonUnion}} = operation;
+
+const factory = new GeometryFactory();
 /**
  * GeoJSONWriter seems to be broken; just extract the parser and run that
  * instead. GeoJSONWriter.write just runs parser.write anyways.
  * @type {jsts.io.GeoJSONParser}
  */
-const reader = new io.GeoJSONReader(factory);
+const reader = new GeoJSONReader(factory);
 const {parser: writer} = reader;
 
 /** 
@@ -22,7 +26,7 @@ const {parser: writer} = reader;
  */
 function mergeCells(cells) {
 	cells = cells.map(c => reader.read(c));
-	const result = operation.union.CascadedPolygonUnion.union(cells);
+	const result = CascadedPolygonUnion.union(cells);
 	return writer.write(result);
 }
 

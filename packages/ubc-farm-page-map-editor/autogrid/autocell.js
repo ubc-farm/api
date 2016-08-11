@@ -1,6 +1,7 @@
 import {computeOffset as offset} from 'spherical-geometry-js';
-import {geom, algorithm} from '../../jsts/index.js';
+import {geom, algorithm} from '../../jsts/index.es.js';
 
+const {Polygon, GeometryFactory} = geom;
 const {toDegrees, toRadians, normalize: normalizeAngle} = algorithm.Angle;
 const {PI_OVER_2} = algorithm.Angle;
 
@@ -9,7 +10,7 @@ const {PI_OVER_2} = algorithm.Angle;
  * Creates a path from the given starting point and dimensions
  * @extends {jsts.geom.Polygon}
  */
-export default class AutoGridCell extends geom.Polygon {
+export default class AutoGridCell extends Polygon {
 	/**
 	 * @param {jsts.geom.Coordinate} start
 	 * @param {number} width of cell
@@ -47,7 +48,7 @@ export default class AutoGridCell extends geom.Polygon {
 	 */
 	static init(factory) {
 		AutoGridCell.factory = factory || AutoGridCell.factory 
-			|| new geom.GeometryFactory();
+			|| new GeometryFactory();
 	}
 
 	/**
