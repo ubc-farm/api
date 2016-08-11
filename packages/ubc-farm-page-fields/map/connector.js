@@ -5,8 +5,9 @@ import {setSelected} from '../redux/actions.js';
 import map from './map.js';
 import {field} from './style.js';
 
+const selectedStyle = Object.assign({}, field.normal, field.selected);
 map.data.setStyle(feature => {
-	if (feature.getProperty('activeField')) return field.selected;
+	if (feature.getProperty('activeField')) return selectedStyle;
 	else return field.normal;
 });
 
@@ -20,7 +21,7 @@ function updateActive(newActive, lastActive) {
 
 export default function connectToStore(store) {
 	const listener = google.maps.event.addListener(map.data, 'click', 
-		feature => store.dispatch(setSelected(feature.id)))
+		({feature}) => store.dispatch(setSelected(feature.getId())))
 	
 	const unsubscribe = observeStore(store, state => state.active, updateActive);
 
