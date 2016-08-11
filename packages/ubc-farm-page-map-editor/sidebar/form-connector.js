@@ -5,7 +5,7 @@ import GridForm from './grid-form.js';
 
 export default connect(
 	state => {
-		const {baseWidth, baseHeight, angle} = activeGridSelector(state);
+		const {baseWidth, baseHeight, angle} = activeGridSelector(state) || {};
 
 		return {
 			defaultWidth: baseWidth,

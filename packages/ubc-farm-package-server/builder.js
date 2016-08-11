@@ -39,7 +39,9 @@ export default function(route, options) {
 			if (map) code += '\n//#sourceMappingURL=' + map.toUrl();
 			return code;
 		}).catch(err => {
-			return wrap(err, 503, 'Error when compling code');
+			const boom = wrap(err, 501, 'Error when compling code');
+			console.error(boom.message);
+			return boom;
 		})
 
 		return reply(code).type(mime)

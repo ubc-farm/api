@@ -21,7 +21,7 @@ const {parser: writer} = reader;
  * @param {GeoJSON.Polygon[]} msg.cells - array of cells
  * @returns {GeoJSON.Polygon} the resulting polygon
  */
-function mergeCells({cells}) {
+function mergeCells(cells) {
 	const mergingCoroutine = GridMerge(factory); mergingCoroutine.next();
 
 	for (let cell of cells) {
@@ -53,7 +53,7 @@ function buildGrid(feature) {
 
 	let features = [];
 	for (const cell of AutoGrid(polygon, feature.properties.grid)) {
-		if (cell.getGeometryTYpe() !== 'Polygon') continue;
+		if (cell.getGeometryType() !== 'Polygon') continue;
 
 		const geometry = writer.write(cell);
 		const properties = {
@@ -70,5 +70,5 @@ function buildGrid(feature) {
 
 register(msg => {
 	if ('feature' in msg) return buildGrid(msg.feature);
-	else if ('cells' in msg) return mergeCells(msg);
+	else if ('cells' in msg) return mergeCells(msg.cells);
 });

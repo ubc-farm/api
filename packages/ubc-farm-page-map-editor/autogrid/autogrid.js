@@ -14,7 +14,7 @@ import DefaultMap from './defaultmap.js';
  * @throws if container isn't a jsts geometry
  */
 export default function* AutoGrid(container, gridOptions) {
-	if (!container.getGeometryType) 
+	if (!('getGeometryType' in container))
 		throw TypeError('AutoGrid container must be a JSTS geometry');
 	const width = new DefaultMap(
 		gridOptions.baseWidth || 2.0, 

@@ -6,20 +6,27 @@
 	{{> test}}
 	<!--<script async src='/packages/ubc-farm-page-map-editor/menu.js'></script>-->
 	<link href='/css/core/form.css' rel='stylesheet'>
-
+	<link href='/packages/ubc-farm-page-fields/fill.css' rel='stylesheet'>
 	<script defer 
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARDOjzy7qB7QdqbO0i5Gt5q_ogVcTSdWU"
   ></script>
 	<script defer src='/packages/ubc-farm-page-map-editor/index.js'></script>
 </head>
-<body>
+<body class='fill-body'>
 	{{> app-banner active='Fields'}}
 	<link href='/css/core/heading.css' rel='stylesheet'>
 	<link href='/css/partials/section-banner.css' rel='stylesheet'>
 	<link href='/packages/ubc-farm-page-map-editor/menu.css' rel='stylesheet'>
 	<div id='toolbar-mount'></div>
-	
-	<div id='aside-mount'></div>
-	<div id='map-mount'></div>
+
+	<main class='fill-content'>
+		<section class='map-container fill'>
+			<div id='map-mount' class='map-mount'></div>
+			<div id='aside-mount' class='aside-container'></div>
+
+			<link href='/packages/ubc-farm-page-fields/weather/style.css' rel='stylesheet'>
+			<div id='weather-mount' class='weather-icon'></div>
+		</section>
+	</main>
 </body>
 </html>

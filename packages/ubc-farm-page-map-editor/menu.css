@@ -11,13 +11,14 @@
 	justify-content: flex-end;
 }
 
-.map-aside {
-	float: right;
-	width: 15rem;
+.aside-container {
+	position: absolute;
+	right: 0;
+	width: 15em;
 }
 
 .map-mount {
-	background: #ddd;
-	width: calc(100% - 16rem);
-	height: calc(100vh - 5.2rem); /* TODO: Better method to fill remanining height instead of bad hack */
+	background: #ddd; 
+	position: absolute;
+	top: 0; bottom: 0; left: 0; right: 16em;
 }

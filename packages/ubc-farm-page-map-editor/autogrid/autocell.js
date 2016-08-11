@@ -1,5 +1,5 @@
-import {geom, algorithm} from '../../jsts/index.js';
 import {computeOffset as offset} from 'spherical-geometry-js';
+import {geom, algorithm} from '../../jsts/index.js';
 
 const {toDegrees, toRadians, normalize: normalizeAngle} = algorithm.Angle;
 const {PI_OVER_2} = algorithm.Angle;

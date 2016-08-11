@@ -1,3 +1,4 @@
+/* global google */
 import {id as randomID} from '../../ubc-farm-utils/index.js';
 
 import {setSelected, addingMode} from '../redux/actions.js';
@@ -23,9 +24,9 @@ export function handlePolygonClick({feature}) {
  * Listener for addfeature event
  */
 export function handlePolygonAdd({feature}) {
+	store.dispatch(addingMode(false));
+	
 	if (isNewlyDrawn(feature)) {
-		store.dispatch(addingMode(false));
-
 		const id = randomID();
 		toGeoJson(feature).then(f => {
 			f.id = id;
@@ -40,3 +41,9 @@ export function handlePolygonAdd({feature}) {
 		});
 	}
 }
+
+export const addListener = 
+	google.maps.event.addListener(map.data, 'addfeature', handlePolygonAdd);
+
+export const clickListener = 
+	google.maps.event.addListener(map.data, 'click', handlePolygonAdd);

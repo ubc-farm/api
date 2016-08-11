@@ -7,6 +7,7 @@ import {
 	activeSelector, 
 	resizableSelector,
 	addModeSelector,
+	loadingSelector,
 	cellSelector,
 	activeGridSelector
 } from '../redux/selectors.js';
@@ -66,5 +67,22 @@ export const resizeField = observeStore(
 
 		if (last) last.removeProperty('resizable');
 		if (next) next.setProperty('resizable', true);
+	}
+)
+
+// ---------------------------- //
+
+export const loadingProperty = observeStore(
+	store, loadingSelector,
+	(newLoadingList, oldLoadingList = new Set()) => {
+		for (const key of oldLoadingList) {
+			if (newLoadingList.has(key)) {
+				const feature = map.data.getFeatureById(key);
+				feature.removeProperty('loadingGrid');
+			}
+		}
+		for (const id of newLoadingList) {
+			map.data.getFeatureById(id).setProperty('loadingGrid', true);
+		}
 	}
 )
