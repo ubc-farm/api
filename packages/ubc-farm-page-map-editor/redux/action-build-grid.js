@@ -7,15 +7,23 @@ import {
 	setSelected, setDataLoading,
 	applyGridData, overwriteCells
 } from './actions.js';
+import {
+	cellParentSelctor,
+	activeSelector,
+	gridSelector
+} from './selectors.js';
 
 const GridWorker = 
 	new PromiseWorker('/packages/ubc-farm-page-map-editor/autogrid/worker.js');
 
 export default function buildGrid(polyID, gridOptions) {
 	return (dispatch, getState) => {
-		polyID = polyID || getState().active;
+		polyID = polyID || activeSelector(getState());
+		const currentGrid = cellParentSelctor(getState());
+		if (currentGrid === polyID) return;
+
 		if (gridOptions) dispatch(applyGridData(polyID, gridOptions));
-		gridOptions = getState().grids.get(polyID);
+		gridOptions = gridSelector(getState()).get(polyID);
 
 		dispatch(setDataLoading(polyID, true));
 		const polygon = map.data.getFeatureById(polyID);

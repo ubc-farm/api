@@ -12,7 +12,8 @@ const packageRoutes = (pageName, config) => [
 		path: `/packages/ubc-farm-page-${pageName}/index.js`,
 		handler: {
 			package: Object.assign({}, config, {
-				entry: `ubc-farm-page-${pageName}/index.js`
+				entry: `ubc-farm-page-${pageName}/index.js`,
+				moduleName: 'TEST'
 			})
 		}
 	},

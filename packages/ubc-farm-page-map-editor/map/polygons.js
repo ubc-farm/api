@@ -15,8 +15,10 @@ import defaultGrid from './grid-default.js';
  */
 export function handlePolygonClick({feature}) {
 	if (isField(feature)) {
+		console.log(feature, isField(feature));
 		const id = feature.getId();
 		store.dispatch(setSelected(id));
+		store.dispatch(buildGrid(id));
 	}
 }
 
@@ -24,9 +26,8 @@ export function handlePolygonClick({feature}) {
  * Listener for addfeature event
  */
 export function handlePolygonAdd({feature}) {
-	store.dispatch(addingMode(false));
-	
 	if (isNewlyDrawn(feature)) {
+		store.dispatch(addingMode(false));
 		const id = randomID();
 		toGeoJson(feature).then(f => {
 			f.id = id;

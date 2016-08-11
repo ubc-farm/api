@@ -5,11 +5,20 @@ export const resizableSelector = state => state.resizable;
 export const addModeSelector = state => state.mapMeta.adding;
 export const loadingSelector = state => state.loading;
 
-export const cellSelector = state => state.cells.data;
+export const cellStateSelector = state => state.cells;
+export const cellSelector = createSelector(
+	cellStateSelector,
+	cells => cells.geojson
+);
+export const cellParentSelctor = createSelector(
+	cellStateSelector,
+	cells => cells.parent
+);
 
+export const gridSelector = state => state.grids;
 export const activeGridSelector = createSelector(
 	activeSelector,
-	state => state.grids,
+	gridSelector,
 	(active, gridMap) => gridMap.get(active)
 );
 

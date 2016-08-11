@@ -3,8 +3,7 @@ import {geom, algorithm} from '../../jsts/index.es.js';
 import factory from './factory.js';
 
 const {Coordinate} = geom;
-const {toDegrees, toRadians, normalize} = algorithm.Angle;
-const {PI_OVER_2} = algorithm.Angle;
+const {Angle: {toDegrees, toRadians, normalize, PI_OVER_2}} = algorithm;
 
 export function getPerpendicularAngle(angle) {
 	const perpendicularRadians = toRadians(angle) - (PI_OVER_2 * -1) ;
@@ -48,10 +47,13 @@ export function getNextPoints({polygon, x = 2, y = 2, angle}) {
 	const eastPosition = offset(startPosition, x, (angle + 180) % 360);
 	const southPosition = offset(startPosition, y, (perpendicular + 180) % 360);
 
+	const eastPoint = new Coordinate(eastPosition.x, eastPosition.y);
+	const southPoint = new Coordinate(southPosition.x, southPosition.y);
+
 	return {
 		north: northPoint,
-		south: southPosition,
-		east: eastPosition,
+		south: southPoint,
+		east: eastPoint,
 		west: westPoint
 	};
 } 

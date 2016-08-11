@@ -54,7 +54,10 @@ const gridDataSelector = createSelector(
 
 export const updateGridProperty = observeStore(
 	store, gridDataSelector,
-	({active, grid}) => map.data.getFeatureById(active).setProperty('grid', grid)
+	({active, grid}) => {
+		const feature = map.data.getFeatureById(active);
+		if (feature) feature.setProperty('grid', grid)
+	}
 );
 
 // ---------------------------- //

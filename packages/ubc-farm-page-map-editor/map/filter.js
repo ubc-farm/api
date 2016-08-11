@@ -21,6 +21,7 @@ export function isField(feature) {
  */
 export function isNewlyDrawn(feature) {
 	if (feature.getId() !== undefined) return false;
+	if (feature.getGeometry().getType() !== 'Polygon') return false;
 
 	let result = true;
 	feature.forEachProperty(() => { result = false });
