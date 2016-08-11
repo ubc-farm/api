@@ -35,7 +35,8 @@ export default class GridForm extends PureComponent {
 
 	componentWillReceiveProps(nextProps) {
 		Object.keys(this.state).map(prop => {
-			const nextValue = nextProps[prop];
+			const name = `default${prop.charAt(0).toUpperCase()}${prop.substr(1)}`
+			const nextValue = nextProps[name];
 			if (nextValue !== undefined && nextValue !== this.state[prop])
 				this.setState({[prop]: nextValue});
 		})
@@ -47,7 +48,13 @@ export default class GridForm extends PureComponent {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		this.props.onSubmit(this.state);
+		this.props.onSubmit({
+			baseWidth: this.state.width,
+			baseHeight: this.state.height,
+			angle: this.state.angle,
+			specificWidths: [],
+			specificHeights: []
+		});
 	}
 
 	render() {

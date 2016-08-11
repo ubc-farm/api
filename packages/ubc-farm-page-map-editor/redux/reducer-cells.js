@@ -2,7 +2,7 @@ import {OVERWRITE_CELLS} from './actions.js'
 
 const defaultState = {
 	parent: undefined,
-	cells: {
+	geojson: {
 		type: 'FeatureCollection',
 		features: []
 	}
@@ -10,13 +10,14 @@ const defaultState = {
 
 export default function cells(state = defaultState, action) {
 	if (action.type === OVERWRITE_CELLS) {
-		const {meta: parent, payload: cells = defaultState.cells, error} = action;
+		const {meta: parent, error} = action;
+		const {payload: geojson = defaultState.geojson} = action;
 
 		if (error) {
 			console.error(error);
 			return state;
 		} else {
-			return Object.assign({}, state, { parent, cells });
+			return Object.assign({}, state, { parent, geojson });
 		}
 	} else {
 		return state;

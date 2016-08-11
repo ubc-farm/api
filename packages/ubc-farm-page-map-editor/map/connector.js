@@ -3,23 +3,30 @@ import {observeStore} from '../../ubc-farm-utils/index.js';
 import watchActive from '../../ubc-farm-page-fields/map/connector.js';
 
 import store from '../redux/store.js';
+import {
+	activeSelector, 
+	resizableSelector,
+	addModeSelector,
+	cellSelector,
+	activeGridSelector
+} from '../redux/selectors.js';
+
 import map from './map.js';
 import {isGridCell} from './filter.js';
 
 // ---------------------------- //
 
-watchActive(store);
+export const activeField = watchActive(store);
 
 // ---------------------------- //
 
 const drawingModeSelector = createSelector(
-	state => state.mapMeta.adding,
+	addModeSelector,
 	isAddingMode => isAddingMode ? 'Polygon' : null
 );
 
-observeStore(
-	store,
-	drawingModeSelector,
+export const drawingMode = observeStore(
+	store, drawingModeSelector,
 	drawingMode => map.data.setDrawingMode(drawingMode)
 );
 
@@ -32,33 +39,27 @@ function updateCells(newCells) {
 
 	return map.data.addGeoJson(newCells);
 }
-observeStore(store, state => state.cells,	updateCells);
+
+export const overwriteCells = 
+	observeStore(store, cellSelector,	updateCells);
 
 // ---------------------------- //
 
-const activeSelector = state => state.active;
-const gridsSelector = createSelector(
-	activeSelector,
-	state => state.grids,
-	(active, gridMap) => gridMap.get(active)
-);
 const gridDataSelector = createSelector(
 	activeSelector,
-	gridsSelector,
+	activeGridSelector,
 	(active, grid) => {active, grid}
 );
 
-function updateGridProperty({active, grid}) {
-	const feature = map.data.getFeatureById(active);
-	feature.setProperty('grid', grid);
-}
-observeStore(store, gridDataSelector, updateGridProperty);
+export const updateGridProperty = observeStore(
+	store, gridDataSelector,
+	({active, grid}) => map.data.getFeatureById(active).setProperty('grid', grid)
+);
 
 // ---------------------------- //
 
-observeStore(
-	store,
-	state => state.resizable,
+export const resizeField = observeStore(
+	store, resizableSelector,
 	(newResizeable, lastResizable) => {
 		const last = map.data.getFeatureById(newResizeable);
 		const next = map.data.getFeatureById(lastResizable);

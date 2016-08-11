@@ -1,3 +1,7 @@
+import {
+	activeSelector, resizableSelector, addModeSelector
+} from './selectors.js';
+
 export const OVERWRITE_CELLS = 'OVERWRITE_CELLS';
 
 export const ADD_MODE = 'ADD_MODE';
@@ -22,6 +26,11 @@ export function applyGridData(toField, grid) {
 	return {type: APPLY_GRID_DATA, payload: grid, meta: toField}
 }
 
+/** Sets the loading state for the given field */
+export function setDataLoading(forField, isLoading) {
+	return {type: SET_LOADING, payload: isLoading, meta: forField}
+}
+
 
 
 /** Set the field to be resized. Call with no args to clear. */
@@ -39,7 +48,9 @@ export function addingMode(state) {
 /** Toggles resizing for the selected polygon */
 export function toggleResizing() {
 	return (dispatch, getState) => {
-		const {active, resizing} = getState();
+		const active = activeSelector(getState());
+		const resizing = resizableSelector(getState());
+
 		if (resizing === active) 
 			return dispatch(resizeField());
 		else 
@@ -50,7 +61,7 @@ export function toggleResizing() {
 /** Toggles adding mode */
 export function toggleAdding() {
 	return (dispatch, getState) => {
-		const addModeActive = getState().mapMeta.adding;
+		const addModeActive = addModeSelector(getState());
 		dispatch(addingMode(!addModeActive));
 	}
 }

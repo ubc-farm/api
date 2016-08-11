@@ -1,5 +1,6 @@
 import {createElement as h, PropTypes} from 'react'; /** @jsx h */
 import {connect} from 'react-redux';
+import {currentLoadingSelector} from '../redux/selectors.js';
 import LoadingIndicator from './loading-indicator.js';
 
 const SubmitForm = ({form = 'grid-form', loading}) => (
@@ -20,5 +21,5 @@ SubmitForm.propTypes = {
 }
 
 export default connect(
-	state => ({ loading: state.loading })
+	state => ({ loading: currentLoadingSelector(state) })
 )(SubmitForm);
