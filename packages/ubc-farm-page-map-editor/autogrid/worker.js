@@ -1,15 +1,16 @@
 import {register} from 'promise-worker';
-import {geom, io, operation} from '../../jsts/index.es.js';
+import {io, operation} from '../../jsts/index.es.js';
+
 import {
 	Feature, FeatureCollection
 } from '../../ubc-farm-utils/class/geojson/index.js';
-import AutoGrid from './autogrid.js';
 
-const {GeometryFactory} = geom;
+import AutoGrid from './autogrid.js';
+import factory from './factory.js';
+
 const {GeoJSONReader} = io;
 const {union: {CascadedPolygonUnion}} = operation;
 
-const factory = new GeometryFactory();
 /**
  * GeoJSONWriter seems to be broken; just extract the parser and run that
  * instead. GeoJSONWriter.write just runs parser.write anyways.
