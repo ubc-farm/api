@@ -1,10 +1,9 @@
 import {register} from 'promise-worker';
-import {geom, io} from '../../jsts/index.js';
+import {geom, io, operation} from '../../jsts/index.js';
 import {
 	Feature, FeatureCollection
 } from '../../ubc-farm-utils/class/geojson/index.js';
 import AutoGrid from './autogrid.js';
-import GridMerge from './merge.js';
 
 const factory = new geom.GeometryFactory();
 /**
@@ -22,14 +21,8 @@ const {parser: writer} = reader;
  * @returns {GeoJSON.Polygon} the resulting polygon
  */
 function mergeCells(cells) {
-	const mergingCoroutine = GridMerge(factory); mergingCoroutine.next();
-
-	for (let cell of cells) {
-		cell = reader.read(cell);
-		mergingCoroutine.next(cell);
-	}
-
-	const result = mergingCoroutine.return().value;
+	cells = cells.map(c => reader.read(c));
+	const result = operation.union.CascadedPolygonUnion.union(cells);
 	return writer.write(result);
 }
 
