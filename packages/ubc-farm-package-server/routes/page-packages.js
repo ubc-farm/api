@@ -36,7 +36,6 @@ export const directory = packageRoutes('directory', directoryConfig);
 export const invoice = packageRoutes('invoice', invoiceConfig);
 export const calendar = packageRoutes('calendar', calendarConfig);
 export const planner = packageRoutes('planner', plannerConfig);
-export const mapEditor = packageRoutes('map-editor', mapEditorConfig);
 export const fields = packageRoutes('fields', fieldsConfig);
 
 export const table = {
@@ -77,13 +76,5 @@ export const fieldsMap = {
 			entry: 'ubc-farm-page-fields/map/index.js',
 			moduleName: 'FieldMap'
 		})
-	}
-}
-
-export const editorWorker = {
-	method: 'GET',
-	path: '/packages/ubc-farm-page-map-editor/autogrid/worker.js',
-	handler: {
-		file: 'ubc-farm-page-map-editor/autogrid/index.es.js'
 	}
 }
