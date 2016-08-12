@@ -1,16 +1,17 @@
 import {createElement as h, PropTypes} from 'react'; /** @jsx h */
-import PhoneField from '../phone.js';
+import {Field} from 'redux-form';
 
 const Emergency = () => (
 	<fieldset name='emergency_info'>
 		<legend>Emergency Contact</legend>
 		<label>
 			<span className='label-body'>Name</span>
-			<input type='text' name='emergencyContactName'
-				defaultValue=''
-			/>
+			<Field component='input' name='emergencyContactName' type='text' />
 		</label>
-		<PhoneField name='emergencyContactNumber' />
+		<label>
+			<span className='label-body'>Phone</span>
+			<Field component='input' name='emergencyContactNumber' type='tel' />
+		</label>
 	</fieldset>
 )
 
