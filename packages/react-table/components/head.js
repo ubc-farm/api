@@ -8,7 +8,7 @@ const Head = props => {
 	const {columns, sorting, selectedLength} = props;
 	const {onCheckboxChange, onColumnClick} = props;
 
-	const sortKey = sorting && sorting.columnKey;
+	const sortKey = sorting && sorting.column;
 	const descending = sorting && sorting.descending;
 	const allSelected = selectedLength === props.dataLength;
 
@@ -28,7 +28,7 @@ const Head = props => {
 				{columns.map(column => (
 					<HeaderCell key={column.key} {...column.toJSON()} 
 						onClick={() => onColumnClick(column)}
-						active={column.useSorting && sortKey == column.columnKey}
+						active={column.useSorting && sortKey == column}
 						descending={column.useSorting ? descending : undefined}
 					>{column.title}</HeaderCell>
 				))}

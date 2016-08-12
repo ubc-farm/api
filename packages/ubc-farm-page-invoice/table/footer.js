@@ -14,7 +14,7 @@ const InvoiceTotalsFooter = () => (
 		<TotalRow bold label='Subtotal' selector={subtotalSelector} />
 		<TotalRow bold label='Total' selector={totalSelector} />
 		<TotalRow label='Amount Paid'
-			cell={AmountPaidCell}
+			cell={<AmountPaidCell />}
 		/>
 		<TotalRow bold label='Balance Due (CAD)' selector={balanceDueSelector} />
 	</tfoot>
