@@ -23,6 +23,8 @@ AmountPaidCell.propTypes = {
 	cellProps: PropTypes.object
 }
 
+console.log(AmountPaidCell)
+
 export default connect(
 	state => ({
 		value: amountPaidSelector(state).toString(),
