@@ -12,4 +12,5 @@
 
 .weather-data {
 	display: flex;
+	transition: opacity 0.2s ease;
 }
