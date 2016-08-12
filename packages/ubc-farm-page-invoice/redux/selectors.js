@@ -1,15 +1,16 @@
 import {createSelector} from 'reselect';
 import {Money} from '../../ubc-farm-utils/index.js';
+import columnList, {price} from '../columnlist.js';
 
 /** @returns {Map<K, WeakMap>} */
 export const dataSelector = state => state.data;
 
 /** @returns {Column[]} */
-export const columnSelector = state => state.columns;
+export const columnSelector = () => columnList;
 /** @returns {Column} */
-export const totalColumnSelector = state => state.totalColumn;
+export const totalColumnSelector = () => price;
 /** @returns {number} */
-export const vatSelector = state => state.VAT;
+export const vatSelector = () => 0;
 
 /** @returns {Money} */
 export const amountPaidSelector = state => state.amountPaid;

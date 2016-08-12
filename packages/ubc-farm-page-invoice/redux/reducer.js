@@ -1,4 +1,4 @@
-import data, {columns, totalColumn, VAT} from './reducer-data.js';
+import data from './reducer-data.js';
 import amountPaid from './reducer-paid.js';
 import selected from './reducer-selected.js';
 
@@ -6,18 +6,8 @@ import selected from './reducer-selected.js';
 const reducers = {
 	data, 
 	amountPaid, 
-	selected, 
-	columns, 
-	totalColumn, 
-	VAT
+	selected
 };
-
-/** Static reducers don't change value, so just hold onto their output here */
-const cache = {
-	columns: columns(),
-	totalColumn: totalColumn(),
-	VAT: VAT()
-}
 
 export default function combinedReducer(state = {}, action) {
 	let hasChanged = false;
@@ -27,18 +17,9 @@ export default function combinedReducer(state = {}, action) {
 		const reducer = reducers[key];
 		const previousStateForKey = state[key];
 		
-		let nextStateForKey;
-		switch (key) {
-			case 'selected':
-				nextStateForKey = reducer(previousStateForKey, action, nextState.data);
-				break;
-			case 'columns': case 'totalColumn': case 'VAT':
-				nextStateForKey = cache[key];
-				break;
-			default: 
-				nextStateForKey = reducer(previousStateForKey, action);
-				break;
-		}
+		const thirdArg = key === 'selected'	? nextState.data : undefined;
+
+		const nextStateForKey = reducer(previousStateForKey, action, thirdArg);
 
 		if (nextStateForKey === undefined) {
 			throw new Error(`Reducer ${key} returned undefined`);

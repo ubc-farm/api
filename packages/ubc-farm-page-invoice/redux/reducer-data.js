@@ -1,13 +1,9 @@
 import {id as randomId} from '../../ubc-farm-utils/index.js';
 
-import columnList, {price} from '../columnlist.js';
+import columnList from '../columnlist.js';
 import {
 	ADD_DATA_ROW, REMOVE_DATA_ROWS, CHANGE_DATA,
 } from './actions.js';
-
-export const columns = () => columnList;
-export const totalColumn = () => price;
-export const VAT = () => 0;
 
 export default function data(state = new Map(), action) {
 	switch (action.type) {
