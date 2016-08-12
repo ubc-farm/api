@@ -1,4 +1,4 @@
-import {createElement as h, PropTypes} from 'react'; /** @jsx h */
+import {createElement as h} from 'react'; /** @jsx h */
 
 import {
 	subtotalSelector,
@@ -6,10 +6,10 @@ import {
 	balanceDueSelector
 } from '../redux/selectors.js';
 
+import AmountPaidCell from '../inputs/amount-paid.js';
 import TotalRow from './total-row.js';
-import AmountPaidCell from './amount-paid-input.js';
 
-const InvoiceTotalsFooter = () => {
+const InvoiceTotalsFooter = () => (
 	<tfoot>
 		<TotalRow bold label='Subtotal' selector={subtotalSelector} />
 		<TotalRow bold label='Total' selector={totalSelector} />
@@ -18,6 +18,6 @@ const InvoiceTotalsFooter = () => {
 		/>
 		<TotalRow bold label='Balance Due (CAD)' selector={balanceDueSelector} />
 	</tfoot>
-}
+)
 
 export default InvoiceTotalsFooter;

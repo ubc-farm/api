@@ -2,9 +2,8 @@ import {createElement as h} from 'react'; /** @jsx h */
 import {Money} from '../ubc-farm-utils/index.js';
 import {Column} from '../react-table/index.js';
 
-import StaticInput from './small-components/input-static-placeholder.js';
-import InvoiceInput, {OnBlur} from './small-components/invoice-input.js';
-import {transformMoney} from './table/footer.js';
+import InvoiceInput from './inputs/base.js';
+import UnitCostInput from './inputs/unit-cost.js';
 
 export const item = new Column({
 	columnKey: 'item',
@@ -50,15 +49,7 @@ export const unitCost = new Column({
 		const randomMoney = new Money(Math.trunc(Math.random() * 50000)).toString();
 
 		return this.super_toElement(
-			<OnBlur
-				transformerOut={transformMoney}
-				rowKey={rowKey} column={this}
-			>
-				<StaticInput
-					style={{maxWidth: '5em'}}
-					placeholder={randomMoney}
-				/>
-			</OnBlur>
+			<UnitCostInput placeholder={randomMoney} rowKey={rowKey} column={this} />
 		);
 	}
 })
