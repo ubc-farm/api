@@ -10,7 +10,7 @@ export const directory = {
 
 export const invoice = {
 	method: 'GET',
-	path: '/finance/sales',
+	path: '/finances/sales',
 	handler: {
 		view: {
 			template: 'ubc-farm-page-invoice/view.html',
