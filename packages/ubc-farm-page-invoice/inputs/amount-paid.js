@@ -7,19 +7,17 @@ import {
 	totalColumnSelector
 } from '../redux/selectors.js';
 import {setAmountPaid} from '../redux/actions.js';
-import UpdateOnBlur from '../small-components/input-change-on-blur.js';
+import UpdateOnBlur from '../small-components/input-with-state.js';
 
-const AmountPaidCell = ({value, onChange, cellProps}) => (
+const AmountPaidCell = ({value, onBlur, cellProps}) => (
 	<Cell {...cellProps}>
-		<UpdateOnBlur value={value} onBlur={onChange}>
-			<input type='text' />
-		</UpdateOnBlur>
+		<UpdateOnBlur value={value} onBlur={onBlur} />
 	</Cell>
 )
 
 AmountPaidCell.propTypes = {
 	value: PropTypes.string,
-	onChange: PropTypes.func,
+	onBlur: PropTypes.func,
 	cellProps: PropTypes.object
 }
 
@@ -29,6 +27,6 @@ export default connect(
 		cellProps: totalColumnSelector(state).toJSON()
 	}),
 	dispatch => ({
-		onChange(value) {dispatch(setAmountPaid(value))}
+		onBlur(value) {dispatch(setAmountPaid(value))}
 	})
 )(AmountPaidCell)

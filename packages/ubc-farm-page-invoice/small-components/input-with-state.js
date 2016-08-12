@@ -13,7 +13,7 @@ const stop = e => e.stopPropagation();
  */
 export default class UpdateOnBlur extends PureComponent {
 	static get propTypes() {return {
-		value: PropTypes.any.isRequired,
+		value: PropTypes.string,
 		placeholder: PropTypes.string
 	}}
 	
@@ -43,8 +43,9 @@ export default class UpdateOnBlur extends PureComponent {
 		return (
 			<input type='text' onClick={stop} 
 				{...this.props}
-				value={this.state.value}
+				value={this.state.value || ''}
 				placeholder={this.state.placeholder}
+				onChange={this.handleChange}
 				onBlur={this.handleBlur}
 			/>
 		);

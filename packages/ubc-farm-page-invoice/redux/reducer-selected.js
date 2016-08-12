@@ -1,6 +1,6 @@
-import columnList from '../columnlist.js';
 import {
 	TOGGLE_SELECTION, 
+	SET_SELECTION,
 	CLEAR_SELECTION, 
 	EVERYTHING_SELECTION
 } from './actions.js';
@@ -16,6 +16,17 @@ export default function selected(state = new Set(), action, dataState) {
 			else 
 				selected.add(id);
 
+			return selected;
+		}
+		case SET_SELECTION: {
+			const id = action.meta, status = action.payload;
+			let selected = new Set(state);
+
+			if (status) 
+				selected.add(id);
+			else 
+				selected.delete(id);
+			
 			return selected;
 		}
 		case CLEAR_SELECTION: {

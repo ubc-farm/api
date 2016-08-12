@@ -1,15 +1,26 @@
 import {Money} from '../../ubc-farm-utils/index.js';
 
+import {
+	selectedSelector, selectedLengthSelector,
+	dataLengthSelector
+} from './selectors.js';
+
 export const TOGGLE_SELECTION = 'TOGGLE_SELECTION';
+export const SET_SELECTION = 'SET_SELECTION';
 export const CLEAR_SELECTION = 'CLEAR_SELECTION';
 export const EVERYTHING_SELECTION = 'EVERYTHING_SELECTION';
+
 export const ADD_DATA_ROW = 'ADD_DATA_ROW';
 export const REMOVE_DATA_ROWS = 'REMOVE_DATA_ROWS';
 export const CHANGE_DATA = 'CHANGE_DATA';
+
 export const SET_AMOUNT_PAID = 'SET_AMOUNT_PAID';
 
 export function toggleRowSelection(rowId) {
 	return {type: TOGGLE_SELECTION, payload: rowId};
+}
+export function setSelection(rowId, status) {
+	return {type: SET_SELECTION, payload: status, meta: rowId}
 }
 export function selectNothing() {
 	return {type: CLEAR_SELECTION};
@@ -19,9 +30,13 @@ export function selectEverything() {
 }
 export function toggleSelectAll() {
 	return (dispatch, getState) => {
-		const {selected, data} = getState();
-		if (selected.size === data.size) return dispatch(selectNothing());
-		else return dispatch(selectEverything());
+		const selectedSize = selectedLengthSelector(getState());
+		const dataSize = dataLengthSelector(getState());
+
+		if (selectedSize === dataSize) 
+			return dispatch(selectNothing());
+		else 
+			return dispatch(selectEverything());
 	}
 }
 
@@ -39,7 +54,13 @@ export function removeRows(...rowIds) {
 	return {type: REMOVE_DATA_ROWS, ids: rowIdList};
 }
 export function removeSelected() {
-	return (dispatch, getState) => dispatch(removeRows(getState().selected));
+	return (dispatch, getState) => {
+		const selected = selectedSelector(getState());
+		
+		dispatch(removeRows(getState().selected));
+		for (const id of selected) 
+			dispatch(setSelection(id, false));
+	}
 }
 export function changeData(newValue, atRowKey, atColumn) {
 	return {type: CHANGE_DATA, newValue, atRowKey, atColumn};
@@ -52,6 +73,7 @@ export function setAmountPaid(amount) {
 	} else if (!amount instanceof Money) {
 		amount = new Money(amount);
 	}
+	console.log(amount);
 
 	return {type: SET_AMOUNT_PAID, amountPaid: amount};
 }

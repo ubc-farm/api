@@ -49,7 +49,7 @@ export const unitCost = new Column({
 		const randomMoney = new Money(Math.trunc(Math.random() * 50000)).toString();
 
 		return this.super_toElement(
-			//<UnitCostInput placeholder={randomMoney} rowKey={rowKey} column={this} />
+			<UnitCostInput placeholder={randomMoney} rowKey={rowKey} column={this} />
 		);
 	}
 })
@@ -73,7 +73,8 @@ export const price = new Column({
 	columnKey: 'price',
 	title: 'Price ($)',
 	getValue(rowData) {
-		const total = rowData.unitCost * rowData.quantity;
+		console.log(rowData);
+		const total = rowData.get(unitCost) * rowData.get(quantity);
 		if (!Money.isNaN(total)) return new Money(total);
 	},
 	compareFunc(a = 0, b = 0) {return b - a},
