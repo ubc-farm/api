@@ -4,7 +4,7 @@ import {Column} from '../react-table/index.js';
 
 import StaticInput from './small-components/input-static-placeholder.js';
 import InvoiceInput, {OnBlur} from './small-components/invoice-input.js';
-import {moneyTransformer} from './redux/calculate-money.js';
+import {transformMoney} from './table/footer.js';
 
 export const item = new Column({
 	columnKey: 'item',
@@ -51,7 +51,7 @@ export const unitCost = new Column({
 
 		return this.super_toElement(
 			<OnBlur
-				transformerOut={moneyTransformer}
+				transformerOut={transformMoney}
 				rowKey={rowKey} column={this}
 			>
 				<StaticInput

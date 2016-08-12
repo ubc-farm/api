@@ -4,8 +4,6 @@ import {Money, classlist as cx} from '../../ubc-farm-utils/index.js';
 
 import UpdateOnBlur from '../small-components/input-change-on-blur.js';
 import StaticInput from '../small-components/input-static-placeholder.js';
-import calculateOffset from '../redux/calculate-offset.js'
-import {calculateInvoice} from '../redux/calculate-money.js'
 
 /**
  * Table row used to show totals
@@ -31,12 +29,9 @@ TotalRow.propTypes = {
 
 
 const InvoiceTotalsFooter = props => {
-	const {data, totalColumn, columns} = props;
-	const {amountPaid, VAT, onAmountChange} = props;
-
-	const {leftPad, rightPad} = calculateOffset(totalColumn, columns);
-	const {subtotal, total, balanceDue} = 
-		calculateInvoice(data, totalColumn, amountPaid, VAT);
+	const {totalColumn, onAmountChange} = props;
+	const {amountPaid, subtotal, total, balanceDue} = props;
+	const {leftPad, rightPad} = props;
 	
 	return (
 		<tfoot>
@@ -80,7 +75,12 @@ InvoiceTotalsFooter.propTypes = {
 	totalColumn: PropTypes.instanceOf(Column).isRequired,
 	amountPaid: PropTypes.instanceOf(Money),
 	VAT: PropTypes.number,
-	onAmountChange: PropTypes.func
+	onAmountChange: PropTypes.func,
+	leftPad: PropTypes.number,
+	rightPad: PropTypes.number,
+	subtotal: PropTypes.instanceOf(Money),
+	total: PropTypes.instanceOf(Money),
+	balanceDue: PropTypes.instanceOf(Money),
 }
 
 export default InvoiceTotalsFooter;

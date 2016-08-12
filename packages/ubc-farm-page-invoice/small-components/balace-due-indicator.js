@@ -1,14 +1,15 @@
-import {createElement as h} from 'react'; /** @jsx h */
+import {createElement as h, PropTypes} from 'react'; /** @jsx h */
 import {connect} from 'react-redux';
-import {calculateInvoice} from '../redux/calculate-money.js'
-import {price} from '../columnlist.js';
+import {balanceDueSelector} from '../redux/selectors.js';
 
-const Indicator = ({children}) => 
-	<span className='detail-cell'>{children}</span>;
+const Indicator = ({children}) => (
+	<span className='detail-cell'>{children}</span>
+)
+
+Indicator.propTypes = {children: PropTypes.string}
 
 export default connect(
-	state => {
-		const {balanceDue} = calculateInvoice(state.data, price, state.amountPaid);
-		return {children: balanceDue.toString()};
-	}
+	state => ({
+		children: balanceDueSelector(state).toString()
+	})
 )(Indicator);
