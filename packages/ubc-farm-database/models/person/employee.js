@@ -1,6 +1,6 @@
 import {Model} from 'objection';
-import Person from './person.js';
 import {Task} from '../index.js';
+import Person from './person.js';
 
 /**
  * Extends Person with timetable information. Task assignments are also
