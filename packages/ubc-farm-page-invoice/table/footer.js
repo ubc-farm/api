@@ -1,39 +1,23 @@
-import {connect} from 'react-redux';
-import {Money} from '../../ubc-farm-utils/index.js';
+import {createElement as h, PropTypes} from 'react'; /** @jsx h */
 
-import {setAmountPaid} from '../redux/actions.js';
 import {
-	amountPaidSelector,
-	totalColumnSelector,
 	subtotalSelector,
 	totalSelector,
-	balanceDueSelector,
-	calculatePositionOffset
+	balanceDueSelector
 } from '../redux/selectors.js';
-import Footer from './footer-base.js';
 
-export function transformMoney(value) {
-	const strippedNonNumbers = value.replace(/[^0-9\.]/g, '');
-	return new Money(strippedNonNumbers, {convert: false})
+import TotalRow from './total-row.js';
+import AmountPaidCell from './amount-paid-input.js';
+
+const InvoiceTotalsFooter = () => {
+	<tfoot>
+		<TotalRow bold label='Subtotal' selector={subtotalSelector} />
+		<TotalRow bold label='Total' selector={totalSelector} />
+		<TotalRow label='Amount Paid'
+			cell={AmountPaidCell}
+		/>
+		<TotalRow bold label='Balance Due (CAD)' selector={balanceDueSelector} />
+	</tfoot>
 }
 
-export default connect(
-	state => {
-		const {leftPad, rightPad} = calculatePositionOffset(state);
-
-		return {
-			amountPaid: amountPaidSelector(state),
-			totalColumn: totalColumnSelector(state),
-			leftPad, rightPad,
-			subtotal: subtotalSelector(state),
-			total: totalSelector(state),
-			balanceDue: balanceDueSelector(state)
-		};
-	},
-	dispatch => ({
-		onAmountChange: value => {
-			const val = transformMoney(value);
-			return dispatch(setAmountPaid(val));
-		}
-	})
-)(Footer)
+export default InvoiceTotalsFooter;

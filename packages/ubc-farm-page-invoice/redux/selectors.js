@@ -17,6 +17,18 @@ export const amountPaidSelector = state => state.amountPaid;
 /** @returns {Set<K>} */
 export const selectedSelector = state => state.selected;
 
+/** @returns {number} */
+export const dataLengthSelector = createSelector(
+	dataSelector,
+	data => data.size
+);
+
+/** @returns {number} */
+export const selectedLengthSelector = createSelector(
+	selectedSelector,
+	selected => selected.size
+);
+
 /** @returns {Money} */
 export const subtotalSelector = createSelector(
 	dataSelector,
@@ -25,7 +37,7 @@ export const subtotalSelector = createSelector(
 		let total = 0;
 		for (const row of data.values()) {
 			const value = totalColumn.getValue(row);
-			if (!Money.isNaN(value)) total += value;
+			if (value !== undefined && !Money.isNaN(value)) total += value;
 		}
 		return new Money(total);
 	}

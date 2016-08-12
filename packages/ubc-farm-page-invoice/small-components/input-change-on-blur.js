@@ -36,7 +36,7 @@ export default class UpdateOnBlur extends Component {
 
 	render() {
 		return cloneElement(this.props.children, 
-			Object.assign({}, this.props, {
+			Object.assign({}, this.props.inputProps, {
 				onBlur: this.handleBlur,
 				onChange: this.handleChange,
 				value: this.state.renderedValue,
