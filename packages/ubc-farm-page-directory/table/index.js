@@ -7,7 +7,11 @@ import columns from './columnlist.js';
 
 Promise.all([apiData, domready]).then(([data]) => {
 	ReactDOM.render(
-		<Table selection sorting data={data} columns={columns} />,
+		<Table 
+			selection sorting 
+			data={data} columns={columns} 
+			className='directory-table' 
+		/>,
 		document.getElementById('app-mount')
 	);
 })
