@@ -3,19 +3,13 @@ import {connect} from 'react-redux';
 import {Money} from '../../ubc-farm-utils/index.js';
 
 import {Column} from '../../react-table/index.js';
-import StaticPlaceholder from '../small-components/input-static-placeholder.js';
-import UpdateOnBlur from '../small-components/input-change-on-blur.js';
+import UpdateOnBlur from '../small-components/input-with-state.js';
 
 import {changeData} from '../redux/actions.js';
 import {dataSelector} from '../redux/selectors.js';
 
-const UnitCostInput = ({value, placeholder, onBlur}) => (
-	<UpdateOnBlur onBlur={onBlur} value={value}>
-		<StaticPlaceholder 
-			style={{maxWidth: '5em'}}
-			placeholder={placeholder}
-		/>
-	</UpdateOnBlur>
+const UnitCostInput = props => (
+	<UpdateOnBlur {...props} style={{maxWidth: '5em'}} />
 );
 
 UnitCostInput.propTypes = {
@@ -38,7 +32,18 @@ const UnitCostInputConnected = connect(
 
 			dispatch(changeData(value, rowKey, column));
 		}
-	})
+	}),
+	(stateProps, dispatchProps, ownProps) => {
+		let props = Object.assign({}, stateProps, dispatchProps);
+		for (const key in ownProps) {
+			switch (key) {
+				case 'rowKey': case 'column': break;
+				default: props[key] = ownProps[key];
+			}
+		}
+		return props;
+	},
+	{pure: false}
 )
 
 UnitCostInputConnected.propTypes = {

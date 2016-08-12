@@ -9,7 +9,7 @@ export const CHANGE_DATA = 'CHANGE_DATA';
 export const SET_AMOUNT_PAID = 'SET_AMOUNT_PAID';
 
 export function toggleRowSelection(rowId) {
-	return {type: TOGGLE_SELECTION, rowId};
+	return {type: TOGGLE_SELECTION, payload: rowId};
 }
 export function selectNothing() {
 	return {type: CLEAR_SELECTION};

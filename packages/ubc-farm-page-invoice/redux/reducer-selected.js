@@ -8,11 +8,13 @@ import {
 export default function selected(state = new Set(), action, dataState) {
 	switch (action.type) {
 		case TOGGLE_SELECTION: {
-			const {rowId} = action;
+			const id = action.payload;
 			let selected = new Set(state);
 			
-			if (selected.has(rowId)) selected.delete(rowId);
-			else selected.add(rowId);
+			if (selected.has(id)) 
+				selected.delete(id);
+			else 
+				selected.add(id);
 
 			return selected;
 		}

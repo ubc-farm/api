@@ -33,7 +33,7 @@ const packageRoutes = (pageName, config) => [
 ];
 
 export const directory = packageRoutes('directory', directoryConfig);
-export const invoice = packageRoutes('invoice', invoiceConfig);
+//export const invoice = packageRoutes('invoice', invoiceConfig);
 export const calendar = packageRoutes('calendar', calendarConfig);
 export const planner = packageRoutes('planner', plannerConfig);
 export const fields = packageRoutes('fields', fieldsConfig);

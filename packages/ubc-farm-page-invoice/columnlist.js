@@ -49,7 +49,7 @@ export const unitCost = new Column({
 		const randomMoney = new Money(Math.trunc(Math.random() * 50000)).toString();
 
 		return this.super_toElement(
-			<UnitCostInput placeholder={randomMoney} rowKey={rowKey} column={this} />
+			//<UnitCostInput placeholder={randomMoney} rowKey={rowKey} column={this} />
 		);
 	}
 })
@@ -62,7 +62,7 @@ export const quantity = new Column({
 		return this.super_toElement(
 			<InvoiceInput type='number' step='any'
 				style={{maxWidth: '5em'}}
-				placeholder={Math.trunc(Math.random() * 100)}
+				placeholder={Math.trunc(Math.random() * 100).toString()}
 				rowKey={rowKey} column={this}
 			/>
 		);

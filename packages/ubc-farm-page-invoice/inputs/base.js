@@ -6,7 +6,7 @@ import StaticInput from '../small-components/input-static-placeholder.js';
 const InvoiceInput = connect(
 	(state, {rowKey, column}) => {
 		const data = dataSelector(state);
-		const value = column.getValue(data.get(rowKey));
+		const value = column.getValue(data.get(rowKey)) || '';
 
 		return { value }
 	},
@@ -22,7 +22,8 @@ const InvoiceInput = connect(
 			}
 		}
 		return props;
-	}
+	},
+	{pure: false}
 )(StaticInput);
 
 export default InvoiceInput;

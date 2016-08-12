@@ -34,3 +34,5 @@ export const mapEditorWorker = {
 		file: 'ubc-farm-page-map-editor/autogrid/index.es.js'
 	}
 }
+
+export const invoice = standardRoutes('invoice');

@@ -9,12 +9,16 @@ import {
 import {toggleRowSelection} from '../redux/actions.js';
 
 export default connect(
-	state => ({
-		columns: columnSelector(state),
-		selected: selectedSelector(state),
-		data: dataSelector(state)
-	}),
+	state => {
+		return {
+			columns: columnSelector(state),
+			selected: selectedSelector(state),
+			data: dataSelector(state)
+		}
+	},
 	dispatch => ({
-		onSelect(rowKey) {dispatch(toggleRowSelection(rowKey))}
+		onSelect(rowKey) {
+			dispatch(toggleRowSelection(rowKey))
+		}
 	})
 )(Body);
