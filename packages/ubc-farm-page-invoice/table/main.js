@@ -17,7 +17,7 @@ class InvoiceTable extends Component {
 		onColumnCheckboxChange: PropTypes.func,
 		onRowSelect: PropTypes.func,
 		onInputChange: PropTypes.func,
-		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column))
+		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)).isRequired
 	}}
 
 	constructor(props) {
@@ -64,7 +64,7 @@ class InvoiceTable extends Component {
 					sortMap={this.generateSortMap()}
 					onSelect={this.props.onRowSelect}
 				/>
-				<TotalFooter />
+				<TotalFooter columns={columns} />
 			</table>
 		);
 	}
