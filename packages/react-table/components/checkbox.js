@@ -1,11 +1,12 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, PropTypes, PureComponent} from 'react'; 
+/** @jsx h */
 import {omit} from '../../ubc-farm-utils/index.js';
 
 /**
  * A checkbox component. Adds a 'indeterminate' prop, which allows for the
  * indeterminate value of a checkbox to be set. 
  */
-export default class Checkbox extends Component {
+export default class Checkbox extends PureComponent {
 	static get propTypes() {return {
 		indeterminate: PropTypes.bool,
 		checked: PropTypes.bool,
@@ -17,8 +18,6 @@ export default class Checkbox extends Component {
 	componentDidMount() {
 		this.handleIndeterminate(this.props.indeterminate);
 	}
-
-	shouldComponentUpdate(nextProps) {return this.props !== nextProps;}
 
 	componentDidUpdate(prevProps) {
 		const {indeterminate} = this.props;

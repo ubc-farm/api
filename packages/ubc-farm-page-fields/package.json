@@ -1,0 +1,21 @@
+{
+	"name": "ubc-farm-page-fields",
+	"version": "1.1.0",
+	"description": "Field overview page",
+	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+	"license": "MIT",
+	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-page-fields",
+	"private": true,
+	"dependencies": {
+		"react": "^15.3.0",
+		"react-dom": "^15.3.0"
+	},
+	"browser": "index.iife.js",
+	"devDependencies": {
+		"rollup": "0.34.2",
+		"handlebars": "^4.0.5"
+	},
+	"scripts": {
+		"prepublish": "rollup -c -i index.js -o index.iife.js -f iife -n Fields"
+	}
+}

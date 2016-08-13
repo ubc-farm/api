@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, PropTypes, PureComponent} from 'react'; 
+/** @jsx h */
 import {Body, Head, Column} from '../index.js';
 
 /**
@@ -19,17 +20,18 @@ export function generateSortMap(data, sortColumn, descending = true) {
 	const sortedData = columnData.sort(([, a], [, b]) => 
 		sortColumn.compareFunc(a, b) * multiplier)
 
-	const sortMap = sortedData.map(([rowKey], index) => [index, rowKey]);
-	return new Map(sortMap);
+	const sortMap = sortedData.map(([rowKey]) => rowKey);
+	return sortMap;
 }
 
 /**
  * Example table that uses the table-controls components.
  */
-export default class Table extends Component {
+export default class Table extends PureComponent {
 	static get propTypes() {return {
 		data: PropTypes.instanceOf(Map),
 		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)),
+		className: PropTypes.string,
 		sorting: PropTypes.bool,
 		selection: PropTypes.bool
 	}}
@@ -80,11 +82,11 @@ export default class Table extends Component {
 	}
 
 	render() {
-		const {data, columns} = this.props;
+		const {data, columns, className} = this.props;
 		const {selected, sort} = this.state;
 
 		return (
-			<table>
+			<table className={className}>
 				<caption style={{visibility: selected.length > 0? 'visible':'hidden'}}>
 					{`${selected.length} item${selected.length > 1 ? 's' : ''} selected`}
 				</caption>

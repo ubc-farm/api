@@ -1,10 +1,4 @@
 import server from './server.js';
+import startServer from '../ubc-farm-utils/function/start-server.js';
 
-/**
- * @done server works as desired
- * @todo write automated tape tests
- */
-
-server.start().then(() => {
-	console.log(`Static server running at: ${server.info.uri}`);
-});
+startServer(server, 'Static');

@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
+import {createElement as h} from 'react'; /** @jsx h */
 import {Provider} from 'react-redux';
 
-import store from './store/index.js';
+import {domready} from '../ubc-farm-utils/index.js';
+import store from './redux/index.js';
 import InvoiceTable from './table/main.js';
 
-ReactDOM.render(
-	<Provider store={store}>
-		<InvoiceTable />
-	</Provider>
-)
+domready.then(() => {
+	ReactDOM.render(
+		<Provider store={store}>
+			<InvoiceTable />
+		</Provider>
+	, document.getElementById('invoice-table-node'));
+});

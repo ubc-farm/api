@@ -20,7 +20,6 @@ export default class UpdateOnBlur extends Component {
 		super(props);
 		this.state = {renderedValue: props.value};
 		this.handleChange = this.handleChange.bind(this);
-		this.handleBlur = this.handleBlur.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -30,18 +29,21 @@ export default class UpdateOnBlur extends Component {
 	handleChange(e) {
 		this.setState({renderedValue: e.target.value});
 	}
-	handleBlur() {
-		this.props.onBlur(this.state.renderedValue);
-	}
 
 	render() {
-		return cloneElement(this.props.children, 
-			Object.assign({}, this.props, {
-				onBlur: this.handleBlur,
-				onChange: this.handleChange,
-				value: this.state.renderedValue,
-				children: undefined
-			})
-		);
+		let props = {
+			onChange: this.handleChange,
+			value: this.state.renderedValue
+		};
+
+		for (const key in this.props) {
+			switch (key) {
+				case 'children': case 'rowKey': case 'column': break;
+				default: props[key] = this.props[key];
+			}
+		}
+
+
+		return cloneElement(this.props.children, props);
 	}
 }

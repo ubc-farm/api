@@ -1,5 +1,4 @@
 import server from './server.js';
+import startServer from '../ubc-farm-utils/function/start-server.js';
 
-server.start().then(() => {
-	console.log(`API server running at: ${server.info.uri}`);
-});
+startServer(server, 'API');

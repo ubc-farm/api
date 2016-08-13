@@ -1,0 +1,29 @@
+{
+	"name": "ubc-farm-views-server",
+	"version": "1.0.1",
+	"description": "Contains routes for the main views of the program that users see",
+	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+	"license": "MIT",
+	"repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-views-server",
+	"main": "index.node.js",
+	"jsnext:main": "index.es.js",
+	"private": true,
+	"dependencies": {
+		"hapi": "14.1.0",
+		"handlebars": "^4.0.5",
+		"vision": "4.1.0"
+	},
+	"devDependencies": {
+		"rollup": "0.34.2",
+		"rollup-plugin-json": "^2.0.1"
+	},
+	"scripts": {
+		"prepublish": "rollup -c",
+		"start": "node index.node.js",
+		"quickstart": "npm run prepublish && npm start",
+		"watch": "nodemon index.node.js"
+	},
+	"server": {
+		"port": 3040
+	}
+}

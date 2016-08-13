@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, PureComponent, PropTypes} from 'react'; 
+/** @jsx h */
 
 const stop = e => e.stopPropagation();
 
@@ -7,7 +8,7 @@ const stop = e => e.stopPropagation();
  * update from its initial prop, allowing for randomly-generated placeholders
  * that don't regenerate each re-render.
  */
-export default class StaticPlaceholderInput extends Component {
+export default class StaticPlaceholderInput extends PureComponent {
 	static get propTypes() {return {
 		placeholder: PropTypes.string
 	}}
@@ -15,8 +16,7 @@ export default class StaticPlaceholderInput extends Component {
 	constructor(props) {
 		super(props);
 
-		const {placeholder} = props;
-		this.state = {placeholder};
+		this.state = {placeholder: this.props.placeholder};
 	}
 
 	render() {

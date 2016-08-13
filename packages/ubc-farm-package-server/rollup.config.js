@@ -1,13 +1,17 @@
-export default {
-	entry: 'index.js',
-	external: [
-		'path', 'rollup', 'hapi', 'inert',
-		'rollup-plugin-buble',
-		'rollup-plugin-commonjs',
-		'rollup-plugin-node-resolve'
-	],
-	targets: [
-		{ dest: 'index.node.js', format: 'cjs' },
-		{ dest: 'index.es.js', format: 'es' }
-	]
-};
+import {server as base, browser} from '../../rollup.default.config.js';
+
+const externals = [
+	...base.external, 
+	...browser.external,
+	'rollup'
+]
+
+export default Object.assign({}, base, {
+	external(id) {
+		if (id.startsWith('rollup-plugin')) 
+			return true;
+		else if (externals.includes(id))
+			return true;
+		else return false;
+	}
+})

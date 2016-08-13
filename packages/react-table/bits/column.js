@@ -1,5 +1,5 @@
-import {format} from '../../ubc-farm-utils/index.js';
 import {createElement} from 'react';
+import {format} from '../../ubc-farm-utils/index.js';
 import Cell from './cell.js';
 
 /**
@@ -31,16 +31,18 @@ export default class Column {
 			compareFunc = this.super_compareFunc;
 
 		Object.assign(this, props, {
-			title, align, toElement, compareFunc, getValue,
+			title, align, 
+			toElement: toElement.bind(this), 
+			compareFunc: compareFunc.bind(this), 
+			getValue: getValue.bind(this),
 			useSorting: props.compareFunc? true : false
 		});
-		Object.freeze();
+		Object.freeze(this);
 	}
 
 	/** @returns {Object} the column object as a plain object */
 	toJSON() {
-		return [...Object.keys(this), 'key']
-			.reduce((obj, key) => {obj[key] = this[key]; return obj}, {});
+		return Object.assign({}, this, {key: this.key})
 	}
 
 	/** @returns {string} columnKey */

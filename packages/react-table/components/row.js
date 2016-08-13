@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement as h, PropTypes} from 'react'; /** @jsx h */
 import Cell from '../bits/cell.js';
 import cx from '../classlist.js';
 

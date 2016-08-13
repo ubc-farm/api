@@ -4,13 +4,18 @@
 	{{> head}}
 	{{> test}}
 	<link href='/css/core/form.css' rel='stylesheet'>
+	<link href='/css/core/table.css' rel='stylesheet'>
+	<link href='/css/core/table-sort.css' rel='stylesheet'>
+	<link href='/packages/react-table/table.css' rel='stylesheet'>
+	<link href='/packages/ubc-farm-page-invoice/invoice.css' rel='stylesheet'>
+	<script async src='/packages/ubc-farm-page-invoice/index.js'></script>
 </head>
 <body>
 	{{> app-banner}}
 	{{> section-banner breadcrumbs}}
-	<form className='invoice'>
-		<div className='row'>
-			<p className='farm-address left'>
+	<form class='invoice'>
+		<div class='row'>
+			<p class='farm-address left'>
 				UBC Farm<br/>
 				2357 Main Maill<br/>
 				Vancouver BC  V6T 1Z4<br/>
@@ -18,7 +23,7 @@
 				Phone: 604-822-5092
 			</p>
 
-			<fieldset className='internal-data right'>
+			<fieldset class='internal-data right'>
 				<!-- React Node -->
 				<label id='delivery-date-input'>
 					Delivery Date
@@ -26,9 +31,9 @@
 					<input type='text'/>	
 				</label>
 
-				<div className='row'>
+				<div class='row'>
 
-					<div className='left channel'>
+					<div class='left channel'>
 						<label htmlFor='channel'>Channel</label>
 						<select id='channel' name='channel'>
 							<option value='csa'>CSA</option>
@@ -36,44 +41,45 @@
 						</select>
 					</div>
 
-					<div className='right notes'>
+					<div class='right notes'>
 						<label htmlFor='notes'>Notes</label>
-						<textarea id='notes' name='notes'/>
+						<textarea id='notes' name='notes'></textarea>
 					</div>
 
 				</div>
 			</fieldset>
 		</div>
-		<div className='row'>
+		<div class='row'>
 			<!-- React Node -->
-			<div className='customer left' id='customer-input'>
+			<div class='customer left' id='customer-input'>
 				<!-- TODO -->
 			</div>
 
-			<div className='invoice-details right'>
-				<label className='details-row'>
-					<span className='detail-cell detail-header'>Invoice #:</span>
+			<div class='invoice-details right'>
+				<label class='details-row'>
+					<span class='detail-cell detail-header'>Invoice #:</span>
 					<input type='number' 
 						name='invoiceNumber' 
-						className='detail-cell' 
+						class='detail-cell' 
 						placeholder='9584107'
+						min='0'
 					/>
 				</label>
 
-				<label className='details-row'>
-					<span className='detail-cell detail-header'>Date:</span>
+				<label class='details-row'>
+					<span class='detail-cell detail-header'>Date:</span>
 					<!-- React Node -->
 					<!-- TODO -->
 					<input type='text'/>	
 				</label>
 
-				<label className='details-row'>
-					<span className='detail-cell detail-header'>
+				<label class='details-row'>
+					<span class='detail-cell detail-header'>
 						Balance Due (CAD):
 					</span>
 					<!-- React Node -->
 					<!-- TODO -->
-					<span className='detail-cell'/>
+					<span class='detail-cell'/>
 				</label>
 			</div>
 		</div>

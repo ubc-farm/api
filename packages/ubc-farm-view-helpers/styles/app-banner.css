@@ -1,33 +1,29 @@
 .app-banner {
 	display: flex;
-	justify-content: flex-end;
 	padding: 0.25em 1.5em;
 }
 
 .banner-logo {
 	display: flex;
 	margin-right: auto;
+	order: -1;
 }
 
 .app-menu {
 	visibility: hidden;
 	transform: scale3d(0, 0, 0);
-	transform-origin: 90% top;
-	position: absolute;
-	background: #fff;
-	box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-              0 1px 10px 0 rgba(0, 0, 0, 0.12),
-              0 2px 4px -1px rgba(0, 0, 0, 0.4);
-	right: 7.5rem; 
-	top: .5rem;
+	transform-origin: right center;
 	transition: transform 0.1s ease, visibility 0.1s linear;
-	font-size: 1.25em;
+	order: -1;
+	display: flex;
+	align-items: center;
+	margin-right: auto;
 }
 
 .app-menu-item {
 	display: block;
-	padding: 0.5em;
-	white-space: nowrap;
+	padding: 0.2em 0.5em;
+	text-align: center;
 }
 
 .app-menu-item:hover {

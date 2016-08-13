@@ -1,5 +1,8 @@
-import React, {PropTypes} from 'react';
+import {createElement as h, PropTypes} from 'react'; /** @jsx h */
+import {connect} from 'react-redux';
 import {classlist as cx} from '../../ubc-farm-utils/index.js'
+
+import {selectedLengthSelector} from '../redux/selectors.js';
 
 /**
  * A table caption that toggles between 2 possible children depending on
@@ -36,4 +39,8 @@ ActionBar.propTypes = {
 	selectedLength: PropTypes.number
 }
 
-export default ActionBar;
+export default connect(
+	state => ({
+		selectedLength: selectedLengthSelector(state)
+	})
+)(ActionBar);

@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import {createElement as h, PropTypes, PureComponent} from 'react'; 
+/** @jsx h */
 import Column from '../bits/column.js';
 import Row from './row.js';
 
@@ -16,11 +17,11 @@ import Row from './row.js';
  * @param {Set<string>} props.selected
  * @param {function} onSelect
  */
-export default class Body extends Component {
+export default class Body extends PureComponent {
 	static get propTypes() {return {
 		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)).isRequired,
 		data: PropTypes.instanceOf(Map).isRequired,
-		sortMap: PropTypes.instanceOf(Map),
+		sortMap: PropTypes.array,
 		selected: PropTypes.instanceOf(Set),
 		onSelect: PropTypes.func
 	}}

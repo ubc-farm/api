@@ -1,10 +1,9 @@
-import React from 'react';
+import {createElement as h} from 'react'; /** @jsx h */
 import {Money} from '../ubc-farm-utils/index.js';
 import {Column} from '../react-table/index.js';
 
-import StaticInput from './small-components/input-static-placeholder.js';
-import InvoiceInput, {OnBlur} from './small-components/invoice-input.js';
-import {moneyTransformer} from './store/calculate-money.js';
+import InvoiceInput from './inputs/base.js';
+import UnitCostInput from './inputs/unit-cost.js';
 
 export const item = new Column({
 	columnKey: 'item',
@@ -50,15 +49,7 @@ export const unitCost = new Column({
 		const randomMoney = new Money(Math.trunc(Math.random() * 50000)).toString();
 
 		return this.super_toElement(
-			<OnBlur
-				transformerOut={moneyTransformer}
-				rowKey={rowKey} column={this}
-			>
-				<StaticInput
-					style={{maxWidth: '5em'}}
-					placeholder={randomMoney}
-				/>
-			</OnBlur>
+			<UnitCostInput placeholder={randomMoney} rowKey={rowKey} column={this} />
 		);
 	}
 })
@@ -71,19 +62,28 @@ export const quantity = new Column({
 		return this.super_toElement(
 			<InvoiceInput type='number' step='any'
 				style={{maxWidth: '5em'}}
-				placeholder={Math.trunc(Math.random() * 100)}
+				placeholder={Math.trunc(Math.random() * 100).toString()}
 				rowKey={rowKey} column={this}
 			/>
 		);
 	}
 })
 
+let priceValueCache = new WeakMap();
 export const price = new Column({
 	columnKey: 'price',
 	title: 'Price ($)',
 	getValue(rowData) {
-		const total = rowData.unitCost * rowData.quantity;
-		if (!Money.isNaN(total)) return new Money(total);
+		if (priceValueCache.has(rowData)) {
+			return priceValueCache.get(rowData);
+		} else {
+			const total = rowData.get(unitCost) * rowData.get(quantity);
+			if (!Money.isNaN(total)) {
+				const result = new Money(total)
+				priceValueCache.set(rowData, result);
+				return result;
+			}
+		}		
 	},
 	compareFunc(a = 0, b = 0) {return b - a},
 	toElement(value) {

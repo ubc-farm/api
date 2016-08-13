@@ -3,7 +3,7 @@
 	box-sizing: border-box;
 }
 
-label:not(.material-icons), legend {
+label, legend {
 	display: block;
 	margin-bottom: .5rem;
 	font-weight: 600;
@@ -15,7 +15,7 @@ label:not(.material-icons), legend {
 	margin-left: .5em;
 }
 
-input
+input,
 textarea,
 select {
 	padding: 0.4em 0.6em;
@@ -25,7 +25,7 @@ select {
 	text-align: inherit;
 }
 
-input:focus 
+input:focus, 
 textarea:focus,
 select:focus {
 	border-color: #888;

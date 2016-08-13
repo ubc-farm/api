@@ -18,15 +18,5 @@ export default [
 		method: 'GET',
 		path: '/fields/{fieldID?}',
 		handler
-	},
-	{
-		method: 'GET',
-		path: '/events/{task?}',
-		handler
-	},
-	{
-		method: 'GET',
-		path: '/finances/{page*}',
-		handler
-	},
+	}
 ];

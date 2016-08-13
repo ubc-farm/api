@@ -1,0 +1,11 @@
+{
+	"watch": [
+		"../ubc-farm-page-calendar",
+		"../ubc-farm-page-directory",
+		"../ubc-farm-page-fields",
+		"../ubc-farm-page-invoice",
+		"../ubc-farm-page-map-editor",
+		"../ubc-farm-page-planner"
+	],
+	"ext": "js json"
+}

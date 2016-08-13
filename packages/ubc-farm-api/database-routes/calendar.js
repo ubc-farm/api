@@ -8,6 +8,8 @@ import {
 	removeNullandUndef
 } from './transformer.js';
 
+const Joi = require('joi') //eslint-disable-line import/no-commonjs
+
 /**
  * Used to get Events sorted by date and time
  * @param {string} request.params.year - 2 digit years are converted to 2000s
@@ -35,7 +37,7 @@ export function calendarCollection(request, reply) {
 	else endDate = new Date(year + 1, 0);
 	endDate = new Date(endDate.getTime() - 1); //Subtract 1 millisecond
 	
-	const query = Event.query()
+	let query = Event.query()
 		.where('start_time', '>=', startDate)
 		.andWhere('end_time', '<=', endDate)
 		.orderBy('start_time', 'desc')
@@ -45,21 +47,51 @@ export function calendarCollection(request, reply) {
 	return transformReply(query, request, reply);
 }
 
+const yearSchema = Joi.number().integer().positive();
+const monthSchema = Joi.alternatives().try(
+	Joi.number().min(1).max(12), 
+	Joi.string().alphanum().min(3).max(9)
+); 
+
 export default [
 	{
 		method: 'GET',
 		path: '/api/calendar/{year}/{month}/{date}',
-		handler: calendarCollection
+		handler: calendarCollection,
+		config: {
+			validate: {
+				params: {
+					year: yearSchema,
+					month: monthSchema,
+					date: Joi.number().min(1).max(31).integer().positive()
+				}
+			}
+		}
 	},
 	{
 		method: 'GET',
 		path: '/api/calendar/{year}/{month}',
-		handler: calendarCollection
+		handler: calendarCollection,
+		config: {
+			validate: {
+				params: {
+					year: yearSchema,
+					month: monthSchema
+				}
+			}
+		}
 	},
 	{
 		method: 'GET',
 		path: '/api/calendar/{year}',
-		handler: calendarCollection
+		handler: calendarCollection,
+		config: {
+			validate: {
+				params: {
+					year: yearSchema
+				}
+			}
+		}
 	},
 	{
 		method: 'GET',

@@ -1,21 +1,14 @@
 {
   "name": "ubc-farm-utils",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Utilities used by various ubc-farm sibling packages",
   "license": "MIT",
   "repository": "https://github.com/NotWoods/ubc-farm/tree/master/packages/ubc-farm-utils",
 	"main": "index.node.js",
 	"jsnext:main": "index.js",
 	"private": true,
-	"devDependencies": { "rollup": "^0.34.1" },
+	"devDependencies": { "rollup": "0.34.2" },
   "scripts": {
-		"geojson": "rollup -i class/geojson/index.js -o class/geojson.js -f cjs -m",
-		"money": "rollup -i class/money/index.js -o class/money.js -f cjs -m",
-		"calendar": "rollup -i calendar/index.js -o calendar.js -f cjs -m",
-		"classes": "rollup -i class/index.js -o class/index.node.js -f cjs -m",
-		"functions": "rollup -i function/index.js -o function/index.node.js -f cjs -m",
-		"build": "rollup -i index.js -o index.node.js -f cjs -m",
-		"build:es": "rollup -i index.js -o index.es.js -f es -m",
-		"prepublish": "npm run geojson && npm run money && npm run classes && npm run functions && npm run build && npm run build:es"
+		"prepublish": "rollup -c"
 	}
 }

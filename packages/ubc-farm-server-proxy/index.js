@@ -1,5 +1,4 @@
+import startServer from '../ubc-farm-utils/function/start-server.js';
 import server from './server.js';
 
-server.start().then(() => {
-	console.log(`Reverse proxy server running at: ${server.info.uri}`);
-});
+startServer(server, 'Reverse proxy');

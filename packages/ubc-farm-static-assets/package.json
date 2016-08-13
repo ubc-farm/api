@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-static-assets",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "Server for static files",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
@@ -9,12 +9,19 @@
 	"jsnext:main": "index.es.js",
 	"private": true,
 	"dependencies": {
-		"hapi": "^13.5.0",
+		"hapi": "14.1.0",
 		"inert": "^4.0.1"
 	},
-	"devDependencies": { "rollup": "^0.34.1" },
+	"devDependencies": { 
+		"rollup": "0.34.2",
+		"rollup-plugin-json": "^2.0.1" 
+	},
 	"scripts": {
 		"prepublish": "rollup -c",
-		"start": "node index.node.js"
+		"start": "node index.node.js",
+		"quickstart": "npm run prepublish && npm start"
+	},
+	"server": {
+		"port": 3001
 	}
 }

@@ -1,21 +1,80 @@
 import directoryConfig from '../../ubc-farm-page-directory/rollup.config.js';
-export const directory = {
+import invoiceConfig from '../../ubc-farm-page-invoice/rollup.config.js';
+import calendarConfig from '../../ubc-farm-page-calendar/rollup.config.js';
+import tableConfig from '../../react-table/rollup.config.js';
+import plannerConfig from '../../ubc-farm-page-planner/rollup.config.js';
+import mapEditorConfig from '../../ubc-farm-page-map-editor/rollup.config.js';
+import fieldsConfig from '../../ubc-farm-page-fields/rollup.config.js';
+
+const packageRoutes = (pageName, config) => [
+	{
+		method: 'GET',
+		path: `/packages/ubc-farm-page-${pageName}/index.js`,
+		handler: {
+			package: Object.assign({}, config, {
+				entry: `ubc-farm-page-${pageName}/index.js`,
+				moduleName: 'TEST'
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: `/packages/ubc-farm-page-${pageName}.js`,
+		handler: (req, reply) => 
+			reply().redirect(`/packages/ubc-farm-page-${pageName}/index.js`)
+	},
+	{
+		method: 'GET',
+		path: `/packages/ubc-farm-page-${pageName}/{param*}`,
+		handler: {
+			directory: { path: `ubc-farm-page-${pageName}` }
+		}
+	}
+];
+
+export const directory = packageRoutes('directory', directoryConfig);
+//export const invoice = packageRoutes('invoice', invoiceConfig);
+export const calendar = packageRoutes('calendar', calendarConfig);
+export const planner = packageRoutes('planner', plannerConfig);
+export const fields = packageRoutes('fields', fieldsConfig);
+
+export const table = {
 	method: 'GET',
-	path: '/packages/ubc-farm-page-directory{ext?}',
+	path: '/packages/react-table/index.js',
 	handler: {
-		package: Object.assign({}, directoryConfig, {
-			entry: 'ubc-farm-page-directory/index.js'
+		package: Object.assign({}, tableConfig, {
+			entry: 'react-table/index.js',
+			moduleName: 'Table'
 		})
 	}
 }
-
-import invoiceConfig from '../../ubc-farm-page-invoice/rollup.config.js';
-export const invoice = {
+export const tableFiles = {
 	method: 'GET',
-	path: '/packages/ubc-farm-page-invoice{ext?}',
+	path: '/packages/react-table/{param*}',
 	handler: {
-		package: Object.assign({}, invoiceConfig, {
-			entry: 'ubc-farm-page-invoice/index.js'
+		directory: { path: 'react-table' }
+	}
+}
+
+export const utils = {
+	method: 'GET',
+	path: '/packages/ubc-farm-utils/index.js',
+	handler: {
+		package: {
+			entry: 'ubc-farm-utils/index.js',
+			moduleName: 'Utils',
+			sourceMap: true
+		}
+	}
+}
+
+export const fieldsMap = {
+	method: 'GET',
+	path: '/packages/ubc-farm-page-fields/map.js',
+	handler: {
+		package: Object.assign({}, fieldsConfig, {
+			entry: 'ubc-farm-page-fields/map/index.js',
+			moduleName: 'FieldMap'
 		})
 	}
 }
