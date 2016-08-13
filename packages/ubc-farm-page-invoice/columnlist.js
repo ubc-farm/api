@@ -69,13 +69,21 @@ export const quantity = new Column({
 	}
 })
 
+let priceValueCache = new WeakMap();
 export const price = new Column({
 	columnKey: 'price',
 	title: 'Price ($)',
 	getValue(rowData) {
-		console.log(rowData);
-		const total = rowData.get(unitCost) * rowData.get(quantity);
-		if (!Money.isNaN(total)) return new Money(total);
+		if (priceValueCache.has(rowData)) {
+			return priceValueCache.get(rowData);
+		} else {
+			const total = rowData.get(unitCost) * rowData.get(quantity);
+			if (!Money.isNaN(total)) {
+				const result = new Money(total)
+				priceValueCache.set(rowData, result);
+				return result;
+			}
+		}		
 	},
 	compareFunc(a = 0, b = 0) {return b - a},
 	toElement(value) {
