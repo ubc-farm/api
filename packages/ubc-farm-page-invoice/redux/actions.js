@@ -73,7 +73,6 @@ export function setAmountPaid(amount) {
 	} else if (!amount instanceof Money) {
 		amount = new Money(amount);
 	}
-	console.log(amount);
 
 	return {type: SET_AMOUNT_PAID, amountPaid: amount};
 }
