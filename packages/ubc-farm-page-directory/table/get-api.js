@@ -10,6 +10,8 @@ export default fetch('/api/directory')
 		switch (value.role) {
 			case 'Restaurant': value.icon = 'restaurant'; break;
 			case 'Employee': value.icon = 'business'; break;
+			case 'Customer': value.icon = 'person'; break;
+			case 'Supplier': value.icon = 'business_center'; break;
 		}
 
 		let row = new WeakMap();

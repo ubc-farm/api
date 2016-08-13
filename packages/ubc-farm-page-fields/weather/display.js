@@ -23,7 +23,7 @@ export default class WeatherDisplay extends PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.state = { weather: undefined, timestamp: Date.now() };
+		this.state = { weather: undefined, timestamp: Date.now(), failed: false };
 		this.updateWeatherState();
 	}
 
@@ -43,17 +43,22 @@ export default class WeatherDisplay extends PureComponent {
 		+ `&APPID=${WEATHER_API}`)
 		.then(response => response.json())
 		.then(json => {
-			if (json.cod === 200) this.setState({weather: json});
-			else console.warn(json.message ? json.message : json);
+			if (json.cod === 200) this.setState({weather: json, failed: false});
+			else {
+				console.warn(json.message ? json.message : json, lat, lng);
+				this.setState({failed: true})
+			}
 		});
 	}
 
 	render() {
-		if (!this.state.weather) return null;
-		const {weather: [weather], main: {temp}} = this.state.weather;
+		const {failed, weather: weatherData} = this.state;
+
+		if (!weatherData) return null;
+		const {weather: [weather], main: {temp}} = weatherData;
 
 		return (
-			<div className='weather-data'>
+			<div className='weather-data' style={{opacity: failed ? 0.2 : 1}}>
 				<img alt={weather.description} className='weather-data-icon'
 					src={`http://openweathermap.org/img/w/${weather.icon}.png`}
 					width={50} height={50}

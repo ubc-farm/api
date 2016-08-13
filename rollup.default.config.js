@@ -51,7 +51,10 @@ export const browser = Object.assign({}, base, {
 		'react': 'React',
 		'react-dom': 'ReactDOM',
 		'tape': 'test'
-	}
+	},
+	targets: [
+		{ dest: 'index.iife.js', format: 'iife' }
+	]
 });
 
 //export const baseAlt = Object.assign({}, base, {

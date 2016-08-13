@@ -1,6 +1,6 @@
 import {createElement as h} from 'react'; /** @jsx h */
 import {connect} from 'react-redux';
-import {addRow, removeSelected} from '../store/actions.js';
+import {addRow, removeSelected} from '../redux/actions.js';
 
 /** Button to add a row to the table */
 const AddRow = connect()(({dispatch}) => (

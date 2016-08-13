@@ -100,6 +100,7 @@ export default class Money extends Number {
 	 * @returns {boolean} 
 	 */
 	static isNaN(money) {
+		if (money === undefined) return false;
 		return Number.isNaN(money.valueOf());
 	}
 }

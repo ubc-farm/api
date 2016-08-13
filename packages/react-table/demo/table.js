@@ -31,6 +31,7 @@ export default class Table extends PureComponent {
 	static get propTypes() {return {
 		data: PropTypes.instanceOf(Map),
 		columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)),
+		className: PropTypes.string,
 		sorting: PropTypes.bool,
 		selection: PropTypes.bool
 	}}
@@ -81,11 +82,11 @@ export default class Table extends PureComponent {
 	}
 
 	render() {
-		const {data, columns} = this.props;
+		const {data, columns, className} = this.props;
 		const {selected, sort} = this.state;
 
 		return (
-			<table>
+			<table className={className}>
 				<caption style={{visibility: selected.length > 0? 'visible':'hidden'}}>
 					{`${selected.length} item${selected.length > 1 ? 's' : ''} selected`}
 				</caption>

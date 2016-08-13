@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-views-server",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Contains routes for the main views of the program that users see",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"license": "MIT",
