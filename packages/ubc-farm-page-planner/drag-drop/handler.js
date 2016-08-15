@@ -19,7 +19,6 @@ function handleDrop(e) {
 	switch (eventProps.what) {
 		case 'background': {
 			const {group, snappedTime: time} = eventProps;
-			console.log(eventProps);
 			addTask({
 				content: 'new item'
 			}, time, group, text, this.itemsData);
