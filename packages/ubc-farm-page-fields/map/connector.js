@@ -5,11 +5,13 @@ import {setSelected} from '../redux/actions.js';
 import map from './map.js';
 import {field} from './style.js';
 
-const selectedStyle = Object.assign({}, field.normal, field.selected);
-map.data.setStyle(feature => {
-	if (feature.getProperty('activeField')) return selectedStyle;
-	else return field.normal;
-});
+export function defaultStyler() {
+	const selectedStyle = Object.assign({}, field.normal, field.selected);
+	map.data.setStyle(feature => {
+		if (feature.getProperty('activeField')) return selectedStyle;
+		else return field.normal;
+	});
+}
 
 function updateActive(newActive, lastActive) {
 	const last = map.data.getFeatureById(lastActive);
