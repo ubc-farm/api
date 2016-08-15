@@ -2,11 +2,9 @@
 {
 	"files.exclude": {
 		"dist/**": true,
-		"**/typings/**": true,
-		"**/*.marko.js": true,
+		"typings/**": true,
 		"dev.sqlite3": true,
-		"LICENSE": true,
-		"UBC Farm-c*.json": true
+		"LICENSE": true
 	},
 	"eslint.enable": true
 }
