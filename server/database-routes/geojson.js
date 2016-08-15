@@ -1,8 +1,8 @@
-import {Field} from '../../ubc-farm-database';
+import {Field} from '../../database/index.js';
 import {
 	Feature,
 	FeatureCollection
-} from '../../ubc-farm-utils/class/geojson/index.js';
+} from '../../utils/geojson.js';
 import {transformReply} from './transformer.js';
 import {print, shallow} from './transformer-validation.js';
 

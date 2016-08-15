@@ -93,4 +93,4 @@ export function getBooleanQuery(query, filter) {
 	return result;
 }
 
-export {arrayToObjectMap} from '../../ubc-farm-utils/index.js';
+export {arrayToObjectMap} from '../../utils/array-to-object.js';

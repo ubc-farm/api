@@ -1,7 +1,7 @@
 //Quick and dirty route generators for the API
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
-import * as models from '../../ubc-farm-database';
+import * as models from '../../database/index.js';
 import {validate} from '../database-routes/transformer-validation.js';
 import modelHandler from './model-handler/index.js';
 
