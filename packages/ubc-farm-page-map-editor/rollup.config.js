@@ -1,1 +1,0 @@
-export {browser as default} from '../../rollup.default.config.js';
