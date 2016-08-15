@@ -2,25 +2,44 @@
 	// See https://go.microsoft.com/fwlink/?LinkId=733558
 	// for the documentation about the tasks.json format
 	"version": "0.1.0",
-	"command": "cmd",
-	"args": ["/C"],
+	"command": "npm",
 	"isShellCommand": true,
 	"showOutput": "always",
 	"suppressTaskName": true,
 	"tasks": [
 		{
-			"taskName": "start",
-			"args": ["cd ${workspaceRoot} && start npm run start"]
+			"taskName": "Install",
+			"args": ["install"]
 		},
 		{
-			"taskName": "build",
-			"args": ["cd ${fileDirname} && npm run prepublish"],
+			"taskName": "Update",
+			"args": ["update"]
+		},
+		{
+			"taskName": "Test",
+			"args": ["test"],
+			"isTestCommand": true
+		},
+		{
+			"taskName": "Build",
+			"args": ["run", "prepublish"],
 			"isBuildCommand": true
 		},
 		{
-			"taskName": "test",
-			"args": ["cd ${workspaceRoot} && rollup -c ./rollup.test.config.js -i ${file} --environment NO_OUTPUT -f cjs | node"],
-			"isTestCommand": true
+			"taskName": "Start Server",
+			"args": ["start"]
+		},
+		{
+			"taskName": "Migrate Database",
+			"args": ["run", "migrate"]
+		},
+		{
+			"taskName": "Rollback Database",
+			"args": ["run", "rollback"]
+		},
+		{
+			"taskName": "Seed Database",
+			"args": ["run", "seed"]
 		}
 	]
 }
