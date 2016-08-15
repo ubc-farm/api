@@ -5,8 +5,8 @@ export default {
 	entry: 'index.js',
 	sourceMap: true,
 	targets: [
-		{ dest: 'dist/index.js', format: 'cjs' },
-		{ dest: 'dist/index.es.js', format: 'es' }
+		{ dest: 'index.node.js', format: 'cjs' },
+		{ dest: 'index.es.js', format: 'es' }
 	],
 	external: [
 		'hapi', 'vision', 'inert', 'h202', 'boom', 'joi',
@@ -20,7 +20,7 @@ export default {
 				'node_modules/**',
 				'database/_migrations/**',
 				'database/_seeds/**',
-				'database/knexfile.js'
+				'knexfile.js'
 			]
 		})
 	]

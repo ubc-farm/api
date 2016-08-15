@@ -33,5 +33,7 @@ Thumbs.db
 *.marko.js
 
 # Project-specific ignores
-dist
+index.node.js
+index.es.js
+*.map
 *.sqlite3
