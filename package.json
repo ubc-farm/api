@@ -1,11 +1,11 @@
 {
-	"name": "ubc-farm-api",
+	"name": "ubc-farm-server-api",
 	"version": "2.0.0",
 	"description": "API server and database",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"private": true,
 	"license": "MIT",
-	"repository": "https://github.com/ubc-farm/api",
+	"repository": "https://github.com/ubc-farm/server-api",
 	"main": "index.node.js",
 	"jsnext:main": "index.es.js",
 	"dependencies": {
