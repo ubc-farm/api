@@ -1,7 +1,10 @@
 import {Server} from 'hapi';
 import databaseRoutes from './database-routes/index.js';
 import hackyRoutes from './hacky-database-routes/index.js';
-import {server as connection} from './package.json' 
+
+const connection = {
+	port: process.env.npm_package.config_port
+};
 
 const server = new Server({
 	connections: {
