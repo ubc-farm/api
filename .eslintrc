@@ -1,5 +1,3 @@
 {
-	"extends": [
-		"eslint-config-notwoods"
-	]
+	"extends": ["eslint-config-notwoods"]
 }

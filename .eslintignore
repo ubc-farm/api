@@ -1,3 +1,1 @@
-**/index.iife.js
-**/index.es.js
-**/index.node.js
+dist/**
