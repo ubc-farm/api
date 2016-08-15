@@ -9,15 +9,14 @@ export default {
 		{ dest: 'index.es.js', format: 'es' }
 	],
 	external: [
-		'hapi', 'vision', 'inert', 'h202', 'boom', 'joi',
-		'knex', 'pg', 'objection',
+		'hapi', 'joi',
+		'knex', 'pg', 'sqlite', 'objection',
 		'path', 'url'
 	],
 	plugins: [
 		nodeResolve({jsnext: true}),
 		commonjs({
 			include: [
-				'node_modules/**',
 				'database/_migrations/**',
 				'database/_seeds/**',
 				'knexfile.js'
