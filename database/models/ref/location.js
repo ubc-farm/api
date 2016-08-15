@@ -1,6 +1,6 @@
 import {Model} from 'objection';
 import {Field} from '../index.js';
-import {Position} from '../../../ubc-farm-utils/class/geojson/index.js';
+import {Position} from '../../../utils/geojson.js';
 
 /**
  * Represents a location. If field is specified, this location represents that
