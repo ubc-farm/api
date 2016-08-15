@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/packages/ubc-farm-api/index.node.js",
+			"program": "${workspaceRoot}/dist/index.js",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
@@ -15,26 +15,11 @@
 				"--nolazy"
 			],
 			"env": {
-				"NODE_ENV": "development",
-				"WORKSPACE_ROOT": "${workspaceRoot}"
+				"NODE_ENV": "development"
 			},
 			"externalConsole": false,
-			"sourceMaps": true
-		},
-		{
-			"name": "Launch Package",
-			"type": "node",
-			"request": "launch",
-			"program": "${fileDirname}/index.node.js",
-			"stopOnEntry": false,
-			"args": [],
-			"cwd": "${workspaceRoot}",
-			"preLaunchTask": null,
-			"runtimeExecutable": null,
-			"runtimeArgs": [
-				"--nolazy"
-			],
-			"sourceMaps": true
+			"sourceMaps": true,
+			"outDir": "${workspaceRoot}/dist"
 		},
 		{
 			"name": "Attach",
@@ -43,8 +28,19 @@
 			"port": 5858,
 			"address": "localhost",
 			"restart": false,
+			"sourceMaps": false,
+			"outDir": null,
 			"localRoot": "${workspaceRoot}",
 			"remoteRoot": null
+		},
+		{
+			"name": "Attach to Process",
+			"type": "node",
+			"request": "attach",
+			"processId": "${command.PickProcess}",
+			"port": 5858,
+			"sourceMaps": false,
+			"outDir": null
 		}
 	]
 }
