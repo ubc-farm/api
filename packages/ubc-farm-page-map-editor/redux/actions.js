@@ -1,6 +1,14 @@
+import {initialize} from 'redux-form';
+
 import {
-	activeSelector, resizableSelector, addModeSelector
+	activeSelector, activeGridSelector,
+	resizableSelector, addModeSelector
 } from './selectors.js';
+
+export {
+	SET_SELECTED, 
+	setSelected
+} from '../../ubc-farm-page-fields/redux/actions.js';
 
 export const OVERWRITE_CELLS = 'OVERWRITE_CELLS';
 
@@ -9,12 +17,6 @@ export const SET_RESIZING = 'SET_RESIZING';
 
 export const SET_LOADING = 'SET_LOADING';
 export const APPLY_GRID_DATA = 'APPLY_GRID_DATA';
-
-
-export {
-	SET_SELECTED, 
-	setSelected
-} from '../../ubc-farm-page-fields/redux/actions.js';
 
 /** Used to load a new grid onto the map, for the given parent field */
 export function overwriteCells(parent, payload, error) {
@@ -63,5 +65,13 @@ export function toggleAdding() {
 	return (dispatch, getState) => {
 		const addModeActive = addModeSelector(getState());
 		dispatch(addingMode(!addModeActive));
+	}
+}
+
+
+export function initializeForm() {
+	return (dispatch, getState) => {
+		const formData = activeGridSelector(getState());
+		dispatch(initialize('grid', formData));
 	}
 }

@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {currentLoadingSelector} from '../redux/selectors.js';
 import LoadingIndicator from './loading-indicator.js';
 
-const SubmitForm = ({form = 'grid-form', loading}) => (
+const SubmitForm = ({form, loading, disabled}) => (
 	<section>
 		<LoadingIndicator hidden={!loading} />
 		<button form={form} type='submit'
-			disabled={loading}
+			disabled={loading || disabled}
 		>
 			<i className='material-icons'>keyboard_arrow_right</i>
 			Update Grid
@@ -17,6 +17,7 @@ const SubmitForm = ({form = 'grid-form', loading}) => (
 
 SubmitForm.propTypes = {
 	loading: PropTypes.bool,
+	disabled: PropTypes.bool,
 	form: PropTypes.string
 }
 
