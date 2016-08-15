@@ -1,1 +1,0 @@
-export {classlist as default} from '../ubc-farm-utils/index.js';

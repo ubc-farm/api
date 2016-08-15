@@ -1,1 +1,0 @@
-Handlebars partials and helpers that are loaded by the view templates.
