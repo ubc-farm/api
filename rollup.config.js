@@ -1,4 +1,3 @@
-import json from 'rollup-plugin-json';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 
@@ -15,7 +14,6 @@ export default {
 		'path', 'url'
 	],
 	plugins: [
-		json(),
 		nodeResolve({jsnext: true}),
 		commonjs({
 			include: [
