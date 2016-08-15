@@ -9,13 +9,13 @@ import map from './map.js';
 import {isField, isNewlyDrawn} from './filter.js';
 import {toGeoJson} from './promisify.js';
 import defaultGrid from './grid-default.js';
+import './styler.js';
 
 /**
  * Listener for click event
  */
 export function handlePolygonClick({feature}) {
 	if (isField(feature)) {
-		console.log(feature, isField(feature));
 		const id = feature.getId();
 		store.dispatch(setSelected(id));
 		store.dispatch(buildGrid(id));
@@ -47,4 +47,4 @@ export const addListener =
 	google.maps.event.addListener(map.data, 'addfeature', handlePolygonAdd);
 
 export const clickListener = 
-	google.maps.event.addListener(map.data, 'click', handlePolygonAdd);
+	google.maps.event.addListener(map.data, 'click', handlePolygonClick);

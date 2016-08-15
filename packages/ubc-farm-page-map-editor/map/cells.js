@@ -39,7 +39,7 @@ function createMouseOverListener() {
 function destroyMouseOverListener() {
 	if (mouseOverListener) {
 		mouseOverListener.remove();
-		//mouseOverListener = undefined;
+		mouseOverListener = undefined;
 	}
 }
 
