@@ -1,4 +1,4 @@
-const Joi = require('joi') //eslint-disable-line import/no-commonjs
+import * as Joi from 'joi';
 
 export const print = Joi.string().valid('silent', 'pretty');
 

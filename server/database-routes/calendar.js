@@ -1,3 +1,4 @@
+import * as Joi from 'joi';
 import {Event} from '../../database/index.js';
 import {longMonthNames, shortMonthNames} from '../../utils/calendar.js';
 import {
@@ -5,8 +6,6 @@ import {
 	arrayToObjectMap,
 	removeNullandUndef
 } from './transformer.js';
-
-const Joi = require('joi') //eslint-disable-line import/no-commonjs
 
 /**
  * Used to get Events sorted by date and time

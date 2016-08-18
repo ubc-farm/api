@@ -1,3 +1,4 @@
+import * as Joi from 'joi';
 import {Field} from '../../database/index.js';
 import {
 	Feature,
@@ -5,8 +6,6 @@ import {
 } from '../../utils/geojson.js';
 import {transformReply} from './transformer.js';
 import {print, shallow} from './transformer-validation.js';
-
-const Joi = require('joi') //eslint-disable-line import/no-commonjs
 
 /**
  * Retrieve fields as a GeoJSON Feature Collection
