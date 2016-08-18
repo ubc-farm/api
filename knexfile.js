@@ -1,5 +1,6 @@
+/* eslint-disable import/no-commonjs */
+
 const {resolve} = require('path');
-console.log(resolve(__dirname, './database/dev.sqlite3'));
 
 module.exports = {
 
