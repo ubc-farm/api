@@ -1,6 +1,6 @@
 {
 	"name": "ubc-farm-server-api",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "API server and database",
 	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
 	"private": true,
@@ -39,6 +39,9 @@
 		"index.node.js",
 		"index.es.js",
 		"index.node.js.map",
-		"index.es.js.map"
+		"index.es.js.map",
+		"database/_migrations",
+		"database/_seeds",
+		"knexfile.js"
 	]
 }
