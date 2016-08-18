@@ -1,26 +1,26 @@
 //Quick and dirty route generators for the API
-
-const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 import * as models from '../../database/index.js';
 import {validate} from '../database-routes/transformer-validation.js';
 import modelHandler from './model-handler/index.js';
 
+const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
+
 function* methodRoutes(model) {
 	for (let method of methods) {
 		const handler = modelHandler({method}, {model});
-		//const config = {validate}
+		const config = {validate}
 		if (method == 'POST') {
 			yield {
-				method, handler, //config,
+				method, handler, config,
 				path: `/api/${model.label}`,
 			}
 		} else {
 			yield {
-				method, handler, //config,
+				method, handler, config,
 				path: `/api/${model.label}/{id?}`
 			};
 			yield {
-				method, handler,// config,
+				method, handler, config,
 				path: `/api/${model.label}/{id}/{property}`
 			};
 		}
