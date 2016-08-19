@@ -11,12 +11,13 @@
 	"dependencies": {
 		"hapi": "14.2.0",
 		"joi": "9.0.4",
+		"boom": "3.2.2",
 		"knex": "0.11.10",
 		"objection": "0.5.5",
 		"pg": "6.0.3",
 		"sqlite": "2.2.0"
 	},
-	"devDependencies": { 
+	"devDependencies": {
 		"rollup": "0.34.2",
 		"rollup-plugin-node-resolve": "^2.0.0",
 		"rollup-plugin-commonjs": "^3.3.1",

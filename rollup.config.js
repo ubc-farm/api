@@ -10,7 +10,7 @@ export default {
 		{ dest: 'index.es.js', format: 'es' }
 	],
 	external: [
-		'hapi', 'joi',
+		'hapi', 'joi', 'boom',
 		'knex', 'pg', 'sqlite', 'objection',
 		'path', 'url'
 	],
