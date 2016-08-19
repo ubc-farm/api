@@ -82,23 +82,29 @@ function inheritSale(table) {
 
 exports.up = function(knex) {
 	return knex.schema
-	.table('Employee', inheritPerson)
-	.table('Researcher', inheritPerson)
+	.createTable('Person', inheritPerson)
+	.createTable('Employee', inheritPerson)
+	.createTable('Researcher', inheritPerson)
 	
-	.table('Event', inheritTask)
-	.table('Seeding', inheritTask)
-	.table('Irrigation', inheritTask)
-	.table('SoilSampling', inheritTask)
+	.createTable('Task', inheritTask)
+	.createTable('Event', inheritTask)
+	.createTable('Seeding', inheritTask)
+	.createTable('Irrigation', inheritTask)
+	.createTable('SoilSampling', inheritTask)
 
-	.table('Fertilizing', inheritChemicalTask)
-	.table('PestControl', inheritChemicalTask)
+	.createTable('ChemicalTask', inheritChemicalTask)
+	.createTable('Fertilizing', inheritChemicalTask)
+	.createTable('PestControl', inheritChemicalTask)
 
-	.table('Scouting', inheritTask)
-	.table('ScoutHarvest', inheritScouting)
-	.table('ScoutPest', inheritScouting)
+	.createTable('Scouting', inheritScouting)
+	.createTable('ScoutHarvest', inheritScouting)
+	.createTable('ScoutPest', inheritScouting)
 
-	.table('Plant', inheritItem)
-	.table('Grant', inheritSale)
+	.createTable('Item', inheritItem)
+	.createTable('Plant', inheritItem)
+
+	.createTable('Sale', inheritSale)
+	.createTable('Grant', inheritSale)
 };
 
 function dropPerson(table) {
@@ -135,21 +141,27 @@ function dropSale(table) {
 
 exports.down = function(knex) {
 	return knex.schema
-	.table('Employee', dropPerson)
-	.table('Researcher', dropPerson)
+	.dropTableIfExists('Person', dropPerson)
+	.dropTableIfExists('Employee', dropPerson)
+	.dropTableIfExists('Researcher', dropPerson)
 	
-	.table('Event', dropTask)
-	.table('Seeding', dropTask)
-	.table('Irrigation', dropTask)
-	.table('SoilSampling', dropTask)
+	.dropTableIfExists('Task', dropTask)
+	.dropTableIfExists('Event', dropTask)
+	.dropTableIfExists('Seeding', dropTask)
+	.dropTableIfExists('Irrigation', dropTask)
+	.dropTableIfExists('SoilSampling', dropTask)
 
-	.table('Fertilizing', dropChemicalTask)
-	.table('PestControl', dropChemicalTask)
+	.dropTableIfExists('ChemicalTask', dropChemicalTask)
+	.dropTableIfExists('Fertilizing', dropChemicalTask)
+	.dropTableIfExists('PestControl', dropChemicalTask)
 
-	.table('Scouting', dropTask)
-	.table('ScoutHarvest', dropScouting)
-	.table('ScoutPest', dropScouting)
+	.dropTableIfExists('Scouting', dropScouting)
+	.dropTableIfExists('ScoutHarvest', dropScouting)
+	.dropTableIfExists('ScoutPest', dropScouting)
 
-	.table('Plant', dropItem)
-	.table('Grant', dropSale)
+	.dropTableIfExists('Item', dropItem)
+	.dropTableIfExists('Plant', dropItem)
+
+	.dropTableIfExists('Sale', dropSale)
+	.dropTableIfExists('Grant', dropSale)
 };

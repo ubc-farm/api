@@ -1,30 +1,8 @@
-/**
- * These functions are used for migrating the database and are called by 
- * knex migrate. The up function is called when applying the migration, and the
- * down function should be called to 'undo' the up migration.
- * 
- * The model classes will reference these tables, but will be better documented.
- * 
- * This initial file will do first-time setup, but future files will modify the
- * schema established here.
- * @module backend/database/migrations
- */
 
-exports.up = function(knex) {
-	// Person and sub-types
-	return knex.schema
-	.createTable('Person', table => {
-		table.bigIncrements('id');
-		table.text('name').index().notNullable();
-		table.string('role');
-
-		table.text('email');
-		table.string('phoneNumber', 15);
-		table.json('addressMailing');
-		table.json('addressPhysical');
-	})
-	.createTable('Employee', table => {
-		table.inherits('Person');
+exports.up = function(knex, Promise) {
+  return knex.schema
+	.table('Employee', table => {
+		//table.inherits('Person');
 
 		table.integer('hourlyPay');
 		table.boolean('fullOrPartTime').index();
@@ -47,8 +25,8 @@ exports.up = function(knex) {
 		table.text('emergencyContactName');
 		table.string('emergencyContactNumber', 15);
 	})
-	.createTable('Researcher', table => {
-		table.inherits('Person');
+	.table('Researcher', table => {
+		//table.inherits('Person');
 
 		table.text('position');
 		table.text('faculty');
@@ -68,7 +46,6 @@ exports.up = function(knex) {
 			.unsigned().notNullable()
 			.references('id').inTable('Employee');
 	})
-	// Equipment and Usage
 	.createTable('Equipment', table => {
 		table.bigIncrements('id');
 		table.bigInteger('product')
@@ -96,9 +73,8 @@ exports.up = function(knex) {
 			.references('id').inTable('Task');
 		table.text('notes')
 	})
-	// Event
-	.createTable('Event', table => {
-		table.inherits('Task');
+	.table('Event', table => {
+		//table.inherits('Task');
 		table.string('type').index();
 		table.text('name').index();
 
@@ -111,19 +87,8 @@ exports.up = function(knex) {
 		table.bigInteger('contactId').unsigned()
 			.references('id').inTable('Person');
 	})
-	// Tasks
-	.createTable('Task', table => {
-		table.bigIncrements('id');
-
-		table.timestamp('start_time');
-		table.timestamp('end_time');
-		table.specificType('hoursTaken', 'interval');
-
-		table.bigInteger('locationId').unsigned()
-			.references('id').inTable('Location');
-	})
-	.createTable('Seeding', table => {
-		table.inherits('Task');
+	.table('Seeding', table => {
+		//table.inherits('Task');
 		table.bigInteger('crop').unsigned()
 			.references('id').inTable('Crop');
 		
@@ -148,28 +113,25 @@ exports.up = function(knex) {
 
 		table.json('npkReq');
 	})
-	.createTable('Irrigation', table => {
-		table.inherits('Task');
+	.table('Irrigation', table => {
+		//table.inherits('Task');
 
 		table.float('flowRate');
 		table.string('type').index();
 	})
-	.createTable('ChemicalTask', table => {
-		table.inherits('Task');
-		
-		table.bigInteger('product')
-			.unsigned().index()
-			.references('id').inTable('Chemical');
+	.table('SoilSampling', table => {
+		//table.inherits('Task');
 
-		table.string('type');
-		table.float('applicationRate');
-		table.float('waterToMixRatio');
-		table.string('plantLocation');
-		table.specificType('entry_interval', 'interval');
-		table.specificType('harvest_interval', 'interval');
+		table.float('depth');
+		table.string('methodUsed').index();
+		table.text('variable');
+		table.text('result');
+
+		table.bigInteger('company').unsigned()
+			.references('id').inTable('Person');
 	})
-	.createTable('Fertilizing', table => {
-		table.inherits('ChemicalTask');
+	.table('Fertilizing', table => {
+		//table.inherits('ChemicalTask');
 
 		table.float('tc');
 		table.float('n03');
@@ -177,24 +139,19 @@ exports.up = function(knex) {
 		table.float('k20');
 		table.float('p205');
 	})
-	.createTable('PestControl', table => {
-		table.inherits('ChemicalTask');		
+	.table('PestControl', table => {
+		//table.inherits('ChemicalTask');		
 
 		table.json('activeIngredients');
 		table.float('percentOfActiveIngredients');
 	})
-	.createTable('Scouting', table => {
-		table.inherits('Task');
-		table.bigInteger('cropId').unsigned()
-			.references('id').inTable('Crop');
-	})
-	.createTable('ScoutHarvest', table => {
-		table.inherits('Scouting');
+	.table('ScoutHarvest', table => {
+		//table.inherits('Scouting');
 		table.date('newExpectedHarvest');
 		table.float('newPredictedYield');
 	})
-	.createTable('ScoutPest', table => {
-		table.inherits('Scouting');
+	.table('ScoutPest', table => {
+		//table.inherits('Scouting');
 		
 		table.string('pestType');
 		table.string('affectedSpot');
@@ -206,18 +163,6 @@ exports.up = function(knex) {
 		table.float('percentPlantsAffected');
 		table.float('economicThreshold');
 	})
-	.createTable('SoilSampling', table => {
-		table.inherits('Task');
-
-		table.float('depth');
-		table.string('methodUsed').index();
-		table.text('variable');
-		table.text('result');
-
-		table.bigInteger('company').unsigned()
-			.references('id').inTable('Person');
-	})
-	// Fields and Crops
 	.createTable('Field', table => {
 		table.bigIncrements('id');
 		table.specificType('path', 'polygon').index(null, 'GiST');
@@ -240,23 +185,8 @@ exports.up = function(knex) {
 		table.text('predictedNutrientReq');
 		table.date('expectedHarvest');
 	})
-	// Information tables
-	.createTable('Item', table => {
-		table.bigIncrements('id');
-		table.text('name').index();
-		
-		table.text('sku').unique().index();
-		table.text('barcode').unique();
-
-		table.bigInteger('supplierId').unsigned().index()
-			.references('id').inTable('Person');
-		
-		table.specificType('lifespan', 'interval').index();
-		table.specificType('value', 'money');
-		table.specificType('salvageValue', 'money');
-	})
-	.createTable('Plant', table => {
-		table.inherits('Item');
+	.table('Plant', table => {
+		//table.inherits('Item');
 		table.text('latin').index().unique();
 	})
 	.createTable('Location', table => {
@@ -298,36 +228,10 @@ exports.up = function(knex) {
 		table.text('productName');
 		table.json('composition');
 	})
-	// Sales and Grants
-	.createTable('Sale', table => {
-		table.bigIncrements('id');
-
-		table.timestamp('order_date');
-		table.timestamp('delivery_date');
-
-		table.integer('budgetLineNumber');
-
-		table.bigInteger('customerId')
-			.unsigned().index()
-			.references('id').inTable('Person');
-
-		table.bigInteger('deliveryLocation')
-			.unsigned().index()
-			.references('id').inTable('Location');
-		
-		table.integer('quantity').defaultTo(1);
-		table.specificType('price', 'money');
-		
-		table.specificType('discount', 'money');
-		table.specificType('tax', 'money');
-		
-		table.text('notes');
-	})
-	.createTable('Grant', table => {
-		table.inherits('sale');
+	.table('Grant', table => {
+		//table.inherits('sale');
 		table.text('grantName');
 	})
-	// Research Projects
 	.createTable('ResearchProject', table => {
 		table.bigIncrements('id');
 		table.bigInteger('researcher')
@@ -370,37 +274,70 @@ exports.up = function(knex) {
 	})
 };
 
-exports.down = function(knex) {
-	return knex.schema
-		.dropTableIfExists('Person')
-		.dropTableIfExists('Employee')
-		.dropTableIfExists('Researcher')
-		.dropTableIfExists('Assignment')
-		.dropTableIfExists('Equipment')
-		.dropTableIfExists('EquipmentUsage')
-		.dropTableIfExists('Event')
-		.dropTableIfExists('Task')
-		.dropTableIfExists('Seeding')
-		.dropTableIfExists('ChemicalTask')
-		.dropTableIfExists('Irrigation')
-		.dropTableIfExists('Fertilizing')
-		.dropTableIfExists('PestControl')
-		.dropTableIfExists('Scouting')
-		.dropTableIfExists('ScoutHarvest')
-		.dropTableIfExists('ScoutPest')
-		.dropTableIfExists('SoilSampling')
-		.dropTableIfExists('Field')
-		.dropTableIfExists('Crop')
-		.dropTableIfExists('Plant')
-		.dropTableIfExists('Item')
-		.dropTableIfExists('Location')
-		.dropTableIfExists('Program')
-		.dropTableIfExists('ProgramUsage')
-		.dropTableIfExists('Chemical')
-		.dropTableIfExists('Sale')
-		.dropTableIfExists('Grant')
-		.dropTableIfExists('ResearchProject')
-		.dropTableIfExists('ResearchPartner')
-		.dropTableIfExists('Account')
-		.dropTableIfExists('Mix')
-}
+exports.down = function(knex, Promise) {
+  return knex.schema
+	.table('Employee', table => table.dropColumns(
+		'hourlyPay', 'fullOrPartTime',
+		'holidayDays', 'sickDays', 'paidLeaveDays',
+		'inLieuHours', 'medicalLeaveTime',
+		'working_sunday', 'working_monday', 'working_tuesday',
+		'working_wednesday', 'working_thursday', 'working_friday',
+		'working_saturday',
+		'emergencyContactName', 'emergencyContactNumber'
+	))
+	.table('Researcher', table => table.dropColumns(
+		'position', 'faculty', 'department',
+		'labWebsite', 'expertise',
+		'coursesTaught', 'projects'
+	))
+	.dropTableIfExists('Assignment')
+	.dropTableIfExists('Equipment')
+	.dropTableIfExists('EquipmentUsage')
+	.table('Event', table => table.dropColumns(
+		'type', 'name',
+		'estimatedAttendeeAmount', 'targetAgeGroup',
+		'ticketId', 'contactId'
+	))
+	.table('Seeding', table => table.dropColumns(
+		'crop', 'variety', 'product',
+		'methodUsed', 'spacingBetweenHoles',
+		'depthOfHoles', 'seedsPerHole', 
+		'gramsApplied', 'seedsPerGram', 'germinationPercentage',
+		'predictedYield', 'daysToMaturity', 'npkReq'
+	))
+	.table('Irrigation', table => table.dropColumns(
+		'flowRate', 'type'
+	))
+	.table('SoilSampling', table => table.dropColumns(
+		'depth', 'methodUsed', 'variable', 'result', 'company'
+	))
+	.table('Fertilizing', table => table.dropColumns(
+		'tc', 'n03', 'nh4', 'k20', 'p205'
+	))
+	.table('PestControl', table => table.dropColumns(
+		'activeIngredients', 'percentOfActiveIngredients'
+	))
+	.table('ScoutHarvest', table => table.dropColumns(
+		'newExpectedHarvest', 'newPredictedYield'
+	))
+	.table('ScoutPest', table => table.dropColumns(
+		'pestType', 'affectedSpot', 'pestName', 'pestNameLatin',
+		'percentAreaAffected', 'percentPlantsAffected', 'economicThreshold'
+	))
+	.dropTableIfExists('Field')
+	.dropTableIfExists('Crop')
+	.table('Plant', table => table.dropColumns(
+		'latin'
+	))
+	.dropTableIfExists('Location')
+	.dropTableIfExists('Program')
+	.dropTableIfExists('ProgramUsage')
+	.dropTableIfExists('Account')
+	.dropTableIfExists('Chemical')
+	.table('Grant', table => table.dropColumns(
+		'grantName'
+	))
+	.dropTableIfExists('ResearchProject')
+	.dropTableIfExists('ResearchPartner')
+	.dropTableIfExists('Mix')
+};
