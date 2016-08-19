@@ -25,16 +25,6 @@ exports.up = function(knex) {
 	})
 	.createTable('Employee', table => {
 		table.inherits('Person');
-		//////////////////////////////////////
-		table.bigIncrements('id');
-		table.text('name').index().notNullable();
-		table.string('role');
-
-		table.text('email');
-		table.string('phoneNumber', 15);
-		table.json('addressMailing');
-		table.json('addressPhysical');
-		/////////////////////////////////////
 
 		table.integer('hourlyPay');
 		table.boolean('fullOrPartTime').index();
@@ -59,16 +49,6 @@ exports.up = function(knex) {
 	})
 	.createTable('Researcher', table => {
 		table.inherits('Person');
-		//////////////////////////////////////
-		table.bigIncrements('id');
-		table.text('name').index().notNullable();
-		table.string('role');
-
-		table.text('email');
-		table.string('phoneNumber', 15);
-		table.json('addressMailing');
-		table.json('addressPhysical');
-		/////////////////////////////////////
 
 		table.text('position');
 		table.text('faculty');
