@@ -3,10 +3,10 @@
  * @param {Promise} data
  * @param {Request} request
  * @param {Object} request.query
- * @param {boolean} [request.query.shallow] - if true, any non-primitive 
+ * @param {boolean} [request.query.shallow] - if true, any non-primitive
  * values in the data are replaced with 'true'.
- * @param {string} [request.query.print] - if equal to 'silent', a 204 response 
- * is sent instead of the data. If equal to 'pretty', the JSON response is 
+ * @param {string} [request.query.print] - if equal to 'silent', a 204 response
+ * is sent instead of the data. If equal to 'pretty', the JSON response is
  * prettified and indented with 2 spaces.
  * @param {Reply} reply
  * @returns {Response}
@@ -20,7 +20,7 @@ export function transformReply(data, request, reply) {
 				const keys = Array.isArray(json) ? json.keys() : Object.keys(json);
 				for (const key of keys) {
 					const value = json[key];
-					if (typeof value !== 'string' && typeof value !== 'number' 
+					if (typeof value !== 'string' && typeof value !== 'number'
 					&& typeof value !== 'boolean' && typeof value !== 'symbol'
 					&& value !== undefined && value !== null) {
 						json[key] = true;
@@ -29,13 +29,17 @@ export function transformReply(data, request, reply) {
 			}
 
 			return json;
-		})
+		});
 	}
 
 	const response = reply(data);
 
-	if (print === 'pretty') response.spaces(2);
-	else if (print === 'silent') response.code(204);
+	switch (print) {
+		case 'pretty': response.spaces(2); break;
+		case 'silent': response.code(204); break;
+		default: break;
+	}
+
 	return response;
 }
 
@@ -45,7 +49,7 @@ export function transformReply(data, request, reply) {
  * @returns {Object|Array}
  */
 export function removeNullandUndef(json) {
-	if (typeof json !== 'object' || json === null) 
+	if (typeof json !== 'object' || json === null)
 		return json;
 
 	let keys, copy;
@@ -56,7 +60,7 @@ export function removeNullandUndef(json) {
 		keys = Object.keys(json);
 		copy = Object.assign({}, json);
 	}
-	
+
 	for (const key of keys) {
 		const value = copy[key];
 		if (value === null) delete copy[key];
@@ -68,7 +72,7 @@ export function removeNullandUndef(json) {
 /**
  * Returns an object with boolean values instead of strings.
  * 'false' is turned into false, and 'true' or '' are turned into true
- * @param {Object} query from request.query 
+ * @param {Object} query from request.query
  * @param {string[]} filter - if specified, ignore anything not in the filter
  * @returns {Object}
  */
@@ -85,7 +89,7 @@ export function getBooleanQuery(query, filter) {
 					result[prop] = false; break;
 				default: result[prop] = value;
 			}
-		} else if (valid && typeof value === 'number' 
+		} else if (valid && typeof value === 'number'
 		&& (value === 0 || value === 1)) {
 			result[prop] = Boolean(value);
 		} else result[prop] = value;

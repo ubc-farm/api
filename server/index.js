@@ -1,6 +1,6 @@
-import {Server} from 'hapi';
+import { Server } from 'hapi';
 
-import {config as connection} from '../package.json';
+import { config as connection } from '../package.json';
 
 import databaseRoutes from './database-routes/index.js';
 import hackyRoutes from './hacky-database-routes/index.js';
@@ -8,12 +8,12 @@ import hackyRoutes from './hacky-database-routes/index.js';
 const server = new Server({
 	connections: {
 		routes: {
-			cors: true
-		}
+			cors: true,
+		},
 	},
 	debug: {
-		request: ['error']
-	}
+		request: ['error'],
+	},
 });
 
 server.connection(connection);

@@ -7,22 +7,22 @@ export default {
 	sourceMap: true,
 	targets: [
 		{ dest: 'index.node.js', format: 'cjs' },
-		{ dest: 'index.es.js', format: 'es' }
+		{ dest: 'index.es.js', format: 'es' },
 	],
 	external: [
 		'hapi', 'joi', 'boom',
 		'knex', 'pg', 'sqlite', 'objection',
-		'path', 'url'
+		'path', 'url',
 	],
 	plugins: [
-		nodeResolve({jsnext: true}),
+		nodeResolve({ jsnext: true }),
 		commonjs({
 			include: [
 				'database/_migrations/**',
 				'database/_seeds/**',
-				'knexfile.js'
-			]
+				'knexfile.js',
+			],
 		}),
-		json()
-	]
+		json(),
+	],
 };

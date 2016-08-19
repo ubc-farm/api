@@ -1,35 +1,46 @@
-//Quick and dirty route generators for the API
+// Quick and dirty route generators for the API
 import * as models from '../../database/index.js';
-import {validate} from '../database-routes/transformer-validation.js';
+import { validate } from '../database-routes/transformer-validation.js';
 import modelHandler from './model-handler/index.js';
 
 const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 
 function* methodRoutes(model) {
-	for (let method of methods) {
-		const handler = modelHandler({method}, {model});
-		const config = {validate}
-		if (method == 'POST') {
+	for (const method of methods) {
+		const handler = modelHandler({ method }, { model });
+		const config = { validate };
+		if (method === 'POST') {
 			yield {
-				method, handler, config,
+				method,
+				handler,
 				path: `/api/${model.label}`,
-			}
+				config: {
+					validate,
+					payload: {
+						parse: true,
+					},
+				},
+			};
 		} else {
 			yield {
-				method, handler, config,
-				path: `/api/${model.label}/{id?}`
+				method,
+				handler,
+				config,
+				path: `/api/${model.label}/{id?}`,
 			};
 			yield {
-				method, handler, config,
-				path: `/api/${model.label}/{id}/{property}`
+				method,
+				handler,
+				config,
+				path: `/api/${model.label}/{id}/{property}`,
 			};
 		}
 	}
 }
 
 function* modelRoutes() {
-	let completed = [];
-	for (let modelName in models) {
+	const completed = [];
+	for (const modelName in models) {
 		if (modelName === 'joins') continue;
 		const model = models[modelName];
 		if (!model.label) model.label = model.tableName.toLowerCase() + 's';

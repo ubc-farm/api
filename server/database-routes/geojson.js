@@ -1,56 +1,60 @@
 import * as Joi from 'joi';
-import {Field} from '../../database/index.js';
+import { Field } from '../../database/index.js';
 import {
 	Feature,
-	FeatureCollection
+	FeatureCollection,
 } from '../../utils/geojson.js';
-import {transformReply} from './transformer.js';
-import {print, shallow} from './transformer-validation.js';
+import { transformReply } from './transformer.js';
+import { print, shallow } from './transformer-validation.js';
 
 /**
  * Retrieve fields as a GeoJSON Feature Collection
  */
 export function geojson(request, reply) {
 	const query = Field.query()
-		.map(({polygon, parent, grid, $id}) => 
-			new Feature(polygon, {parent, grid}, $id()))
-		.then(features => new FeatureCollection(features).toJSON())
+		.map(({ polygon, parent, grid, $id }) =>
+			new Feature(polygon, { parent, grid }, $id()))
+		.then(features => new FeatureCollection(features).toJSON());
 
 	return transformReply(query, request, reply);
 }
 
 function featureToField(feature) {
-	const {id, properties, geometry} = feature;
-	const path = geometry.coordinates, {parent, grid} = properties || {};
-	
-	let field = {path, parent};
+	const { id, properties, geometry } = feature;
+	const path = geometry.coordinates;
+	const { parent, grid } = properties || {};
+
+	const field = { path, parent };
 	if (id) field.id = id;
 	if (grid) {
 		field.gridWidths = [grid.baseWidth, ...grid.specificWidths || []];
 		field.gridHeights = [grid.baseHeight, ...grid.specificHeights || []];
-	}	
-	
+	}
+
 	return field;
 }
 
 export function geojsonAdd(request, reply) {
-	const {payload} = request;
-	let insertQuery = [];
+	const { payload } = request;
+	const insertQuery = [];
 
 	switch (payload.type) {
 		case 'FeatureCollection': {
-			for (const feature of payload.features) 
+			for (const feature of payload.features) {
 				insertQuery.push(featureToField(feature));
+			}
 			break;
 		}
-		case 'Feature': 
+		case 'Feature':
 			insertQuery[0] = featureToField(payload);
 			break;
 		case 'Polygon': {
 			const path = payload.coordinates;
-			insertQuery[0] = {path};
+			insertQuery[0] = { path };
 			break;
 		}
+		default:
+			throw new Error(`Invalid type ${payload.type}`);
 	}
 
 	const query = Field.query.insert(insertQuery)
@@ -65,7 +69,7 @@ const polygonSchema = Joi.object().keys({
 		Joi.array().min(3).items(
 			Joi.array().min(2).items(Joi.number())
 		)
-	).required()
+	).required(),
 });
 
 const featureSchema = Joi.object().keys({
@@ -77,14 +81,14 @@ const featureSchema = Joi.object().keys({
 			baseWidth: Joi.number(),
 			baseHeight: Joi.number(),
 			specificWidths: Joi.array().items(Joi.number()).optional(),
-			specificHeights: Joi.array().items(Joi.number()).optional()
-		}).requiredKeys('baseWidth', 'baseHeight').optional()
-	}
+			specificHeights: Joi.array().items(Joi.number()).optional(),
+		}).requiredKeys('baseWidth', 'baseHeight').optional(),
+	},
 }).requiredKeys('geometry', 'properties');
 
 const featureCollectionSchema = Joi.object().keys({
 	type: Joi.string().valid('FeatureCollection').required(),
-	features: Joi.array().items(featureSchema).required()
+	features: Joi.array().items(featureSchema).required(),
 });
 
 export default [
@@ -95,11 +99,11 @@ export default [
 		config: {
 			response: {
 				schema: Joi.any()
-					.when(Joi.ref('$query.shallow'), {is: false, 
-						then: featureCollectionSchema	
-					})
-			}
-		}
+					.when(Joi.ref('$query.shallow'), { is: false,
+						then: featureCollectionSchema,
+					}),
+			},
+		},
 	},
 	{
 		method: 'POST',
@@ -108,14 +112,14 @@ export default [
 		config: {
 			validate: {
 				payload: Joi.alternatives().try(
-					featureCollectionSchema, 
-					featureSchema, 
+					featureCollectionSchema,
+					featureSchema,
 					polygonSchema
 				),
 				query: {
-					print, shallow
-				}
-			}
-		}
+					print, shallow,
+				},
+			},
+		},
 	},
-]
+];

@@ -1,10 +1,10 @@
-import {Model} from 'objection';
-import {Polygon} from '../../utils/geojson.js';
-import {Plant, Scouting} from './index.js';
+import { Model } from 'objection';
+import { Polygon } from '../../utils/geojson.js';
+import { Plant, Scouting } from './index.js';
 
 /**
- * Represents a field or sub-field in the farm with crops. If parentField is 
- * specified, the field is a sub-field. 
+ * Represents a field or sub-field in the farm with crops. If parentField is
+ * specified, the field is a sub-field.
  * @alias module:app/models.Field
  * @property {float[][]} path - [x,y] coordinates of the field's path
  * @property {float[]} [gridWidths]
@@ -12,27 +12,29 @@ import {Plant, Scouting} from './index.js';
  * @property {string} [parent] field id
  */
 export default class Field extends Model {
-	static get tableName() {return 'Field'}
-	static get label() {return 'fields'}
+	static get tableName() { return 'Field'; }
+	static get label() { return 'fields'; }
 
 	/** @type {module:lib/geojson.Polygon} */
-	get polygon() {return new Polygon(this.path);}
-	set polygon(value) {this.path = value.toJSON().coordinates;}
+	get polygon() { return new Polygon(this.path); }
+	set polygon(value) { this.path = value.toJSON().coordinates; }
 
 	get grid() {
 		const [baseWidth, ...specificWidths] = this.gridWidths;
 		const [baseHeight, ...specificHeights] = this.gridHeights;
 		return {
-			baseWidth, baseHeight,
-			specificWidths, specificHeights
+			baseWidth,
+			baseHeight,
+			specificWidths,
+			specificHeights,
 		};
 	}
 
 	static get relationMappings() {
 		return {
-			/** 
+			/**
 			 * Crops growing in this field
-			 * @memberof! module:app/models.Field# 
+			 * @memberof! module:app/models.Field#
 			 * @type {module:app/models.Crop}
 			 */
 			crops: {
@@ -40,11 +42,11 @@ export default class Field extends Model {
 				modelClass: Crop,
 				join: {
 					from: 'Field.id',
-					to: 'Crop.fieldId'
-				}
+					to: 'Crop.fieldId',
+				},
 			},
-			/** 
-			 * The containing field, if applicable 
+			/**
+			 * The containing field, if applicable
 			 * @memberof! module:app/models.Field#
 			 * @type {module:app/models.Field}
 			 */
@@ -53,23 +55,23 @@ export default class Field extends Model {
 				modelClass: Field,
 				join: {
 					from: 'Field.parent',
-					to: 'Field.id'
-				}
+					to: 'Field.id',
+				},
 			},
-			/** 
+			/**
 			 * Fields within this one, if applicable
 			 * @memberof! module:app/models.Field#
-			 * @type {module:app/models.Field[]} 
+			 * @type {module:app/models.Field[]}
 			 */
 			childFields: {
 				relation: Model.OneToManyRelation,
 				modelClass: Field,
 				join: {
 					from: 'Field.id',
-					to: 'Field.parent'
-				}
-			}
-		}
+					to: 'Field.parent',
+				},
+			},
+		};
 	}
 }
 
@@ -83,33 +85,33 @@ export default class Field extends Model {
  * @proeprty {Date} [expectedHarvest]
  */
 export class Crop extends Model {
-	static get tableName() {return 'Crop'}
+	static get tableName() { return 'Crop'; }
 
-	static get jsonSchema() {return {
+	static get jsonSchema() { return {
 		type: 'object',
 		properties: {
-			type: {type: 'string'},
-			fieldId: {type: 'integer'},
-			quantity: {type: 'integer'}
-		}
-	}}
+			type: { type: 'string' },
+			fieldId: { type: 'integer' },
+			quantity: { type: 'integer' },
+		},
+	}; }
 
 	static get relationMappings() {
 		return {
-			/** 
+			/**
 			 * The type of plant
 			 * @memberof! module:app/models.Crop#
-			 * @type {module:app/models.Plant} 
+			 * @type {module:app/models.Plant}
 			 */
 			variety: {
 				relation: Model.OneToOneRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Crop.type',
-					to: 'Plant.id'
-				}
+					to: 'Plant.id',
+				},
 			},
-			/** 
+			/**
 			 * The field this crop grows in
 			 * @memberof! module:app/models.Crop#
 			 */
@@ -118,21 +120,21 @@ export class Crop extends Model {
 				modelClass: Field,
 				join: {
 					from: 'Crop.fieldId',
-					to: 'Field.id'
-				}
+					to: 'Field.id',
+				},
 			},
-			/** 
+			/**
 			 * Scouting logs
-			 * @memberof! module:app/models.Crop# 
+			 * @memberof! module:app/models.Crop#
 			 */
 			scouting: {
 				relation: Model.OneToManyRelation,
 				modelClass: Scouting,
 				join: {
 					from: 'Crop.id',
-					to: 'Scouting.crop'
-				}
-			}
-		}
+					to: 'Scouting.crop',
+				},
+			},
+		};
 	}
 }
