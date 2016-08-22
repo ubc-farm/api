@@ -1,5 +1,5 @@
-import {Model} from 'objection';
-import {Task} from '../index.js';
+import { Model } from 'objection';
+import { Task } from '../index.js';
 import Person from './person.js';
 
 /**
@@ -18,8 +18,8 @@ import Person from './person.js';
  * @property {string} [emergencyContactNumber]
  */
 export default class Employee extends Person {
-	static get tableName() {return 'Employee'}
-	static get label() {return 'employees'}
+	static get tableName() { return 'Employee'; }
+	static get label() { return 'employees'; }
 
 	/** @type {Object} Working days as an object */
 	get workingDays() {
@@ -30,11 +30,15 @@ export default class Employee extends Person {
 			wednesday: this.working_wednesday,
 			thursday: this.working_thursday,
 			friday: this.working_friday,
-			saturday: this.working_saturday
-		}
+			saturday: this.working_saturday,
+		};
 	}
 	set workingDays(obj) {
-		for (let day in obj) this[`working_${day}`] = obj[day];
+		for (const day in obj) {
+			if (Object.prototype.hasOwnProperty.call(obj, day)) {
+				this[`working_${day}`] = obj[day];
+			}
+		}
 	}
 
 	/** @type {boolean[]} */
@@ -53,42 +57,42 @@ export default class Employee extends Person {
 	}
 
 	/** @type {Date[]} */
-	get holiday() {this.holidayDays.map(n => new Date(n))}
-	set holiday(dates) {this.holidayDays = dates.map(d => d.getTime())}
+	get holiday() { this.holidayDays.map(n => new Date(n)); }
+	set holiday(dates) { this.holidayDays = dates.map(d => d.getTime()); }
 
 	/** @type {Date[]} */
-	get sick() {this.sickDays.map(n => new Date(n))}
-	set sick(dates) {this.sickDays = dates.map(d => d.getTime())}
+	get sick() { this.sickDays.map(n => new Date(n)); }
+	set sick(dates) { this.sickDays = dates.map(d => d.getTime()); }
 
 	/** @type {Date[]} */
-	get paidLeave() {this.paidLeaveDays.map(n => new Date(n))}
-	set paidLeave(dates) {this.paidLeaveDays = dates.map(d => d.getTime())}
+	get paidLeave() { this.paidLeaveDays.map(n => new Date(n)); }
+	set paidLeave(dates) { this.paidLeaveDays = dates.map(d => d.getTime()); }
 
 	static get jsonSchema() {
 		return Object.assign(super.jsonSchema, {
-			hourlyPay: {type: 'integer'},
-			fullOrPartTime: {type: 'boolean'},
-			holidayDays: {type: 'array', unqiueItems: true},
-			sickDays: {type: 'array', unqiueItems: true},
-			paidLeaveDays: {type: 'array', unqiueItems: true},
-			inLieuHours: {type: 'array', unqiueItems: true},
-			medicalLeaveTime: {type: 'array', unqiueItems: true},
-			working_sunday: {type: 'boolean'},
-			working_monday: {type: 'boolean'},
-			working_tuesday: {type: 'boolean'},
-			working_wednesday: {type: 'boolean'},
-			working_thursday: {type: 'boolean'},
-			working_friday: {type: 'boolean'},
-			working_saturday: {type: 'boolean'},
+			hourlyPay: { type: 'integer' },
+			fullOrPartTime: { type: 'boolean' },
+			holidayDays: { type: 'array', unqiueItems: true },
+			sickDays: { type: 'array', unqiueItems: true },
+			paidLeaveDays: { type: 'array', unqiueItems: true },
+			inLieuHours: { type: 'array', unqiueItems: true },
+			medicalLeaveTime: { type: 'array', unqiueItems: true },
+			working_sunday: { type: 'boolean' },
+			working_monday: { type: 'boolean' },
+			working_tuesday: { type: 'boolean' },
+			working_wednesday: { type: 'boolean' },
+			working_thursday: { type: 'boolean' },
+			working_friday: { type: 'boolean' },
+			working_saturday: { type: 'boolean' },
 			emergencyContactName: {
-				type: 'string'
+				type: 'string',
 			},
 			emergencyContactNumber: {
 				type: 'string',
 				minLength: 15,
-				maxLength: 15
-			}
-		})
+				maxLength: 15,
+			},
+		});
 	}
 
 	static get relationMappings() {
@@ -101,11 +105,11 @@ export default class Employee extends Person {
 					through: {
 						modelClass: Assignment,
 						from: 'Assignment.assigned_employee',
-						to: 'Assignment.assigned_task'
+						to: 'Assignment.assigned_task',
 					},
-					to: 'Task.id'
-				}
-			}
+					to: 'Task.id',
+				},
+			},
 		}, super.relationMappings);
 	}
 }
@@ -114,7 +118,7 @@ export default class Employee extends Person {
  * Helper table to join Employees with their assigned Tasks
  */
 export class Assignment extends Model {
-	static get tableName() {return 'Assignment'}
+	static get tableName() { return 'Assignment'; }
 
 	static get relationMappings() {
 		return {
@@ -123,17 +127,17 @@ export class Assignment extends Model {
 				modelClass: Employee,
 				join: {
 					from: 'Assignment.assigned_employee',
-					to: 'Employee.id'
-				}
+					to: 'Employee.id',
+				},
 			},
 			assignedTask: {
 				relation: Model.OneToManyRelation,
 				modelClass: Task,
 				join: {
 					from: 'Assignment.assigned_task',
-					to: 'Task.id'
-				}
-			}
-		}
+					to: 'Task.id',
+				},
+			},
+		};
 	}
 }
