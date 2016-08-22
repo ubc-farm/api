@@ -76,7 +76,7 @@ export default class Equipment extends Model {
 			 * @type {module:app/models.Location}
 			 */
 			loc: {
-				relation: Model.OneToOneRelation,
+				relation: Model.HasOneRelation,
 				modelClass: Location,
 				join: {
 					from: 'Equipment.location',
@@ -89,8 +89,8 @@ export default class Equipment extends Model {
 			 * @type {module:app/models.Item}
 			 */
 			item: {
-				relation: Model.OneToManyRelation,
-				modelClass: Equipment,
+				relation: Model.HasManyRelation,
+				modelClass: Item,
 				join: {
 					from: 'Equipment.product',
 					to: 'Item.id',
@@ -104,7 +104,7 @@ export default class Equipment extends Model {
  * A helper table for joining equipment to some usage
  */
 export class EquipmentUsage extends Model {
-	static get tableName() { return 'EquipmentUsage' ;}
+	static get tableName() { return 'EquipmentUsage'; }
 
 	static get relationMappings() {
 		return {
