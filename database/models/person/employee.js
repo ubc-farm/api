@@ -123,7 +123,7 @@ export class Assignment extends Model {
 	static get relationMappings() {
 		return {
 			assignedEmployee: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Employee,
 				join: {
 					from: 'Assignment.assigned_employee',
@@ -131,7 +131,7 @@ export class Assignment extends Model {
 				},
 			},
 			assignedTask: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Task,
 				join: {
 					from: 'Assignment.assigned_task',

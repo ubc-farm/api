@@ -60,7 +60,7 @@ export default class Person extends Model {
 	static get relationMappings() {
 		return {
 			purchases: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Sale,
 				join: {
 					from: 'Person.id',
@@ -68,7 +68,7 @@ export default class Person extends Model {
 				},
 			},
 			products: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Item,
 				join: {
 					from: 'Person.id',

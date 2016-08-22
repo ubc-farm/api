@@ -91,7 +91,7 @@ export class ResearchProject extends Model {
 			 * @memberof! module:app/models.ResearchProject#
 			 */
 			lead: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Researcher,
 				join: {
 					from: 'ResearchProject.researcher',
@@ -129,7 +129,7 @@ export class ResearchPartner extends Model {
 	static get relationMappings() {
 		return {
 			researcher: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Researcher,
 				join: {
 					from: 'ResearchPartner.person',
@@ -137,7 +137,7 @@ export class ResearchPartner extends Model {
 				},
 			},
 			researchProject: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: ResearchProject,
 				join: {
 					from: 'ResearchPartner.project',
