@@ -10,11 +10,12 @@ import patcher from './patcher.js';
  * in a format similar to Firebase's database JSON
  */
 export default function handler(route, options) {
-	switch(route.method.toLowerCase()) {
+	switch (route.method.toLowerCase()) {
 		case 'get': return getter(route, options);
 		case 'post': return poster(route, options);
 		case 'delete': return deleter(route, options);
-		case 'put': case 'patch':	
+		case 'put': case 'patch':
 			return patcher(route, options);
+		default: throw new TypeError(`Unsupposed route method ${route.method}`);
 	}
 }

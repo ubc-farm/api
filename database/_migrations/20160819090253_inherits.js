@@ -21,7 +21,7 @@ function inheritTask(table) {
 }
 function inheritChemicalTask(table) {
 	inheritTask(table); //table.inherits('Task');
-		
+
 	table.bigInteger('product')
 		.unsigned().index()
 		.references('id').inTable('Chemical');
@@ -43,13 +43,13 @@ function inheritScouting(table) {
 function inheritItem(table) {
 	table.bigIncrements('id');
 	table.text('name').index();
-		
+
 	table.text('sku').unique().index();
 	table.text('barcode').unique();
 
 	table.bigInteger('supplierId').unsigned().index()
 		.references('id').inTable('Person');
-		
+
 	table.specificType('lifespan', 'interval').index();
 	table.specificType('value', 'money');
 	table.specificType('salvageValue', 'money');
@@ -70,22 +70,22 @@ function inheritSale(table) {
 	table.bigInteger('deliveryLocation')
 		.unsigned().index()
 		.references('id').inTable('Location');
-	
+
 	table.integer('quantity').defaultTo(1);
 	table.specificType('price', 'money');
-	
+
 	table.specificType('discount', 'money');
 	table.specificType('tax', 'money');
-	
+
 	table.text('notes');
 }
 
-exports.up = function(knex) {
+exports.up = function up(knex) {
 	return knex.schema
 	.createTable('Person', inheritPerson)
 	.createTable('Employee', inheritPerson)
 	.createTable('Researcher', inheritPerson)
-	
+
 	.createTable('Task', inheritTask)
 	.createTable('Event', inheritTask)
 	.createTable('Seeding', inheritTask)
@@ -144,7 +144,7 @@ exports.down = function(knex) {
 	.dropTableIfExists('Person', dropPerson)
 	.dropTableIfExists('Employee', dropPerson)
 	.dropTableIfExists('Researcher', dropPerson)
-	
+
 	.dropTableIfExists('Task', dropTask)
 	.dropTableIfExists('Event', dropTask)
 	.dropTableIfExists('Seeding', dropTask)

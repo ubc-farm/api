@@ -1,6 +1,6 @@
 import './init.js';
 
-export * from './models/index.js';
-
 import * as joins from './models/joins.js';
-export {joins};
+
+export * from './models/index.js';
+export { joins };

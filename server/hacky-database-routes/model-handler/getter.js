@@ -1,13 +1,13 @@
 import {
 	transformReply, getBooleanQuery,
-	arrayToObjectMap, removeNullandUndef
+	arrayToObjectMap, removeNullandUndef,
 } from './utils.js';
 
 export default function getter(route, options) {
 	const Model = options.model;
-	return function(request, reply) {
-		const {id, property} = request.params;
-		let {array, clean = true} = getBooleanQuery(request.query);
+	return function getHandler(request, reply) {
+		const { id, property } = request.params;
+		let { array, clean = true } = getBooleanQuery(request.query);
 
 		let query = Model.query();
 		if (id) {
@@ -18,12 +18,12 @@ export default function getter(route, options) {
 					else return item;
 				});
 		} else {
-			if (!array) 
+			if (!array)
 				query = query.then(list => arrayToObjectMap(list, Model.idColumn));
-			if (clean) 
+			if (clean)
 				query = query.then(data => removeNullandUndef(data));
-		} 
+		}
 
 		return transformReply(query, request, reply);
-	}
+	};
 }
