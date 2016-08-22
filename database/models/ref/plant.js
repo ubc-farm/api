@@ -1,6 +1,6 @@
-import {Model} from 'objection';
-import {Item} from './index.js';
-import {Crop} from '../index.js';
+import { Model } from 'objection';
+import { Item } from './index.js';
+import { Crop } from '../index.js';
 
 /**
  * Extends Item with Plant specific information for crops
@@ -9,8 +9,8 @@ import {Crop} from '../index.js';
  * @property {string} [latin] name of the plant
  */
 export default class Plant extends Item {
-	static get tableName() {return 'Plant'}
-	static get label() {return 'plants'}
+	static get tableName() { return 'Plant'; }
+	static get label() { return 'plants'; }
 
 	static get relationMappings() {
 		return {
@@ -19,8 +19,8 @@ export default class Plant extends Item {
 				modelClass: Crop,
 				join: {
 					from: 'Plant.id',
-					to: 'Crop.type'
-				}
+					to: 'Crop.type',
+				},
 			},
 			mixedPlants: {
 				relation: Model.ManyToManyRelation,
@@ -30,12 +30,12 @@ export default class Plant extends Item {
 					through: {
 						modelClass: Mix,
 						from: 'Mix.forId',
-						to: 'Mix.subId'
+						to: 'Mix.subId',
 					},
-					to: 'Plant.id'
-				}
-			}
-		}
+					to: 'Plant.id',
+				},
+			},
+		};
 	}
 }
 
@@ -43,7 +43,7 @@ export default class Plant extends Item {
  * Helper table for mix of seeds
  */
 export class Mix extends Model {
-	static get tableName() {return 'Mix'}
+	static get tableName() { return 'Mix'; }
 
 	static get relationMappings() {
 		return {
@@ -52,17 +52,17 @@ export class Mix extends Model {
 				modelClass: Plant,
 				join: {
 					from: 'Mix.subId',
-					to: 'Plant.id'
-				}
+					to: 'Plant.id',
+				},
 			},
 			forPlant: {
 				relation: Model.OneToOneRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Mix.forId',
-					to: 'Plant.id'
-				}
-			}
-		}
+					to: 'Plant.id',
+				},
+			},
+		};
 	}
 }

@@ -1,5 +1,5 @@
-import {Model} from 'objection';
-import {Task} from '../index.js';
+import { Model } from 'objection';
+import { Task } from '../index.js';
 
 /**
  * Represents a program at the farm
@@ -11,27 +11,27 @@ import {Task} from '../index.js';
  * @property {string} [linkedAccount]
  */
 export default class Program extends Model {
-	static get tableName() {return 'Program'}
-	static get label() {return 'program'}
+	static get tableName() { return 'Program'; }
+	static get label() { return 'program'; }
 
 	static get relationMappings() {
 		return {
-			/** 
+			/**
 			 * An Account linked to this program
-			 * @memberof! module:app/models.Program# 
+			 * @memberof! module:app/models.Program#
 			 */
 			link: {
 				relation: Model.OneToOneRelation,
 				modelClass: Account,
 				join: {
 					from: 'Program.linkedAccount',
-					to: 'Account.id'
-				}
+					to: 'Account.id',
+				},
 			},
-			/** 
+			/**
 			 * Tasks and events classified under this program
 			 * @memberof! module:app/models.Program#
-			 * @type {module:app/models.Task[]} 
+			 * @type {module:app/models.Task[]}
 			 */
 			tasks: {
 				relation: Model.ManyToManyRelation,
@@ -41,17 +41,17 @@ export default class Program extends Model {
 					through: {
 						modelClass: ProgramUsage,
 						from: 'ProgramUsage.programId',
-						to: 'ProgramUsage.taskId'
+						to: 'ProgramUsage.taskId',
 					},
-					to: 'Task.id'
-				}
-			}
-		}
+					to: 'Task.id',
+				},
+			},
+		};
 	}
 }
 
 export class Account extends Model {
-	static get tableName() {return 'Account'}
+	static get tableName() { return 'Account'; }
 
 	static get relationMappings() {
 		return {
@@ -60,10 +60,10 @@ export class Account extends Model {
 				modelClass: Program,
 				join: {
 					from: 'Account.id',
-					to: 'Program.linkedAccount'
-				}
-			}
-		}
+					to: 'Program.linkedAccount',
+				},
+			},
+		};
 	}
 }
 
@@ -72,7 +72,7 @@ export class Account extends Model {
  * @alias module:app/models~ProgramUsage
  */
 export class ProgramUsage extends Model {
-	static get tableName() {return 'ProgramUsage'}
+	static get tableName() { return 'ProgramUsage'; }
 
 	static get relationMappings() {
 		return {
@@ -81,17 +81,17 @@ export class ProgramUsage extends Model {
 				modelClass: Program,
 				join: {
 					from: 'ProgramUsage.programId',
-					to: 'Program.id'
-				}
+					to: 'Program.id',
+				},
 			},
 			task: {
 				relation: Model.OneToManyRelation,
 				modelClass: Task,
 				join: {
 					from: 'ProgramUsage.taskId',
-					to: 'Task.id'
-				}
-			}
-		}
+					to: 'Task.id',
+				},
+			},
+		};
 	}
 }

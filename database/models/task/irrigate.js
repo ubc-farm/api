@@ -8,6 +8,6 @@ import Task from './task.js';
  * @property {string} [type]
  */
 export default class Irrigation extends Task {
-	static get tableName() {return 'Irrigation'}
-	static get label() {return 'irrigation'}
+	static get tableName() { return 'Irrigation'; }
+	static get label() { return 'irrigation'; }
 }
