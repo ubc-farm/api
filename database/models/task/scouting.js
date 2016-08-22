@@ -1,6 +1,6 @@
-import {Model} from 'objection';
+import { Model } from 'objection';
 import Task from './task.js';
-import {Crop} from '../index.js';
+import { Crop } from '../index.js';
 
 /**
  * Shared properties for scouting tasks, mainly used for historical data
@@ -9,20 +9,20 @@ import {Crop} from '../index.js';
  * @property {string} cropId
  */
 export default class Scouting extends Task {
-	static get tableName() {return 'Scouting'}
-	static get label() {return 'scouting'}
+	static get tableName() { return 'Scouting'; }
+	static get label() { return 'scouting'; }
 
 	static get jsonSchema() {
 		return Object.assign(super.jsonSchema, {
-			cropId: {type: 'integer'}
-		})
+			cropId: { type: 'integer' },
+		});
 	}
 
 	static get relationMappings() {
 		return Object.assign({
-			/** 
+			/**
 			 * The crop that the scouting is related to
-			 * @memberof! module:app/models.Scouting# 
+			 * @memberof! module:app/models.Scouting#
 			 * @type {module:app/models.Crop}
 			 */
 			crop: {
@@ -30,9 +30,9 @@ export default class Scouting extends Task {
 				modelClass: Crop,
 				join: {
 					from: 'Scouting.cropId',
-					to: 'Crop.id'
-				}
-			}
+					to: 'Crop.id',
+				},
+			},
 		}, super.relationMappings);
 	}
 }
@@ -45,14 +45,14 @@ export default class Scouting extends Task {
  * @property {number} [newPredictedYield]
  */
 export class ScoutHarvest extends Scouting {
-	static get tableName() {return 'ScoutHarvest'}
-	static get label() {return 'scouting-harvest'}
+	static get tableName() { return 'ScoutHarvest'; }
+	static get label() { return 'scouting-harvest'; }
 
 	static get jsonSchema() {
 		return Object.assign(super.jsonSchema, {
-			newExpectedHarvest: {type: 'integer'},
-			newPredictedYield: {type: 'integer'}
-		})
+			newExpectedHarvest: { type: 'integer' },
+			newPredictedYield: { type: 'integer' },
+		});
 	}
 }
 
@@ -69,6 +69,6 @@ export class ScoutHarvest extends Scouting {
  * @property {number} [economicThreshold]
  */
 export class ScoutPest extends Scouting {
-	static get tableName() {return 'ScoutPest'}
-	static get label() {return 'scouting-pests'}
+	static get tableName() { return 'ScoutPest' ;}
+	static get label() { return 'scouting-pests'; }
 }

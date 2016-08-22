@@ -1,6 +1,6 @@
-import {Model} from 'objection';
+import { Model } from 'objection';
 import Task from './task.js';
-import {Crop, Plant, Item} from '../index.js';
+import { Crop, Plant, Item } from '../index.js';
 
 /**
  * Task for seeding and transplating
@@ -21,8 +21,8 @@ import {Crop, Plant, Item} from '../index.js';
  * @property {Object} [npkReq] - Required N, P, and K amounts
  */
 export default class Seeding extends Task {
-	static get tableName() {return 'Seeding'}
-	static get label() {return 'seeding'}
+	static get tableName() { return 'Seeding'; }
+	static get label() { return 'seeding'; }
 
 	/**
 	 * @param {number} area as m^2
@@ -40,8 +40,8 @@ export default class Seeding extends Task {
 	getDensity(area) {
 		if (this.seedsPerHole && this.spacingBetweenHoles) {
 			return (
-				this.getNumberOfHoles(area) * 
-				this.seedsPerHole * 
+				this.getNumberOfHoles(area) *
+				this.seedsPerHole *
 				this.germinationPercentage
 			) / area;
 		} else if (this.seedsPerGram && this.gramsApplied) {
@@ -50,7 +50,7 @@ export default class Seeding extends Task {
 				this.gramsApplied *
 				this.germinationPercentage
 			) / area;
-		} 
+		}
 	}
 
 	static get relationMappings() {
@@ -60,25 +60,25 @@ export default class Seeding extends Task {
 				modelClass: Crop,
 				join: {
 					from: 'Seeding.crop',
-					to: 'Crop.id'
-				}
+					to: 'Crop.id',
+				},
 			},
 			seedVariety: {
 				relation: Model.OneToOneRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Seeding.variety',
-					to: 'Plant.id'
-				}
+					to: 'Plant.id',
+				},
 			},
 			seedProduct: {
 				relation: Model.OneToOneRelation,
 				modelClass: Item,
 				join: {
 					from: 'Seeding.product',
-					to: 'Item.id'
-				}
-			}
+					to: 'Item.id',
+				},
+			},
 		}, super.relationMappings);
 	}
 }

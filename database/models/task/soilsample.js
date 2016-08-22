@@ -1,6 +1,6 @@
-import {Model} from 'objection';
+import { Model } from 'objection';
 import Task from './task.js';
-import {Person as Company} from '../index.js';
+import { Person as Company } from '../index.js';
 
 /**
  * A soil sampling task
@@ -13,8 +13,8 @@ import {Person as Company} from '../index.js';
  * @property {string} [company]
  */
 export default class SoilSampling extends Task {
-	static get tableName() {return 'SoilSampling'}
-	static get label() {return 'soil-samples'}
+	static get tableName() { return 'SoilSampling'; }
+	static get label() { return 'soil-samples'; }
 
 	static get relationMappings() {
 		return Object.assign({
@@ -23,9 +23,9 @@ export default class SoilSampling extends Task {
 				modelClass: Company,
 				join: {
 					from: 'SoilSampling.company',
-					to: 'Person.id'
-				}
-			}
+					to: 'Person.id',
+				},
+			},
 		}, super.relationMappings);
 	}
 }

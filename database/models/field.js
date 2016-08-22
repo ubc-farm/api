@@ -87,14 +87,16 @@ export default class Field extends Model {
 export class Crop extends Model {
 	static get tableName() { return 'Crop'; }
 
-	static get jsonSchema() { return {
-		type: 'object',
-		properties: {
-			type: { type: 'string' },
-			fieldId: { type: 'integer' },
-			quantity: { type: 'integer' },
-		},
-	}; }
+	static get jsonSchema() {
+		return {
+			type: 'object',
+			properties: {
+				type: { type: 'string' },
+				fieldId: { type: 'integer' },
+				quantity: { type: 'integer' },
+			},
+		};
+	}
 
 	static get relationMappings() {
 		return {

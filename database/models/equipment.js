@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { Task, Sale, Location } from './index.js';
+import { Task, Sale, Location, Item } from './index.js';
 
 /**
  * Represents an item in the inventory, with fields like the amount stored and
@@ -20,17 +20,19 @@ export default class Equipment extends Model {
 	get purchase() { return new Date(this.purchaseDate); }
 	set purchase(date) { this.purchaseDate = date.getTime(); }
 
-	static get jsonSchema() { return {
-		type: 'object',
-		properties: {
-			id: { type: 'integer' },
-			product: { type: 'integer' },
-			description: { type: 'string' },
-			quantity: { type: 'integer' },
-			purchaseDate: { type: 'number' }, // milliseconds from enoch
-			location: { type: 'integer' },
-		},
-	}; }
+	static get jsonSchema() {
+		return {
+			type: 'object',
+			properties: {
+				id: { type: 'integer' },
+				product: { type: 'integer' },
+				description: { type: 'string' },
+				quantity: { type: 'integer' },
+				purchaseDate: { type: 'number' }, // milliseconds from enoch
+				location: { type: 'integer' },
+			},
+		};
+	}
 
 	static get relationMappings() {
 		return {
