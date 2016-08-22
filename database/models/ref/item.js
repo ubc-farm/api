@@ -47,7 +47,7 @@ export default class Item extends Model {
 			 * @memberof! module:app/models.Item#
 			 */
 			supplier: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Company,
 				join: {
 					from: 'Item.supplierId',
@@ -60,7 +60,7 @@ export default class Item extends Model {
 			 * @memberof! module:app/models.Item#
 			 */
 			equipment: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Equipment,
 				join: {
 					from: 'Item.id',

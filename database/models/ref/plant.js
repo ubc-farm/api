@@ -15,7 +15,7 @@ export default class Plant extends Item {
 	static get relationMappings() {
 		return {
 			crops: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Crop,
 				join: {
 					from: 'Plant.id',
@@ -48,7 +48,7 @@ export class Mix extends Model {
 	static get relationMappings() {
 		return {
 			subPlants: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Mix.subId',
@@ -56,7 +56,7 @@ export class Mix extends Model {
 				},
 			},
 			forPlant: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Mix.forId',

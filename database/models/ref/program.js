@@ -21,7 +21,7 @@ export default class Program extends Model {
 			 * @memberof! module:app/models.Program#
 			 */
 			link: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Account,
 				join: {
 					from: 'Program.linkedAccount',
@@ -56,7 +56,7 @@ export class Account extends Model {
 	static get relationMappings() {
 		return {
 			programs: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Program,
 				join: {
 					from: 'Account.id',
@@ -77,7 +77,7 @@ export class ProgramUsage extends Model {
 	static get relationMappings() {
 		return {
 			program: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Program,
 				join: {
 					from: 'ProgramUsage.programId',
@@ -85,7 +85,7 @@ export class ProgramUsage extends Model {
 				},
 			},
 			task: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Task,
 				join: {
 					from: 'ProgramUsage.taskId',

@@ -21,7 +21,7 @@ export default class Location extends Model {
 	static get relationMappings() {
 		return {
 			field: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Field,
 				join: {
 					from: 'Location.fieldId',

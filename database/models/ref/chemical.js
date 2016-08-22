@@ -20,7 +20,7 @@ export default class Amendment extends Model {
 			 * @type {module:app/models.ChemicalTask[]}
 			 */
 			usage: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: ChemicalTask,
 				join: {
 					from: 'Chemical.id',
