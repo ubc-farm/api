@@ -51,12 +51,14 @@ export default class Seeding extends Task {
 				this.germinationPercentage
 			) / area;
 		}
+
+		return undefined;
 	}
 
 	static get relationMappings() {
 		return Object.assign({
 			seeded: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Crop,
 				join: {
 					from: 'Seeding.crop',
@@ -64,7 +66,7 @@ export default class Seeding extends Task {
 				},
 			},
 			seedVariety: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Seeding.variety',
@@ -72,7 +74,7 @@ export default class Seeding extends Task {
 				},
 			},
 			seedProduct: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Item,
 				join: {
 					from: 'Seeding.product',

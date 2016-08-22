@@ -11,6 +11,7 @@ export default function poster(route, options) {
 			.then(inserted => ({ id: inserted[Model.idColumn] }))
 			.catch(err => {
 				if (err instanceof ValidationError) {
+					console.log(err, payload);
 					throw boomWrap(err, err.statusCode);
 				}
 

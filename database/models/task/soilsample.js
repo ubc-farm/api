@@ -19,7 +19,7 @@ export default class SoilSampling extends Task {
 	static get relationMappings() {
 		return Object.assign({
 			samplingCompany: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Company,
 				join: {
 					from: 'SoilSampling.company',

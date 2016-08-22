@@ -40,7 +40,7 @@ export default class Event extends Task {
 			 * @type {module:app/models.Sale}
 			 */
 			ticket: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Sale,
 				join: {
 					from: 'Event.ticketId',
@@ -53,7 +53,7 @@ export default class Event extends Task {
 			 * @type {module:app/models.Person}
 			 */
 			contact: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Person,
 				join: {
 					from: 'Event.contactId',

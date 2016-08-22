@@ -46,7 +46,7 @@ export default class Task extends Model {
 			 * @type {module:app/models.Location}
 			 */
 			location: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Location,
 				join: {
 					from: 'Task.locationId',

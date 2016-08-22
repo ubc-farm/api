@@ -38,7 +38,7 @@ export default class Field extends Model {
 			 * @type {module:app/models.Crop}
 			 */
 			crops: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Crop,
 				join: {
 					from: 'Field.id',
@@ -51,7 +51,7 @@ export default class Field extends Model {
 			 * @type {module:app/models.Field}
 			 */
 			parentField: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Field,
 				join: {
 					from: 'Field.parent',
@@ -64,7 +64,7 @@ export default class Field extends Model {
 			 * @type {module:app/models.Field[]}
 			 */
 			childFields: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Field,
 				join: {
 					from: 'Field.id',
@@ -106,7 +106,7 @@ export class Crop extends Model {
 			 * @type {module:app/models.Plant}
 			 */
 			variety: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Plant,
 				join: {
 					from: 'Crop.type',
@@ -118,7 +118,7 @@ export class Crop extends Model {
 			 * @memberof! module:app/models.Crop#
 			 */
 			field: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Field,
 				join: {
 					from: 'Crop.fieldId',
@@ -130,7 +130,7 @@ export class Crop extends Model {
 			 * @memberof! module:app/models.Crop#
 			 */
 			scouting: {
-				relation: Model.OneToManyRelation,
+				relation: Model.HasManyRelation,
 				modelClass: Scouting,
 				join: {
 					from: 'Crop.id',

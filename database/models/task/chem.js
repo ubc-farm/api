@@ -47,7 +47,7 @@ export default class ChemicalTask extends Task {
 	static get relationMappings() {
 		return Object.assign({
 			chemProduct: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Chemical,
 				join: {
 					from: 'ChemicalTask.product',

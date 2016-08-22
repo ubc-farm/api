@@ -42,7 +42,7 @@ export default class Sale extends Model {
 			 * @type {module:app/models.Person}
 			 */
 			customer: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Person,
 				join: {
 					from: 'Sale.customerId',
@@ -56,7 +56,7 @@ export default class Sale extends Model {
 			 * @type {module:app/models.Location}
 			 */
 			deliveryLoc: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Location,
 				join: {
 					from: 'Sale.deliveryLocation',

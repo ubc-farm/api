@@ -26,7 +26,7 @@ export default class Scouting extends Task {
 			 * @type {module:app/models.Crop}
 			 */
 			crop: {
-				relation: Model.OneToOneRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Crop,
 				join: {
 					from: 'Scouting.cropId',
@@ -69,6 +69,6 @@ export class ScoutHarvest extends Scouting {
  * @property {number} [economicThreshold]
  */
 export class ScoutPest extends Scouting {
-	static get tableName() { return 'ScoutPest' ;}
+	static get tableName() { return 'ScoutPest'; }
 	static get label() { return 'scouting-pests'; }
 }
