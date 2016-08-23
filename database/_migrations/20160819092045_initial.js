@@ -51,11 +51,11 @@ exports.up = function(knex, Promise) {
 		table.bigInteger('product')
 			.unsigned().index()
 			.references('id').inTable('Item');
-		
+
 		table.text('description');
 		table.integer('quantity');
 		table.date('purchaseDate');
-		
+
 		table.bigInteger('location').index()
 			.references('id').inTable('Location');
 	})
@@ -81,7 +81,7 @@ exports.up = function(knex, Promise) {
 		//table.specificType('keywords', 'tsvector').index()
 		table.integer('estimatedAttendeeAmount');
 		table.specificType('targetAgeGroup', 'int4range')
-		
+
 		table.bigInteger('ticketId').unsigned()
 			.references('id').inTable('Sale');
 		table.bigInteger('contactId').unsigned()
@@ -91,14 +91,14 @@ exports.up = function(knex, Promise) {
 		//table.inherits('Task');
 		table.bigInteger('crop').unsigned()
 			.references('id').inTable('Crop');
-		
+
 		table.bigInteger('variety').unsigned()
 			.references('id').inTable('Plant');
 		table.bigInteger('product').unsigned()
 			.references('id').inTable('Item');
-		
+
 		table.string('methodUsed').index();
-		
+
 		table.json('spacingBetweenHoles');
 		table.float('depthOfHoles');
 		table.float('seedsPerHole');
@@ -140,7 +140,7 @@ exports.up = function(knex, Promise) {
 		table.float('p205');
 	})
 	.table('PestControl', table => {
-		//table.inherits('ChemicalTask');		
+		//table.inherits('ChemicalTask');
 
 		table.json('activeIngredients');
 		table.float('percentOfActiveIngredients');
@@ -152,10 +152,10 @@ exports.up = function(knex, Promise) {
 	})
 	.table('ScoutPest', table => {
 		//table.inherits('Scouting');
-		
+
 		table.string('pestType');
 		table.string('affectedSpot');
-		
+
 		table.text('pestName');
 		table.text('pestNameLatin');
 
@@ -200,8 +200,8 @@ exports.up = function(knex, Promise) {
 	.createTable('Program', table => {
 		table.bigIncrements('id');
 		table.text('name').index();
-		table.string('color', 6); 
-		table.string('text_color', 6).defaultTo('000000'); 
+		table.string('color', 6);
+		table.string('text_color', 6).defaultTo('000000');
 
 		table.bigInteger('linkedAccount').unsigned()
 			.references('id').inTable('Account');
@@ -238,7 +238,7 @@ exports.up = function(knex, Promise) {
 		table.bigInteger('researcher')
 			.unsigned().notNullable().unique()
 			.references('id').inTable('Researcher');
-		
+
 		table.text('title');
 		table.specificType('date', 'daterange').index();
 
@@ -254,7 +254,7 @@ exports.up = function(knex, Promise) {
 	})
 	.createTable('ResearchPartner', table => {
 		table.bigIncrements('id');
-		
+
 		table.bigInteger('person')
 			.unsigned().notNullable()
 			.references('id').inTable('Researcher');
@@ -302,7 +302,7 @@ exports.down = function(knex, Promise) {
 	.table('Seeding', table => table.dropColumns(
 		'crop', 'variety', 'product',
 		'methodUsed', 'spacingBetweenHoles',
-		'depthOfHoles', 'seedsPerHole', 
+		'depthOfHoles', 'seedsPerHole',
 		'gramsApplied', 'seedsPerGram', 'germinationPercentage',
 		'predictedYield', 'daysToMaturity', 'npkReq'
 	))
