@@ -16,12 +16,14 @@ export default class Field extends Model {
 	static get label() { return 'fields'; }
 
 	/** @type {module:lib/geojson.Polygon} */
-	get polygon() { return new Polygon(this.path); }
+	get polygon() { return new Polygon(...(this.path || [])); }
 	set polygon(value) { this.path = value.toJSON().coordinates; }
 
 	get grid() {
-		const [baseWidth, ...specificWidths] = this.gridWidths;
-		const [baseHeight, ...specificHeights] = this.gridHeights;
+		if (!this.gridWidths && !this.gridHeights) return undefined;
+
+		const [baseWidth, ...specificWidths] = this.gridWidths || [];
+		const [baseHeight, ...specificHeights] = this.gridHeights || [];
 		return {
 			baseWidth,
 			baseHeight,
