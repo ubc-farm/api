@@ -165,7 +165,8 @@ exports.up = function(knex, Promise) {
 	})
 	.createTable('Field', table => {
 		table.bigIncrements('id');
-		table.specificType('path', 'polygon').index(null, 'GiST');
+		// table.specificType('path', 'polygon').index(null, 'GiST');
+		table.json('path');
 
 		table.specificType('gridWidths', 'real[]');
 		table.specificType('gridHeights', 'real[]');
