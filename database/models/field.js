@@ -32,6 +32,24 @@ export default class Field extends Model {
 		};
 	}
 
+	$formatDatabaseJson(json) {
+		const forDatabase = Object.assign({}, json);
+		if (forDatabase.path != null) {
+			forDatabase.path = JSON.stringify(forDatabase.path);
+		}
+		return super.$formatDatabaseJson(forDatabase);
+	}
+
+	$parseDatabaseJson(json) {
+		if (json.path != null && typeof json.path === 'string') {
+			const path = JSON.parse(json.path);
+			const result = Object.assign({}, json, { path });
+			return super.$parseDatabaseJson(result);
+		}
+
+		return super.$parseDatabaseJson(json);
+	}
+
 	static get relationMappings() {
 		return {
 			/**
