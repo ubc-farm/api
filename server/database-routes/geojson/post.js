@@ -50,10 +50,15 @@ export function geojsonAdd(request, reply) {
 			throw new Error(`Invalid type ${payload.type}`);
 	}
 
-	console.log(insertQuery[0]);
+	const query = Field.query()
+		.insert(insertQuery)
+		.then(inserted => {
+			if (insertQuery.length === 1) {
+				return { id: inserted[0][Field.idColumn] };
+			}
 
-	const query = Field.query().insert(insertQuery)
-		.then(inserted => ({ id: inserted[Field.idColumn] }));
+			return inserted.map(item => ({ id: item[Field.idColumn] }));
+		});
 
 	return transformReply(query, request, reply);
 }
