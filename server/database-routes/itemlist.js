@@ -1,9 +1,9 @@
 import { Equipment } from '../../database/index.js';
-import { transformReply } from './transformer.js';
+import { transformReply, arrayToObjectMap } from './transformer.js';
 import { validate } from './transformer-validation.js';
 
-const equipmentKeys = ['description', 'quantity', 'location'];
-const itemKeys = ['id', 'name', 'supplierId', 'sku', 'value', 'salvageValue'];
+const equipmentKeys = ['id', 'description', 'quantity', 'location'];
+const itemKeys = ['name', 'supplierId', 'sku', 'value', 'salvageValue'];
 
 function getItemList(request, reply) {
 	const { id } = request.params;
@@ -23,12 +23,15 @@ function getItemList(request, reply) {
 		for (const key in equipment.item) {
 			if (Object.prototype.hasOwnProperty.call(equipment.item, key)) {
 				const value = equipment.item[key];
-				if (itemKeys.includes(key) && value != null) result[key] = value;
+				if (key === 'id') result.item = value;
+				else if (itemKeys.includes(key) && value != null) result[key] = value;
 			}
 		}
 
 		return result;
 	}));
+
+	query = query.then(list => arrayToObjectMap(list, 'id'));
 
 	return transformReply(query, request, reply);
 }
