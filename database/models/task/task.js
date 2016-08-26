@@ -4,7 +4,7 @@ import { Assignment, EquipmentUsage, ProgramUsage } from '../joins';
 
 /**
  * Common attributes for tasks that other tables inherit.
- * @alias module:app/models.Task
+ * @alias Task
  * @property {number} [start_time] - tsrange representing the task time
  * @property {number} [end_time] - tsrange representing the task time
  * @property {Object} [hoursTaken] - interval showing how long the
@@ -42,8 +42,8 @@ export default class Task extends Model {
 		return {
 			/**
 			 * Location for this task
-			 * @memberof! module:app/models.Task#
-			 * @type {module:app/models.Location}
+			 * @memberof! Task#
+			 * @type {Location}
 			 */
 			location: {
 				relation: Model.BelongsToOneRelation,
@@ -55,8 +55,8 @@ export default class Task extends Model {
 			},
 			/**
 			 * Programs that this task is linked to
-			 * @memberof! module:app/models.Task#
-			 * @type {module:app/models.Program[]}
+			 * @memberof! Task#
+			 * @type {Program[]}
 			 */
 			program: {
 				relation: Model.ManyToManyRelation,
@@ -73,8 +73,8 @@ export default class Task extends Model {
 			},
 			/**
 			 * Employees assigned to this task
-			 * @memberof! module:app/models.Task#
-			 * @type {module:app/models.Employee[]}
+			 * @memberof! Task#
+			 * @type {Employee[]}
 			 */
 			labour: {
 				relation: Model.ManyToManyRelation,
@@ -91,8 +91,8 @@ export default class Task extends Model {
 			},
 			/**
 			 * Equipment used by this task
-			 * @memberof! module:app/models.Task#
-			 * @type {module:app/models.Equipment[]}
+			 * @memberof! Task#
+			 * @type {Equipment[]}
 			 */
 			equipment: {
 				relation: Model.ManyToManyRelation,

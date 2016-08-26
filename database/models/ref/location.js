@@ -5,7 +5,7 @@ import { Position } from '../../../utils/geojson.js';
 /**
  * Represents a location. If field is specified, this location represents that
  * field.
- * @alias module:app/models.Location
+ * @extends Model
  * @property {string} [name]
  * @property {float[]} [position] - a coordinate expressed as [x, y]
  * @property {string} [fieldId]
@@ -14,7 +14,7 @@ export default class Location extends Model {
 	static get tableName() { return 'Location'; }
 	static get label() { return 'locations'; }
 
-	/** @type {module:lib/geojson.Position} */
+	/** @type {GeoJSON.Position} */
 	get coord() { return Position.from(this.position); }
 	set coord(value) { this.position = value.toJSON(); }
 

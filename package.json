@@ -1,48 +1,49 @@
 {
-	"name": "ubc-farm-server-api",
-	"version": "2.0.1",
-	"description": "API server and database",
-	"author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
-	"private": true,
-	"license": "MIT",
-	"repository": "https://github.com/ubc-farm/server-api",
-	"main": "index.node.js",
-	"jsnext:main": "index.es.js",
-	"dependencies": {
-		"hapi": "14.2.0",
-		"joi": "9.0.4",
-		"boom": "3.2.2",
-		"knex": "0.11.10",
-		"objection": "0.5.5",
-		"pg": "6.0.3",
-		"sqlite": "2.2.0"
-	},
-	"devDependencies": {
-		"rollup": "0.34.2",
-		"rollup-plugin-node-resolve": "^2.0.0",
-		"rollup-plugin-commonjs": "^3.3.1",
-		"rollup-plugin-json": "^2.0.1",
-		"ubc-farm-utils": "ubc-farm/utils"
-	},
-	"scripts": {
-		"test": "tape \"**/*.spec.js\"",
-		"prepublish": "rollup -c",
-		"start": "node index.node.js",
-		"quickstart": "npm run prepublish && npm start",
-		"migrate": "knex migrate:latest",
-		"rollback": "knex migrate:rollback",
-		"seed": "knex seed:run"
-	},
-	"config": {
-		"port": 3080
-	},
-	"files": [
-		"index.node.js",
-		"index.es.js",
-		"index.node.js.map",
-		"index.es.js.map",
-		"database/_migrations",
-		"database/_seeds",
-		"knexfile.js"
-	]
+  "name": "ubc-farm-server-api",
+  "version": "2.0.1",
+  "description": "API server and database",
+  "author": "Tiger Oakes <tigeroakes@gmail.com> (http://tigeroakes.com)",
+  "private": true,
+  "license": "MIT",
+  "repository": "https://github.com/ubc-farm/server-api",
+  "main": "index.node.js",
+  "jsnext:main": "index.es.js",
+  "dependencies": {
+    "hapi": "14.2.0",
+    "joi": "9.0.4",
+    "boom": "3.2.2",
+    "knex": "0.11.10",
+    "objection": "0.5.5",
+    "pg": "6.0.3",
+    "sqlite": "2.2.0"
+  },
+  "devDependencies": {
+    "rollup": "0.34.2",
+    "rollup-plugin-commonjs": "^3.3.1",
+    "rollup-plugin-json": "^2.0.1",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "ubc-farm-money": "github:ubc-farm/money",
+    "ubc-farm-utils": "ubc-farm/utils"
+  },
+  "scripts": {
+    "test": "tape \"**/*.spec.js\"",
+    "prepublish": "rollup -c",
+    "start": "node index.node.js",
+    "quickstart": "npm run prepublish && npm start",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
+  },
+  "config": {
+    "port": 3080
+  },
+  "files": [
+    "index.node.js",
+    "index.es.js",
+    "index.node.js.map",
+    "index.es.js.map",
+    "database/_migrations",
+    "database/_seeds",
+    "knexfile.js"
+  ]
 }

@@ -4,7 +4,6 @@ import { Sale, Person } from '../index.js';
 
 /**
  * Represents an event held at the farm
- * @alias module:app/models.Event
  * @extends Task
  * @property {string} [type]
  * @property {string} name of the event
@@ -36,8 +35,8 @@ export default class Event extends Task {
 		return Object.assign({
 			/**
 			 * Contains ticket sale data for this event
-			 * @memberof! module:app/models.Event#
-			 * @type {module:app/models.Sale}
+			 * @memberof! Event#
+			 * @type {Sale}
 			 */
 			ticket: {
 				relation: Model.BelongsToOneRelation,
@@ -49,8 +48,8 @@ export default class Event extends Task {
 			},
 			/**
 			 * Represents a person to contact about this event
-			 * @memberof! module:app/models.Event#
-			 * @type {module:app/models.Person}
+			 * @memberof! Event#
+			 * @type {Person}
 			 */
 			contact: {
 				relation: Model.BelongsToOneRelation,

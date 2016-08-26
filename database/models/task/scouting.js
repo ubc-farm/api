@@ -4,7 +4,6 @@ import { Crop } from '../index.js';
 
 /**
  * Shared properties for scouting tasks, mainly used for historical data
- * @alias module:app/models.Scouting
  * @extends Task
  * @property {string} cropId
  */
@@ -22,8 +21,8 @@ export default class Scouting extends Task {
 		return Object.assign({
 			/**
 			 * The crop that the scouting is related to
-			 * @memberof! module:app/models.Scouting#
-			 * @type {module:app/models.Crop}
+			 * @memberof! Scouting#
+			 * @type {Crop}
 			 */
 			crop: {
 				relation: Model.BelongsToOneRelation,
@@ -39,8 +38,7 @@ export default class Scouting extends Task {
 
 /**
  * Data for scouting a harvest
- * @alias module:app/models.ScoutHarvest
- * @extends module:app/models.Scouting
+ * @extends Scouting
  * @property {Date} [newExpectedHarvest]
  * @property {number} [newPredictedYield]
  */
@@ -58,8 +56,7 @@ export class ScoutHarvest extends Scouting {
 
 /**
  * Data for scouting pests in the crop
- * @alias module:app/models.ScoutPest
- * @extends module:app/models.Scouting
+ * @extends Scouting
  * @property {string} [pestType]
  * @property {string} [affectedSpot]
  * @property {string} [pestName]

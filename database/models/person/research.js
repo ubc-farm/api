@@ -4,8 +4,7 @@ import Person from './person.js';
 /**
  * Represents a researcher working at the farm. Extends person with extra
  * faculty data, and links to ResearchProjects.
- * @alias module:app/models.Researcher
- * @extends module:app/models.Person
+ * @extends Person
  * @property {string} [position]
  * @property {string} [faculty] such as 'Land and Food Systems' or 'Science'
  * @property {string} [department] such as 'Applied Biology' or 'Mathematics'
@@ -22,8 +21,8 @@ export default class Researcher extends Person {
 		return Object.assign({
 			/**
 			 * Projects where this researcher is a lead
-			 * @memberof! module:app/models.Researcher#
-			 * @type {module:app/models.ResearchProject[]}
+			 * @memberof! Researcher#
+			 * @type {ResearchProject[]}
 			 */
 			projects: {
 				relation: Model.OneToManyRelation,
@@ -35,8 +34,8 @@ export default class Researcher extends Person {
 			},
 			/**
 			 * Projects where this researcher is a partner
-			 * @memberof! module:app/models.Researcher#
-			 * @type {module:app/models.ResearchProject[]}
+			 * @memberof! Researcher#
+			 * @type {ResearchProject[]}
 			 */
 			partnerProjects: {
 				relation: Model.ManyToManyRelation,
@@ -58,7 +57,6 @@ export default class Researcher extends Person {
 /**
  * Represents a research project at the farm, with a lead researcher and
  * possible partner researchers and members.
- * @alias module:app/models.ResearchProject
  * @property {string} researcher - id of the lead researcher
  * @property {string} [title] of the project
  * @property {Date[]} [date] - range indicating start and end date of project
@@ -87,8 +85,8 @@ export class ResearchProject extends Model {
 		return {
 			/**
 			 * Link to the lead researcher
-			 * @type {module:app/models.Researcher}
-			 * @memberof! module:app/models.ResearchProject#
+			 * @type {Researcher}
+			 * @memberof! ResearchProject#
 			 */
 			lead: {
 				relation: Model.BelongsToOneRelation,
@@ -100,8 +98,8 @@ export class ResearchProject extends Model {
 			},
 			/**
 			 * Links to the partner researchers
-			 * @type {module:app/models.Researcher}
-			 * @memberof! module:app/models.ResearchProject#
+			 * @type {Researcher[]}
+			 * @memberof! ResearchProject#
 			 */
 			partners: {
 				relation: Model.ManyToManyRelation,

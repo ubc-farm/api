@@ -1,11 +1,11 @@
 import { Model } from 'objection';
-import Money from '../../utils/money.js';
+import Money from 'ubc-farm-money';
 import { Person, Location } from './index.js';
 
 /**
  * A common format for sale information. This can be used for tickets,
  * things we sell, or logs of things we purchased.
- * @alias module:app/models.Sale
+ * @extends Model
  * @property {number} [order_date]
  * @property {number} [delivery_date] - when the product was delivered/arrived
  * @property {string} [customerId] - the buyer (can be ourselves)
@@ -21,9 +21,9 @@ export default class Sale extends Model {
 	static get tableName() { return 'Sale'; }
 	static get label() { return 'sales'; }
 
-	/** @type {module:lib/money.default} */
-	get cost() { return new Money(this.price, { convert: true }); }
-	set cost(money) { this.price = money; }
+	/** @type {Money} */
+	get cost() { return new Money(this.price); }
+	set cost(money) { this.price = money.toJSON(); }
 
 	/** @type {Date} */
 	get orderDate() { return new Date(this.order_date); }
@@ -38,8 +38,8 @@ export default class Sale extends Model {
 			 * Refers to the customer who purchased an item in this sale.
 			 * A possible buyer is ourself, in which case this sale is a purchase
 			 * rather than a sale to someone else.
-			 * @memberof! module:app/models.Sale#
-			 * @type {module:app/models.Person}
+			 * @memberof! Sale#
+			 * @type {Person}
 			 */
 			customer: {
 				relation: Model.BelongsToOneRelation,
@@ -52,8 +52,8 @@ export default class Sale extends Model {
 			/**
 			 * Represents the location this item was delivered to.
 			 * @todo find a way to allow for custom locations
-			 * @memberof! module:app/models.Sale#
-			 * @type {module:app/models.Location}
+			 * @memberof! Sale#
+			 * @type {Location}
 			 */
 			deliveryLoc: {
 				relation: Model.BelongsToOneRelation,
@@ -69,7 +69,7 @@ export default class Sale extends Model {
 
 /**
  * A Grant uses sale data to represent the monentary values.
- * @extends module:app/models.Sale
+ * @extends Sale
  * @property {string} grantName
  */
 export class Grant extends Sale {

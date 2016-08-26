@@ -5,7 +5,7 @@ import { Plant, Scouting } from './index.js';
 /**
  * Represents a field or sub-field in the farm with crops. If parentField is
  * specified, the field is a sub-field.
- * @alias module:app/models.Field
+ * @extends Model
  * @property {float[][]} path - [x,y] coordinates of the field's path
  * @property {float[]} [gridWidths]
  * @property {float[]} [gridHeights]
@@ -15,7 +15,7 @@ export default class Field extends Model {
 	static get tableName() { return 'Field'; }
 	static get label() { return 'fields'; }
 
-	/** @type {module:lib/geojson.Polygon} */
+	/** @type {GeoJSON.Polygon} */
 	get polygon() { return new Polygon(...(this.path || [])); }
 	set polygon(value) { this.path = value.toJSON().coordinates; }
 
@@ -54,8 +54,8 @@ export default class Field extends Model {
 		return {
 			/**
 			 * Crops growing in this field
-			 * @memberof! module:app/models.Field#
-			 * @type {module:app/models.Crop}
+			 * @memberof! Field#
+			 * @type {Crop}
 			 */
 			crops: {
 				relation: Model.HasManyRelation,
@@ -67,8 +67,8 @@ export default class Field extends Model {
 			},
 			/**
 			 * The containing field, if applicable
-			 * @memberof! module:app/models.Field#
-			 * @type {module:app/models.Field}
+			 * @memberof! Field#
+			 * @type {Field}
 			 */
 			parentField: {
 				relation: Model.BelongsToOneRelation,
@@ -80,8 +80,8 @@ export default class Field extends Model {
 			},
 			/**
 			 * Fields within this one, if applicable
-			 * @memberof! module:app/models.Field#
-			 * @type {module:app/models.Field[]}
+			 * @memberof! Field#
+			 * @type {Field[]}
 			 */
 			childFields: {
 				relation: Model.HasManyRelation,
@@ -98,7 +98,7 @@ export default class Field extends Model {
 /**
  * Data for a crop growing in a field, including the type of plant it it and
  * historical data like scouting.
- * @alias module:app/models.Crop
+ * @extends Model
  * @property {string} type of plant growing in this field.
  * @property {string} fieldId of the field this crop grows in
  * @property {string} predictedNutrientReq - predicted nutrient requirements
@@ -122,8 +122,8 @@ export class Crop extends Model {
 		return {
 			/**
 			 * The type of plant
-			 * @memberof! module:app/models.Crop#
-			 * @type {module:app/models.Plant}
+			 * @memberof! Crop#
+			 * @type {Plant}
 			 */
 			variety: {
 				relation: Model.BelongsToOneRelation,
@@ -135,7 +135,7 @@ export class Crop extends Model {
 			},
 			/**
 			 * The field this crop grows in
-			 * @memberof! module:app/models.Crop#
+			 * @memberof! Crop#
 			 */
 			field: {
 				relation: Model.BelongsToOneRelation,
@@ -147,7 +147,7 @@ export class Crop extends Model {
 			},
 			/**
 			 * Scouting logs
-			 * @memberof! module:app/models.Crop#
+			 * @memberof! Crop#
 			 */
 			scouting: {
 				relation: Model.HasManyRelation,

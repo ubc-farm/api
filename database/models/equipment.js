@@ -5,7 +5,6 @@ import { Task, Sale, Location, Item } from './index.js';
  * Represents an item in the inventory, with fields like the amount stored and
  * its location. While the table is named Equipment, this can also represent
  * other stored items like harvested crops or seeds.
- * @alias module:app/models.Equipment
  * @property {string} product - the type of item this equipment is
  * @property {string} location - where this equipment is stored
  * @property {number} [quantity]
@@ -38,8 +37,8 @@ export default class Equipment extends Model {
 		return {
 			/**
 			 * Sale data related to this equipment
-			 * @memberof! module:app/models.Equipment#
-			 * @type {module:app/models.Sale[]}
+			 * @memberof! Equipment#
+			 * @type {Sale[]}
 			 */
 			sales: {
 				relation: Model.ManyToManyRelation,
@@ -56,8 +55,8 @@ export default class Equipment extends Model {
 			},
 			/**
 			 * Tasks this equipment is being used for
-			 * @memberof! module:app/models.Equipment#
-			 * @type {module:app/models.Task[]}
+			 * @memberof! Equipment#
+			 * @type {Task[]}
 			 */
 			tasks: {
 				relation: Model.ManyToManyRelation,
@@ -74,8 +73,8 @@ export default class Equipment extends Model {
 			},
 			/**
 			 * The location where this equipment is stored
-			 * @memberof! module:app/models.Equipment#
-			 * @type {module:app/models.Location}
+			 * @memberof! Equipment#
+			 * @type {Location}
 			 */
 			loc: {
 				relation: Model.HasOneRelation,
@@ -87,8 +86,8 @@ export default class Equipment extends Model {
 			},
 			/**
 			 * The type of item this equipment is
-			 * @memberof! module:app/models.Equipment#
-			 * @type {module:app/models.Item}
+			 * @memberof! Equipment#
+			 * @type {Item}
 			 */
 			item: {
 				relation: Model.BelongsToOneRelation,

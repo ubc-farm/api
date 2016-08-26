@@ -3,7 +3,6 @@ import { Task } from '../index.js';
 
 /**
  * Represents a program at the farm
- * @alias module:app/models.Program
  * @property {string} name
  * @property {Object} [color] used to represent this program in the interface
  * @property {boolean} [text_color] - text color to use. Should be calculated
@@ -18,7 +17,7 @@ export default class Program extends Model {
 		return {
 			/**
 			 * An Account linked to this program
-			 * @memberof! module:app/models.Program#
+			 * @memberof! Program#
 			 */
 			link: {
 				relation: Model.BelongsToOneRelation,
@@ -30,8 +29,8 @@ export default class Program extends Model {
 			},
 			/**
 			 * Tasks and events classified under this program
-			 * @memberof! module:app/models.Program#
-			 * @type {module:app/models.Task[]}
+			 * @memberof! Program#
+			 * @type {Task[]}
 			 */
 			tasks: {
 				relation: Model.ManyToManyRelation,
@@ -69,7 +68,7 @@ export class Account extends Model {
 
 /**
  * Helper table to join Programs with Tasks
- * @alias module:app/models~ProgramUsage
+ * @extends Model
  */
 export class ProgramUsage extends Model {
 	static get tableName() { return 'ProgramUsage'; }

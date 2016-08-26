@@ -3,7 +3,6 @@ import { Sale, Item } from '../index.js';
 
 /**
  * Schema for objects used to represent an address.
- * @alias module:app/models.Person~addressSchema
  */
 const addressSchema = {
 	type: 'object',
@@ -19,7 +18,7 @@ const addressSchema = {
 /**
  * Used to represent a person or company, such as employees and customers. Can
  * be linked to a user account.
- * @alias module:app/models.Person
+ * @extends Model
  * @property {string} name
  * @property {string} [role] of the person
  * @property {string} [email] - email address
@@ -55,7 +54,7 @@ export default class Person extends Model {
 				addressPhysical: addressSchema,
 			},
 		};
-}
+	}
 
 	static get relationMappings() {
 		return {

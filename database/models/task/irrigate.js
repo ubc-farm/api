@@ -2,8 +2,7 @@ import Task from './task.js';
 
 /**
  * An irrigation task
- * @alias module:app/models.Irrigate
- * @extends module:app/models.Task
+ * @extends Task
  * @property {number} [flowRate]
  * @property {string} [type]
  */

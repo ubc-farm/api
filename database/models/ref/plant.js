@@ -4,8 +4,7 @@ import { Crop } from '../index.js';
 
 /**
  * Extends Item with Plant specific information for crops
- * @alias module:app/models.Plant
- * @extends module:app/models.Item
+ * @extends Item
  * @property {string} [latin] name of the plant
  */
 export default class Plant extends Item {
@@ -41,6 +40,7 @@ export default class Plant extends Item {
 
 /**
  * Helper table for mix of seeds
+ * @extends Model
  */
 export class Mix extends Model {
 	static get tableName() { return 'Mix'; }

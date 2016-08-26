@@ -6,7 +6,7 @@ import { Person as Company, Equipment } from '../index.js';
  * like the quantity and storage location, is found in the Equipment table.
  * Items are meant to be reference information about any type of item rather
  * than a specific tractor or single apple.
- * @alias module:app/models.Item
+ * @extends Model
  * @property {string} [name]
  * @property {string} [sku]
  * @property {string} [barcode]
@@ -43,8 +43,8 @@ export default class Item extends Model {
 		return {
 			/**
 			 * Info about the supplier
-			 * @type {module:app/models.Person}
-			 * @memberof! module:app/models.Item#
+			 * @type {Person}
+			 * @memberof! Item#
 			 */
 			supplier: {
 				relation: Model.BelongsToOneRelation,
@@ -56,8 +56,8 @@ export default class Item extends Model {
 			},
 			/**
 			 * Equipment instances of this Item
-			 * @type {module:app/models.Equipment[]}
-			 * @memberof! module:app/models.Item#
+			 * @type {Equipment[]}
+			 * @memberof! Item#
 			 */
 			equipment: {
 				relation: Model.HasManyRelation,

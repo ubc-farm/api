@@ -3,7 +3,6 @@ import { ChemicalTask } from '../index.js';
 
 /**
  * A chemical product, such as fertilizer or herbicide.
- * @alias module:app/models.Chemical
  * @property {string} [type] - fertilizer/pest control/etc
  * @property {string} [productName]
  * @property {Object} [composition]
@@ -16,8 +15,8 @@ export default class Amendment extends Model {
 		return {
 			/**
 			 * Tasks where the chemical is used
-			 * @memberof! module:app/models.Chemical#
-			 * @type {module:app/models.ChemicalTask[]}
+			 * @memberof! Chemical#
+			 * @type {ChemicalTask[]}
 			 */
 			usage: {
 				relation: Model.HasManyRelation,

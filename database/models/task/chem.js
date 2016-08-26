@@ -4,8 +4,7 @@ import { Chemical } from '../index.js';
 
 /**
  * Shared properties for chemical tasks
- * @alias module:app/models.ChemicalTask
- * @extends module:app/models.Task
+ * @extends Task
  * @property {number} [product] used for this task
  * @property {string} [type]
  * @property {number} [applicationRate] of the product
@@ -64,8 +63,7 @@ const percentageSchema = {
 
 /**
  * Task for fertilizing a field
- * @alias module:app/models.Fertilizing
- * @extends module:app/models.ChemicalTask
+ * @extends ChemicalTask
  * @property {string} [type] - one of compost or NPK
  * @property {string} [plantLocation] - one of spot or broadcast
  * @property {number} [tc] - percentage of TC
@@ -102,8 +100,7 @@ export class Fertilizing extends ChemicalTask {
 
 /**
  * Task for pest control for a field
- * @alias module:app/models.PestControl
- * @extends module:app/models.ChemicalTask
+ * @extends ChemicalTask
  * @property {string} [type] - one of spray or biocontrol
  * @property {string} [plantLocation] - one of foliar or root
  * @property {Object} [activeIngredients]

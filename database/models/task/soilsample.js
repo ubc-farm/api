@@ -4,8 +4,7 @@ import { Person as Company } from '../index.js';
 
 /**
  * A soil sampling task
- * @alias module:app/models.SoilSample
- * @extends module:app/models.Task
+ * @extends Task
  * @property {number} [depth]
  * @property {string} [methodUsed]
  * @property {string} [variable]
