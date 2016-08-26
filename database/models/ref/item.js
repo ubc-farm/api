@@ -33,8 +33,8 @@ export default class Item extends Model {
 					type: 'object',
 					minProperties: '1',
 				},
-				value: { type: 'string', pattern: /^\d+.\d{2,}$/.source },
-				salvageValue: { type: 'string', pattern: /^\d+.\d{2,}$/.source },
+				value: { type: 'string' }, //pattern: /^\d+.\d{2,}$/.source },
+				salvageValue: { type: 'string' } //pattern: /^\d+.\d{2,}$/.source },
 			},
 		};
 	}

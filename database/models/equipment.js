@@ -91,7 +91,7 @@ export default class Equipment extends Model {
 			 * @type {module:app/models.Item}
 			 */
 			item: {
-				relation: Model.HasManyRelation,
+				relation: Model.BelongsToOneRelation,
 				modelClass: Item,
 				join: {
 					from: 'Equipment.product',
