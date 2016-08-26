@@ -14,8 +14,12 @@ function getLocationsGeojson(request, reply) {
 			if (!field.position) continue;
 
 			const { coord, id, name } = field;
+			const point = {
+				type: 'Point',
+				coordinates: coord,
+			};
 
-			list.push(new Feature(coord, { name }, id));
+			list.push(new Feature(point, { name }, id));
 		}
 
 		return new FeatureCollection(list).toJSON();
@@ -23,3 +27,9 @@ function getLocationsGeojson(request, reply) {
 
 	return transformReply(query, request, reply);
 }
+
+export default {
+	method: 'GET',
+	path: '/api/locations/geojson',
+	handler: getLocationsGeojson,
+};

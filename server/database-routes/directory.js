@@ -28,7 +28,7 @@ export function directory(request, reply) {
 
 	const { array = false, clean = true } = getBooleanQuery(request.query);
 
-	if (!array) query = query.then(list => arrayToObjectMap(list));
+	if (!array) query = query.then(list => arrayToObjectMap(list, 'id'));
 	if (clean) query = query.then(data => removeNullandUndef(data));
 
 	return transformReply(query, request, reply);

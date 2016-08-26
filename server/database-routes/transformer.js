@@ -1,4 +1,32 @@
 /**
+ * Returns an object with boolean values instead of strings.
+ * 'false' is turned into false, and 'true' or '' are turned into true
+ * @param {Object} query from request.query
+ * @param {string[]} filter - if specified, ignore anything not in the filter
+ * @returns {Object}
+ */
+export function getBooleanQuery(query, filter) {
+	const result = {};
+	for (const prop in query) {
+		const value = query[prop];
+		const valid = !filter || filter.includes(prop);
+		if (valid && typeof value === 'string') {
+			switch (value.toLowerCase()) {
+				case '': case 'true': case 'yes': case 'on': case '1':
+					result[prop] = true; break;
+				case 'false': case 'no': case 'off': case '0':
+					result[prop] = false; break;
+				default: result[prop] = value;
+			}
+		} else if (valid && typeof value === 'number'
+		&& (value === 0 || value === 1)) {
+			result[prop] = Boolean(value);
+		} else result[prop] = value;
+	}
+	return result;
+}
+
+/**
  * Transforms the response depending on queries passed in the request.
  * @param {Promise} data
  * @param {Request} request
@@ -12,10 +40,11 @@
  * @returns {Response}
  */
 export function transformReply(data, request, reply) {
-	const {print, shallow} = getBooleanQuery(request.query, ['shallow']);
+	const { print, shallow } = getBooleanQuery(request.query, ['shallow']);
+	let dat = Promise.resolve(data);
 
 	if (shallow) {
-		data = data.then(json => {
+		dat = dat.then(json => {
 			if (typeof json === 'object' && json !== null) {
 				const keys = Array.isArray(json) ? json.keys() : Object.keys(json);
 				for (const key of keys) {
@@ -32,7 +61,7 @@ export function transformReply(data, request, reply) {
 		});
 	}
 
-	const response = reply(data);
+	const response = reply(dat);
 
 	switch (print) {
 		case 'pretty': response.spaces(2); break;
@@ -69,32 +98,4 @@ export function removeNullandUndef(json) {
 	return copy;
 }
 
-/**
- * Returns an object with boolean values instead of strings.
- * 'false' is turned into false, and 'true' or '' are turned into true
- * @param {Object} query from request.query
- * @param {string[]} filter - if specified, ignore anything not in the filter
- * @returns {Object}
- */
-export function getBooleanQuery(query, filter) {
-	let result = {};
-	for (const prop in query) {
-		const value = query[prop];
-		const valid = !filter || filter.includes(prop);
-		if (valid && typeof value === 'string') {
-			switch(value.toLowerCase()) {
-				case '': case 'true': case 'yes': case 'on': case '1':
-					result[prop] = true; break;
-				case 'false': case 'no': case 'off': case '0':
-					result[prop] = false; break;
-				default: result[prop] = value;
-			}
-		} else if (valid && typeof value === 'number'
-		&& (value === 0 || value === 1)) {
-			result[prop] = Boolean(value);
-		} else result[prop] = value;
-	}
-	return result;
-}
-
-export {arrayToObjectMap} from '../../utils/array-to-object.js';
+export { arrayToObjectMap } from '../../utils/array-to-object.js';
