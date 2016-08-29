@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { Polygon } from '../../utils/geojson.js';
+import { Polygon } from 'ubc-farm-utils/class/geojson/index.js';
 import { Plant, Scouting } from './index.js';
 
 /**

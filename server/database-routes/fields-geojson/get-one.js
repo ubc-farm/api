@@ -1,6 +1,6 @@
 import { notFound } from 'boom';
+import { Feature } from 'ubc-farm-utils/class/geojson/index.js';
 import { Field } from '../../../database/index.js';
-import { Feature } from '../../../utils/geojson.js';
 import { transformReply } from '../transformer.js';
 
 /**

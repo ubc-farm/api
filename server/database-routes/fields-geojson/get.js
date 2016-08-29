@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
+import { Feature, FeatureCollection } from 'ubc-farm-utils/class/geojson/index.js';
 import { Field } from '../../../database/index.js';
-import { Feature, FeatureCollection } from '../../../utils/geojson.js';
 import { transformReply } from '../transformer.js';
 import { geometry, properties } from './validation.js';
 

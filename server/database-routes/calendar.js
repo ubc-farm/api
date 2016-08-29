@@ -1,6 +1,10 @@
 import * as Joi from 'joi';
-import {Event} from '../../database/index.js';
-import {longMonthNames, shortMonthNames} from '../../utils/calendar.js';
+import {
+	longMonthNames,
+	shortMonthNames,
+} from 'ubc-farm-utils/calendar/index.js';
+
+import { Event } from '../../database/index.js';
 import {
 	transformReply,
 	arrayToObjectMap,
