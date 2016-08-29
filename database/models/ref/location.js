@@ -15,7 +15,10 @@ export default class Location extends Model {
 	static get label() { return 'locations'; }
 
 	/** @type {GeoJSON.Position} */
-	get coord() { return Position.from(this.position); }
+	get coord() {
+		if (this.position == null) return undefined;
+		return Position.from(this.position);
+	}
 	set coord(value) { this.position = value.toJSON(); }
 
 	$formatDatabaseJson(json) {

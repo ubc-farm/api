@@ -16,7 +16,10 @@ export default class Field extends Model {
 	static get label() { return 'fields'; }
 
 	/** @type {GeoJSON.Polygon} */
-	get polygon() { return new Polygon(...(this.path || [])); }
+	get polygon() {
+		if (this.path == null) return undefined;
+		return new Polygon(...(this.path));
+	}
 	set polygon(value) { this.path = value.toJSON().coordinates; }
 
 	get grid() {
