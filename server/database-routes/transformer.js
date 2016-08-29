@@ -78,22 +78,20 @@ export function transformReply(data, request, reply) {
  * @returns {Object|Array}
  */
 export function removeNullandUndef(json) {
-	if (typeof json !== 'object' || json === null)
-		return json;
+	if (typeof json !== 'object' || json === null) return json;
 
-	let keys, copy;
-	if (Array.isArray(json)) {
-		keys = json.keys();
-		copy = [...json];
-	} else {
-		keys = Object.keys(json);
-		copy = Object.assign({}, json);
-	}
+	const isArray = Array.isArray(json);
+	const keys = isArray ? json.keys() : Object.keys(json);
+	const copy = isArray ? [...json] : Object.assign({}, json);
 
 	for (const key of keys) {
 		const value = copy[key];
-		if (value === null) delete copy[key];
-		else if (typeof value === 'object') copy[key] = removeNullandUndef(value);
+		if (value === null) {
+			if (isArray) copy[key] = undefined;
+			else Reflect.deleteProperty(copy, key);
+		} else if (typeof value === 'object') {
+			copy[key] = removeNullandUndef(value);
+		}
 	}
 	return copy;
 }
