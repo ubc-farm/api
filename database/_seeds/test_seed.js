@@ -1,4 +1,5 @@
-exports.seed = function (knex) {
+/* eslint-disable import/no-commonjs */
+exports.seed = function seed(knex) {
 	return Promise.all([
 		knex('Person').del().then(() => Promise.all([
 			knex('Person').insert({ name: 'CSA Corp', role: 'CSA' }),
@@ -69,11 +70,26 @@ exports.seed = function (knex) {
 			}),
 		])),
 		knex('Location').del().then(() => Promise.all([
-			knex('Location').insert({ name: 'Farm Center Building' }),
-			knex('Location').insert({ name: 'Harvest Building' }),
-			knex('Location').insert({ name: 'Storage 1' }),
-			knex('Location').insert({ name: 'Storage 2' }),
-			knex('Location').insert({ name: 'Kitchen' }),
+			knex('Location').insert({
+				name: 'Farm Center Building',
+				position: [-123.239926, 49.251265],
+			}),
+			knex('Location').insert({
+				name: 'Harvest Building',
+				position: [-123.238967, 49.251033],
+			}),
+			knex('Location').insert({
+				name: 'Storage 1',
+				position: [-123.234530, 49.249557],
+			}),
+			knex('Location').insert({
+				name: 'Storage 2',
+				position: [-123.240622, 49.250837],
+			}),
+			knex('Location').insert({
+				name: 'Kitchen',
+				position: [-123.240115, 49.251552],
+			}),
 		])),
 	]);
 };

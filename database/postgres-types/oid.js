@@ -1,3 +1,5 @@
+/* eslint-disable key-spacing */
+
 /**
  * List of OID values used by PostgreSQL for its data types.
  * @see https://www.postgresql.org/docs/9.4/static/datatype.html
@@ -159,7 +161,7 @@ export const oid = {
 	daterange        : 3912,
 	_daterange       : 3913,
 	int8range        : 3926,
-	_int8range       : 3927
-}
+	_int8range       : 3927,
+};
 
 export default oid;

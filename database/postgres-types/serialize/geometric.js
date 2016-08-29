@@ -20,9 +20,10 @@ export function point([x, y]) {
  * @param {boolean} value.open - sets open to true if this property exists
  * @returns {string} path in format ( ( x1 , y1 ) , ... , ( xn , yn ) )
  */
-export function path(value, open = false) {
-	let start = '(', end = ')';
-	if (open || path.hasOwnProperty('open')) start = '['; end = ']';
+export function path(value, open = value.open || false) {
+	let start = '(';
+	let end = ')';
+	if (open) start = '['; end = ']';
 
 	return start + value.map(val => {
 		const [x, y] = val;
@@ -35,7 +36,7 @@ export function path(value, open = false) {
  * @param {string} value
  * @returns {Object} circle in format < ( x , y ) , r >
  */
-export function circle({center, radius: r}) {
+export function circle({ center, radius: r }) {
 	const [x, y] = center;
 	return `< ( ${x} , ${y} ) , ${r} >`;
 }

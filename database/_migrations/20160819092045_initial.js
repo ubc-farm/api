@@ -1,13 +1,14 @@
+/* eslint-disable import/no-commonjs */
 
-exports.up = function(knex, Promise) {
-  return knex.schema
+exports.up = function up(knex) {
+	return knex.schema
 	.table('Employee', table => {
-		//table.inherits('Person');
+		// table.inherits('Person');
 
 		table.integer('hourlyPay');
 		table.boolean('fullOrPartTime').index();
 
-		//possiblity reconfigure to use child tables
+		// possiblity reconfigure to use child tables
 		table.specificType('holidayDays', 'date[]');
 		table.specificType('sickDays', 'date[]');
 		table.specificType('paidLeaveDays', 'date[]');
@@ -26,7 +27,7 @@ exports.up = function(knex, Promise) {
 		table.string('emergencyContactNumber', 15);
 	})
 	.table('Researcher', table => {
-		//table.inherits('Person');
+		// table.inherits('Person');
 
 		table.text('position');
 		table.text('faculty');
@@ -44,13 +45,15 @@ exports.up = function(knex, Promise) {
 
 		table.bigInteger('assigned_employee')
 			.unsigned().notNullable()
-			.references('id').inTable('Employee');
+			.references('id')
+			.inTable('Employee');
 	})
 	.createTable('Equipment', table => {
 		table.bigIncrements('id');
 		table.bigInteger('product')
 			.unsigned().index()
-			.references('id').inTable('Item');
+			.references('id')
+			.inTable('Item');
 
 		table.text('description');
 		table.integer('quantity');
@@ -64,23 +67,24 @@ exports.up = function(knex, Promise) {
 
 		table.bigInteger('equipment')
 			.unsigned().notNullable()
-			.references('id').inTable('Equipment');
+			.references('id')
+			.inTable('Equipment');
 		table.integer('quantity');
 
 		table.bigInteger('sellingUsage').unsigned()
 			.references('id').inTable('Sale');
 		table.bigInteger('taskUsage').unsigned()
 			.references('id').inTable('Task');
-		table.text('notes')
+		table.text('notes');
 	})
 	.table('Event', table => {
-		//table.inherits('Task');
+		// table.inherits('Task');
 		table.string('type').index();
 		table.text('name').index();
 
-		//table.specificType('keywords', 'tsvector').index()
+		// table.specificType('keywords', 'tsvector').index()
 		table.integer('estimatedAttendeeAmount');
-		table.specificType('targetAgeGroup', 'int4range')
+		table.specificType('targetAgeGroup', 'int4range');
 
 		table.bigInteger('ticketId').unsigned()
 			.references('id').inTable('Sale');
@@ -88,7 +92,7 @@ exports.up = function(knex, Promise) {
 			.references('id').inTable('Person');
 	})
 	.table('Seeding', table => {
-		//table.inherits('Task');
+		// table.inherits('Task');
 		table.bigInteger('crop').unsigned()
 			.references('id').inTable('Crop');
 
@@ -114,13 +118,13 @@ exports.up = function(knex, Promise) {
 		table.json('npkReq');
 	})
 	.table('Irrigation', table => {
-		//table.inherits('Task');
+		// table.inherits('Task');
 
 		table.float('flowRate');
 		table.string('type').index();
 	})
 	.table('SoilSampling', table => {
-		//table.inherits('Task');
+		// table.inherits('Task');
 
 		table.float('depth');
 		table.string('methodUsed').index();
@@ -131,7 +135,7 @@ exports.up = function(knex, Promise) {
 			.references('id').inTable('Person');
 	})
 	.table('Fertilizing', table => {
-		//table.inherits('ChemicalTask');
+		// table.inherits('ChemicalTask');
 
 		table.float('tc');
 		table.float('n03');
@@ -140,18 +144,18 @@ exports.up = function(knex, Promise) {
 		table.float('p205');
 	})
 	.table('PestControl', table => {
-		//table.inherits('ChemicalTask');
+		// table.inherits('ChemicalTask');
 
 		table.json('activeIngredients');
 		table.float('percentOfActiveIngredients');
 	})
 	.table('ScoutHarvest', table => {
-		//table.inherits('Scouting');
+		// table.inherits('Scouting');
 		table.date('newExpectedHarvest');
 		table.float('newPredictedYield');
 	})
 	.table('ScoutPest', table => {
-		//table.inherits('Scouting');
+		// table.inherits('Scouting');
 
 		table.string('pestType');
 		table.string('affectedSpot');
@@ -179,15 +183,17 @@ exports.up = function(knex, Promise) {
 
 		table.bigInteger('type')
 			.unsigned().notNullable().index()
-			.references('id').inTable('Plant');
+			.references('id')
+			.inTable('Plant');
 		table.bigInteger('fieldId')
 			.unsigned().notNullable().index()
-			.references('id').inTable('Field');
+			.references('id')
+			.inTable('Field');
 		table.text('predictedNutrientReq');
 		table.date('expectedHarvest');
 	})
 	.table('Plant', table => {
-		//table.inherits('Item');
+		// table.inherits('Item');
 		table.text('latin').index().unique();
 	})
 	.createTable('Location', table => {
@@ -195,7 +201,8 @@ exports.up = function(knex, Promise) {
 		table.text('name');
 		table.json('position');
 		table.bigInteger('fieldId').unsigned().unique()
-			.references('id').inTable('Field');
+			.references('id')
+			.inTable('Field');
 	})
 	.createTable('Program', table => {
 		table.bigIncrements('id');
@@ -210,10 +217,12 @@ exports.up = function(knex, Promise) {
 		table.bigIncrements('id');
 		table.bigInteger('programId')
 			.unsigned().notNullable()
-			.references('id').inTable('Program');
+			.references('id')
+			.inTable('Program');
 		table.bigInteger('taskId')
 			.unsigned().notNullable()
-			.references('id').inTable('Task');
+			.references('id')
+			.inTable('Task');
 	})
 	.createTable('Account', table => {
 		table.bigIncrements('id');
@@ -230,14 +239,15 @@ exports.up = function(knex, Promise) {
 		table.json('composition');
 	})
 	.table('Grant', table => {
-		//table.inherits('sale');
+		// table.inherits('sale');
 		table.text('grantName');
 	})
 	.createTable('ResearchProject', table => {
 		table.bigIncrements('id');
 		table.bigInteger('researcher')
 			.unsigned().notNullable().unique()
-			.references('id').inTable('Researcher');
+			.references('id')
+			.inTable('Researcher');
 
 		table.text('title');
 		table.specificType('date', 'daterange').index();
@@ -257,26 +267,30 @@ exports.up = function(knex, Promise) {
 
 		table.bigInteger('person')
 			.unsigned().notNullable()
-			.references('id').inTable('Researcher');
+			.references('id')
+			.inTable('Researcher');
 		table.bigInteger('project')
 			.unsigned().notNullable()
-			.references('id').inTable('ResearchProject');
+			.references('id')
+			.inTable('ResearchProject');
 	})
 	.createTable('Mix', table => {
 		table.bigIncrements('id');
 
 		table.bigInteger('forId')
 			.unsigned().notNullable()
-			.references('id').inTable('Plant');
+			.references('id')
+			.inTable('Plant');
 
 		table.bigInteger('subId')
 			.unsigned().notNullable()
-			.references('id').inTable('Plant');
-	})
+			.references('id')
+			.inTable('Plant');
+	});
 };
 
-exports.down = function(knex, Promise) {
-  return knex.schema
+exports.down = function down(knex) {
+	return knex.schema
 	.table('Employee', table => table.dropColumns(
 		'hourlyPay', 'fullOrPartTime',
 		'holidayDays', 'sickDays', 'paidLeaveDays',
@@ -340,5 +354,5 @@ exports.down = function(knex, Promise) {
 	))
 	.dropTableIfExists('ResearchProject')
 	.dropTableIfExists('ResearchPartner')
-	.dropTableIfExists('Mix')
+	.dropTableIfExists('Mix');
 };

@@ -15,20 +15,20 @@ export function point(value) {
 	return [x, y];
 }
 
-const pathRE = new RegExp('^[\[\(](?: \( ([0-9.]+) , ([0-9.]+) \) ,)+'
-                        + '(?: \( ([0-9.]+) , ([0-9.]+) \) )[\]\)]$');
+const pathRE = /^[\[\(](?: \( ([0-9.]+) , ([0-9.]+) \) ,)+(?: \( ([0-9.]+) , ([0-9.]+) \) )[\]\)]$/;
+
 /**
  * Converts a PostgreSQL path to a point array.
  * @param {string} value - path in format ( ( x1 , y1 ) , ... , ( xn , yn ) )
- * @returns {float[][]} path in format [[x1, y1], [xn, yn]]. 
+ * @returns {float[][]} path in format [[x1, y1], [xn, yn]].
  * Result will have property open if the path is open.
  */
 export function path(value) {
-	let newArr = [];
+	const newArr = [];
 	if (value.startsWith('[') && value.endsWith(']')) newArr.open = true;
 	const result = pathRE.exec(value);
-	for (let i = 1; i < result.length; i+=2) {
-		newArr.push([ parseFloat(result[i]), parseFloat(result[i+1]) ]);
+	for (let i = 1; i < result.length; i += 2) {
+		newArr.push([parseFloat(result[i]), parseFloat(result[i + 1])]);
 	}
 	return newArr;
 }
@@ -42,7 +42,7 @@ const circleRE = /^< \( ([0-9.]+) , ([0-9.]+) \) , ([0-9.]+) >$/;
 export function circle(value) {
 	const [, x, y, r] = circleRE.exec(value);
 	return {
-		center: [parseFloat(x), parseFloat(y)], 
-		radius: parseFloat(r)
+		center: [parseFloat(x), parseFloat(y)],
+		radius: parseFloat(r),
 	};
 }

@@ -18,22 +18,21 @@ export function timestamp(value) {
  * @param {string} value - an ISO timestamp in the format 00:00:00
  * @returns {Date}
  */
-export function time(value) { 
-	return timestamp('1970-01-01 ' + value);
+export function time(value) {
+	return timestamp(`1970-01-01 ${value}`);
 }
 
-const pgInterval = '^@ ', 
-	pgYearMonth = '([0-9+-]+) year ([0-9+-]+) mons',
-	pgDayTime = '([0-9+-]+) days ([0-9+-]{2}):([0-9+-]{2}):([0-9+-]{2})$';
+const pgYearMonth = '([0-9+-]+) year ([0-9+-]+) mons';
+const pgDayTime = '([0-9+-]+) days ([0-9+-]{2}):([0-9+-]{2}):([0-9+-]{2})$';
 
-const mixed = new RegExp(pgInterval + pgYearMonth + ' ' + pgDayTime);
-const yearMonth = new RegExp(pgInterval + pgYearMonth + '$');
-const dayTime = new RegExp(pgInterval + pgDayTime);
+const mixed = new RegExp(`^@ ${pgYearMonth} ${pgDayTime}`);
+const yearMonth = new RegExp(`^@ ${pgYearMonth}$`);
+const dayTime = new RegExp(`${pgYearMonth}${pgDayTime}`);
 /**
  * Parses a PostgreSQL interval and returns and object describing the
- * interval. 
+ * interval.
  * @param {string} value - Interval in the postgres format.
- * @returns {Object} 
+ * @returns {Object}
  */
 export function interval(value) {
 	let [years, months, days, hours, minutes, seconds] = Array(6).fill(null);
@@ -44,15 +43,15 @@ export function interval(value) {
 	} else if (value.includes('days')) {
 		[, days, hours, minutes, seconds] = dayTime.exec(value);
 	} else {
-		throw TypeError();
+		throw new TypeError();
 	}
 
 	return {
-		years: parseInt(years) || null, 
-		months: parseInt(months) || null, 
-		days: parseInt(days) || null, 
-		hours: parseInt(hours) || null, 
-		minutes: parseInt(minutes) || null, 
-		seconds: parseInt(seconds) || null
+		years: parseInt(years, 10) || null,
+		months: parseInt(months, 10) || null,
+		days: parseInt(days, 10) || null,
+		hours: parseInt(hours, 10) || null,
+		minutes: parseInt(minutes, 10) || null,
+		seconds: parseInt(seconds, 10) || null,
 	};
 }

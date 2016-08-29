@@ -1,3 +1,5 @@
+/* eslint-disable import/no-commonjs */
+
 function inheritPerson(table) {
 	table.bigIncrements('id');
 	table.text('name').index().notNullable();
@@ -20,11 +22,12 @@ function inheritTask(table) {
 		.references('id').inTable('Location');
 }
 function inheritChemicalTask(table) {
-	inheritTask(table); //table.inherits('Task');
+	inheritTask(table); // table.inherits('Task');
 
 	table.bigInteger('product')
 		.unsigned().index()
-		.references('id').inTable('Chemical');
+		.references('id')
+		.inTable('Chemical');
 
 	table.string('type');
 	table.float('applicationRate');
@@ -35,7 +38,7 @@ function inheritChemicalTask(table) {
 }
 
 function inheritScouting(table) {
-	inheritTask(table); //table.inherits('Task');
+	inheritTask(table); // table.inherits('Task');
 	table.bigInteger('cropId').unsigned()
 		.references('id').inTable('Crop');
 }
@@ -48,7 +51,8 @@ function inheritItem(table) {
 	table.text('barcode').unique();
 
 	table.bigInteger('supplierId').unsigned().index()
-		.references('id').inTable('Person');
+		.references('id')
+		.inTable('Person');
 
 	table.specificType('lifespan', 'interval').index();
 	table.specificType('value', 'money');
@@ -65,11 +69,13 @@ function inheritSale(table) {
 
 	table.bigInteger('customerId')
 		.unsigned().index()
-		.references('id').inTable('Person');
+		.references('id')
+		.inTable('Person');
 
 	table.bigInteger('deliveryLocation')
 		.unsigned().index()
-		.references('id').inTable('Location');
+		.references('id')
+		.inTable('Location');
 
 	table.integer('quantity').defaultTo(1);
 	table.specificType('price', 'money');
@@ -104,12 +110,12 @@ exports.up = function up(knex) {
 	.createTable('Plant', inheritItem)
 
 	.createTable('Sale', inheritSale)
-	.createTable('Grant', inheritSale)
+	.createTable('Grant', inheritSale);
 };
 
 function dropPerson(table) {
 	table.dropColumns('id', 'name', 'role');
-	table.dropColumns('email', 'phoneNumber', 'addressMailing', 'addressPhysical')
+	table.dropColumns('email', 'phoneNumber', 'addressMailing', 'addressPhysical');
 }
 
 function dropTask(table) {
@@ -139,7 +145,7 @@ function dropSale(table) {
 	table.dropColumns('quantity', 'price', 'discount', 'tax', 'notes');
 }
 
-exports.down = function(knex) {
+exports.down = function revert(knex) {
 	return knex.schema
 	.dropTableIfExists('Person', dropPerson)
 	.dropTableIfExists('Employee', dropPerson)
@@ -163,5 +169,5 @@ exports.down = function(knex) {
 	.dropTableIfExists('Plant', dropItem)
 
 	.dropTableIfExists('Sale', dropSale)
-	.dropTableIfExists('Grant', dropSale)
+	.dropTableIfExists('Grant', dropSale);
 };
