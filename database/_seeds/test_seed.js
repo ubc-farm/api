@@ -72,23 +72,23 @@ exports.seed = function seed(knex) {
 		knex('Location').del().then(() => Promise.all([
 			knex('Location').insert({
 				name: 'Farm Center Building',
-				position: [-123.239926, 49.251265],
+				position: JSON.stringify([-123.239926, 49.251265]),
 			}),
 			knex('Location').insert({
 				name: 'Harvest Building',
-				position: [-123.238967, 49.251033],
+				position: JSON.stringify([-123.238967, 49.251033]),
 			}),
 			knex('Location').insert({
 				name: 'Storage 1',
-				position: [-123.234530, 49.249557],
+				position: JSON.stringify([-123.234530, 49.249557]),
 			}),
 			knex('Location').insert({
 				name: 'Storage 2',
-				position: [-123.240622, 49.250837],
+				position: JSON.stringify([-123.240622, 49.250837]),
 			}),
 			knex('Location').insert({
 				name: 'Kitchen',
-				position: [-123.240115, 49.251552],
+				position: JSON.stringify([-123.240115, 49.251552]),
 			}),
 		])),
 	]);
