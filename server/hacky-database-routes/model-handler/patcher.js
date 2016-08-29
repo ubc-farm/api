@@ -13,10 +13,11 @@ export default function patcher(route, options) {
 		const { payload, params: { id, property } } = request;
 
 		let query = Model.query();
-		if (property)
+		if (property) {
 			query = query.patchAndFetchById(id, { [property]: payload });
-		else
+		} else {
 			query = query[method](id, payload);
+		}
 
 		return transformReply(query, request, reply);
 	};

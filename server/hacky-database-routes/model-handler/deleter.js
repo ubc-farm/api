@@ -4,10 +4,8 @@ export default function deleter(route, options) {
 		const { params: { id, property } } = request;
 
 		let query = Model.query();
-		if (property)
-			query = query.patchAndFetchById(id, { [property]: null });
-		else
-			query = query.deleteById(id);
+		if (property) query = query.patchAndFetchById(id, { [property]: null });
+		else query = query.deleteById(id);
 
 		return reply(query);
 	};

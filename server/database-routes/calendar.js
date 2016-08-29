@@ -64,7 +64,9 @@ export default [
 				params: {
 					year: yearSchema,
 					month: monthSchema,
-					date: Joi.number().min(1).max(31).integer().positive(),
+					date: Joi.number().min(1).max(31)
+						.integer()
+						.positive(),
 				},
 			},
 		},
