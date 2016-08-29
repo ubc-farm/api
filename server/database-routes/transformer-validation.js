@@ -10,9 +10,9 @@ export const clean = Joi.boolean().allow('');
 
 export const validate = {
 	query: Joi.object({
-		print, 
+		print,
 		shallow,
 		array,
-		clean
-	})
+		clean,
+	}),
 };

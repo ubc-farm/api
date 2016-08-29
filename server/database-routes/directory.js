@@ -14,16 +14,16 @@ export function directory(request, reply) {
 	let query = Promise.all([
 		Person.query(), Employee.query(), Researcher.query(),
 	]).then(([people, employees, researchers]) => {
-		employees = employees.map(val => {
+		const employeeSet = employees.map(val => {
 			val.role = 'Employee';
 			return val;
 		});
-		researchers = researchers.map(val => {
+		const researcherSet = researchers.map(val => {
 			val.role = 'Researcher';
 			return val;
 		});
 
-		return people.concat(employees, researchers);
+		return people.concat(employeeSet, researcherSet);
 	});
 
 	const { array = false, clean = true } = getBooleanQuery(request.query);

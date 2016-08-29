@@ -98,4 +98,4 @@ export function removeNullandUndef(json) {
 	return copy;
 }
 
-export { arrayToObjectMap } from '../../utils/array-to-object.js';
+export { arrayToObjectMap } from 'ubc-farm-utils/function/array-to-map.js';

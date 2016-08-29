@@ -8,7 +8,7 @@ import { Event } from '../../database/index.js';
 import {
 	transformReply,
 	arrayToObjectMap,
-	removeNullandUndef
+	removeNullandUndef,
 } from './transformer.js';
 
 /**
@@ -18,17 +18,17 @@ import {
  * @param {string} [request.params.date]
  */
 export function calendarCollection(request, reply) {
-	let {year, month, date} = request.params; 
+	let { year, month, date } = request.params;
 
-	year = parseInt(year);
+	year = parseInt(year, 10);
 	if (year < 100) year = `20${year}`;
 
 	if (month !== undefined && isNaN(month)) {
 		if (month.length > 3) month = longMonthNames.indexOf(month);
 		else month = shortMonthNames.indexOf(month);
-	} else if (month !== undefined) month = parseInt(month) - 1;
+	} else if (month !== undefined) month = parseInt(month, 10) - 1;
 
-	if (date !== undefined) date = parseInt(date);
+	if (date !== undefined) date = parseInt(date, 10);
 
 	const startDate = new Date(year, month || 0, date);
 
@@ -36,9 +36,9 @@ export function calendarCollection(request, reply) {
 	if (date !== undefined) endDate = new Date(year, month, date + 1);
 	else if (month !== undefined) endDate = new Date(year, month + 1);
 	else endDate = new Date(year + 1, 0);
-	endDate = new Date(endDate.getTime() - 1); //Subtract 1 millisecond
-	
-	let query = Event.query()
+	endDate = new Date(endDate.getTime() - 1); // Subtract 1 millisecond
+
+	const query = Event.query()
 		.where('start_time', '>=', startDate)
 		.andWhere('end_time', '<=', endDate)
 		.orderBy('start_time', 'desc')
@@ -50,9 +50,9 @@ export function calendarCollection(request, reply) {
 
 const yearSchema = Joi.number().integer().positive();
 const monthSchema = Joi.alternatives().try(
-	Joi.number().min(1).max(12), 
+	Joi.number().min(1).max(12),
 	Joi.string().alphanum().min(3).max(9)
-); 
+);
 
 export default [
 	{
@@ -64,10 +64,10 @@ export default [
 				params: {
 					year: yearSchema,
 					month: monthSchema,
-					date: Joi.number().min(1).max(31).integer().positive()
-				}
-			}
-		}
+					date: Joi.number().min(1).max(31).integer().positive(),
+				},
+			},
+		},
 	},
 	{
 		method: 'GET',
@@ -77,10 +77,10 @@ export default [
 			validate: {
 				params: {
 					year: yearSchema,
-					month: monthSchema
-				}
-			}
-		}
+					month: monthSchema,
+				},
+			},
+		},
 	},
 	{
 		method: 'GET',
@@ -89,10 +89,10 @@ export default [
 		config: {
 			validate: {
 				params: {
-					year: yearSchema
-				}
-			}
-		}
+					year: yearSchema,
+				},
+			},
+		},
 	},
 	{
 		method: 'GET',
@@ -100,6 +100,6 @@ export default [
 		handler: (request, reply) => {
 			const currentYear = new Date(Date.now()).getFullYear();
 			return reply().redirect(`/api/calendar/${currentYear}`);
-		}
-	}
-]
+		},
+	},
+];

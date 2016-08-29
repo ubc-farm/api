@@ -42,8 +42,13 @@ function* modelRoutes() {
 	const completed = [];
 	for (const modelName in models) {
 		if (modelName === 'joins') continue;
+
 		const model = models[modelName];
-		if (!model.label) model.label = model.tableName.toLowerCase() + 's';
+		if (!model.label) {
+			const tableName = model.tableName.toLowerCase();
+			model.label = `${tableName}s`;
+		}
+
 		if (completed.indexOf(model.label) > -1) {
 			console.warn(model.label, 'from', modelName, 'already processed');
 			continue;
